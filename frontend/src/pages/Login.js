@@ -1,17 +1,20 @@
 import React from "react";
 import { Stack, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { motion } from 'framer-motion'
+// import { motion } from 'framer-motion'
 
 const Login = () => {
   const navigate = useNavigate();
-  const [loginState, setLoginState] = React.useState({email: "", password: ""})
-  const {email, password} = loginState
+  const [loginState, setLoginState] = React.useState({
+    email: "",
+    password: "",
+  });
+  const { email, password } = loginState;
 
-  const loginHandler =(event) => {
-    const {name, value} = event.target
-    setLoginState({...loginState, [name]: value})
-  }
+  const loginHandler = (event) => {
+    const { name, value } = event.target;
+    setLoginState({ ...loginState, [name]: value });
+  };
   return (
     <Stack style={{ backgroundColor: "black" }}>
       <Stack
@@ -22,8 +25,7 @@ const Login = () => {
           fontSize: "30px",
           position: "fixed",
           padding: "10px 0px 10px 20px",
-        }}
-      >
+        }}>
         GLOG
       </Stack>
       <Stack flexDirection="row">
@@ -41,8 +43,7 @@ const Login = () => {
               height="60px"
               marginTop="170px"
               marginLeft="100px"
-              color="white"
-            >
+              color="white">
               저희 The glog는 폴더별로 나눠서 파일을 관리할 수 있습니다
             </Stack>
           </Stack>
@@ -52,8 +53,7 @@ const Login = () => {
               height="60px"
               marginTop="170px"
               marginLeft="100px"
-              color="white"
-            >
+              color="white">
               저희 The glog는 폴더별로 나눠서 파일을 관리할 수 있습니다
             </Stack>
             <Stack
@@ -77,8 +77,7 @@ const Login = () => {
               height="60px"
               marginTop="170px"
               marginLeft="100px"
-              color="white"
-            >
+              color="white">
               저희 The glog는 폴더별로 나눠서 파일을 관리할 수 있습니다
             </Stack>
           </Stack>
@@ -87,8 +86,7 @@ const Login = () => {
               width="350px"
               height="60px"
               margin="170px 0px 100px 100px"
-              color="white"
-            >
+              color="white">
               저희 The glog는 폴더별로 나눠서 파일을 관리할 수 있습니다
             </Stack>
             <Stack
@@ -107,15 +105,13 @@ const Login = () => {
             justifyContent: "center",
             position: "fixed",
             right: 0,
-          }}
-        >
+          }}>
           <Stack width="80%" style={{ alignItems: "center" }}>
             <Stack
               fontWeight="bold"
               fontSize="20px"
               color="#ECD8A4"
-              marginBottom="30px"
-            >
+              marginBottom="30px">
               Login
             </Stack>
             <input
@@ -136,6 +132,7 @@ const Login = () => {
             <input
               placeholder="Password"
               onChange={loginHandler}
+              type="password"
               name="password"
               value={password}
               style={{
@@ -157,20 +154,18 @@ const Login = () => {
                   border: "1px solid #ECD8A4",
                   color: "#ECD8A4",
                 },
-              }}
-            >
+              }}>
               Login
             </Button>
           </Stack>
-          
+
           <Stack
             onClick={() => navigate("/register")}
             color="#ECD8A4"
             fontSize="11px"
             marginTop="10px"
             marginLeft="8%"
-            sx={{ ":hover": { color: "#F1CA64" }, cursor: "pointer" }}
-          >
+            sx={{ ":hover": { color: "#FFC222" }, cursor: "pointer" }}>
             Register
           </Stack>
         </Stack>
