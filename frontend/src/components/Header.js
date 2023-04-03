@@ -6,9 +6,8 @@ const Header = () => {
   const navigate = useNavigate();
 
   return (
-    <Stack position="fixed" padding="10px 0px 10px 20px">
+    <Stack position="fixed" padding="10px 0px 10px 20px" bgcolor="black">
       <Stack
-        bgcolor="black"
         sx={{
           cursor: "pointer",
         }}
