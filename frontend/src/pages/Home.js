@@ -17,7 +17,7 @@ const Home = () => {
         spacing={10}
         height="5000px"
         bgcolor="black"
-        padding="100px 96px 40px 96px">
+        padding="125px 96px 40px 96px">
         <Stack direction="row" spacing={4} justifyContent="center">
           <Select
             value={age}

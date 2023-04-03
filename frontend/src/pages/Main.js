@@ -1,7 +1,6 @@
 import React from "react";
-import HomeIcon from "@mui/icons-material/Home";
-import { Button } from "@mui/material";
 import Header from "../components/Header";
+import SideNavigation from "../components/SideNavigation";
 
 function Main() {
   return (
@@ -13,114 +12,7 @@ function Main() {
           width: "100%",
           height: "5000px",
         }}>
-        <div
-          style={{
-            backgroundColor: "black",
-            width: "210px",
-            height: "5000px",
-            borderRight: "1px solid white",
-            position: "fixed",
-            paddingLeft: "10px",
-          }}>
-          <Button
-            startIcon={<HomeIcon />}
-            sx={{
-              ":hover": {
-                backgroundColor: "#D6D0C0",
-              },
-            }}
-            style={{
-              color: "#ECD8A4",
-              fontWeight: "bold",
-              fontSize: "21",
-              padding: "90px 0px 10px 0px",
-              display: "flex",
-              alignItems: "center",
-            }}>
-            CHAEYEON'S BLOG
-          </Button>
-          <div
-            style={{
-              color: "white",
-              fontSize: "21",
-              padding: "0px 0px 10px 0px",
-            }}>
-            페이지
-          </div>
-          <div>
-            <div
-              style={{
-                fontSize: "18px",
-                color: "#ECD8A4",
-                paddingBottom: "10px",
-              }}>
-              ● 파이썬
-            </div>
-            <div>
-              <div
-                style={{
-                  fontSize: "16px",
-                  padding: "0px 0px 5px 20px",
-                  color: "#ECD8A4",
-                }}>
-                - 알고리즘
-              </div>
-              <div
-                style={{
-                  color: "white",
-                  fontSize: "16px",
-                  padding: "0px 0px 5px 20px",
-                }}>
-                - ML
-              </div>
-              <div
-                style={{
-                  color: "white",
-                  fontSize: "16px",
-                  padding: "0px 0px 5px 20px",
-                }}>
-                - 데이터분석
-              </div>
-            </div>
-          </div>
-          <div>
-            <div
-              style={{
-                fontSize: "18px",
-                color: "white",
-                padding: "25px 0px 10px 0px",
-              }}>
-              ● 프론트엔드
-            </div>
-            <div>
-              <div
-                style={{
-                  fontSize: "16px",
-                  padding: "0px 0px 5px 20px",
-
-                  color: "white",
-                }}>
-                - HTML
-              </div>
-              <div
-                style={{
-                  color: "white",
-                  fontSize: "16px",
-                  padding: "0px 0px 5px 20px",
-                }}>
-                - CSS
-              </div>
-              <div
-                style={{
-                  color: "white",
-                  fontSize: "16px",
-                  padding: "0px 0px 5px 20px",
-                }}>
-                - javascript
-              </div>
-            </div>
-          </div>
-        </div>
+        <SideNavigation />
         <Header />
         <div
           style={{
