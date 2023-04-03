@@ -1,9 +1,14 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Stack, Chip, Button, IconButton } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
-function Write() {
+
+const Write = () => {
   const textarea = useRef(null);
   const [text, setText] = useState("");
+
+  useEffect(() => {
+    console.log(text);
+  }, [text]);
 
   const handleResizeHeight = (e) => {
     setText(e.target.value);
@@ -57,9 +62,23 @@ function Write() {
               <Chip label="# 파이썬" />
               <Chip label="# 파이썬" />
             </Stack>
-            <Button sx={{ color: "#ECD8A4" }} width="fit-content">
-              원본
-            </Button>
+            <Stack direction="row">
+              <Button sx={{ color: "#ECD8A4" }} width="fit-content">
+                원본
+              </Button>
+              <Button
+                variant="outlined"
+                sx={{
+                  color: "#ECD8A4",
+                  border: "1px solid #ECD8A4",
+                  ":hover": {
+                    border: "1px solid #ECD8A4",
+                  },
+                }}
+                width="fit-content">
+                저장
+              </Button>
+            </Stack>
           </Stack>
           <Stack direction="row" height="25px" width="100%">
             <IconButton color="white">
@@ -72,7 +91,7 @@ function Write() {
               <SettingsIcon />
             </IconButton>
           </Stack>
-          <textarea
+          {/* <textarea
             rows={1}
             placeholder="내용을 입력해주세요"
             style={{
@@ -80,14 +99,15 @@ function Write() {
               outline: "none",
               paddingBottom: "300px",
               border: "none",
-              minHeight: "100px",
-              backgroundColor: "black",
+              // minHeight: "100px",
+              backgroundColor: "#181616",
+              // backgroundColor: "black",
               color: "white",
               marginTop: "40px",
             }}
             onChange={handleResizeHeight}
             ref={textarea}
-          />
+          /> */}
         </Stack>
         <Stack
           padding="40px 96px 96px 49px"
@@ -97,21 +117,9 @@ function Write() {
           width="50%">
           알고리즘에 대해 배워보자
         </Stack>
-        <Stack>
-          <Stack
-            width="50%"
-            display="flex"
-            justifyContent="flex-end"
-            position="fixed"
-            bottom={0}
-            left={0}
-            right={0}>
-            <Button sx={{ width: "100px" }}>저장</Button>
-          </Stack>
-        </Stack>
       </Stack>
     </Stack>
   );
-}
+};
 
 export default Write;
