@@ -1,20 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Stack, Chip, Button, IconButton } from "@mui/material";
+import React from "react";
+import { Stack, Chip, Button, IconButton, TextField } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 
 const Write = () => {
-  const textarea = useRef(null);
-  const [text, setText] = useState("");
-
-  useEffect(() => {
-    console.log(text);
-  }, [text]);
-
-  const handleResizeHeight = (e) => {
-    setText(e.target.value);
-    textarea.current.style.height = "auto";
-    textarea.current.style.height = textarea.current.scrollHeight + "px";
-  };
   return (
     <Stack height="100%">
       <Stack
@@ -38,7 +26,7 @@ const Write = () => {
         direction="row">
         <Stack
           spacing={2}
-          padding="40px 96px 96px 49px"
+          padding="40px 96px 40px 96px"
           bgcolor="black"
           width="50%">
           <Stack fontSize="20px" fontWeight="bold">
@@ -63,7 +51,14 @@ const Write = () => {
               <Chip label="# 파이썬" />
             </Stack>
             <Stack direction="row">
-              <Button sx={{ color: "#ECD8A4" }} width="fit-content">
+              <Button
+                disableRipple
+                sx={{
+                  color: "#ECD8A4",
+                  ":hover": { color: "#E8AD15" },
+                  ":active": { color: "#AF861C" },
+                }}
+                width="fit-content">
                 원본
               </Button>
               <Button
@@ -91,26 +86,27 @@ const Write = () => {
               <SettingsIcon />
             </IconButton>
           </Stack>
-          {/* <textarea
-            rows={1}
-            placeholder="내용을 입력해주세요"
-            style={{
-              resize: "none",
-              outline: "none",
-              paddingBottom: "300px",
-              border: "none",
-              // minHeight: "100px",
+          <TextField
+            multiline
+            sx={{
               backgroundColor: "#181616",
-              // backgroundColor: "black",
-              color: "white",
-              marginTop: "40px",
+              "& .MuiOutlinedInput-root": {
+                "& .MuiOutlinedInput-notchedOutline": {
+                  border: "1px solid transparent",
+                },
+              },
+              ":hover": {
+                "& .MuiOutlinedInput-root": {
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    border: "1px solid transparent",
+                  },
+                },
+              },
             }}
-            onChange={handleResizeHeight}
-            ref={textarea}
-          /> */}
+          />
         </Stack>
         <Stack
-          padding="40px 96px 96px 49px"
+          padding="40px 96px 40px 96px"
           fontSize="20px"
           fontWeight="bold"
           bgcolor="black"
