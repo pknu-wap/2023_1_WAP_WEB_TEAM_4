@@ -1,7 +1,7 @@
 import React from "react";
 import { Stack, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-// import { motion } from 'framer-motion'
+import Header from "../components/Header.js";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,51 +16,31 @@ const Login = () => {
     setLoginState({ ...loginState, [name]: value });
   };
   return (
-    <Stack style={{ backgroundColor: "black" }}>
-      <Stack
-        style={{
-          width: "100%",
-          fontWeight: "bold",
-          color: "#ECD8A4",
-          fontSize: "30px",
-          position: "fixed",
-          padding: "10px 0px 10px 20px",
-        }}>
-        GLOG
-      </Stack>
-      <Stack flexDirection="row">
-        <Stack style={{ width: "80%" }}>
+    <Stack height="100%">
+      <Header />
+      <Stack flexDirection="row" height="5000px" bgcolor="black">
+        <Stack bgcolor="black" style={{ width: "80%", paddingBottom: "5%" }}>
           <Stack flexDirection="row" alignItems="center">
             <Stack
               width="600px"
               height="330px"
-              marginTop="170px"
-              marginLeft="100px"
+              marginTop="15%"
+              marginLeft="8%"
               backgroundColor="white"
             />
-            <Stack
-              width="350px"
-              height="60px"
-              marginTop="170px"
-              marginLeft="100px"
-              color="white">
+            <Stack width="350px" margin="15% 5% 0 5%" color="white">
               저희 The glog는 폴더별로 나눠서 파일을 관리할 수 있습니다
             </Stack>
           </Stack>
           <Stack flexDirection="row" alignItems="center">
-            <Stack
-              width="350px"
-              height="60px"
-              marginTop="170px"
-              marginLeft="100px"
-              color="white">
+            <Stack width="350px" margin="15% 5% 0 5%" color="white">
               저희 The glog는 폴더별로 나눠서 파일을 관리할 수 있습니다
             </Stack>
             <Stack
               width="600px"
               height="330px"
-              marginTop="170px"
-              marginLeft="100px"
+              marginTop="15%"
+              marginLeft="5%"
               backgroundColor="white"
             />
           </Stack>
@@ -68,31 +48,23 @@ const Login = () => {
             <Stack
               width="600px"
               height="330px"
-              marginTop="170px"
-              marginLeft="100px"
+              marginTop="15%"
+              marginLeft="8%"
               backgroundColor="white"
             />
-            <Stack
-              width="350px"
-              height="60px"
-              marginTop="170px"
-              marginLeft="100px"
-              color="white">
+            <Stack width="350px" margin="15% 5% 0 5%" color="white">
               저희 The glog는 폴더별로 나눠서 파일을 관리할 수 있습니다
             </Stack>
           </Stack>
           <Stack flexDirection="row" alignItems="center">
-            <Stack
-              width="350px"
-              height="60px"
-              margin="170px 0px 100px 100px"
-              color="white">
+            <Stack width="350px" margin="15% 5% 0 5%" color="white">
               저희 The glog는 폴더별로 나눠서 파일을 관리할 수 있습니다
             </Stack>
             <Stack
               width="600px"
               height="330px"
-              margin="170px 0px 100px 100px"
+              marginTop="15%"
+              marginLeft="8%"
               backgroundColor="white"
             />
           </Stack>
