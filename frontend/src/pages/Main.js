@@ -1,6 +1,7 @@
 import React from "react";
 import HomeIcon from "@mui/icons-material/Home";
 import { Button } from "@mui/material";
+import Header from "../components/Header";
 
 function Main() {
   return (
@@ -120,28 +121,7 @@ function Main() {
             </div>
           </div>
         </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            backgroundColor: "black",
-            width: "100%",
-            position: "fixed",
-            padding: "10px 0px 10px 20px",
-            justifyContent: "space-between",
-          }}>
-          <div
-            style={{ fontSize: "40px", fontWeight: "bold", color: "#ECD8A4" }}>
-            GLOG
-          </div>
-          <div
-            style={{
-              backgroundColor: "#D9D9D9",
-              borderRadius: "50%",
-              width: "30px",
-              height: "30px",
-            }}></div>
-        </div>
+        <Header />
         <div
           style={{
             backgroundColor: "black",

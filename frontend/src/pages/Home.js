@@ -1,11 +1,15 @@
 import React from "react";
 import Header from "../components/Header";
-import { IconButton, Select, Stack, TextField } from "@mui/material";
+import { IconButton, MenuItem, Select, Stack, TextField } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import SearchIcon from "@mui/icons-material/Search";
 
-function Home() {
+const Home = () => {
+  const [age, setAge] = React.useState("");
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
   return (
     <Stack height="100%">
       <Header>Home</Header>
@@ -16,7 +20,10 @@ function Home() {
         padding="100px 96px 40px 96px">
         <Stack direction="row" spacing={4} justifyContent="center">
           <Select
+            value={age}
+            onChange={handleChange}
             sx={{
+              color: "white",
               width: "10%",
               "&.MuiOutlinedInput-root": {
                 "&.Mui-focused": {
@@ -32,8 +39,11 @@ function Home() {
                   },
                 },
               },
-            }}
-          />
+            }}>
+            <MenuItem value={10}>태그</MenuItem>
+            <MenuItem value={20}>작성자</MenuItem>
+            <MenuItem value={30}>내용</MenuItem>
+          </Select>
           <TextField
             InputProps={{
               startAdornment: <SearchIcon sx={{ marginRight: "10px" }} />,
@@ -113,6 +123,6 @@ function Home() {
       </Stack>
     </Stack>
   );
-}
+};
 
 export default Home;
