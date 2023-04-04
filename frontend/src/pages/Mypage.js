@@ -15,7 +15,10 @@ function Mypage() {
       >
         <div
           style={{ width: "10%", height: "100%", backgroundColor: "yellow" }}
-        ></div>
+        >
+          <div>SUNGWOO'S BLOG</div>
+        </div>
+
         <div
           style={{
             width: "20%",
@@ -45,10 +48,16 @@ function Mypage() {
         }}
       >
         <div
-          style={{ width: "50%", height: "100px", backgroundColor: "orange" }}
+          style={{
+            width: "50%",
+            height: "100px",
+            backgroundColor: "orange",
+            justifyContent: "center",
+          }}
         >
           <div>비밀번호 확인</div>
-          <input type="text" style={{ width: "100%", height: "30px" }}></input>
+
+          <input type="text" style={{ width: "99%", height: "30px" }}></input>
           <button>확인</button>
         </div>
       </div>
