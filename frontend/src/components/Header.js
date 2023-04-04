@@ -6,7 +6,11 @@ const Header = () => {
   const navigate = useNavigate();
 
   return (
-    <Stack position="fixed" padding="10px 0px 10px 20px" bgcolor="black">
+    <Stack
+      position="fixed"
+      width="100%"
+      padding="10px 0px 10px 20px"
+      bgcolor="black">
       <Stack
         sx={{
           cursor: "pointer",
@@ -23,6 +27,9 @@ const Header = () => {
         disableRipple
         onClick={() => navigate("/")}
         sx={{
+          width: "fit-content",
+          display: "flex",
+          justifyContent: "flex-start",
           height: "30px",
           marginTop: "-5px",
           marginLeft: "-3px",
