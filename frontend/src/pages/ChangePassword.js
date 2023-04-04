@@ -6,11 +6,20 @@ function ChangePassword() {
       <Header />
       <div
         style={{
-          marginTop: "100px",
-          width: "100px",
-          height: "50px",
+          height: "100vh",
           backgroundColor: "red",
-        }}></div>
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          style={{
+            width: "50%",
+            height: "60px",
+            backgroundColor: "#ECD8A4",
+          }}
+        ></div>
+      </div>
     </div>
   );
 }
