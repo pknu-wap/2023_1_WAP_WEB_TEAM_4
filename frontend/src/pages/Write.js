@@ -1,22 +1,12 @@
 import React from "react";
 import { Stack, Chip, Button, IconButton, TextField } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
+import Header from "../components/Header";
 
 const Write = () => {
   return (
     <Stack height="100%">
-      <Stack
-        bgcolor="black"
-        style={{
-          width: "100%",
-          fontWeight: "bold",
-          color: "#ECD8A4",
-          fontSize: "30px",
-          position: "fixed",
-          padding: "10px 0px 10px 20px",
-        }}>
-        GLOG
-      </Stack>
+      <Header />
       <Stack
         height="5000px"
         paddingTop="60px"
