@@ -10,8 +10,7 @@ function ChangePassword() {
           width: "100px",
           height: "50px",
           backgroundColor: "red",
-        }}
-      ></div>
+        }}></div>
     </div>
   );
 }

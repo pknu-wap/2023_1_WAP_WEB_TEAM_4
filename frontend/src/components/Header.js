@@ -8,8 +8,10 @@ const Header = () => {
   return (
     <Stack
       position="fixed"
+      height="80px"
       width="100%"
       padding="10px 0px 10px 20px"
+      top="0"
       bgcolor="black">
       <Stack
         sx={{
