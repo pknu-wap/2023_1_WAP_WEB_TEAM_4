@@ -6,6 +6,8 @@ import Register from "./pages/Register";
 import Write from "./pages/Write";
 import { createTheme, ThemeProvider } from "@mui/material";
 import Home from "./pages/Home";
+import MyPage from "./pages/Mypage";
+import ChangePassword from "./pages/ChangePassword";
 
 const darkTheme = createTheme({
   palette: {
@@ -23,6 +25,8 @@ const App = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/changePassword" element={<ChangePassword />} />
         </Routes>
       </Router>
     </ThemeProvider>
