@@ -6,7 +6,7 @@ function ChangePassword() {
       <Header />
       <div
         style={{
-          height: "100vh",
+          padding: "100px 96px 40px 96px",
           backgroundColor: "red",
           display: "flex",
           justifyContent: "center",
