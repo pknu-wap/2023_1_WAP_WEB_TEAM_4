@@ -5,6 +5,7 @@ import com.project.glog.repository.MemoryUserRepository;
 import com.project.glog.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public class
 UserService {
@@ -19,6 +20,16 @@ UserService {
         validateDuplicateUser(user);
         userRepository.save(user);
         return user.getId();
+    }
+
+
+    public Long login(String login_id, String login_pw){
+        User user = userRepository.findByLogin_id(login_id).get();
+        if(user.getLogin_pw().equals(login_pw)){
+            return user.getId();
+        }
+
+        return null;
     }
 
     private void validateDuplicateUser(User user) {
