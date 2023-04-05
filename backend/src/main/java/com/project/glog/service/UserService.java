@@ -22,16 +22,6 @@ UserService {
         return user.getId();
     }
 
-
-    public Long login(String login_id, String login_pw){
-        User user = userRepository.findByLogin_id(login_id).get();
-        if(user.getLogin_pw().equals(login_pw)){
-            return user.getId();
-        }
-
-        return null;
-    }
-
     private void validateDuplicateUser(User user) {
 
         userRepository.findByNickname(user.getNickname())
@@ -43,6 +33,15 @@ UserService {
                 .ifPresent(m -> {
                     throw new IllegalStateException("이미 존재하는 아이디 입니다.");
                 });
+    }
+
+    public Long login(String login_id, String login_pw){
+        User user = userRepository.findByLogin_id(login_id).get();
+        if(user.getLogin_pw().equals(login_pw)){
+            return user.getId();
+        }
+
+        return null;
     }
 
     public List<User> searchUsersByNickname(String nickname){
