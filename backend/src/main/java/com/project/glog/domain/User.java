@@ -1,5 +1,6 @@
 package com.project.glog.domain;
 
+//DTO, VO
 public class User {
 
     private Long id;

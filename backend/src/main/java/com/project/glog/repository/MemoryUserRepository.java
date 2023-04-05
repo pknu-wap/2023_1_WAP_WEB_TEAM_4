@@ -4,6 +4,7 @@ import com.project.glog.domain.User;
 
 import java.util.*;
 
+//DAO
 public class MemoryUserRepository implements UserRepository{
 
     private static Map<Long, User> store = new HashMap<>();
