@@ -1,7 +1,8 @@
 package com.project.glog.domain;
 
-public class content {
+public class Content {
     private Long id;
+    private Long user_id;
 
     private String title;
 
@@ -17,7 +18,7 @@ public class content {
 
     private String category;
 
-    private Integer date_created;
+    private String date_created;
 
     public Long getId() {
         return id;
@@ -25,6 +26,14 @@ public class content {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
 
     public String getTitle() {
@@ -79,11 +88,11 @@ public class content {
     public void setCategory(String category) {
         this.category = category;
     }
-    public Integer getDate_created() {
+    public String getDate_created() {
         return date_created;
     }
 
-    public void setDate_created(Integer date_created) {
+    public void setDate_created(String date_created) {
         this.date_created = date_created;
     }
 
