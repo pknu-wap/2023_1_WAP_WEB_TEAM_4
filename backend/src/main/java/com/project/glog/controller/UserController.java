@@ -38,18 +38,23 @@ public class UserController {
     }
 
     @GetMapping("/user/login")
-    public String signinform(){
+    public String signinform(HttpSession session){
+        Long uid = (Long) session.getAttribute("userId");
+        if(uid!=null){
+            return "redirect:/";
+        }
         return "/user/login";
     }
 
     @PostMapping("/user/login")
-    public String signin(Model model, UserForm form){
+    public String signin(Model model, UserForm form, HttpSession session){
         Long uid = userService.login(form.getLogin_id(), form.getLogin_pw());
         if(uid==null){
             return "redirect:/user/login";
         }
 
         model.addAttribute("userid",uid);
+        session.setAttribute("userId", uid);
         return "/user/successlogin";
     }
 }
