@@ -3,6 +3,7 @@ package com.project.glog.domain;
 public class Content {
     private Long id;
     private Long user_id;
+    private Long cat_id;
 
     private String title;
 
@@ -34,6 +35,14 @@ public class Content {
 
     public void setUser_id(Long user_id) {
         this.user_id = user_id;
+    }
+
+    public Long getCat_id() {
+        return cat_id;
+    }
+
+    public void setCat_id(Long cat_id) {
+        this.cat_id = cat_id;
     }
 
     public String getTitle() {
