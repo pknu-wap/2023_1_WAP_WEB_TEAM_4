@@ -5,6 +5,7 @@ import com.project.glog.repository.MemoryUserRepository;
 import com.project.glog.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public class
 UserService {
@@ -32,6 +33,19 @@ UserService {
                 .ifPresent(m -> {
                     throw new IllegalStateException("이미 존재하는 아이디 입니다.");
                 });
+    }
+
+    public Long login(String login_id, String login_pw){
+        User user = userRepository.findByLogin_id(login_id).get();
+        if(user.getLogin_pw().equals(login_pw)){
+            return user.getId();
+        }
+
+        return null;
+    }
+    public User searchUserById(Long id){
+        User user = userRepository.findById(id).get();
+        return user;
     }
 
     public List<User> searchUsersByNickname(String nickname){
