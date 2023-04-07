@@ -9,6 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -38,7 +42,7 @@ public class UserController {
     }
 
     @GetMapping("/user/login")
-    public String signinform(HttpSession session){
+    public String signinForm(HttpSession session){
         Long uid = (Long) session.getAttribute("userId");
         if(uid!=null){
             return "redirect:/";
@@ -57,4 +61,32 @@ public class UserController {
         session.setAttribute("userId", uid);
         return "/user/successlogin";
     }
+
+    @GetMapping("/user/search")
+    @ResponseBody
+    public List<User> searchUsers(@RequestParam("nickname") String nickname){
+        List<User> list;
+        list = userService.searchUsersByNickname(nickname);
+
+        return list;
+    }
+
+    @GetMapping("user/changepw")
+    public String changPwForm(Model model, HttpSession session){
+        Long uid = (Long) session.getAttribute("userId");
+        if(uid==null){
+            return "redirect:/";
+        }
+        return "/user/changepw";
+    }
+
+    @PostMapping("user/changepw")
+    @ResponseBody
+    public User changePw(@RequestParam("id") Long id, @RequestParam("change_pw") String change_pw){
+        User user = userService.searchUserById(id);
+        user.setLogin_pw(change_pw);
+        userService.changeUserPw(user);
+        return userService.searchUserById(id);
+    }
+
 }

@@ -43,6 +43,10 @@ UserService {
 
         return null;
     }
+    public User searchUserById(Long id){
+        User user = userRepository.findById(id).get();
+        return user;
+    }
 
     public List<User> searchUsersByNickname(String nickname){
         List<User> users= userRepository.findUsersByNickname(nickname);
