@@ -50,7 +50,6 @@ public class User {
         this.url = url;
     }
 
-
     public String getProfile_image() {
         return profile_image;
     }
