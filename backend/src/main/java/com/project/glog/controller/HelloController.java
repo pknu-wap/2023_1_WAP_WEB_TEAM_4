@@ -2,9 +2,7 @@ package com.project.glog.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,22 +25,43 @@ public class HelloController {
 
     //객체가 JSON으로 변환되어 반환된다.
     //이번 프로젝트에서 최종적으로 이 기능이 많이 사용될 것으로 예상된다.
-    @GetMapping("hello-api")
+    @PostMapping("hello-api")
     @ResponseBody
-    public Map<String, Object> helloApi(@RequestParam("name") String name, @RequestParam("title") String title) {
+    public Map<String, Object> helloApi(@RequestBody Data data) {
         HashMap<String, Object> hashMap = new HashMap<>();
 
         Hello hello = new Hello();
-        hello.setName(name);
+        hello.setName(data.getHello_name());
         hello.setAge(13);
         hashMap.put("Hello", hello);
 
         Content content = new Content();
-        content.setTitle(title);
+        content.setTitle(data.getContent_title());
         content.setContent("api 사용");
         hashMap.put("Content", content);
 
         return hashMap;
+    }
+
+    static class Data{
+        private String hello_name;
+        private String content_title;
+
+        public String getHello_name() {
+            return hello_name;
+        }
+
+        public void setHello_name(String hello_name) {
+            this.hello_name = hello_name;
+        }
+
+        public String getContent_title() {
+            return content_title;
+        }
+
+        public void setContent_title(String content_title) {
+            this.content_title = content_title;
+        }
     }
     static class Hello {
         private String name;

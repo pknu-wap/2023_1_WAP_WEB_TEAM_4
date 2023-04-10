@@ -6,10 +6,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,36 +27,32 @@ public class UserController {
     }
 
     @PostMapping("/user/register")
-    public String create(UserForm form){
-        User user = new User();
-        user.setNickname(form.getNickname());
-        user.setLogin_id(form.getLogin_id());
-        user.setLogin_pw(form.getLogin_pw());
+    @ResponseBody
+    public User create(@RequestBody User user){
 
         userService.join(user);
 
-        return "redirect:/user/login";
+        return userService.searchUserById(user.getId());
     }
 
     @GetMapping("/user/login")
+    @ResponseBody
     public String signinForm(HttpSession session){
         Long uid = (Long) session.getAttribute("userId");
         if(uid!=null){
-            return "redirect:/";
+            return "you already singed";
         }
-        return "/user/login";
+        return "go login";
     }
 
     @PostMapping("/user/login")
-    public String signin(Model model, UserForm form, HttpSession session){
-        Long uid = userService.login(form.getLogin_id(), form.getLogin_pw());
-        if(uid==null){
-            return "redirect:/user/login";
-        }
+    @ResponseBody
+    public User signin(@RequestBody User user, HttpSession session){
+        Long uid = userService.login(user.getLogin_id(), user.getLogin_pw());
 
-        model.addAttribute("userid",uid);
         session.setAttribute("userId", uid);
-        return "/user/successlogin";
+
+        return userService.searchUserById(uid);
     }
 
     @GetMapping("/user/search")
@@ -71,22 +64,44 @@ public class UserController {
         return list;
     }
 
-    @GetMapping("user/changepw")
-    public String changPwForm(Model model, HttpSession session){
+    @GetMapping("/user/checkpw")
+    @ResponseBody
+    public String go_checkPw(HttpSession session){
         Long uid = (Long) session.getAttribute("userId");
         if(uid==null){
-            return "redirect:/";
+            return "go home";
         }
-        return "/user/changepw";
+        return "go checkpw";
+    }
+
+    @PostMapping("/user/checkpw")
+    @ResponseBody
+    public String checkPw(@RequestBody User user, HttpSession session){
+        Long uid = (Long) session.getAttribute("userId");
+
+        if(!userService.searchUserById(uid).getLogin_pw().equals(user.getLogin_pw()))
+            return "retry";
+        return "take permission and go changepw";
+
+    }
+
+    @GetMapping("/user/changepw")
+    @ResponseBody
+    public String changePw(){
+        //주소 값만 잘 숨기면 되는데..
+        //허락된 경로로만 접근할 수 있게 검사하는 코드..
+        return "go changepw";
     }
 
     @PostMapping("user/changepw")
     @ResponseBody
-    public User changePw(@RequestParam("id") Long id, @RequestParam("change_pw") String change_pw){
-        User user = userService.searchUserById(id);
+    public User changePw(@RequestBody String change_pw, HttpSession session){
+        Long uid = (Long) session.getAttribute("userId");
+
+        User user = userService.searchUserById(uid);
         user.setLogin_pw(change_pw);
         userService.changeUserPw(user);
-        return userService.searchUserById(id);
+        return userService.searchUserById(uid);
     }
 
 }
