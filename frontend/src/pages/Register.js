@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Stack, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const Register = () => {
     address: "",
   });
   const { email, password, passwordCheck, nickName, address } = registerState;
+  const [data, setData] = useState("");
 
   const registerHandler = (event) => {
     const { name, value } = event.target;
@@ -20,6 +22,30 @@ const Register = () => {
     setRegisterState({ ...registerState, [name]: value });
   };
 
+  console.log(registerState.email);
+  console.log(registerState.password);
+  console.log(registerState.nickName);
+
+  const handleSubmit = async () => {
+    const body = {
+      login_id: registerState.email,
+      login_pw: registerState.password,
+      nickname: registerState.nickName,
+    };
+
+    try {
+      const response = await axios.post(
+        "http://test-env.eba-babq7paf.us-east-1.elasticbeanstalk.com/user/register",
+        body
+      );
+      console.log(response);
+      navigate("/login");
+      setData(response.data.id);
+    } catch (e) {
+      alert(e.response);
+      console.log(e);
+    }
+  };
   return (
     <Stack style={{ backgroundColor: "black" }}>
       <Stack
@@ -192,7 +218,7 @@ const Register = () => {
               }}
             />
             <Button
-              onClick={() => navigate("/login")}
+              onClick={handleSubmit}
               variant="outlined"
               sx={{
                 width: "80%",
