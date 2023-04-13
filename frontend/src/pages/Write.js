@@ -1,5 +1,16 @@
 import React, { useState } from "react";
-import { Stack, Chip, Button, Snackbar, Alert } from "@mui/material";
+import {
+  Stack,
+  Chip,
+  Button,
+  Snackbar,
+  Alert,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  DialogContentText,
+} from "@mui/material";
 import { useRef } from "react";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
@@ -9,10 +20,12 @@ import "@toast-ui/editor/dist/i18n/ko-kr";
 
 const Write = () => {
   const editorRef = useRef();
+  const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [tagArray, setTagArray] = useState([]);
   const [tag, setTag] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   // 등록 버튼 핸들러
   const handleRegisterButton = () => {
@@ -20,6 +33,8 @@ const Write = () => {
     console.log(editorRef.current?.getInstance().getHTML());
     // 입력창에 입력한 내용을 MarkDown 형태로 취득
     console.log(editorRef.current?.getInstance().getMarkdown());
+
+    setDialogOpen(true);
   };
 
   const textChange = () => {
@@ -55,6 +70,10 @@ const Write = () => {
           width="100%">
           <input
             placeholder="제목을 입력해주세요"
+            value={title}
+            onChange={(event) => {
+              setTitle(event.target.value);
+            }}
             style={{
               color: "white",
               border: "none",
@@ -201,159 +220,63 @@ const Write = () => {
             />
           </Stack>
         </Stack>
+        <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+          <DialogContent sx={{ backgroundColor: "#393E46" }}>
+            <Stack direction="row" justifyContent="space-between">
+              <Stack>
+                <Stack>공개 설정</Stack>
+                <Button
+                  variant="contained"
+                  disableRipple
+                  sx={{
+                    backgroundColor: "white",
+                    color: "#ECD8A4",
+                    ":hover": { color: "#ECD8A4" },
+                  }}>
+                  비공개
+                </Button>
+                <Button>공개</Button>
+                <Button>자동 공개</Button>
+              </Stack>
+              <Stack>
+                <Stack>미리보기</Stack>
+                <Stack
+                  backgroundColor="white"
+                  width="300px"
+                  height="180px"
+                  marginBottom="16px"></Stack>
+                <Stack backgroundColor="#393E46" width="300px" height="180px">
+                  <Stack color="rgba(255, 255, 255, 0.7)">{title}</Stack>
+                </Stack>
+              </Stack>
+            </Stack>
+            <DialogContentText>
+              Let Google help apps determine location. This means sending
+              anonymous location data to Google, even when no apps are running.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions sx={{ backgroundColor: "#393E46" }}>
+            <Button
+              onClick={() => {
+                console.log("hi");
+                setDialogOpen(false);
+              }}
+              autoFocus
+              variant="outlined"
+              sx={{
+                color: "#ECD8A4",
+                border: "1px solid #ECD8A4",
+                ":hover": {
+                  border: "1px solid #ECD8A4",
+                },
+              }}>
+              Agree
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Stack>
     </Stack>
   );
 };
 
 export default Write;
-
-// import React from "react";
-// import { Stack, Chip, Button, IconButton, TextField } from "@mui/material";
-// import SettingsIcon from "@mui/icons-material/Settings";
-// import { useRef } from "react";
-// import { Editor } from "@toast-ui/react-editor";
-// import "@toast-ui/editor/dist/toastui-editor.css";
-
-// const Write = () => {
-//   const editorRef = useRef();
-
-//   // 등록 버튼 핸들러
-//   const handleRegisterButton = () => {
-//     // 입력창에 입력한 내용을 HTML 태그 형태로 취득
-//     console.log(editorRef.current?.getInstance().getHTML());
-//     // 입력창에 입력한 내용을 MarkDown 형태로 취득
-//     console.log(editorRef.current?.getInstance().getMarkdown());
-//   };
-
-//   return (
-//     <Stack height="100%">
-//       <Stack
-//         bgcolor="black"
-//         style={{
-//           width: "100%",
-//           fontWeight: "bold",
-//           color: "#ECD8A4",
-//           fontSize: "30px",
-//           position: "fixed",
-//           padding: "10px 0px 10px 20px",
-//         }}>
-//         GLOG
-//       </Stack>
-//       <Stack
-//         height="5000px"
-//         paddingTop="60px"
-//         width="100%"
-//         bgcolor="black"
-//         color="white"
-//         direction="row">
-//         <Stack
-//           spacing={2}
-//           padding="40px 96px 40px 96px"
-//           bgcolor="black"
-//           width="50%">
-//           <Stack fontSize="20px" fontWeight="bold">
-//             알고리즘에 대해 배워보자
-//           </Stack>
-//           <Editor
-//             placeholder="내용을 입력해주세요."
-//             previewStyle="vertical" // 미리보기 스타일 지정
-//             height="300px" // 에디터 창 높이
-//             initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)
-//             toolbarItems={[
-//               // 툴바 옵션 설정
-//               ["heading", "bold", "italic", "strike"],
-//               ["hr", "quote"],
-//               ["ul", "ol", "task", "indent", "outdent"],
-//               ["table", "image", "link"],
-//               ["code", "codeblock"],
-//             ]}
-//           />
-//           <Stack bgcolor="#d9d9d9" width="10%" height="1px"></Stack>
-//           <Stack
-//             display="flex"
-//             alignItems="center"
-//             height="60px"
-//             justifyContent="space-between"
-//             direction="row">
-//             <Stack
-//               bgcolor="black"
-//               paddingTop="10px"
-//               spacing={1}
-//               color="white"
-//               direction="row">
-//               <Chip label="# 파이썬" />
-//               <Chip label="# 파이썬" />
-//               <Chip label="# 파이썬" />
-//               <Chip label="# 파이썬" />
-//             </Stack>
-//             <Stack direction="row">
-//               <Button
-//                 disableRipple
-//                 sx={{
-//                   color: "#ECD8A4",
-//                   ":hover": { color: "#E8AD15" },
-//                   ":active": { color: "#AF861C" },
-//                 }}
-//                 width="fit-content">
-//                 원본
-//               </Button>
-//               <Button
-//                 variant="outlined"
-//                 sx={{
-//                   color: "#ECD8A4",
-//                   border: "1px solid #ECD8A4",
-//                   ":hover": {
-//                     border: "1px solid #ECD8A4",
-//                   },
-//                 }}
-//                 onClick={handleRegisterButton}
-//                 width="fit-content">
-//                 저장
-//               </Button>
-//             </Stack>
-//           </Stack>
-//           <Stack direction="row" height="25px" width="100%">
-//             <IconButton color="white">
-//               <SettingsIcon />
-//             </IconButton>
-//             <IconButton>
-//               <SettingsIcon />
-//             </IconButton>
-//             <IconButton>
-//               <SettingsIcon />
-//             </IconButton>
-//           </Stack>
-//           <TextField
-//             multiline
-//             sx={{
-//               backgroundColor: "#181616",
-//               "& .MuiOutlinedInput-root": {
-//                 "& .MuiOutlinedInput-notchedOutline": {
-//                   border: "1px solid transparent",
-//                 },
-//               },
-//               ":hover": {
-//                 "& .MuiOutlinedInput-root": {
-//                   "& .MuiOutlinedInput-notchedOutline": {
-//                     border: "1px solid transparent",
-//                   },
-//                 },
-//               },
-//             }}
-//           />
-//         </Stack>
-//         <Stack
-//           padding="40px 96px 40px 96px"
-//           fontSize="20px"
-//           fontWeight="bold"
-//           bgcolor="black"
-//           width="50%">
-//           알고리즘에 대해 배워보자
-//         </Stack>
-//       </Stack>
-//     </Stack>
-//   );
-// };
-
-// export default Write;
