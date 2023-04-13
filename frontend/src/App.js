@@ -6,7 +6,6 @@ import Register from "./pages/Register";
 import Write from "./pages/Write";
 import { createTheme, ThemeProvider } from "@mui/material";
 import Home from "./pages/Home";
-import LoginTest from "./pages/LoginTest";
 
 const darkTheme = createTheme({
   palette: {
@@ -24,7 +23,6 @@ const App = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/loginTest" element={<LoginTest />} />
         </Routes>
       </Router>
     </ThemeProvider>
