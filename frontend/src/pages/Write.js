@@ -16,13 +16,11 @@ const Write = () => {
   const [tag, setTag] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
-
+  const [toastMessage, setToastMessage] = useState("");
   // 등록 버튼 핸들러
   const handleRegisterButton = () => {
     // 입력창에 입력한 내용을 HTML 태그 형태로 취득
     console.log(editorRef.current?.getInstance().getHTML());
-    // 입력창에 입력한 내용을 MarkDown 형태로 취득
-    console.log(editorRef.current?.getInstance().getMarkdown());
 
     setDialogOpen(true);
   };
@@ -81,8 +79,8 @@ const Write = () => {
             direction="row">
             <Stack
               bgcolor="black"
-              paddingTop="10px"
               spacing={1}
+              maxWidth="100px"
               color="white"
               direction="row">
               {tagArray.map((tag, i) => {
@@ -124,33 +122,12 @@ const Write = () => {
                       } else {
                         setTag("");
                         setSnackbarOpen(true);
-                        return (
-                          <Snackbar
-                            open={snackbarOpen}
-                            autoHideDuration={6000}
-                            onClose={() => snackbarOpen(false)}>
-                            <Alert
-                              onClose={() => snackbarOpen(false)}
-                              severity="success"
-                              sx={{ width: "100%" }}>
-                              태그에 '#'은 포함될 수 없습니다.
-                            </Alert>
-                          </Snackbar>
-                        );
+                        setToastMessage("태그에 `#`은 포함될 수 없습니다.");
                       }
                     } else {
                       setTag("");
                       setSnackbarOpen(true);
-                      return (
-                        <Snackbar open={snackbarOpen} autoHideDuration={6000}>
-                          <Alert
-                            onClose={() => snackbarOpen(false)}
-                            severity="success"
-                            sx={{ width: "100%" }}>
-                            태그의 최대 개수는 10개입니다.
-                          </Alert>
-                        </Snackbar>
-                      );
+                      setToastMessage("태그는 최대 10개까지 지정 가능합니다.");
                     }
                   }
                 }}
@@ -218,6 +195,18 @@ const Write = () => {
           text={text}
           setText={setText}
         />
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={3000}
+          onClose={() => setSnackbarOpen(false)}>
+          <Alert
+            onClose={() => setSnackbarOpen(false)}
+            severity="error"
+            variant=""
+            sx={{ width: "100%", backgroundColor: "red" }}>
+            {toastMessage}
+          </Alert>
+        </Snackbar>
       </Stack>
     </Stack>
   );
