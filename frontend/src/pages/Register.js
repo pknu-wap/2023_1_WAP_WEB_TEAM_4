@@ -38,7 +38,6 @@ const Register = () => {
         "http://test-env.eba-babq7paf.us-east-1.elasticbeanstalk.com/user/register",
         body
       );
-      console.log(response);
       navigate("/login");
       setData(response.data.id);
     } catch (e) {

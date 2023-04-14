@@ -1,5 +1,7 @@
-import { Button, Chip, Modal, Stack } from "@mui/material";
+import { Button, Chip, MenuItem, Modal, Select, Stack } from "@mui/material";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const WriteModal = ({
   title,
@@ -12,6 +14,31 @@ const WriteModal = ({
   const [privateMode, setPrivateMode] = useState(true);
   const [publicMode, setPublicMode] = useState(false);
   const [autoPublicMode, setAutoPublicMode] = useState(false);
+  const [selectValue, setSelectValue] = useState("");
+
+  const navigate = useNavigate();
+
+  const writeButtonClick = async () => {
+    const body = {
+      title: title,
+      text: text,
+      category: "미정",
+      hashtag: tagArray,
+    };
+
+    try {
+      await axios.post(
+        "http://test-env.eba-babq7paf.us-east-1.elasticbeanstalk.com/content/create",
+        body
+      );
+      navigate("/");
+      alert("성공");
+
+      setDialogOpen(false);
+    } catch (e) {
+      alert("실패");
+    }
+  };
   return (
     <Modal
       open={dialogOpen}
@@ -191,7 +218,7 @@ const WriteModal = ({
                   color: "white",
                   fontSize: "12px",
                   resize: "none",
-                  height: "260px",
+                  height: "100px",
                   backgroundColor: "#565C69",
                   wordBreak: "keep-all",
                   outline: "none",
@@ -199,11 +226,48 @@ const WriteModal = ({
                 }}
               />
             </Stack>
+            <Stack
+              color="white"
+              fontSize="20px"
+              fontWeight="bold"
+              marginBottom="12px">
+              카테고리
+            </Stack>
+            <Stack oveflow="scroll">
+              <Stack gap="12px" direction="row" flexWrap="wrap">
+                <Select
+                  value={selectValue}
+                  onChange={(event) => setSelectValue(event.target.value)}
+                  sx={{
+                    width: "300px",
+                    "&.MuiOutlinedInput-root": {
+                      "&.Mui-focused": {
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          border: "1px solid #ECD8A4",
+                        },
+                      },
+                      ":hover": {
+                        "&.MuiOutlinedInput-root": {
+                          "& .MuiOutlinedInput-notchedOutline": {
+                            border: "1px solid #ECD8A4",
+                          },
+                        },
+                      },
+                    },
+                  }}>
+                  <MenuItem value={0}>데이터분석</MenuItem>
+                  <MenuItem value={1}>프론트엔드</MenuItem>
+                  <MenuItem value={2}>머신러닝</MenuItem>
+                  <MenuItem value={3}>알고리즘</MenuItem>
+                </Select>
+              </Stack>
+            </Stack>
           </Stack>
           <Stack alignItems="flex-end" width="100%">
             <Button
               variant="contained"
               disableRipple
+              onClick={writeButtonClick}
               sx={{
                 color: "gray",
                 backgroundColor: "#ECD8A4",
