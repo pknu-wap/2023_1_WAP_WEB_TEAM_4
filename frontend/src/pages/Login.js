@@ -15,6 +15,10 @@ const Login = () => {
     const { name, value } = event.target;
     setLoginState({ ...loginState, [name]: value });
   };
+
+  const loginButtonClick = () => {
+    navigate("/");
+  };
   return (
     <Stack height="100%">
       <Header />
@@ -118,7 +122,7 @@ const Login = () => {
               }}
             />
             <Button
-              onClick={() => navigate("/")}
+              onClick={loginButtonClick}
               variant="outlined"
               sx={{
                 width: "80%",

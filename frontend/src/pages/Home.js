@@ -10,12 +10,102 @@ const Home = () => {
   const handleChange = (event) => {
     setAge(event.target.value);
   };
+
+  const array = [
+    {
+      class: "recent",
+      card: [
+        {
+          title: "제목",
+          content: "내용",
+        },
+        {
+          title: "제목2",
+          content: "내용2",
+        },
+        {
+          title: "제목3",
+          content: "내용3",
+        },
+        {
+          title: "제목4",
+          content: "내용4",
+        },
+      ],
+    },
+    {
+      class: "like",
+      card: [
+        {
+          title: "제목",
+          content: "내용",
+        },
+        {
+          title: "제목2",
+          content: "내용2",
+        },
+        {
+          title: "제목3",
+          content: "내용3",
+        },
+        {
+          title: "제목4",
+          content: "내용4",
+        },
+      ],
+    },
+    {
+      class: "comment",
+      card: [
+        {
+          title: "제목",
+          content: "내용",
+        },
+        {
+          title: "제목2",
+          content: "내용2",
+        },
+        {
+          title: "제목3",
+          content: "내용3",
+        },
+        {
+          title: "제목4",
+          content: "내용4",
+        },
+      ],
+    },
+    {
+      class: "click",
+      card: [
+        {
+          title: "제목",
+          content: "내용",
+        },
+        {
+          title: "제목2",
+          content: "내용2",
+        },
+        {
+          title: "제목3",
+          content: "내용3",
+        },
+        {
+          title: "제목4",
+          content: "내용4",
+        },
+      ],
+    },
+  ];
+
   return (
     <Stack height="100%">
       <Header>Home</Header>
       <Stack
         spacing={10}
         height="5000px"
+        minWidth="100%"
+        width="min-content"
         bgcolor="black"
         padding="125px 96px 40px 96px">
         <Stack direction="row" spacing={4} justifyContent="center">
@@ -53,7 +143,6 @@ const Home = () => {
               "& .MuiOutlinedInput-root": {
                 "&.Mui-focused": {
                   "& .MuiOutlinedInput-notchedOutline": {
-                    //   border: "1px solid white",
                     border: "1px solid #ECD8A4",
                   },
                 },
@@ -68,58 +157,31 @@ const Home = () => {
             }}
           />
         </Stack>
-        <Stack spacing={4} direction="row">
-          <IconButton>
-            <ChevronLeftIcon />
-          </IconButton>
-          <Stack width="300px" height="200px" bgcolor="white" />
-          <Stack width="300px" height="200px" bgcolor="white" />
-          <Stack width="300px" height="200px" bgcolor="white" />
-          <Stack width="300px" height="200px" bgcolor="white" />
-          <Stack width="300px" height="200px" bgcolor="white" />
-          <IconButton>
-            <ChevronRightIcon />
-          </IconButton>
-        </Stack>
-        <Stack spacing={4} direction="row">
-          <IconButton>
-            <ChevronLeftIcon />
-          </IconButton>
-          <Stack width="300px" height="200px" bgcolor="white" />
-          <Stack width="300px" height="200px" bgcolor="white" />
-          <Stack width="300px" height="200px" bgcolor="white" />
-          <Stack width="300px" height="200px" bgcolor="white" />
-          <Stack width="300px" height="200px" bgcolor="white" />
-          <IconButton>
-            <ChevronRightIcon />
-          </IconButton>
-        </Stack>
-        <Stack spacing={4} direction="row">
-          <IconButton>
-            <ChevronLeftIcon />
-          </IconButton>
-          <Stack width="300px" height="200px" bgcolor="white" />
-          <Stack width="300px" height="200px" bgcolor="white" />
-          <Stack width="300px" height="200px" bgcolor="white" />
-          <Stack width="300px" height="200px" bgcolor="white" />
-          <Stack width="300px" height="200px" bgcolor="white" />
-          <IconButton>
-            <ChevronRightIcon />
-          </IconButton>
-        </Stack>
-        <Stack spacing={4} direction="row">
-          <IconButton>
-            <ChevronLeftIcon />
-          </IconButton>
-          <Stack width="300px" height="200px" bgcolor="white" />
-          <Stack width="300px" height="200px" bgcolor="white" />
-          <Stack width="300px" height="200px" bgcolor="white" />
-          <Stack width="300px" height="200px" bgcolor="white" />
-          <Stack width="300px" height="200px" bgcolor="white" />
-          <IconButton>
-            <ChevronRightIcon />
-          </IconButton>
-        </Stack>
+        {array.map((sudol, index) => {
+          return (
+            <Stack>
+              <Stack color="white">{sudol.class}</Stack>
+              <Stack spacing={4} direction="row">
+                <IconButton>
+                  <ChevronLeftIcon />
+                </IconButton>
+                {sudol.card.map((cardContent, i) => {
+                  return (
+                    <Stack>
+                      <Stack width="300px" height="200px" bgcolor="white" />
+                      <Stack color="white">{cardContent.title}</Stack>
+                      <Stack color="white">{cardContent.content}</Stack>
+                    </Stack>
+                  );
+                })}
+
+                <IconButton>
+                  <ChevronRightIcon />
+                </IconButton>
+              </Stack>
+            </Stack>
+          );
+        })}
       </Stack>
     </Stack>
   );
