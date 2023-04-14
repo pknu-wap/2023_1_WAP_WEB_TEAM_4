@@ -1,22 +1,12 @@
 import React, { useState } from "react";
-import {
-  Stack,
-  Chip,
-  Button,
-  Snackbar,
-  Alert,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  DialogContentText,
-} from "@mui/material";
+import { Stack, Chip, Button, Snackbar, Alert, Modal } from "@mui/material";
 import { useRef } from "react";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/theme/toastui-editor-dark.css";
 import CancelIcon from "@mui/icons-material/Cancel";
 import "@toast-ui/editor/dist/i18n/ko-kr";
+import WriteModal from "../components/WriteModal";
 
 const Write = () => {
   const editorRef = useRef();
@@ -220,60 +210,13 @@ const Write = () => {
             />
           </Stack>
         </Stack>
-        <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
-          <DialogContent sx={{ backgroundColor: "#393E46" }}>
-            <Stack direction="row" justifyContent="space-between">
-              <Stack>
-                <Stack>공개 설정</Stack>
-                <Button
-                  variant="contained"
-                  disableRipple
-                  sx={{
-                    backgroundColor: "white",
-                    color: "#ECD8A4",
-                    ":hover": { color: "#ECD8A4" },
-                  }}>
-                  비공개
-                </Button>
-                <Button>공개</Button>
-                <Button>자동 공개</Button>
-              </Stack>
-              <Stack>
-                <Stack>미리보기</Stack>
-                <Stack
-                  backgroundColor="white"
-                  width="300px"
-                  height="180px"
-                  marginBottom="16px"></Stack>
-                <Stack backgroundColor="#393E46" width="300px" height="180px">
-                  <Stack color="rgba(255, 255, 255, 0.7)">{title}</Stack>
-                </Stack>
-              </Stack>
-            </Stack>
-            <DialogContentText>
-              Let Google help apps determine location. This means sending
-              anonymous location data to Google, even when no apps are running.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions sx={{ backgroundColor: "#393E46" }}>
-            <Button
-              onClick={() => {
-                console.log("hi");
-                setDialogOpen(false);
-              }}
-              autoFocus
-              variant="outlined"
-              sx={{
-                color: "#ECD8A4",
-                border: "1px solid #ECD8A4",
-                ":hover": {
-                  border: "1px solid #ECD8A4",
-                },
-              }}>
-              Agree
-            </Button>
-          </DialogActions>
-        </Dialog>
+        <WriteModal
+          title={title}
+          dialogOpen={dialogOpen}
+          setDialogOpen={setDialogOpen}
+          tagArray={tagArray}
+          text={text}
+        />
       </Stack>
     </Stack>
   );
