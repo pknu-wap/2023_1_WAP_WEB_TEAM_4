@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Stack, Chip, Button, Snackbar, Alert, Modal } from "@mui/material";
+import { Stack, Chip, Button, Snackbar, Alert } from "@mui/material";
 import { useRef } from "react";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
@@ -28,7 +28,7 @@ const Write = () => {
   };
 
   const textChange = () => {
-    setText(editorRef.current.getInstance().getMarkdown());
+    setText(editorRef.current.getInstance().getHTML());
   };
 
   return (
@@ -216,6 +216,7 @@ const Write = () => {
           setDialogOpen={setDialogOpen}
           tagArray={tagArray}
           text={text}
+          setText={setText}
         />
       </Stack>
     </Stack>

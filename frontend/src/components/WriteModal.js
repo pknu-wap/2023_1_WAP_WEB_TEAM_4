@@ -1,7 +1,14 @@
 import { Button, Chip, Modal, Stack } from "@mui/material";
 import React, { useState } from "react";
 
-const WriteModal = ({ title, dialogOpen, setDialogOpen, tagArray, text }) => {
+const WriteModal = ({
+  title,
+  dialogOpen,
+  setDialogOpen,
+  tagArray,
+  text,
+  setText,
+}) => {
   const [privateMode, setPrivateMode] = useState(true);
   const [publicMode, setPublicMode] = useState(false);
   const [autoPublicMode, setAutoPublicMode] = useState(false);
@@ -18,11 +25,14 @@ const WriteModal = ({ title, dialogOpen, setDialogOpen, tagArray, text }) => {
         direction="row"
         borderRadius="8px"
         overflow="scroll"
-        bgcolor="#808080"
-        width="850px"
+        bgcolor="#565C69"
         height="600px"
-        p="40px">
-        <Stack gap="40px" width="450px" alignItems="center">
+        p="24px 16px">
+        <Stack
+          gap="16px"
+          width="300px"
+          alignItems="center"
+          p="24px 60px 36px 36px">
           <Stack width="100%">
             <Stack color="white" fontSize="20px" fontWeight="bold">
               썸네일
@@ -31,7 +41,8 @@ const WriteModal = ({ title, dialogOpen, setDialogOpen, tagArray, text }) => {
               marginTop="12px"
               bgcolor="white"
               width="300px"
-              height="180px"></Stack>
+              height="180px"
+            />
           </Stack>
           <Stack width="100%">
             <Stack color="white" fontSize="20px" fontWeight="bold">
@@ -121,7 +132,7 @@ const WriteModal = ({ title, dialogOpen, setDialogOpen, tagArray, text }) => {
               direction="row"
               marginTop="12px"
               gap="12px"
-              maxHeight="150px"
+              maxHeight="170px"
               overflow="scroll"
               flexWrap="wrap">
               {tagArray.map((tag, i) => {
@@ -149,38 +160,47 @@ const WriteModal = ({ title, dialogOpen, setDialogOpen, tagArray, text }) => {
             </Stack>
           </Stack>
         </Stack>
-        <Stack width="400px" justifyContent="space-between">
-          <Stack marginTop="130px">
-            {/* <Stack
-              color="white"
-              fontSize="20px"
-              fontWeight="bold"
-              marginBottom="12px">
+        <Stack width="1px" height="600px" bgcolor="#C3C6CD"></Stack>
+        <Stack
+          width="300px"
+          alignItems="center"
+          justifyContent="space-between"
+          p="24px 36px 0px 60px">
+          <Stack height="300px">
+            <Stack color="white" fontSize="20px" fontWeight="bold">
               미리보기
-            </Stack> */}
-            <Stack
-              bgcolor="black"
-              alignItems="center"
-              borderRadius="8px"
-              p="30px">
-              <Stack width="300px">
-                <Stack
-                  marginTop="12px"
-                  backgroundColor="white"
-                  width="300px"
-                  height="180px"
-                  marginBottom="16px"
-                />
-                <Stack color="white" fontSize="16px" fontWeight="bold">
-                  {title}
-                </Stack>
-                <Stack color="white" fontSize="12px">
-                  {text}
-                </Stack>
+            </Stack>
+            <Stack width="300px">
+              <Stack
+                marginTop="12px"
+                backgroundColor="white"
+                width="300px"
+                height="180px"
+                marginBottom="16px"
+              />
+              <Stack color="white" fontSize="16px" fontWeight="bold">
+                {title}
               </Stack>
+              <textarea
+                type="text"
+                value={text.substr(0, 100)}
+                onChange={(event) => {
+                  setText(event.target.value);
+                }}
+                style={{
+                  color: "white",
+                  fontSize: "12px",
+                  resize: "none",
+                  height: "260px",
+                  backgroundColor: "#565C69",
+                  wordBreak: "keep-all",
+                  outline: "none",
+                  border: "0px solid transparent",
+                }}
+              />
             </Stack>
           </Stack>
-          <Stack alignItems="flex-end">
+          <Stack alignItems="flex-end" width="100%">
             <Button
               variant="contained"
               disableRipple
@@ -189,7 +209,7 @@ const WriteModal = ({ title, dialogOpen, setDialogOpen, tagArray, text }) => {
                 backgroundColor: "#ECD8A4",
                 ":hover": { backgroundColor: "#ffe900" },
               }}>
-              저장
+              발행
             </Button>
           </Stack>
         </Stack>
