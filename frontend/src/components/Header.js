@@ -14,15 +14,13 @@ const Header = ({ isHome }) => {
   return (
     <Stack
       position="fixed"
-      boxShadow="0px 0px 2px"
       width="100%"
       direction="row"
       alignItems="center"
       top={0}
       height="80px"
-      borderRadius="0px 0px 5px 5px"
       justifyContent="space-between"
-      bgcolor="#2bc8b5"
+      bgcolor="#38AB9D"
       zIndex={100}>
       <Stack alignItems="flex-start" marginLeft="20px">
         <Stack

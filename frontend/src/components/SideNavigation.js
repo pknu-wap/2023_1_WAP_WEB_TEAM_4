@@ -39,12 +39,12 @@ const SideNavigation = () => {
               justifyContent="center"
               sx={{
                 ":hover": {
-                  backgroundColor: "#c1e8e8",
+                  backgroundColor: "#C6E3CC",
                 },
               }}
               fontSize="16px"
               padding="0px 0px 5px 20px"
-              color="#26b2b9"
+              color="#4D999D"
               height="25px">
               - 알고리즘
             </Stack>
@@ -52,7 +52,7 @@ const SideNavigation = () => {
               justifyContent="center"
               sx={{
                 ":hover": {
-                  backgroundColor: "#c1e8e8",
+                  backgroundColor: "#C6E3CC",
                 },
               }}
               fontSize="16px"
@@ -65,7 +65,7 @@ const SideNavigation = () => {
               justifyContent="center"
               sx={{
                 ":hover": {
-                  backgroundColor: "#c1e8e8",
+                  backgroundColor: "#C6E3CC",
                 },
               }}
               fontSize="16px"
