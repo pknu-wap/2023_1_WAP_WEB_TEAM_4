@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { IconButton, MenuItem, Select, Stack, TextField } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -6,6 +6,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import SearchIcon from "@mui/icons-material/Search";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { searchOpenState, selectValueState } from "../states/homeState";
+import axios from "axios";
 
 const Home = () => {
   const [selectValue, setSelectValue] = useRecoilState(selectValueState);
@@ -13,8 +14,7 @@ const Home = () => {
   const handleChange = (event) => {
     setSelectValue(event.target.value);
   };
-
-  const array = [
+  const [array, setArray] = useState([
     {
       random: [
         {
@@ -95,7 +95,23 @@ const Home = () => {
         },
       ],
     },
-  ];
+  ]);
+  // const [startNumber, setStartNumber] = useState(0)
+
+  useEffect(() => {
+    const getPostData = async () => {
+      try {
+        const response = await axios.get(
+          "http://test-env.eba-babq7paf.us-east-1.elasticbeanstalk.com/main"
+        );
+
+        setArray(response.data);
+      } catch (e) {
+        alert(e.response);
+        console.log(e);
+      }
+    };
+  }, []);
 
   return (
     <Stack height="100%">
