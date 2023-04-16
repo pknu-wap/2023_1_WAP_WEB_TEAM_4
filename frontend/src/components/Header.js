@@ -14,12 +14,15 @@ const Header = ({ isHome }) => {
   return (
     <Stack
       position="fixed"
-      padding="10px 0px"
+      boxShadow="0px 0px 2px"
       width="100%"
       direction="row"
       alignItems="center"
+      top={0}
+      height="80px"
+      borderRadius="0px 0px 5px 5px"
       justifyContent="space-between"
-      bgcolor="black"
+      bgcolor="#2bc8b5"
       zIndex={100}>
       <Stack alignItems="flex-start" marginLeft="20px">
         <Stack
@@ -34,8 +37,8 @@ const Header = ({ isHome }) => {
           }}
           onClick={() => navigate("/home")}
           fontWeight="bold"
-          color="#ECD8A4"
-          fontSize="40px">
+          color="white"
+          fontSize="28px">
           GLOG
         </Stack>
         <Button
@@ -46,7 +49,7 @@ const Header = ({ isHome }) => {
             height: "30px",
             marginTop: "-5px",
             marginLeft: "-3px",
-            color: "#EED083",
+            color: "white",
             ":hover": {
               color: "#F1C040",
             },
