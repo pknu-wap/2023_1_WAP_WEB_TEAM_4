@@ -141,14 +141,14 @@ const Home = () => {
   return (
     <Stack>
       <Header isHome={isHome}>Home</Header>
-      <Stack spacing={10} bgcolor="black" padding="180px 96px 40px 96px">
+      <Stack spacing={10} padding="180px 96px 40px 96px">
         {isSearchOpen && (
           <Stack direction="row" spacing={4} justifyContent="center">
             <Select
               value={selectValue}
               onChange={handleChange}
               sx={{
-                color: selectValue === 0 ? "gray" : "white",
+                color: selectValue === 0 ? "gray" : "black",
                 width: "10%",
                 "&.MuiOutlinedInput-root": {
                   "&.Mui-focused": {
@@ -203,7 +203,7 @@ const Home = () => {
               return (
                 <Stack key={index} spacing={4} direction="row">
                   <Stack>
-                    <Stack color="white" fontSize="20px" width="65px">
+                    <Stack color="black" fontSize="20px" width="65px">
                       {categoryName}
                     </Stack>
                   </Stack>
@@ -235,16 +235,16 @@ const Home = () => {
                           <Stack
                             minWidth="300px"
                             minHeight="200px"
-                            bgcolor="white"
+                            bgcolor="gray"
                             marginBottom="8px"
                           />
                           <Stack
-                            color="white"
+                            color="black"
                             fontSize="16px"
                             fontWeight="bold">
                             {cardContent.title}
                           </Stack>
-                          <Stack color="white" fontSize="12px">
+                          <Stack color="black" fontSize="12px">
                             {cardContent.main_text}
                           </Stack>
                         </Stack>
@@ -287,13 +287,13 @@ const Home = () => {
                           minWidth="300px"
                           minHeight="200px"
                           flex={1}
-                          bgcolor="white"
+                          bgcolor="gray"
                           marginBottom="8px"
                         />
-                        <Stack color="white" fontSize="16px" fontWeight="bold">
+                        <Stack color="black" fontSize="16px" fontWeight="bold">
                           {cardContent.title}
                         </Stack>
-                        <Stack color="white" fontSize="12px">
+                        <Stack color="black" fontSize="12px">
                           {cardContent.main_text}
                         </Stack>
                       </Stack>

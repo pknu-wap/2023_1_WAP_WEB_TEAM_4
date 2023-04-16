@@ -1,26 +1,29 @@
-import { Stack } from "@mui/material";
+import { IconButton, Stack } from "@mui/material";
 import React from "react";
+import AddIcon from "@mui/icons-material/Add";
 
 const SideNavigation = () => {
   return (
     <Stack
       boxShadow="0px 0px 1px"
-      style={{
-        backgroundColor: "#e5e5e5",
-        width: "210px",
-        height: "100%",
-        left: 0,
-        padding: "100px 10px 20px 10px",
-        position: "fixed",
-      }}>
-      <Stack
-        style={{
-          color: "black",
-          fontSize: "21",
-          padding: "0px 0px 10px 10px",
-          fontWeight: "bold",
-        }}>
-        새 페이지
+      backgroundColor="#e5e5e5"
+      width="210px"
+      height="100%"
+      left={0}
+      padding="95px 10px 20px 10px"
+      position="fixed">
+      <Stack direction="row" alignItems="center" marginBottom="5px">
+        <IconButton width="16px" height="16px">
+          <AddIcon />
+        </IconButton>
+        <Stack
+          style={{
+            color: "black",
+            fontSize: "16px",
+            fontWeight: "bold",
+          }}>
+          새 페이지
+        </Stack>
       </Stack>
       <Stack gap="10px">
         <Stack>
@@ -41,6 +44,10 @@ const SideNavigation = () => {
                 ":hover": {
                   backgroundColor: "#C6E3CC",
                 },
+                ":active": {
+                  backgroundColor: "#B5DBBC",
+                },
+                cursor: "pointer",
               }}
               fontSize="16px"
               padding="0px 0px 5px 20px"
@@ -53,6 +60,10 @@ const SideNavigation = () => {
               sx={{
                 ":hover": {
                   backgroundColor: "#C6E3CC",
+                  ":active": {
+                    backgroundColor: "#B5DBBC",
+                  },
+                  cursor: "pointer",
                 },
               }}
               fontSize="16px"
@@ -66,6 +77,10 @@ const SideNavigation = () => {
               sx={{
                 ":hover": {
                   backgroundColor: "#C6E3CC",
+                  ":active": {
+                    backgroundColor: "#B5DBBC",
+                  },
+                  cursor: "pointer",
                 },
               }}
               fontSize="16px"

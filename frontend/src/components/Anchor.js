@@ -13,13 +13,28 @@ function Anchor() {
         right: 100,
       }}>
       <Stack>
-        <Stack fontWeight="bold" fontSize="18px" color="black" height="35px">
+        <Stack
+          fontWeight="bold"
+          fontSize="18px"
+          color="black"
+          height="35px"
+          sx={{ cursor: "pointer" }}>
           알고리즘
         </Stack>
-        <Stack fontSize="16px" color="#89B687" paddingLeft="10px" height="30px">
+        <Stack
+          fontSize="16px"
+          color="#3F7A60"
+          paddingLeft="10px"
+          height="30px"
+          sx={{ cursor: "pointer" }}>
           - 알고리즘이 신기한 이유?
         </Stack>
-        <Stack fontSize="16px" color="black" paddingLeft="10px" height="30px">
+        <Stack
+          fontSize="16px"
+          color="black"
+          paddingLeft="10px"
+          height="30px"
+          sx={{ cursor: "pointer" }}>
           - 알고리즘이 안신기해지려면?
         </Stack>
       </Stack>

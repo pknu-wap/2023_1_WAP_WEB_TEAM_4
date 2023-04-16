@@ -27,10 +27,10 @@ const Header = ({ isHome }) => {
           sx={{
             cursor: "pointer",
             ":hover": {
-              color: "#FACB53",
+              color: "#339D91",
             },
             ":active": {
-              color: "#FFE602",
+              color: "#2D8A7E",
             },
           }}
           onClick={() => navigate("/home")}
@@ -49,7 +49,10 @@ const Header = ({ isHome }) => {
             marginLeft: "-3px",
             color: "white",
             ":hover": {
-              color: "#F1C040",
+              color: "#32988B",
+            },
+            ":active": {
+              color: "#2D8A7E",
             },
           }}>
           CHAEYEON'S BLOG
