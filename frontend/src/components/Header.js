@@ -1,38 +1,75 @@
-import { Stack, Button } from "@mui/material";
+import { Stack, Button, IconButton } from "@mui/material";
 import React from "react";
+import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
+import HomeIcon from "@mui/icons-material/Home";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { searchOpenState, selectValueState } from "../states/homeState";
 
-const Header = () => {
+const Header = ({ isHome }) => {
   const navigate = useNavigate();
+  const [isSearchOpen, setIsSearchOpen] = useRecoilState(searchOpenState);
+  const setSelectValue = useSetRecoilState(selectValueState);
 
   return (
-    <Stack position="fixed" padding="10px 0px 10px 20px" bgcolor="black">
-      <Stack
-        sx={{
-          cursor: "pointer",
-        }}
-        onClick={() => navigate("/home")}
-        width="100%"
-        fontWeight="bold"
-        color="#ECD8A4"
-        fontSize="40px">
-        GLOG
+    <Stack
+      position="fixed"
+      padding="10px 0px"
+      width="100%"
+      direction="row"
+      alignItems="center"
+      justifyContent="space-between"
+      bgcolor="black"
+      zIndex={100}>
+      <Stack alignItems="flex-start" marginLeft="20px">
+        <Stack
+          sx={{
+            cursor: "pointer",
+            ":hover": {
+              color: "#FACB53",
+            },
+            ":active": {
+              color: "#FFE602",
+            },
+          }}
+          onClick={() => navigate("/home")}
+          fontWeight="bold"
+          color="#ECD8A4"
+          fontSize="40px">
+          GLOG
+        </Stack>
+        <Button
+          size="small"
+          disableRipple
+          onClick={() => navigate("/")}
+          sx={{
+            height: "30px",
+            marginTop: "-5px",
+            marginLeft: "-3px",
+            color: "#EED083",
+            ":hover": {
+              color: "#F1C040",
+            },
+          }}>
+          CHAEYEON'S BLOG
+        </Button>
       </Stack>
-      <Button
-        size="small"
-        disableRipple
-        onClick={() => navigate("/")}
-        sx={{
-          height: "30px",
-          marginTop: "-5px",
-          marginLeft: "-3px",
-          color: "#EED083",
-          ":hover": {
-            color: "#F1C040",
-          },
-        }}>
-        CHAEYEON'S BLOG
-      </Button>
+      <Stack marginRight="28px" direction="row" spacing={4} alignItems="center">
+        {isHome && (
+          <IconButton
+            onClick={() => {
+              setIsSearchOpen(!isSearchOpen);
+              setSelectValue(0);
+            }}>
+            {isSearchOpen ? (
+              <HomeIcon sx={{ color: "white" }} />
+            ) : (
+              <SearchIcon sx={{ color: "white" }} />
+            )}
+          </IconButton>
+        )}
+        <Stack width="40px" height="40px" borderRadius="20px" bgcolor="white" />
+      </Stack>
     </Stack>
   );
 };

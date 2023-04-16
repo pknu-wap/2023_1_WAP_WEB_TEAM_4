@@ -203,7 +203,7 @@ const WriteModal = ({
                 backgroundColor="white"
                 width="300px"
                 height="180px"
-                marginBottom="16px"
+                marginBottom="8px"
               />
               <Stack color="white" fontSize="16px" fontWeight="bold">
                 {title}

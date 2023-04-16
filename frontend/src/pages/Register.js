@@ -11,20 +11,15 @@ const Register = () => {
     password: "",
     passwordCheck: "",
     nickName: "",
-    address: "",
   });
-  const { email, password, passwordCheck, nickName, address } = registerState;
-  const [data, setData] = useState("");
+  const { email, password, passwordCheck, nickName } = registerState;
+  const [, setData] = useState("");
 
   const registerHandler = (event) => {
     const { name, value } = event.target;
 
     setRegisterState({ ...registerState, [name]: value });
   };
-
-  console.log(registerState.email);
-  console.log(registerState.password);
-  console.log(registerState.nickName);
 
   const handleSubmit = async () => {
     const body = {
