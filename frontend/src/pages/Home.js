@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import Header from "../components/Header";
 import { IconButton, MenuItem, Select, Stack, TextField } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import SearchIcon from "@mui/icons-material/Search";
-import { useRecoilValue } from "recoil";
-import { searchOpenState } from "../states/homeState";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { searchOpenState, selectValueState } from "../states/homeState";
 
 const Home = () => {
-  const [selectValue, setSelectValue] = useState(0);
+  const [selectValue, setSelectValue] = useRecoilState(selectValueState);
   const isSearchOpen = useRecoilValue(searchOpenState);
   const handleChange = (event) => {
     setSelectValue(event.target.value);
@@ -160,35 +160,76 @@ const Home = () => {
             />
           </Stack>
         )}
-        {!isSearchOpen &&
-          array.map((sudol, index) => {
-            const category = ["random", "views", "likes", "latest"];
-            return (
-              <Stack key={index}>
-                <Stack spacing={4} direction="row" justifyContent="center">
-                  <Stack color="white" fontSize="20px">
-                    {category[index]}
-                  </Stack>
-                  <IconButton sx={{ borderRadius: "0px" }}>
-                    <ChevronLeftIcon />
-                  </IconButton>
-                  {sudol[category[index]].map((cardContent, i) => {
-                    return (
-                      <Stack key={i}>
-                        <Stack width="300px" height="200px" bgcolor="white" />
-                        <Stack color="white">{cardContent.title}</Stack>
-                        <Stack color="white">{cardContent.main_text}</Stack>
-                      </Stack>
-                    );
-                  })}
+        {!isSearchOpen
+          ? array.map((card, index) => {
+              const category = ["random", "views", "likes", "latest"];
+              return (
+                <Stack key={index}>
+                  <Stack spacing={4} direction="row" justifyContent="center">
+                    <Stack color="white" fontSize="20px">
+                      {category[index]}
+                    </Stack>
+                    <IconButton sx={{ borderRadius: "0px" }}>
+                      <ChevronLeftIcon />
+                    </IconButton>
+                    {card[category[index]].map((cardContent, i) => {
+                      return (
+                        <Stack key={i}>
+                          <Stack
+                            width="300px"
+                            height="200px"
+                            bgcolor="white"
+                            marginBottom="8px"
+                          />
+                          <Stack
+                            color="white"
+                            fontSize="16px"
+                            fontWeight="bold">
+                            {cardContent.title}
+                          </Stack>
+                          <Stack color="white" fontSize="12px">
+                            {cardContent.main_text}
+                          </Stack>
+                        </Stack>
+                      );
+                    })}
 
-                  <IconButton sx={{ borderRadius: "0px" }}>
-                    <ChevronRightIcon />
-                  </IconButton>
+                    <IconButton sx={{ borderRadius: "0px" }}>
+                      <ChevronRightIcon />
+                    </IconButton>
+                  </Stack>
                 </Stack>
-              </Stack>
-            );
-          })}
+              );
+            })
+          : array.map((card, index) => {
+              return (
+                <Stack key={index}>
+                  <Stack spacing={4} direction="row" justifyContent="center">
+                    {card.random?.map((cardContent, i) => {
+                      return (
+                        <Stack key={i}>
+                          <Stack
+                            width="300px"
+                            height="200px"
+                            bgcolor="white"
+                            marginBottom="8px"
+                          />
+                          <Stack
+                            color="white"
+                            fontSize="16px"
+                            fontWeight="bold">
+                            {cardContent.title}
+                          </Stack>
+                          <Stack color="white" fontSize="12px">
+                            {cardContent.main_text}
+                          </Stack>
+                        </Stack>
+                      );
+                    })}
+                  </Stack>
+                </Stack>
+              );
+            })}
       </Stack>
     </Stack>
   );

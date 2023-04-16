@@ -3,12 +3,13 @@ import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
-import { useRecoilState } from "recoil";
-import { searchOpenState } from "../states/homeState";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { searchOpenState, selectValueState } from "../states/homeState";
 
 const Header = () => {
   const navigate = useNavigate();
   const [isSearchOpen, setIsSearchOpen] = useRecoilState(searchOpenState);
+  const setSelectValue = useSetRecoilState(selectValueState);
 
   return (
     <Stack
@@ -48,7 +49,11 @@ const Header = () => {
         </Button>
       </Stack>
       <Stack marginRight="28px" direction="row" spacing={4} alignItems="center">
-        <IconButton onClick={() => setIsSearchOpen(!isSearchOpen)}>
+        <IconButton
+          onClick={() => {
+            setIsSearchOpen(!isSearchOpen);
+            setSelectValue(0);
+          }}>
           {isSearchOpen ? (
             <HomeIcon sx={{ color: "white" }} />
           ) : (
