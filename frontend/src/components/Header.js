@@ -3,9 +3,12 @@ import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
+import { useRecoilState } from "recoil";
+import { searchOpenState } from "../states/homeState";
 
-const Header = ({ isSearchOpen, setIsSearchOpen }) => {
+const Header = () => {
   const navigate = useNavigate();
+  const [isSearchOpen, setIsSearchOpen] = useRecoilState(searchOpenState);
 
   return (
     <Stack

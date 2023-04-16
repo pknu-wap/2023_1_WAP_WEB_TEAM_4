@@ -4,11 +4,12 @@ import { IconButton, MenuItem, Select, Stack, TextField } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import SearchIcon from "@mui/icons-material/Search";
+import { useRecoilValue } from "recoil";
+import { searchOpenState } from "../states/homeState";
 
 const Home = () => {
   const [selectValue, setSelectValue] = useState(0);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-
+  const isSearchOpen = useRecoilValue(searchOpenState);
   const handleChange = (event) => {
     setSelectValue(event.target.value);
   };
@@ -98,9 +99,7 @@ const Home = () => {
 
   return (
     <Stack height="100%">
-      <Header isSearchOpen={isSearchOpen} setIsSearchOpen={setIsSearchOpen}>
-        Home
-      </Header>
+      <Header>Home</Header>
       <Stack
         spacing={10}
         height="5000px"
