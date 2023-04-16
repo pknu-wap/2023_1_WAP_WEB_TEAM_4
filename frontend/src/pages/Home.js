@@ -120,8 +120,10 @@ const Home = () => {
     likes: 0,
     latest: 0,
   });
+  const [isHome, setIsHome] = useState(false);
 
   useEffect(() => {
+    setIsHome(true);
     const getPostData = async () => {
       try {
         const response = await axios.get(
@@ -137,13 +139,9 @@ const Home = () => {
   }, []);
 
   return (
-    <Stack height="100%">
-      <Header>Home</Header>
-      <Stack
-        spacing={10}
-        bgcolor="black"
-        height="100%"
-        padding="150px 96px 40px 96px">
+    <Stack>
+      <Header isHome={isHome}>Home</Header>
+      <Stack spacing={10} bgcolor="black" padding="180px 96px 40px 96px">
         {isSearchOpen && (
           <Stack direction="row" spacing={4} justifyContent="center">
             <Select
@@ -201,20 +199,23 @@ const Home = () => {
         )}
         {!isSearchOpen
           ? array.map((card, index) => {
+              const categoryName = category[index];
               return (
                 <Stack key={index} spacing={4} direction="row">
-                  <Stack color="white" fontSize="20px">
-                    {category[index]}
+                  <Stack>
+                    <Stack color="white" fontSize="20px" width="65px">
+                      {categoryName}
+                    </Stack>
                   </Stack>
                   <IconButton
                     onClick={() =>
                       setStartNumber((prevNumber) => {
                         const updatedNumber = {
                           ...prevNumber,
-                          [category[index]]:
-                            prevNumber[category[index]] === 0
-                              ? prevNumber[category[index]]
-                              : prevNumber[category[index]] - 4,
+                          [categoryName]:
+                            prevNumber[categoryName] === 0
+                              ? prevNumber[categoryName]
+                              : prevNumber[categoryName] - 4,
                         };
 
                         return updatedNumber;
@@ -223,64 +224,17 @@ const Home = () => {
                     sx={{ borderRadius: "0px" }}>
                     <ChevronLeftIcon />
                   </IconButton>
-                  {category[index] &&
-                    card[category[index]]
-                      .slice(
-                        startNumber[category[index]],
-                        startNumber[category[index]] + 4
-                      )
-                      .map((cardContent, i) => {
-                        return (
-                          <Stack key={i}>
-                            <Stack
-                              width="300px"
-                              height="200px"
-                              bgcolor="white"
-                              marginBottom="8px"
-                            />
-                            <Stack
-                              color="white"
-                              fontSize="16px"
-                              fontWeight="bold">
-                              {cardContent.title}
-                            </Stack>
-                            <Stack color="white" fontSize="12px">
-                              {cardContent.main_text}
-                            </Stack>
-                          </Stack>
-                        );
-                      })}
-                  <IconButton
-                    onClick={() =>
-                      setStartNumber((prevNumber) => {
-                        const updatedNumber = {
-                          ...prevNumber,
-                          [category[index]]:
-                            prevNumber[category[index]] ===
-                            card[category[index]]?.length - 4
-                              ? prevNumber[category[index]]
-                              : prevNumber[category[index]] + 4,
-                        };
-
-                        return updatedNumber;
-                      })
-                    }
-                    sx={{ borderRadius: "0px" }}>
-                    <ChevronRightIcon />
-                  </IconButton>
-                </Stack>
-              );
-            })
-          : array.map((card, index) => {
-              return (
-                <Stack key={index}>
-                  <Stack spacing={4} direction="row" justifyContent="center">
-                    {card.random?.map((cardContent, i) => {
+                  {card[categoryName]
+                    .slice(
+                      startNumber[categoryName],
+                      startNumber[categoryName] + 4
+                    )
+                    .map((cardContent, i) => {
                       return (
-                        <Stack key={i}>
+                        <Stack key={i} flex={1}>
                           <Stack
-                            width="300px"
-                            height="200px"
+                            minWidth="300px"
+                            minHeight="200px"
                             bgcolor="white"
                             marginBottom="8px"
                           />
@@ -296,7 +250,55 @@ const Home = () => {
                         </Stack>
                       );
                     })}
-                  </Stack>
+                  <IconButton
+                    onClick={() =>
+                      setStartNumber((prevNumber) => {
+                        const updatedNumber = {
+                          ...prevNumber,
+                          [categoryName]:
+                            prevNumber[categoryName] ===
+                            card[categoryName]?.length - 4
+                              ? prevNumber[categoryName]
+                              : prevNumber[categoryName] + 4,
+                        };
+
+                        return updatedNumber;
+                      })
+                    }
+                    sx={{ borderRadius: "0px" }}>
+                    <ChevronRightIcon />
+                  </IconButton>
+                </Stack>
+              );
+            })
+          : array.map((card, index) => {
+              return (
+                <Stack
+                  key={index}
+                  direction="row"
+                  width="fit-content"
+                  paddingLeft="6.5%"
+                  justifyContent="flex-start"
+                  flexWrap="wrap">
+                  {card.random?.map((cardContent, i) => {
+                    return (
+                      <Stack key={i} marginLeft="32px" marginBottom="24px">
+                        <Stack
+                          minWidth="300px"
+                          minHeight="200px"
+                          flex={1}
+                          bgcolor="white"
+                          marginBottom="8px"
+                        />
+                        <Stack color="white" fontSize="16px" fontWeight="bold">
+                          {cardContent.title}
+                        </Stack>
+                        <Stack color="white" fontSize="12px">
+                          {cardContent.main_text}
+                        </Stack>
+                      </Stack>
+                    );
+                  })}
                 </Stack>
               );
             })}

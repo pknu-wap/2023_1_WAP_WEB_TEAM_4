@@ -6,7 +6,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { searchOpenState, selectValueState } from "../states/homeState";
 
-const Header = () => {
+const Header = ({ isHome }) => {
   const navigate = useNavigate();
   const [isSearchOpen, setIsSearchOpen] = useRecoilState(searchOpenState);
   const setSelectValue = useSetRecoilState(selectValueState);
@@ -25,6 +25,12 @@ const Header = () => {
         <Stack
           sx={{
             cursor: "pointer",
+            ":hover": {
+              color: "#FACB53",
+            },
+            ":active": {
+              color: "#FFE602",
+            },
           }}
           onClick={() => navigate("/home")}
           fontWeight="bold"
@@ -49,22 +55,20 @@ const Header = () => {
         </Button>
       </Stack>
       <Stack marginRight="28px" direction="row" spacing={4} alignItems="center">
-        <IconButton
-          onClick={() => {
-            setIsSearchOpen(!isSearchOpen);
-            setSelectValue(0);
-          }}>
-          {isSearchOpen ? (
-            <HomeIcon sx={{ color: "white" }} />
-          ) : (
-            <SearchIcon sx={{ color: "white" }} />
-          )}
-        </IconButton>
-        <Stack
-          width="40px"
-          height="40px"
-          borderRadius="20px"
-          bgcolor="white"></Stack>
+        {isHome && (
+          <IconButton
+            onClick={() => {
+              setIsSearchOpen(!isSearchOpen);
+              setSelectValue(0);
+            }}>
+            {isSearchOpen ? (
+              <HomeIcon sx={{ color: "white" }} />
+            ) : (
+              <SearchIcon sx={{ color: "white" }} />
+            )}
+          </IconButton>
+        )}
+        <Stack width="40px" height="40px" borderRadius="20px" bgcolor="white" />
       </Stack>
     </Stack>
   );
