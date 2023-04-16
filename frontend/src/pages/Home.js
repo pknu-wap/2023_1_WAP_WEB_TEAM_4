@@ -33,6 +33,10 @@ const Home = () => {
           title: "제목4",
           main_text: "내용4",
         },
+        {
+          title: "제목5",
+          main_text: "내용5",
+        },
       ],
     },
     {
@@ -96,22 +100,30 @@ const Home = () => {
       ],
     },
   ]);
-  // const [startNumber, setStartNumber] = useState(0)
 
-  useEffect(() => {
-    const getPostData = async () => {
-      try {
-        const response = await axios.get(
-          "http://test-env.eba-babq7paf.us-east-1.elasticbeanstalk.com/main"
-        );
+  const category = ["random", "views", "likes", "latest"];
+  const [startNumber, setStartNumber] = useState({
+    random: 0,
+    views: 0,
+    likes: 0,
+    latest: 0,
+  });
 
-        setArray(response.data);
-      } catch (e) {
-        alert(e.response);
-        console.log(e);
-      }
-    };
-  }, []);
+  // useEffect(() => {
+  //   const getPostData = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "http://test-env.eba-babq7paf.us-east-1.elasticbeanstalk.com/main"
+  //       );
+
+  //       setArray(response.data);
+  //     } catch (e) {
+  //       alert(e.response);
+  //       console.log(e);
+  //     }
+  //   };
+  // }, []);
+  console.log(startNumber);
 
   return (
     <Stack height="100%">
@@ -178,39 +190,65 @@ const Home = () => {
         )}
         {!isSearchOpen
           ? array.map((card, index) => {
-              const category = ["random", "views", "likes", "latest"];
               return (
                 <Stack key={index}>
                   <Stack spacing={4} direction="row" justifyContent="center">
                     <Stack color="white" fontSize="20px">
                       {category[index]}
                     </Stack>
-                    <IconButton sx={{ borderRadius: "0px" }}>
+                    <IconButton
+                      onClick={() =>
+                        setStartNumber((prevNumber) => {
+                          const updatedNumber = {
+                            ...prevNumber,
+                            [category[index]]: prevNumber[category[index]] - 4,
+                          };
+
+                          return updatedNumber;
+                        })
+                      }
+                      sx={{ borderRadius: "0px" }}>
                       <ChevronLeftIcon />
                     </IconButton>
-                    {card[category[index]].map((cardContent, i) => {
-                      return (
-                        <Stack key={i}>
-                          <Stack
-                            width="300px"
-                            height="200px"
-                            bgcolor="white"
-                            marginBottom="8px"
-                          />
-                          <Stack
-                            color="white"
-                            fontSize="16px"
-                            fontWeight="bold">
-                            {cardContent.title}
-                          </Stack>
-                          <Stack color="white" fontSize="12px">
-                            {cardContent.main_text}
-                          </Stack>
-                        </Stack>
-                      );
-                    })}
+                    {category[index] &&
+                      card[category[index]]
+                        .slice(
+                          startNumber[category[index]],
+                          startNumber[category[index]] + 4
+                        )
+                        .map((cardContent, i) => {
+                          return (
+                            <Stack key={i}>
+                              <Stack
+                                width="300px"
+                                height="200px"
+                                bgcolor="white"
+                                marginBottom="8px"
+                              />
+                              <Stack
+                                color="white"
+                                fontSize="16px"
+                                fontWeight="bold">
+                                {cardContent.title}
+                              </Stack>
+                              <Stack color="white" fontSize="12px">
+                                {cardContent.main_text}
+                              </Stack>
+                            </Stack>
+                          );
+                        })}
+                    <IconButton
+                      onClick={() =>
+                        setStartNumber((prevNumber) => {
+                          const updatedNumber = {
+                            ...prevNumber,
+                            [category[index]]: prevNumber[category[index]] + 4,
+                          };
 
-                    <IconButton sx={{ borderRadius: "0px" }}>
+                          return updatedNumber;
+                        })
+                      }
+                      sx={{ borderRadius: "0px" }}>
                       <ChevronRightIcon />
                     </IconButton>
                   </Stack>
