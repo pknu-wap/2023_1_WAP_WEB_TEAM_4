@@ -1,8 +1,10 @@
 import { IconButton, Stack } from "@mui/material";
 import React from "react";
 import AddIcon from "@mui/icons-material/Add";
+import { useNavigate } from "react-router-dom";
 
 const SideNavigation = () => {
+  const navigate = useNavigate();
   return (
     <Stack
       boxShadow="0px 0px 1px"
@@ -13,7 +15,10 @@ const SideNavigation = () => {
       padding="95px 10px 20px 10px"
       position="fixed">
       <Stack direction="row" alignItems="center" marginBottom="5px">
-        <IconButton width="16px" height="16px">
+        <IconButton
+          width="16px"
+          height="16px"
+          onClick={() => navigate("/write")}>
           <AddIcon />
         </IconButton>
         <Stack
@@ -22,7 +27,7 @@ const SideNavigation = () => {
             fontSize: "16px",
             fontWeight: "bold",
           }}>
-          새 페이지
+          글쓰기
         </Stack>
       </Stack>
       <Stack gap="10px">

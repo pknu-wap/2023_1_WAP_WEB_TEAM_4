@@ -52,7 +52,7 @@ const WriteModal = ({
         direction="row"
         borderRadius="8px"
         overflow="scroll"
-        bgcolor="#565C69"
+        bgcolor="#75BDB3"
         height="600px"
         p="24px 16px">
         <Stack
@@ -90,16 +90,16 @@ const WriteModal = ({
                   setAutoPublicMode(false);
                 }}
                 sx={{
-                  backgroundColor: privateMode ? "#fff0ba" : "white",
+                  backgroundColor: privateMode ? "#4D999D" : "white",
                   width: privateMode ? "90px" : "fit-content",
                   height: privateMode ? "60px" : "40px",
-                  color: "#ccaa00",
+                  color: privateMode ? "white" : "black",
                   ":hover": {
-                    backgroundColor: "#fff0ba",
+                    backgroundColor: "#0c3941",
                     width: "90px",
                     height: "60px",
                   },
-                  ":active": { backgroundColor: "#ffe997" },
+                  ":active": { backgroundColor: "#0c3941" },
                 }}>
                 비공개
               </Button>
@@ -219,7 +219,7 @@ const WriteModal = ({
                   fontSize: "12px",
                   resize: "none",
                   height: "100px",
-                  backgroundColor: "#565C69",
+                  backgroundColor: "#75BDB3",
                   wordBreak: "keep-all",
                   outline: "none",
                   border: "0px solid transparent",
