@@ -103,11 +103,13 @@ const Home = () => {
 
   const category = ["random", "views", "likes", "latest"];
   const [startNumber, setStartNumber] = useState({
-    random: 0,
+    random: 96,
     views: 0,
     likes: 0,
     latest: 0,
   });
+
+  console.log(startNumber);
 
   // useEffect(() => {
   //   const getPostData = async () => {
@@ -123,7 +125,6 @@ const Home = () => {
   //     }
   //   };
   // }, []);
-  console.log(startNumber);
 
   return (
     <Stack height="100%">
@@ -201,7 +202,10 @@ const Home = () => {
                         setStartNumber((prevNumber) => {
                           const updatedNumber = {
                             ...prevNumber,
-                            [category[index]]: prevNumber[category[index]] - 4,
+                            [category[index]]:
+                              prevNumber[category[index]] === 0
+                                ? prevNumber[category[index]]
+                                : prevNumber[category[index]] - 4,
                           };
 
                           return updatedNumber;
@@ -242,7 +246,10 @@ const Home = () => {
                         setStartNumber((prevNumber) => {
                           const updatedNumber = {
                             ...prevNumber,
-                            [category[index]]: prevNumber[category[index]] + 4,
+                            [category[index]]:
+                              prevNumber[category[index]] === 96
+                                ? prevNumber[category[index]]
+                                : prevNumber[category[index]] + 4,
                           };
 
                           return updatedNumber;
