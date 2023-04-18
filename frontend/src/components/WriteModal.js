@@ -1,8 +1,17 @@
-import { Button, Chip, MenuItem, Modal, Select, Stack } from "@mui/material";
+import {
+  Button,
+  Chip,
+  IconButton,
+  MenuItem,
+  Modal,
+  Select,
+  Stack,
+} from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { gray, mint } from "../static/style/color";
+import AddIcon from "@mui/icons-material/Add";
 
 const WriteModal = ({
   title,
@@ -71,7 +80,12 @@ const WriteModal = ({
               bgcolor={mint[200]}
               width="300px"
               height="180px"
-            />
+              justifyContent="center"
+              alignItems="center">
+              <IconButton sx={{ width: "50px", height: "50px" }}>
+                <AddIcon sx={{ width: "50px", height: "50px" }} />
+              </IconButton>
+            </Stack>
           </Stack>
           <Stack width="100%">
             <Stack color="black" fontSize="20px" fontWeight="bold">
