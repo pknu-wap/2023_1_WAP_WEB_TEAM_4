@@ -186,7 +186,7 @@ const Write = () => {
             onClose={() => setSnackbarOpen(false)}
             severity="error"
             variant=""
-            sx={{ width: "100%", backgroundColor: "red" }}>
+            sx={{ color: "white", width: "100%", backgroundColor: "red" }}>
             {toastMessage}
           </Alert>
         </Snackbar>

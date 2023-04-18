@@ -7,6 +7,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { searchOpenState, selectValueState } from "../states/homeState";
 import axios from "axios";
+import { gray, mint } from "../static/style/color";
 
 const Home = () => {
   const [selectValue, setSelectValue] = useRecoilState(selectValueState);
@@ -182,14 +183,14 @@ const Home = () => {
                 "& .MuiOutlinedInput-root": {
                   "&.Mui-focused": {
                     "& .MuiOutlinedInput-notchedOutline": {
-                      border: "1px solid #ECD8A4",
+                      border: `1px solid ${mint[200]}`,
                     },
                   },
                 },
                 ":hover": {
                   "& .MuiOutlinedInput-root": {
                     "& .MuiOutlinedInput-notchedOutline": {
-                      border: "0.1px solid #ECD8A4",
+                      border: `0.1px solid ${mint[200]}`,
                     },
                   },
                 },
@@ -235,7 +236,7 @@ const Home = () => {
                           <Stack
                             minWidth="300px"
                             minHeight="200px"
-                            bgcolor="gray"
+                            bgcolor={gray[300]}
                             marginBottom="8px"
                           />
                           <Stack
@@ -287,7 +288,7 @@ const Home = () => {
                           minWidth="300px"
                           minHeight="200px"
                           flex={1}
-                          bgcolor="gray"
+                          bgcolor={gray[300]}
                           marginBottom="8px"
                         />
                         <Stack color="black" fontSize="16px" fontWeight="bold">
