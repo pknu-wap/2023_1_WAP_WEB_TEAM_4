@@ -2,6 +2,7 @@ import { Button, Chip, MenuItem, Modal, Select, Stack } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { gray, mint } from "../static/style/color";
 
 const WriteModal = ({
   title,
@@ -50,13 +51,15 @@ const WriteModal = ({
       }}>
       <Stack
         direction="row"
-        borderRadius="8px"
+        borderRadius="4px"
         overflow="scroll"
-        bgcolor="#75BDB3"
+        // bgcolor="transparent"
+        bgcolor={gray[300]}
+        border={`1px solid ${mint[500]}`}
         height="600px"
         p="24px 16px">
         <Stack
-          gap="16px"
+          gap="20px"
           width="300px"
           alignItems="center"
           p="24px 60px 36px 36px">
@@ -90,16 +93,17 @@ const WriteModal = ({
                   setAutoPublicMode(false);
                 }}
                 sx={{
-                  backgroundColor: privateMode ? "#4D999D" : "white",
+                  backgroundColor: privateMode ? mint[500] : "white",
                   width: privateMode ? "90px" : "fit-content",
                   height: privateMode ? "60px" : "40px",
-                  color: privateMode ? "white" : "black",
+                  color: privateMode ? "white" : mint[500],
                   ":hover": {
-                    backgroundColor: "#0c3941",
+                    backgroundColor: mint[600],
                     width: "90px",
                     height: "60px",
+                    color: "white",
                   },
-                  ":active": { backgroundColor: "#0c3941" },
+                  ":active": { backgroundColor: mint[700] },
                 }}>
                 비공개
               </Button>
@@ -113,16 +117,17 @@ const WriteModal = ({
                   setAutoPublicMode(false);
                 }}
                 sx={{
-                  backgroundColor: publicMode ? "#fff0ba" : "white",
+                  backgroundColor: publicMode ? mint[500] : "white",
                   width: publicMode ? "90px" : "fit-content",
                   height: publicMode ? "60px" : "40px",
-                  color: "#ccaa00",
+                  color: publicMode ? "white" : mint[500],
                   ":hover": {
-                    backgroundColor: "#fff0ba",
+                    backgroundColor: mint[600],
                     width: "90px",
                     height: "60px",
+                    color: "white",
                   },
-                  ":active": { backgroundColor: "#ffe997" },
+                  ":active": { backgroundColor: mint[700] },
                 }}>
                 공개
               </Button>
@@ -136,16 +141,17 @@ const WriteModal = ({
                   setAutoPublicMode(true);
                 }}
                 sx={{
-                  backgroundColor: autoPublicMode ? "#fff0ba" : "white",
+                  backgroundColor: autoPublicMode ? mint[500] : "white",
                   width: autoPublicMode ? "90px" : "fit-content",
                   height: autoPublicMode ? "60px" : "40px",
-                  color: "#ccaa00",
+                  color: autoPublicMode ? "white" : mint[500],
                   ":hover": {
-                    backgroundColor: "#fff0ba",
+                    backgroundColor: mint[600],
                     width: "90px",
                     height: "60px",
+                    color: "white",
                   },
-                  ":active": { backgroundColor: "#ffe997" },
+                  ":active": { backgroundColor: mint[700] },
                 }}>
                 자동 공개
               </Button>
@@ -210,6 +216,7 @@ const WriteModal = ({
               </Stack>
               <textarea
                 type="text"
+                placeholder="내용을 입력해주세요."
                 value={text.substr(0, 100)}
                 onChange={(event) => {
                   setText(event.target.value);
@@ -219,7 +226,7 @@ const WriteModal = ({
                   fontSize: "12px",
                   resize: "none",
                   height: "100px",
-                  backgroundColor: "#75BDB3",
+                  backgroundColor: "inherit",
                   wordBreak: "keep-all",
                   outline: "none",
                   border: "0px solid transparent",
@@ -269,9 +276,9 @@ const WriteModal = ({
               disableRipple
               onClick={writeButtonClick}
               sx={{
-                color: "gray",
-                backgroundColor: "#ECD8A4",
-                ":hover": { backgroundColor: "#ffe900" },
+                color: "white",
+                backgroundColor: mint[500],
+                ":hover": { backgroundColor: mint[600] },
               }}>
               발행
             </Button>
