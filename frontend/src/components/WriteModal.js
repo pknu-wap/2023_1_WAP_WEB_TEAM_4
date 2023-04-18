@@ -11,7 +11,7 @@ import {
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { gray, mint } from "../static/style/color";
+import { mint } from "../static/style/color";
 import AddIcon from "@mui/icons-material/Add";
 
 const WriteModal = ({
