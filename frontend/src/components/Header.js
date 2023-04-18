@@ -14,28 +14,29 @@ const Header = ({ isHome }) => {
   return (
     <Stack
       position="fixed"
-      padding="10px 0px"
       width="100%"
       direction="row"
       alignItems="center"
+      top={0}
+      height="80px"
       justifyContent="space-between"
-      bgcolor="black"
+      bgcolor="#38AB9D"
       zIndex={100}>
       <Stack alignItems="flex-start" marginLeft="20px">
         <Stack
           sx={{
             cursor: "pointer",
             ":hover": {
-              color: "#FACB53",
+              color: "#339D91",
             },
             ":active": {
-              color: "#FFE602",
+              color: "#2D8A7E",
             },
           }}
           onClick={() => navigate("/home")}
           fontWeight="bold"
-          color="#ECD8A4"
-          fontSize="40px">
+          color="white"
+          fontSize="28px">
           GLOG
         </Stack>
         <Button
@@ -46,9 +47,12 @@ const Header = ({ isHome }) => {
             height: "30px",
             marginTop: "-5px",
             marginLeft: "-3px",
-            color: "#EED083",
+            color: "white",
             ":hover": {
-              color: "#F1C040",
+              color: "#32988B",
+            },
+            ":active": {
+              color: "#2D8A7E",
             },
           }}>
           CHAEYEON'S BLOG

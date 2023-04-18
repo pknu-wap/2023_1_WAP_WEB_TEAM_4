@@ -7,6 +7,8 @@ import "@toast-ui/editor/dist/theme/toastui-editor-dark.css";
 import CancelIcon from "@mui/icons-material/Cancel";
 import "@toast-ui/editor/dist/i18n/ko-kr";
 import WriteModal from "../components/WriteModal";
+import Header from "../components/Header";
+import { gray, mint } from "../static/style/color";
 
 const Write = () => {
   const editorRef = useRef();
@@ -31,29 +33,11 @@ const Write = () => {
 
   return (
     <Stack height="100%">
-      <Stack
-        bgcolor="black"
-        style={{
-          width: "100%",
-          fontWeight: "bold",
-          color: "#ECD8A4",
-          fontSize: "30px",
-          position: "fixed",
-          padding: "10px 0px 10px 20px",
-        }}>
-        GLOG
-      </Stack>
-      <Stack
-        height="5000px"
-        paddingTop="60px"
-        width="100%"
-        bgcolor="black"
-        color="white"
-        direction="row">
+      <Header />
+      <Stack height="5000px" paddingTop="60px" width="100%" direction="row">
         <Stack
           spacing={2}
-          padding="40px 96px 40px 96px"
-          bgcolor="black"
+          padding="60px 96px 40px 96px"
           direction="column"
           width="100%">
           <input
@@ -63,7 +47,7 @@ const Write = () => {
               setTitle(event.target.value);
             }}
             style={{
-              color: "white",
+              color: "black",
               border: "none",
               outline: "none",
               backgroundColor: "transparent",
@@ -77,36 +61,32 @@ const Write = () => {
             height="60px"
             justifyContent="space-between"
             direction="row">
-            <Stack
-              bgcolor="black"
-              spacing={1}
-              maxWidth="100px"
-              color="white"
-              direction="row">
-              {tagArray.map((tag, i) => {
-                return (
-                  <Chip
-                    sx={{
-                      border: "1px solid #ECD8A4",
-                      "& .MuiChip-deleteIcon": {
-                        color: "#F3F4F6",
-                        ":hover": {
-                          color: "#D1D5DB",
-                        },
-                        ":active": {
-                          color: "#9CA3AF",
-                        },
+            <Stack spacing={1} maxWidth="100px" color="white" direction="row">
+              {tagArray.map((tag, i) => (
+                <Chip
+                  sx={{
+                    color: "black",
+                    fontWeight: "bold",
+                    border: `1px solid ${mint[400]}`,
+                    backgroundColor: mint[200],
+                    "& .MuiChip-deleteIcon": {
+                      color: "#F3F4F6",
+                      ":hover": {
+                        color: gray[100],
                       },
-                    }}
-                    key={i}
-                    label={`# ${tag}`}
-                    deleteIcon={<CancelIcon fontSize="12px" />}
-                    onDelete={() =>
-                      setTagArray(tagArray.filter((tag, index) => index !== i))
-                    }
-                  />
-                );
-              })}
+                      ":active": {
+                        color: gray[200],
+                      },
+                    },
+                  }}
+                  key={i}
+                  label={`# ${tag}`}
+                  deleteIcon={<CancelIcon fontSize="12px" />}
+                  onDelete={() =>
+                    setTagArray(tagArray.filter((tag, index) => index !== i))
+                  }
+                />
+              ))}
               <input
                 placeholder="태그를 입력해주세요"
                 value={tag}
@@ -132,7 +112,7 @@ const Write = () => {
                   }
                 }}
                 style={{
-                  color: "white",
+                  color: "black",
                   border: "none",
                   outline: "none",
                   backgroundColor: "transparent",
@@ -143,20 +123,23 @@ const Write = () => {
               <Button
                 disableRipple
                 sx={{
-                  color: "#ECD8A4",
-                  ":hover": { color: "#E8AD15" },
-                  ":active": { color: "#AF861C" },
+                  color: "#4D999D",
+                  ":hover": {
+                    color: "#0c3941",
+                    backgroundColor: "transparent",
+                  },
+                  ":active": { color: "#4D999D" },
                 }}
                 width="fit-content">
                 원본
               </Button>
               <Button
-                variant="outlined"
+                variant="contained"
                 sx={{
-                  color: "#ECD8A4",
-                  border: "1px solid #ECD8A4",
+                  color: "white",
+                  backgroundColor: "#4D999D",
                   ":hover": {
-                    border: "1px solid #ECD8A4",
+                    backgroundColor: "#0c3941",
                   },
                 }}
                 onClick={handleRegisterButton}
@@ -182,7 +165,7 @@ const Write = () => {
                 ["table", "image", "link"],
                 ["code", "codeblock"],
               ]}
-              theme="dark"
+              // theme="dark"
               language="ko-KR"
             />
           </Stack>
@@ -203,7 +186,7 @@ const Write = () => {
             onClose={() => setSnackbarOpen(false)}
             severity="error"
             variant=""
-            sx={{ width: "100%", backgroundColor: "red" }}>
+            sx={{ color: "white", width: "100%", backgroundColor: "red" }}>
             {toastMessage}
           </Alert>
         </Snackbar>

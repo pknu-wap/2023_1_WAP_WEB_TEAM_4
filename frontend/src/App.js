@@ -10,7 +10,16 @@ import { RecoilRoot } from "recoil";
 
 const darkTheme = createTheme({
   palette: {
-    mode: "dark",
+    mode: "light",
+  },
+  breakpoints: {
+    values: {
+      // xl: 1920,
+      lg: 1440,
+      md: 1000,
+      sm: 600,
+      // xs: 375,
+    },
   },
 });
 
