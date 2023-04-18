@@ -8,6 +8,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import "@toast-ui/editor/dist/i18n/ko-kr";
 import WriteModal from "../components/WriteModal";
 import Header from "../components/Header";
+import { gray, mint } from "../static/style/color";
 
 const Write = () => {
   const editorRef = useRef();
@@ -61,31 +62,31 @@ const Write = () => {
             justifyContent="space-between"
             direction="row">
             <Stack spacing={1} maxWidth="100px" color="white" direction="row">
-              {tagArray.map((tag, i) => {
-                return (
-                  <Chip
-                    sx={{
-                      color: "white",
-                      backgroundColor: "#7BC1B7",
-                      "& .MuiChip-deleteIcon": {
-                        color: "#F3F4F6",
-                        ":hover": {
-                          color: "#D1D5DB",
-                        },
-                        ":active": {
-                          color: "#9CA3AF",
-                        },
+              {tagArray.map((tag, i) => (
+                <Chip
+                  sx={{
+                    color: "black",
+                    fontWeight: "bold",
+                    border: `1px solid ${mint[400]}`,
+                    backgroundColor: mint[200],
+                    "& .MuiChip-deleteIcon": {
+                      color: "#F3F4F6",
+                      ":hover": {
+                        color: gray[100],
                       },
-                    }}
-                    key={i}
-                    label={`# ${tag}`}
-                    deleteIcon={<CancelIcon fontSize="12px" />}
-                    onDelete={() =>
-                      setTagArray(tagArray.filter((tag, index) => index !== i))
-                    }
-                  />
-                );
-              })}
+                      ":active": {
+                        color: gray[200],
+                      },
+                    },
+                  }}
+                  key={i}
+                  label={`# ${tag}`}
+                  deleteIcon={<CancelIcon fontSize="12px" />}
+                  onDelete={() =>
+                    setTagArray(tagArray.filter((tag, index) => index !== i))
+                  }
+                />
+              ))}
               <input
                 placeholder="태그를 입력해주세요"
                 value={tag}

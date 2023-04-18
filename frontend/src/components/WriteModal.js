@@ -53,9 +53,8 @@ const WriteModal = ({
         direction="row"
         borderRadius="4px"
         overflow="scroll"
-        // bgcolor="transparent"
-        bgcolor={gray[300]}
-        border={`1px solid ${mint[500]}`}
+        bgcolor="white"
+        // bgcolor={gray[300]}
         height="600px"
         p="24px 16px">
         <Stack
@@ -64,18 +63,18 @@ const WriteModal = ({
           alignItems="center"
           p="24px 60px 36px 36px">
           <Stack width="100%">
-            <Stack color="white" fontSize="20px" fontWeight="bold">
+            <Stack color="black" fontSize="20px" fontWeight="bold">
               썸네일
             </Stack>
             <Stack
               marginTop="12px"
-              bgcolor="white"
+              bgcolor={mint[200]}
               width="300px"
               height="180px"
             />
           </Stack>
           <Stack width="100%">
-            <Stack color="white" fontSize="20px" fontWeight="bold">
+            <Stack color="black" fontSize="20px" fontWeight="bold">
               공개 설정
             </Stack>
             <Stack
@@ -158,7 +157,7 @@ const WriteModal = ({
             </Stack>
           </Stack>
           <Stack width="100%">
-            <Stack color="white" fontSize="20px" fontWeight="bold">
+            <Stack color="black" fontSize="20px" fontWeight="bold">
               태그 목록
             </Stack>
             <Stack
@@ -168,50 +167,49 @@ const WriteModal = ({
               maxHeight="170px"
               overflow="scroll"
               flexWrap="wrap">
-              {tagArray.map((tag, i) => {
-                return (
-                  <Chip
-                    sx={{
-                      border: "1px solid #ECD8A4",
-                      padding: "1px",
-                      width: "fit-content",
-                      "& .MuiChip-deleteIcon": {
-                        color: "#F3F4F6",
-                        ":hover": {
-                          color: "#D1D5DB",
-                        },
-                        ":active": {
-                          color: "#9CA3AF",
-                        },
+              {tagArray.map((tag, i) => (
+                <Chip
+                  sx={{
+                    border: `1px solid ${mint[400]}`,
+                    backgroundColor: mint[100],
+                    padding: "1px",
+                    width: "fit-content",
+                    "& .MuiChip-deleteIcon": {
+                      color: "#F3F4F6",
+                      ":hover": {
+                        color: "#D1D5DB",
                       },
-                    }}
-                    key={i}
-                    label={`# ${tag}`}
-                  />
-                );
-              })}
+                      ":active": {
+                        color: "#9CA3AF",
+                      },
+                    },
+                  }}
+                  key={i}
+                  label={`# ${tag}`}
+                />
+              ))}
             </Stack>
           </Stack>
         </Stack>
-        <Stack width="1px" height="600px" bgcolor="#C3C6CD"></Stack>
+        <Stack width="1px" height="600px" bgcolor={mint[100]}></Stack>
         <Stack
           width="300px"
           alignItems="center"
           justifyContent="space-between"
           p="24px 36px 0px 60px">
           <Stack height="300px">
-            <Stack color="white" fontSize="20px" fontWeight="bold">
+            <Stack color="black" fontSize="20px" fontWeight="bold">
               미리보기
             </Stack>
             <Stack width="300px">
               <Stack
                 marginTop="12px"
-                backgroundColor="white"
+                backgroundColor={mint[200]}
                 width="300px"
                 height="180px"
                 marginBottom="8px"
               />
-              <Stack color="white" fontSize="16px" fontWeight="bold">
+              <Stack color="black" fontSize="16px" fontWeight="bold">
                 {title}
               </Stack>
               <textarea
@@ -222,7 +220,7 @@ const WriteModal = ({
                   setText(event.target.value);
                 }}
                 style={{
-                  color: "white",
+                  color: "black",
                   fontSize: "12px",
                   resize: "none",
                   height: "100px",
@@ -234,7 +232,7 @@ const WriteModal = ({
               />
             </Stack>
             <Stack
-              color="white"
+              color="black"
               fontSize="20px"
               fontWeight="bold"
               marginBottom="12px">
@@ -243,6 +241,7 @@ const WriteModal = ({
             <Stack oveflow="scroll">
               <Stack gap="12px" direction="row" flexWrap="wrap">
                 <Select
+                  size="size"
                   value={selectValue}
                   onChange={(event) => setSelectValue(event.target.value)}
                   sx={{
@@ -250,13 +249,13 @@ const WriteModal = ({
                     "&.MuiOutlinedInput-root": {
                       "&.Mui-focused": {
                         "& .MuiOutlinedInput-notchedOutline": {
-                          border: "1px solid #ECD8A4",
+                          border: `1px solid ${mint[200]}`,
                         },
                       },
                       ":hover": {
                         "&.MuiOutlinedInput-root": {
                           "& .MuiOutlinedInput-notchedOutline": {
-                            border: "1px solid #ECD8A4",
+                            border: `1px solid ${mint[200]}`,
                           },
                         },
                       },
