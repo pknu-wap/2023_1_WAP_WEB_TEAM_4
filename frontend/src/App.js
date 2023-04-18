@@ -12,6 +12,15 @@ const darkTheme = createTheme({
   palette: {
     mode: "light",
   },
+  breakpoints: {
+    values: {
+      // xl: 1920,
+      lg: 1440,
+      md: 1000,
+      sm: 600,
+      // xs: 375,
+    },
+  },
 });
 
 const App = () => {

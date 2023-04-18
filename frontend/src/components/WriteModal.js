@@ -6,8 +6,9 @@ import {
   Modal,
   Select,
   Stack,
+  TextField,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { gray, mint } from "../static/style/color";
@@ -24,9 +25,38 @@ const WriteModal = ({
   const [privateMode, setPrivateMode] = useState(true);
   const [publicMode, setPublicMode] = useState(false);
   const [autoPublicMode, setAutoPublicMode] = useState(false);
-  const [selectValue, setSelectValue] = useState("");
+  const [selectValue, setSelectValue] = useState(0);
+  const [textFieldValue, setTextFieldValue] = useState("");
+
+  const [categoryArray, setCategoryArray] = useState([
+    "데이터분석",
+    "프론트엔드",
+    "머신러닝",
+    "알고리즘",
+  ]);
 
   const navigate = useNavigate();
+
+  const [imageSrc, setImageSrc] = useState(null);
+
+  const fileInput = useRef(null);
+
+  const handleButtonClick = (event) => {
+    fileInput.current?.click();
+  };
+
+  const onUpload = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    return new Promise((resolve) => {
+      reader.onload = () => {
+        setImageSrc(reader.result || null);
+        resolve();
+      };
+    });
+  };
 
   const writeButtonClick = async () => {
     const body = {
@@ -54,6 +84,7 @@ const WriteModal = ({
       open={dialogOpen}
       onClose={() => setDialogOpen(false)}
       sx={{
+        overflow: "scroll",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -63,7 +94,6 @@ const WriteModal = ({
         borderRadius="4px"
         overflow="scroll"
         bgcolor="white"
-        // bgcolor={gray[300]}
         height="600px"
         p="24px 16px">
         <Stack
@@ -72,20 +102,48 @@ const WriteModal = ({
           alignItems="center"
           p="24px 60px 36px 36px">
           <Stack width="100%">
-            <Stack color="black" fontSize="20px" fontWeight="bold">
-              썸네일
+            <Stack direction="row">
+              <Stack
+                color="black"
+                fontSize="20px"
+                marginBottom="12px"
+                marginRight="4px"
+                fontWeight="bold">
+                썸네일
+              </Stack>
+              <Button
+                onClick={() => setImageSrc(null)}
+                sx={{ height: "23px" }}
+                color="error">
+                삭제
+              </Button>
             </Stack>
-            <Stack
-              marginTop="12px"
-              bgcolor={mint[200]}
-              width="300px"
-              height="180px"
-              justifyContent="center"
-              alignItems="center">
-              <IconButton sx={{ width: "50px", height: "50px" }}>
-                <AddIcon sx={{ width: "50px", height: "50px" }} />
-              </IconButton>
-            </Stack>
+            {!imageSrc ? (
+              <Stack
+                bgcolor={mint[200]}
+                width="300px"
+                height="180px"
+                justifyContent="center"
+                alignItems="center">
+                <IconButton
+                  onClick={handleButtonClick}
+                  sx={{ width: "50px", height: "50px" }}>
+                  <AddIcon sx={{ width: "50px", height: "50px" }} />
+                  <input
+                    style={{ display: "none" }}
+                    type="file"
+                    ref={fileInput}
+                    onChange={onUpload}
+                  />
+                </IconButton>
+              </Stack>
+            ) : (
+              <img
+                src={imageSrc}
+                alt=""
+                style={{ width: "300px", height: "180px" }}
+              />
+            )}
           </Stack>
           <Stack width="100%">
             <Stack color="black" fontSize="20px" fontWeight="bold">
@@ -212,17 +270,28 @@ const WriteModal = ({
           justifyContent="space-between"
           p="24px 36px 0px 60px">
           <Stack height="300px">
-            <Stack color="black" fontSize="20px" fontWeight="bold">
+            <Stack
+              color="black"
+              fontSize="20px"
+              marginBottom="12px"
+              fontWeight="bold">
               미리보기
             </Stack>
             <Stack width="300px">
-              <Stack
-                marginTop="12px"
-                backgroundColor={mint[200]}
-                width="300px"
-                height="180px"
-                marginBottom="8px"
-              />
+              {!imageSrc ? (
+                <Stack
+                  backgroundColor={mint[200]}
+                  width="300px"
+                  height="180px"
+                  marginBottom="8px"
+                />
+              ) : (
+                <img
+                  src={imageSrc}
+                  alt=""
+                  style={{ width: "300px", height: "180px" }}
+                />
+              )}
               <Stack color="black" fontSize="16px" fontWeight="bold">
                 {title}
               </Stack>
@@ -254,12 +323,30 @@ const WriteModal = ({
             </Stack>
             <Stack oveflow="scroll">
               <Stack gap="12px" direction="row" flexWrap="wrap">
+                <Stack width="100%" direction="row" marginBottom="8px">
+                  <TextField
+                    variant="standard"
+                    value={textFieldValue}
+                    onChange={(e) => {
+                      setTextFieldValue(e.target.value);
+                    }}
+                  />
+                  <MenuItem
+                    onClick={() => {
+                      setCategoryArray([...categoryArray, textFieldValue]);
+                      setTextFieldValue("");
+                    }}
+                    sx={{ color: mint[500], padding: "2px 16px" }}>
+                    카테고리 추가
+                  </MenuItem>
+                </Stack>
                 <Select
                   size="size"
                   value={selectValue}
                   onChange={(event) => setSelectValue(event.target.value)}
                   sx={{
                     width: "300px",
+                    color: selectValue === 0 ? "gray" : "black",
                     "&.MuiOutlinedInput-root": {
                       "&.Mui-focused": {
                         "& .MuiOutlinedInput-notchedOutline": {
@@ -275,10 +362,14 @@ const WriteModal = ({
                       },
                     },
                   }}>
-                  <MenuItem value={0}>데이터분석</MenuItem>
-                  <MenuItem value={1}>프론트엔드</MenuItem>
-                  <MenuItem value={2}>머신러닝</MenuItem>
-                  <MenuItem value={3}>알고리즘</MenuItem>
+                  <MenuItem value={0} sx={{ display: "none" }}>
+                    선택
+                  </MenuItem>
+                  {categoryArray.map((category, index) => (
+                    <MenuItem value={index + 1} key={index}>
+                      {category}
+                    </MenuItem>
+                  ))}
                 </Select>
               </Stack>
             </Stack>
