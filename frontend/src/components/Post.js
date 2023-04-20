@@ -11,8 +11,7 @@ const Post = () => {
       alignItems="flex-start"
       width="850px"
       marginTop="80px"
-      justifyContent="center"
-    >
+      justifyContent="center">
       <Stack>
         <Stack color="black" fontSize="32px" height="45px" fontWeight="bold">
           알고리즘에 대해 배워보자!
@@ -24,8 +23,7 @@ const Post = () => {
               margin: "0px",
               color: "black",
             }}
-            gap="5px"
-          >
+            gap="5px">
             {ReactHtmlParser(content, {
               transform: (node, index) => {
                 console.log(node.type);

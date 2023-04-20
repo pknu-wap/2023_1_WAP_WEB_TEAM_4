@@ -4,7 +4,7 @@ import Main from "./pages/Main";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Write from "./pages/Write";
-import { createTheme, ThemeProvider } from "@mui/material";
+import { ThemeProvider } from "@mui/material";
 import Home from "./pages/Home";
 import { RecoilRoot } from "recoil";
 import { themes } from "../src/themes";
@@ -12,7 +12,7 @@ import { themes } from "../src/themes";
 const App = () => {
   return (
     <RecoilRoot>
-      <ThemeProvider theme={themes.light}>
+      <ThemeProvider theme={themes.dark}>
         <Router>
           <Routes>
             <Route path="/" element={<Main />} />

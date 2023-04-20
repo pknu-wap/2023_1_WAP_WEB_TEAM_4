@@ -11,7 +11,6 @@ const Main = () => {
   const isLg = useMediaQuery(theme.breakpoints.down("lg"));
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
 
-  console.log(isTablet);
   return (
     <Stack style={{ width: "100%", height: "100%" }}>
       <Stack direction="row" height="100%">

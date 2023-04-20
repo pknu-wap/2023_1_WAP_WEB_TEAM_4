@@ -51,13 +51,13 @@ export const darkTheme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      light: mint[50],
-      main: mint[500],
-      dark: mint[600],
-      mainHover: mint[600],
-      mainActive: mint[700],
-      lightHover: mint[100],
-      lightActive: mint[200],
+      light: "black",
+      main: "black",
+      dark: "black",
+      mainHover: "black",
+      mainActive: "black",
+      lightHover: "black",
+      lightActive: "black",
     },
   },
   gray: {
