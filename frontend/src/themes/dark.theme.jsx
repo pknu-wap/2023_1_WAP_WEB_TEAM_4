@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material";
-import { darkYellow, gray, mint, yellow } from "./color";
+import { darkYellow, gray, yellow } from "./color";
 
 export const darkTheme = createTheme({
   breakpoints: {
@@ -11,56 +11,20 @@ export const darkTheme = createTheme({
       xs: 375,
     },
   },
-  components: {
-    MuiCssBaseline: {
-      styleOverrides: (theme) => ({
-        select: {
-          "& .MuiOutlinedInput-root": {
-            "&.Mui-focused": {
-              "& .MuiOutlinedInput-notchedOutline": {
-                border: `1px solid ${theme?.palette.primary.main}`,
-              },
-            },
-          },
-        },
-      }),
-    },
-    MuiButtonBase: {
-      defaultProps: {
-        disableRipple: true,
-      },
-    },
-    MuiIconButton: {
-      defaultProps: {
-        disableRipple: true,
-      },
-    },
-    MuiCheckbox: {
-      defaultProps: {
-        disableRipple: true,
-      },
-    },
-    MuiRadio: {
-      defaultProps: {
-        disableRipple: true,
-      },
-    },
-  },
 
   spacing: 4,
   palette: {
     mode: "dark",
     primary: {
-      light: yellow[300],
-      main: darkYellow[300],
-      mainHover: darkYellow[400],
-      mainActive: darkYellow[500],
       buttonColor: darkYellow[600],
-      200: darkYellow[200],
-      100: yellow[100],
 
-      dark: darkYellow[600],
-      lightHover: yellow[100],
+      700: darkYellow[700],
+      600: darkYellow[600],
+      500: yellow[500],
+      400: yellow[400],
+      300: yellow[300],
+      200: darkYellow[200],
+      100: darkYellow[100],
     },
     gray: {
       light: gray[50],
@@ -87,8 +51,8 @@ export const darkTheme = createTheme({
     },
     sideNavigation: {
       background: "#000000",
-      hover: "#C6E3CC",
-      active: "#B5DBBC",
+      hover: yellow[600],
+      active: yellow[700],
       pointColorTitle: darkYellow[400],
       pointColorContent: yellow[500],
     },

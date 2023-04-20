@@ -12,7 +12,7 @@ const SideNavigation = () => {
       width="210px"
       height="100%"
       left={0}
-      padding="95px 10px 20px 10px"
+      padding="88px 10px 20px 10px"
       position="fixed">
       <Stack direction="row" alignItems="center" marginBottom="5px">
         <IconButton

@@ -21,7 +21,7 @@ const Main = () => {
       <Stack direction="row" height="100%">
         {!isTablet && <SideNavigation />}
         <Header />
-        <Stack alignItems="center" width="100%" padding="80px 40px 84px 254px">
+        <Stack alignItems="center" width="100%" padding="56px 40px 84px 254px">
           <Post />
           {!isLg && <Anchor />}
         </Stack>

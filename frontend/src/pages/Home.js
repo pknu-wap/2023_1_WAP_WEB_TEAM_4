@@ -160,13 +160,13 @@ const Home = () => {
                 "&.MuiOutlinedInput-root": {
                   "&.Mui-focused": {
                     "& .MuiOutlinedInput-notchedOutline": {
-                      border: `1px solid ${theme.palette.pointColor.main}`,
+                      border: `1px solid ${theme.palette.primary[500]}`,
                     },
                   },
                   ":hover": {
                     "&.MuiOutlinedInput-root": {
                       "& .MuiOutlinedInput-notchedOutline": {
-                        border: `1px solid ${theme.palette.pointColor.main}`,
+                        border: `1px solid ${theme.palette.primary[500]}`,
                       },
                     },
                   },
@@ -189,14 +189,14 @@ const Home = () => {
                 "& .MuiOutlinedInput-root": {
                   "&.Mui-focused": {
                     "& .MuiOutlinedInput-notchedOutline": {
-                      border: `1px solid ${theme.palette.pointColor.main}`,
+                      border: `1px solid ${theme.palette.primary[500]}`,
                     },
                   },
                 },
                 ":hover": {
                   "& .MuiOutlinedInput-root": {
                     "& .MuiOutlinedInput-notchedOutline": {
-                      border: `1px solid ${theme.palette.pointColor.main}`,
+                      border: `1px solid ${theme.palette.primary[500]}`,
                     },
                   },
                 },

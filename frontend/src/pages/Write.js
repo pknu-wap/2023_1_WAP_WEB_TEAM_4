@@ -8,7 +8,6 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import "@toast-ui/editor/dist/i18n/ko-kr";
 import WriteModal from "../components/WriteModal";
 import Header from "../components/Header";
-import { gray, mint } from "../themes/color";
 import { useTheme } from "@mui/material/styles";
 
 const Write = () => {
@@ -41,7 +40,7 @@ const Write = () => {
         <Stack
           bgcolor="background.main"
           spacing={2}
-          padding="60px 96px 40px 96px"
+          padding="48px 96px 40px 96px"
           direction="column"
           width="100%">
           <input
@@ -51,7 +50,7 @@ const Write = () => {
               setTitle(event.target.value);
             }}
             style={{
-              color: "black",
+              color: theme.palette.background.color,
               border: "none",
               outline: "none",
               backgroundColor: "transparent",
@@ -69,17 +68,17 @@ const Write = () => {
               {tagArray.map((tag, i) => (
                 <Chip
                   sx={{
-                    color: "black",
+                    color: "background.color",
                     fontWeight: "bold",
-                    border: `1px solid ${mint[400]}`,
-                    backgroundColor: mint[200],
+                    border: `1px solid ${theme.palette.primary[400]}`,
+                    backgroundColor: "transparent",
                     "& .MuiChip-deleteIcon": {
-                      color: "#F3F4F6",
+                      color: "primary.500",
                       ":hover": {
-                        color: gray[100],
+                        color: "primary.600",
                       },
                       ":active": {
-                        color: gray[200],
+                        color: "primary.700",
                       },
                     },
                   }}
@@ -116,7 +115,7 @@ const Write = () => {
                   }
                 }}
                 style={{
-                  color: "black",
+                  color: theme.palette.background.color,
                   border: "none",
                   outline: "none",
                   backgroundColor: "transparent",
@@ -127,12 +126,12 @@ const Write = () => {
               <Button
                 disableRipple
                 sx={{
-                  color: "primary.light",
+                  color: "primary.300",
                   ":hover": {
-                    color: "primary.main",
+                    color: "primary.500",
                     backgroundColor: "transparent",
                   },
-                  ":active": { color: "primary.mainActive" },
+                  ":active": { color: "primary.700" },
                 }}
                 width="fit-content">
                 원본
@@ -141,11 +140,11 @@ const Write = () => {
                 variant="contained"
                 sx={{
                   color: "background.contractColor",
-                  backgroundColor: "primary.main",
+                  backgroundColor: "primary.500",
                   ":hover": {
-                    backgroundColor: "primary.mainHover",
+                    backgroundColor: "primary.600",
                   },
-                  ":active": { backgroundColor: "primary.mainActive" },
+                  ":active": { backgroundColor: "primary.700" },
                 }}
                 onClick={handleRegisterButton}
                 width="fit-content">

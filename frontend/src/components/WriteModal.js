@@ -11,7 +11,6 @@ import {
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { mint } from "../themes/color";
 import AddIcon from "@mui/icons-material/Add";
 import { useTheme } from "@mui/material/styles";
 
@@ -167,19 +166,19 @@ const WriteModal = ({
                   setAutoPublicMode(false);
                 }}
                 sx={{
-                  backgroundColor: privateMode ? "primary.main" : "white",
+                  backgroundColor: privateMode ? "primary.500" : "white",
                   width: privateMode ? "90px" : "fit-content",
                   height: privateMode ? "60px" : "40px",
                   color: privateMode
                     ? "background.contractColor"
                     : "primary.buttonColor",
                   ":hover": {
-                    backgroundColor: "primary.mainHover",
+                    backgroundColor: "primary.600",
                     width: "90px",
                     height: "60px",
                     color: "background.contractColor",
                   },
-                  ":active": { backgroundColor: "primary.mainActive" },
+                  ":active": { backgroundColor: "primary.700" },
                 }}>
                 비공개
               </Button>
@@ -193,19 +192,19 @@ const WriteModal = ({
                   setAutoPublicMode(false);
                 }}
                 sx={{
-                  backgroundColor: publicMode ? "primary.main" : "white",
+                  backgroundColor: publicMode ? "primary.500" : "white",
                   width: publicMode ? "90px" : "fit-content",
                   height: publicMode ? "60px" : "40px",
                   color: publicMode
                     ? "background.contractColor"
                     : "primary.buttonColor",
                   ":hover": {
-                    backgroundColor: "primary.mainHover",
+                    backgroundColor: "primary.600",
                     width: "90px",
                     height: "60px",
                     color: "background.contractColor",
                   },
-                  ":active": { backgroundColor: "primary.mainActive" },
+                  ":active": { backgroundColor: "primary.700" },
                 }}>
                 공개
               </Button>
@@ -219,19 +218,19 @@ const WriteModal = ({
                   setAutoPublicMode(true);
                 }}
                 sx={{
-                  backgroundColor: autoPublicMode ? "primary.main" : "white",
+                  backgroundColor: autoPublicMode ? "primary.500" : "white",
                   width: autoPublicMode ? "90px" : "fit-content",
                   height: autoPublicMode ? "60px" : "40px",
                   color: autoPublicMode
                     ? "background.contractColor"
                     : "primary.buttonColor",
                   ":hover": {
-                    backgroundColor: "primary.mainHover",
+                    backgroundColor: "primary.600",
                     width: "90px",
                     height: "60px",
                     color: "background.contractColor",
                   },
-                  ":active": { backgroundColor: "primary.mainActive" },
+                  ":active": { backgroundColor: "primary.700" },
                 }}>
                 자동 공개
               </Button>
@@ -252,8 +251,8 @@ const WriteModal = ({
                 <Chip
                   sx={{
                     border: `1px solid ${theme.palette.primary[200]}`,
-                    backgroundColor: "primary.100",
-                    color: "background.contractColor",
+                    backgroundColor: "transparent",
+                    color: "background.color",
                     padding: "1px",
                     width: "fit-content",
                     "& .MuiChip-deleteIcon": {
@@ -346,7 +345,7 @@ const WriteModal = ({
                       setCategoryArray([...categoryArray, textFieldValue]);
                       setTextFieldValue("");
                     }}
-                    sx={{ color: "primary.main", padding: "2px 16px" }}>
+                    sx={{ color: "primary.500", padding: "2px 16px" }}>
                     카테고리 추가
                   </MenuItem>
                 </Stack>
@@ -391,9 +390,9 @@ const WriteModal = ({
               onClick={writeButtonClick}
               sx={{
                 color: "background.contractColor",
-                backgroundColor: "primary.main",
-                ":hover": { backgroundColor: "primary.mainHover" },
-                ":active": { backgroundColor: "primary.mainActive" },
+                backgroundColor: "primary.500",
+                ":hover": { backgroundColor: "primary.600" },
+                ":active": { backgroundColor: "primary.700" },
               }}>
               발행
             </Button>

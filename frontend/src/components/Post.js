@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import React from "react";
 import ReactHtmlParser from "react-html-parser";
 
@@ -13,17 +13,23 @@ const Post = () => {
       marginTop="80px"
       justifyContent="center">
       <Stack>
-        <Stack
-          color="background.color"
-          fontSize="32px"
-          height="45px"
-          fontWeight="bold">
-          알고리즘에 대해 배워보자!
+        <Stack direction="row" justifyContent="space-between">
+          <Stack
+            color="background.color"
+            fontSize="32px"
+            height="45px"
+            fontWeight="bold">
+            알고리즘에 대해 배워보자!
+          </Stack>
+          <Stack direction="row">
+            <Button>수정</Button>
+            <Button color="error">삭제</Button>
+          </Stack>
         </Stack>
         <Stack
           width="850px"
           height="2px"
-          bgcolor="primary.main"
+          bgcolor="primary.500"
           marginBottom="24px"
         />
         <Stack>
