@@ -8,7 +8,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import "@toast-ui/editor/dist/i18n/ko-kr";
 import WriteModal from "../components/WriteModal";
 import Header from "../components/Header";
-import { gray, mint } from "../static/style/color";
+import { useTheme } from "@mui/material/styles";
 
 const Write = () => {
   const editorRef = useRef();
@@ -19,6 +19,8 @@ const Write = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+
+  const theme = useTheme();
   // 등록 버튼 핸들러
   const handleRegisterButton = () => {
     // 입력창에 입력한 내용을 HTML 태그 형태로 취득
@@ -36,8 +38,9 @@ const Write = () => {
       <Header />
       <Stack height="5000px" paddingTop="60px" width="100%" direction="row">
         <Stack
+          bgcolor="background.main"
           spacing={2}
-          padding="60px 96px 40px 96px"
+          padding="48px 96px 40px 96px"
           direction="column"
           width="100%">
           <input
@@ -47,7 +50,7 @@ const Write = () => {
               setTitle(event.target.value);
             }}
             style={{
-              color: "black",
+              color: theme.palette.background.color,
               border: "none",
               outline: "none",
               backgroundColor: "transparent",
@@ -65,17 +68,17 @@ const Write = () => {
               {tagArray.map((tag, i) => (
                 <Chip
                   sx={{
-                    color: "black",
+                    color: "background.color",
                     fontWeight: "bold",
-                    border: `1px solid ${mint[400]}`,
-                    backgroundColor: mint[200],
+                    border: `1px solid ${theme.palette.primary[400]}`,
+                    backgroundColor: "transparent",
                     "& .MuiChip-deleteIcon": {
-                      color: "#F3F4F6",
+                      color: "primary.500",
                       ":hover": {
-                        color: gray[100],
+                        color: "primary.600",
                       },
                       ":active": {
-                        color: gray[200],
+                        color: "primary.700",
                       },
                     },
                   }}
@@ -112,7 +115,7 @@ const Write = () => {
                   }
                 }}
                 style={{
-                  color: "black",
+                  color: theme.palette.background.color,
                   border: "none",
                   outline: "none",
                   backgroundColor: "transparent",
@@ -123,12 +126,12 @@ const Write = () => {
               <Button
                 disableRipple
                 sx={{
-                  color: "#4D999D",
+                  color: "primary.300",
                   ":hover": {
-                    color: "#0c3941",
+                    color: "primary.500",
                     backgroundColor: "transparent",
                   },
-                  ":active": { color: "#4D999D" },
+                  ":active": { color: "primary.700" },
                 }}
                 width="fit-content">
                 원본
@@ -136,11 +139,12 @@ const Write = () => {
               <Button
                 variant="contained"
                 sx={{
-                  color: "white",
-                  backgroundColor: "#4D999D",
+                  color: "background.contractColor",
+                  backgroundColor: "primary.500",
                   ":hover": {
-                    backgroundColor: "#0c3941",
+                    backgroundColor: "primary.600",
                   },
+                  ":active": { backgroundColor: "primary.700" },
                 }}
                 onClick={handleRegisterButton}
                 width="fit-content">
@@ -165,7 +169,7 @@ const Write = () => {
                 ["table", "image", "link"],
                 ["code", "codeblock"],
               ]}
-              // theme="dark"
+              theme={theme.palette.mode}
               language="ko-KR"
             />
           </Stack>
