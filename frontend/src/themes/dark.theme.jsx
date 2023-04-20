@@ -51,16 +51,13 @@ export const darkTheme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      light: "#000000",
-      main: "#000000",
-      dark: "#000000",
-      mainHover: "#000000",
-      mainActive: "#000000",
-      lightHover: "#000000",
-      lightActive: "#000000",
-    },
-    pointColor: {
-      main: yellow[500],
+      light: yellow[300],
+      main: darkYellow[300],
+      dark: darkYellow[600],
+      mainHover: darkYellow[500],
+      mainActive: yellow[600],
+      lightHover: yellow[100],
+      lightActive: yellow[200],
     },
     gray: {
       light: gray[50],
@@ -74,6 +71,7 @@ export const darkTheme = createTheme({
     background: {
       main: "black",
       color: "white",
+      contractColor: "#000000",
     },
     header: {
       background: "#000000",

@@ -23,7 +23,7 @@ const Post = () => {
         <Stack
           width="850px"
           height="2px"
-          bgcolor="pointColor.main"
+          bgcolor="primary.main"
           marginBottom="24px"
         />
         <Stack>

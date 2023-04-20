@@ -15,7 +15,7 @@ export const lightTheme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      light: mint[50],
+      light: mint[300],
       main: mint[500],
       dark: mint[600],
       mainHover: mint[600],
@@ -35,9 +35,7 @@ export const lightTheme = createTheme({
     background: {
       main: "#f5f5f5",
       color: "black",
-    },
-    pointColor: {
-      main: "#38AB9D",
+      contractColor: "#ffffff",
     },
     header: {
       background: "#38AB9D",

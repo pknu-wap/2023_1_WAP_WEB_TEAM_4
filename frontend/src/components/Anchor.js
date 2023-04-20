@@ -23,7 +23,7 @@ function Anchor() {
         </Stack>
         <Stack
           fontSize="16px"
-          color="pointColor.main"
+          color="primary.main"
           paddingLeft="10px"
           height="30px"
           sx={{ cursor: "pointer" }}>

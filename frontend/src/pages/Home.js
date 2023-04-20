@@ -7,7 +7,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { searchOpenState, selectValueState } from "../states/homeState";
 import axios from "axios";
-import { gray, mint } from "../themes/color";
+import { gray } from "../themes/color";
+import { useTheme } from "@mui/material/styles";
 
 const Home = () => {
   const [selectValue, setSelectValue] = useRecoilState(selectValueState);
@@ -15,6 +16,7 @@ const Home = () => {
   const handleChange = (event) => {
     setSelectValue(event.target.value);
   };
+  const theme = useTheme();
   const [array, setArray] = useState([
     {
       random: [
@@ -142,31 +144,34 @@ const Home = () => {
   return (
     <Stack>
       <Header isHome={isHome}>Home</Header>
-      <Stack spacing={10} padding="180px 96px 40px 96px">
+      <Stack
+        bgcolor="background.main"
+        spacing={10}
+        minHeight="79vh"
+        padding="180px 96px 40px 96px">
         {isSearchOpen && (
           <Stack direction="row" spacing={4} justifyContent="center">
             <Select
               value={selectValue}
               onChange={handleChange}
               sx={{
-                color: selectValue === 0 ? "gray" : "black",
+                color: selectValue === 0 ? "gray" : "background.color",
                 width: "10%",
                 "&.MuiOutlinedInput-root": {
                   "&.Mui-focused": {
                     "& .MuiOutlinedInput-notchedOutline": {
-                      border: "1px solid #ECD8A4",
+                      border: `1px solid ${theme.palette.pointColor.main}`,
                     },
                   },
                   ":hover": {
                     "&.MuiOutlinedInput-root": {
                       "& .MuiOutlinedInput-notchedOutline": {
-                        border: "1px solid #ECD8A4",
+                        border: `1px solid ${theme.palette.pointColor.main}`,
                       },
                     },
                   },
                 },
-              }}
-            >
+              }}>
               <MenuItem value={0} sx={{ display: "none" }}>
                 선택
               </MenuItem>
@@ -184,14 +189,14 @@ const Home = () => {
                 "& .MuiOutlinedInput-root": {
                   "&.Mui-focused": {
                     "& .MuiOutlinedInput-notchedOutline": {
-                      border: `1px solid ${mint[200]}`,
+                      border: `1px solid ${theme.palette.pointColor.main}`,
                     },
                   },
                 },
                 ":hover": {
                   "& .MuiOutlinedInput-root": {
                     "& .MuiOutlinedInput-notchedOutline": {
-                      border: `0.1px solid ${mint[200]}`,
+                      border: `1px solid ${theme.palette.pointColor.main}`,
                     },
                   },
                 },
@@ -205,7 +210,10 @@ const Home = () => {
               return (
                 <Stack key={index} spacing={4} direction="row">
                   <Stack>
-                    <Stack color="black" fontSize="20px" width="65px">
+                    <Stack
+                      color="background.color"
+                      fontSize="20px"
+                      width="65px">
                       {categoryName}
                     </Stack>
                   </Stack>
@@ -223,8 +231,7 @@ const Home = () => {
                         return updatedNumber;
                       })
                     }
-                    sx={{ borderRadius: "0px" }}
-                  >
+                    sx={{ borderRadius: "0px" }}>
                     <ChevronLeftIcon />
                   </IconButton>
                   {card[categoryName]
@@ -242,13 +249,12 @@ const Home = () => {
                             marginBottom="8px"
                           />
                           <Stack
-                            color="black"
+                            color="background.color"
                             fontSize="16px"
-                            fontWeight="bold"
-                          >
+                            fontWeight="bold">
                             {cardContent.title}
                           </Stack>
-                          <Stack color="black" fontSize="12px">
+                          <Stack color="background.color" fontSize="12px">
                             {cardContent.main_text}
                           </Stack>
                         </Stack>
@@ -269,8 +275,7 @@ const Home = () => {
                         return updatedNumber;
                       })
                     }
-                    sx={{ borderRadius: "0px" }}
-                  >
+                    sx={{ borderRadius: "0px" }}>
                     <ChevronRightIcon />
                   </IconButton>
                 </Stack>
@@ -284,8 +289,7 @@ const Home = () => {
                   width="fit-content"
                   paddingLeft="6.5%"
                   justifyContent="flex-start"
-                  flexWrap="wrap"
-                >
+                  flexWrap="wrap">
                   {card.random?.map((cardContent, i) => {
                     return (
                       <Stack key={i} marginLeft="32px" marginBottom="24px">
@@ -296,10 +300,13 @@ const Home = () => {
                           bgcolor={gray[300]}
                           marginBottom="8px"
                         />
-                        <Stack color="black" fontSize="16px" fontWeight="bold">
+                        <Stack
+                          color="background.color"
+                          fontSize="16px"
+                          fontWeight="bold">
                           {cardContent.title}
                         </Stack>
-                        <Stack color="black" fontSize="12px">
+                        <Stack color="background.color" fontSize="12px">
                           {cardContent.main_text}
                         </Stack>
                       </Stack>

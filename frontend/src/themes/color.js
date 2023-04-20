@@ -25,6 +25,7 @@ export const gray = {
 };
 
 export const yellow = {
+  50: "#F3F4F6",
   100: "#FBF7ED",
   200: "#F7EFDB",
   300: "#F4E8C8",

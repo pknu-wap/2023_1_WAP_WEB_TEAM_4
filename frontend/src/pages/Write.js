@@ -9,6 +9,7 @@ import "@toast-ui/editor/dist/i18n/ko-kr";
 import WriteModal from "../components/WriteModal";
 import Header from "../components/Header";
 import { gray, mint } from "../themes/color";
+import { useTheme } from "@mui/material/styles";
 
 const Write = () => {
   const editorRef = useRef();
@@ -19,6 +20,8 @@ const Write = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+
+  const theme = useTheme();
   // 등록 버튼 핸들러
   const handleRegisterButton = () => {
     // 입력창에 입력한 내용을 HTML 태그 형태로 취득
@@ -36,11 +39,11 @@ const Write = () => {
       <Header />
       <Stack height="5000px" paddingTop="60px" width="100%" direction="row">
         <Stack
+          bgcolor="background.main"
           spacing={2}
           padding="60px 96px 40px 96px"
           direction="column"
-          width="100%"
-        >
+          width="100%">
           <input
             placeholder="제목을 입력해주세요"
             value={title}
@@ -61,8 +64,7 @@ const Write = () => {
             alignItems="center"
             height="60px"
             justifyContent="space-between"
-            direction="row"
-          >
+            direction="row">
             <Stack spacing={1} maxWidth="100px" color="white" direction="row">
               {tagArray.map((tag, i) => (
                 <Chip
@@ -125,29 +127,28 @@ const Write = () => {
               <Button
                 disableRipple
                 sx={{
-                  color: "#4D999D",
+                  color: "primary.light",
                   ":hover": {
-                    color: "#0c3941",
+                    color: "primary.main",
                     backgroundColor: "transparent",
                   },
-                  ":active": { color: "#4D999D" },
+                  ":active": { color: "primary.mainActive" },
                 }}
-                width="fit-content"
-              >
+                width="fit-content">
                 원본
               </Button>
               <Button
                 variant="contained"
                 sx={{
-                  color: "white",
-                  backgroundColor: "#4D999D",
+                  color: "background.contractColor",
+                  backgroundColor: "primary.main",
                   ":hover": {
-                    backgroundColor: "#0c3941",
+                    backgroundColor: "primary.mainHover",
                   },
+                  ":active": { backgroundColor: "primary.mainActive" },
                 }}
                 onClick={handleRegisterButton}
-                width="fit-content"
-              >
+                width="fit-content">
                 저장
               </Button>
             </Stack>
@@ -169,7 +170,7 @@ const Write = () => {
                 ["table", "image", "link"],
                 ["code", "codeblock"],
               ]}
-              // theme="dark"
+              theme={theme.palette.mode}
               language="ko-KR"
             />
           </Stack>
@@ -185,14 +186,12 @@ const Write = () => {
         <Snackbar
           open={snackbarOpen}
           autoHideDuration={3000}
-          onClose={() => setSnackbarOpen(false)}
-        >
+          onClose={() => setSnackbarOpen(false)}>
           <Alert
             onClose={() => setSnackbarOpen(false)}
             severity="error"
             variant=""
-            sx={{ color: "white", width: "100%", backgroundColor: "red" }}
-          >
+            sx={{ color: "white", width: "100%", backgroundColor: "red" }}>
             {toastMessage}
           </Alert>
         </Snackbar>
