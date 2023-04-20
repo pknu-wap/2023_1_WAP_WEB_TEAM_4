@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { mint } from "../themes/color";
 import AddIcon from "@mui/icons-material/Add";
+import { useTheme } from "@mui/material/styles";
 
 const WriteModal = ({
   title,
@@ -22,6 +23,7 @@ const WriteModal = ({
   text,
   setText,
 }) => {
+  const theme = useTheme();
   const [privateMode, setPrivateMode] = useState(true);
   const [publicMode, setPublicMode] = useState(false);
   const [autoPublicMode, setAutoPublicMode] = useState(false);
@@ -88,53 +90,47 @@ const WriteModal = ({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-      }}
-    >
+      }}>
       <Stack
         direction="row"
         borderRadius="4px"
         overflow="scroll"
-        bgcolor="white"
+        bgcolor="background.main"
+        border={`1px solid ${theme.palette.primary[100]}`}
         height="600px"
-        p="24px 16px"
-      >
+        p="24px 16px">
         <Stack
           gap="20px"
           width="300px"
           alignItems="center"
-          p="24px 60px 36px 36px"
-        >
+          p="24px 60px 36px 36px">
           <Stack width="100%">
             <Stack direction="row">
               <Stack
-                color="black"
+                color="background.color"
                 fontSize="20px"
                 marginBottom="12px"
                 marginRight="4px"
-                fontWeight="bold"
-              >
+                fontWeight="bold">
                 썸네일
               </Stack>
               <Button
                 onClick={() => setImageSrc(null)}
                 sx={{ height: "23px" }}
-                color="error"
-              >
+                color="error">
                 삭제
               </Button>
             </Stack>
             {!imageSrc ? (
               <Stack
-                bgcolor={mint[200]}
+                bgcolor="primary.200"
                 width="300px"
                 height="180px"
                 justifyContent="center"
-                alignItems="center"
-              >
+                alignItems="center">
                 <IconButton
                   onClick={handleButtonClick}
-                  sx={{ width: "50px", height: "50px" }}
-                >
+                  sx={{ width: "50px", height: "50px" }}>
                   <AddIcon sx={{ width: "50px", height: "50px" }} />
                   <input
                     style={{ display: "none" }}
@@ -153,7 +149,7 @@ const WriteModal = ({
             )}
           </Stack>
           <Stack width="100%">
-            <Stack color="black" fontSize="20px" fontWeight="bold">
+            <Stack color="background.color" fontSize="20px" fontWeight="bold">
               공개 설정
             </Stack>
             <Stack
@@ -161,8 +157,7 @@ const WriteModal = ({
               gap="12px"
               direction="row"
               alignItems="center"
-              width="fit-content"
-            >
+              width="fit-content">
               <Button
                 variant="contained"
                 disableRipple
@@ -172,19 +167,20 @@ const WriteModal = ({
                   setAutoPublicMode(false);
                 }}
                 sx={{
-                  backgroundColor: privateMode ? mint[500] : "white",
+                  backgroundColor: privateMode ? "primary.main" : "white",
                   width: privateMode ? "90px" : "fit-content",
                   height: privateMode ? "60px" : "40px",
-                  color: privateMode ? "white" : mint[500],
+                  color: privateMode
+                    ? "background.contractColor"
+                    : "primary.buttonColor",
                   ":hover": {
-                    backgroundColor: mint[600],
+                    backgroundColor: "primary.mainHover",
                     width: "90px",
                     height: "60px",
-                    color: "white",
+                    color: "background.contractColor",
                   },
-                  ":active": { backgroundColor: mint[700] },
-                }}
-              >
+                  ":active": { backgroundColor: "primary.mainActive" },
+                }}>
                 비공개
               </Button>
               <Button
@@ -197,19 +193,20 @@ const WriteModal = ({
                   setAutoPublicMode(false);
                 }}
                 sx={{
-                  backgroundColor: publicMode ? mint[500] : "white",
+                  backgroundColor: publicMode ? "primary.main" : "white",
                   width: publicMode ? "90px" : "fit-content",
                   height: publicMode ? "60px" : "40px",
-                  color: publicMode ? "white" : mint[500],
+                  color: publicMode
+                    ? "background.contractColor"
+                    : "primary.buttonColor",
                   ":hover": {
-                    backgroundColor: mint[600],
+                    backgroundColor: "primary.mainHover",
                     width: "90px",
                     height: "60px",
-                    color: "white",
+                    color: "background.contractColor",
                   },
-                  ":active": { backgroundColor: mint[700] },
-                }}
-              >
+                  ":active": { backgroundColor: "primary.mainActive" },
+                }}>
                 공개
               </Button>
               <Button
@@ -222,25 +219,26 @@ const WriteModal = ({
                   setAutoPublicMode(true);
                 }}
                 sx={{
-                  backgroundColor: autoPublicMode ? mint[500] : "white",
+                  backgroundColor: autoPublicMode ? "primary.main" : "white",
                   width: autoPublicMode ? "90px" : "fit-content",
                   height: autoPublicMode ? "60px" : "40px",
-                  color: autoPublicMode ? "white" : mint[500],
+                  color: autoPublicMode
+                    ? "background.contractColor"
+                    : "primary.buttonColor",
                   ":hover": {
-                    backgroundColor: mint[600],
+                    backgroundColor: "primary.mainHover",
                     width: "90px",
                     height: "60px",
-                    color: "white",
+                    color: "background.contractColor",
                   },
-                  ":active": { backgroundColor: mint[700] },
-                }}
-              >
+                  ":active": { backgroundColor: "primary.mainActive" },
+                }}>
                 자동 공개
               </Button>
             </Stack>
           </Stack>
           <Stack width="100%">
-            <Stack color="black" fontSize="20px" fontWeight="bold">
+            <Stack color="background.color" fontSize="20px" fontWeight="bold">
               태그 목록
             </Stack>
             <Stack
@@ -249,13 +247,13 @@ const WriteModal = ({
               gap="12px"
               maxHeight="170px"
               overflow="scroll"
-              flexWrap="wrap"
-            >
+              flexWrap="wrap">
               {tagArray.map((tag, i) => (
                 <Chip
                   sx={{
-                    border: `1px solid ${mint[400]}`,
-                    backgroundColor: mint[100],
+                    border: `1px solid ${theme.palette.primary[200]}`,
+                    backgroundColor: "primary.100",
+                    color: "background.contractColor",
                     padding: "1px",
                     width: "fit-content",
                     "& .MuiChip-deleteIcon": {
@@ -275,26 +273,24 @@ const WriteModal = ({
             </Stack>
           </Stack>
         </Stack>
-        <Stack width="1px" height="600px" bgcolor={mint[100]}></Stack>
+        <Stack width="1px" height="600px" bgcolor="primary.100"></Stack>
         <Stack
           width="300px"
           alignItems="center"
           justifyContent="space-between"
-          p="24px 36px 0px 60px"
-        >
+          p="24px 36px 0px 60px">
           <Stack height="300px">
             <Stack
-              color="black"
+              color="background.color"
               fontSize="20px"
               marginBottom="12px"
-              fontWeight="bold"
-            >
+              fontWeight="bold">
               미리보기
             </Stack>
             <Stack width="300px">
               {!imageSrc ? (
                 <Stack
-                  backgroundColor={mint[200]}
+                  backgroundColor="primary.200"
                   width="300px"
                   height="180px"
                   marginBottom="8px"
@@ -306,7 +302,7 @@ const WriteModal = ({
                   style={{ width: "300px", height: "180px" }}
                 />
               )}
-              <Stack color="black" fontSize="16px" fontWeight="bold">
+              <Stack color="background.color" fontSize="16px" fontWeight="bold">
                 {title}
               </Stack>
               <textarea
@@ -317,7 +313,7 @@ const WriteModal = ({
                   setText(event.target.value);
                 }}
                 style={{
-                  color: "black",
+                  color: theme.palette.background.color,
                   fontSize: "12px",
                   resize: "none",
                   height: "100px",
@@ -332,8 +328,7 @@ const WriteModal = ({
               color="black"
               fontSize="20px"
               fontWeight="bold"
-              marginBottom="12px"
-            >
+              marginBottom="12px">
               카테고리
             </Stack>
             <Stack oveflow="scroll">
@@ -351,8 +346,7 @@ const WriteModal = ({
                       setCategoryArray([...categoryArray, textFieldValue]);
                       setTextFieldValue("");
                     }}
-                    sx={{ color: mint[500], padding: "2px 16px" }}
-                  >
+                    sx={{ color: "primary.main", padding: "2px 16px" }}>
                     카테고리 추가
                   </MenuItem>
                 </Stack>
@@ -362,23 +356,22 @@ const WriteModal = ({
                   onChange={(event) => setSelectValue(event.target.value)}
                   sx={{
                     width: "300px",
-                    color: selectValue === 0 ? "gray" : "black",
+                    color: selectValue === 0 ? "gray" : "background.color",
                     "&.MuiOutlinedInput-root": {
                       "&.Mui-focused": {
                         "& .MuiOutlinedInput-notchedOutline": {
-                          border: `1px solid ${mint[200]}`,
+                          border: `1px solid ${theme.palette.primary[200]}`,
                         },
                       },
                       ":hover": {
                         "&.MuiOutlinedInput-root": {
                           "& .MuiOutlinedInput-notchedOutline": {
-                            border: `1px solid ${mint[200]}`,
+                            border: `1px solid ${theme.palette.primary[200]}`,
                           },
                         },
                       },
                     },
-                  }}
-                >
+                  }}>
                   <MenuItem value={0} sx={{ display: "none" }}>
                     선택
                   </MenuItem>
@@ -397,11 +390,11 @@ const WriteModal = ({
               disableRipple
               onClick={writeButtonClick}
               sx={{
-                color: "white",
-                backgroundColor: mint[500],
-                ":hover": { backgroundColor: mint[600] },
-              }}
-            >
+                color: "background.contractColor",
+                backgroundColor: "primary.main",
+                ":hover": { backgroundColor: "primary.mainHover" },
+                ":active": { backgroundColor: "primary.mainActive" },
+              }}>
               발행
             </Button>
           </Stack>

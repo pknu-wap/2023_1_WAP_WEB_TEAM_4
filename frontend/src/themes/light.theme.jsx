@@ -18,10 +18,14 @@ export const lightTheme = createTheme({
       light: mint[300],
       main: mint[500],
       dark: mint[600],
+      buttonColor: mint[500],
       mainHover: mint[600],
       mainActive: mint[700],
       lightHover: mint[100],
       lightActive: mint[200],
+
+      200: mint[200],
+      100: mint[100],
     },
     gray: {
       light: gray[50],

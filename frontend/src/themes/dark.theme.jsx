@@ -53,11 +53,14 @@ export const darkTheme = createTheme({
     primary: {
       light: yellow[300],
       main: darkYellow[300],
+      mainHover: darkYellow[400],
+      mainActive: darkYellow[500],
+      buttonColor: darkYellow[600],
+      200: darkYellow[200],
+      100: yellow[100],
+
       dark: darkYellow[600],
-      mainHover: darkYellow[500],
-      mainActive: yellow[600],
       lightHover: yellow[100],
-      lightActive: yellow[200],
     },
     gray: {
       light: gray[50],
