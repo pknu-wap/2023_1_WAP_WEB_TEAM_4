@@ -11,42 +11,6 @@ export const lightTheme = createTheme({
       xs: 375,
     },
   },
-  components: {
-    MuiCssBaseline: {
-      styleOverrides: (theme) => ({
-        select: {
-          "& .MuiOutlinedInput-root": {
-            "&.Mui-focused": {
-              "& .MuiOutlinedInput-notchedOutline": {
-                border: `1px solid ${theme?.palette.primary.main}`,
-              },
-            },
-          },
-        },
-      }),
-    },
-    MuiButtonBase: {
-      defaultProps: {
-        disableRipple: true,
-      },
-    },
-    MuiIconButton: {
-      defaultProps: {
-        disableRipple: true,
-      },
-    },
-    MuiCheckbox: {
-      defaultProps: {
-        disableRipple: true,
-      },
-    },
-    MuiRadio: {
-      defaultProps: {
-        disableRipple: true,
-      },
-    },
-  },
-
   spacing: 4,
   palette: {
     mode: "light",
@@ -59,14 +23,28 @@ export const lightTheme = createTheme({
       lightHover: mint[100],
       lightActive: mint[200],
     },
-  },
-  gray: {
-    light: gray[50],
-    main: gray[500],
-    dark: gray[600],
-    mainHover: gray[600],
-    mainActive: gray[700],
-    lightHover: gray[100],
-    lightActive: gray[200],
+    gray: {
+      light: gray[50],
+      main: gray[500],
+      dark: gray[600],
+      mainHover: gray[600],
+      mainActive: gray[700],
+      lightHover: gray[100],
+      lightActive: gray[200],
+    },
+    background: {
+      main: "#f5f5f5",
+      color: "black",
+    },
+    pointColor: {
+      main: "#38AB9D",
+    },
+    sideNavigation: {
+      background: "#e5e5e5",
+      hover: "#C6E3CC",
+      active: "#B5DBBC",
+      pointColorTitle: mint[700],
+      pointColorContent: mint[600],
+    },
   },
 });

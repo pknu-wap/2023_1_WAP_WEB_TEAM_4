@@ -12,7 +12,12 @@ const Main = () => {
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
-    <Stack style={{ width: "100%", height: "100%" }}>
+    <Stack
+      sx={{
+        width: "100%",
+        height: "100%",
+        backgroundColor: "background.main",
+      }}>
       <Stack direction="row" height="100%">
         {!isTablet && <SideNavigation />}
         <Header />

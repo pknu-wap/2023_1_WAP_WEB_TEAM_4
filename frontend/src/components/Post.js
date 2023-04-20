@@ -13,15 +13,24 @@ const Post = () => {
       marginTop="80px"
       justifyContent="center">
       <Stack>
-        <Stack color="black" fontSize="32px" height="45px" fontWeight="bold">
+        <Stack
+          color="background.color"
+          fontSize="32px"
+          height="45px"
+          fontWeight="bold">
           알고리즘에 대해 배워보자!
         </Stack>
-        <Stack width="850px" height="2px" bgcolor="teal" marginBottom="24px" />
+        <Stack
+          width="850px"
+          height="2px"
+          bgcolor="pointColor.main"
+          marginBottom="24px"
+        />
         <Stack>
           <Stack
-            style={{
+            sx={{
               margin: "0px",
-              color: "black",
+              color: "background.color",
             }}
             gap="5px">
             {ReactHtmlParser(content, {

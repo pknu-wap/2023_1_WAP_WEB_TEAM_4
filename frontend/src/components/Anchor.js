@@ -16,14 +16,14 @@ function Anchor() {
         <Stack
           fontWeight="bold"
           fontSize="18px"
-          color="black"
+          color="background.color"
           height="35px"
           sx={{ cursor: "pointer" }}>
           알고리즘
         </Stack>
         <Stack
           fontSize="16px"
-          color="#3F7A60"
+          color="pointColor.main"
           paddingLeft="10px"
           height="30px"
           sx={{ cursor: "pointer" }}>
@@ -31,7 +31,7 @@ function Anchor() {
         </Stack>
         <Stack
           fontSize="16px"
-          color="black"
+          color="background.color"
           paddingLeft="10px"
           height="30px"
           sx={{ cursor: "pointer" }}>
