@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material";
-import { gray, mint, yellow } from "./color";
+import { darkYellow, gray, mint, yellow } from "./color";
 
 export const darkTheme = createTheme({
   breakpoints: {
@@ -75,11 +75,20 @@ export const darkTheme = createTheme({
       main: "black",
       color: "white",
     },
+    header: {
+      background: "#000000",
+      logo: yellow[500],
+      logoHover: yellow[600],
+      logoActive: yellow[700],
+      title: darkYellow[500],
+      titleHover: darkYellow[600],
+      titleActive: darkYellow[700],
+    },
     sideNavigation: {
       background: "#000000",
       hover: "#C6E3CC",
       active: "#B5DBBC",
-      pointColorTitle: yellow[300],
+      pointColorTitle: darkYellow[400],
       pointColorContent: yellow[500],
     },
   },

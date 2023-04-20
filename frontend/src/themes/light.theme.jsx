@@ -39,6 +39,15 @@ export const lightTheme = createTheme({
     pointColor: {
       main: "#38AB9D",
     },
+    header: {
+      background: "#38AB9D",
+      logo: "#ffffff",
+      logoHover: mint[200],
+      logoActive: mint[300],
+      title: "#ffffff",
+      titleHover: mint[200],
+      titleActive: mint[300],
+    },
     sideNavigation: {
       background: "#e5e5e5",
       hover: "#C6E3CC",
