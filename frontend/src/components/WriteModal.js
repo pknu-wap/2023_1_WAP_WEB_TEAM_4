@@ -11,7 +11,7 @@ import {
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { mint } from "../static/style/color";
+import { mint } from "../themes/color";
 import AddIcon from "@mui/icons-material/Add";
 
 const WriteModal = ({
@@ -88,19 +88,22 @@ const WriteModal = ({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-      }}>
+      }}
+    >
       <Stack
         direction="row"
         borderRadius="4px"
         overflow="scroll"
         bgcolor="white"
         height="600px"
-        p="24px 16px">
+        p="24px 16px"
+      >
         <Stack
           gap="20px"
           width="300px"
           alignItems="center"
-          p="24px 60px 36px 36px">
+          p="24px 60px 36px 36px"
+        >
           <Stack width="100%">
             <Stack direction="row">
               <Stack
@@ -108,13 +111,15 @@ const WriteModal = ({
                 fontSize="20px"
                 marginBottom="12px"
                 marginRight="4px"
-                fontWeight="bold">
+                fontWeight="bold"
+              >
                 썸네일
               </Stack>
               <Button
                 onClick={() => setImageSrc(null)}
                 sx={{ height: "23px" }}
-                color="error">
+                color="error"
+              >
                 삭제
               </Button>
             </Stack>
@@ -124,10 +129,12 @@ const WriteModal = ({
                 width="300px"
                 height="180px"
                 justifyContent="center"
-                alignItems="center">
+                alignItems="center"
+              >
                 <IconButton
                   onClick={handleButtonClick}
-                  sx={{ width: "50px", height: "50px" }}>
+                  sx={{ width: "50px", height: "50px" }}
+                >
                   <AddIcon sx={{ width: "50px", height: "50px" }} />
                   <input
                     style={{ display: "none" }}
@@ -154,7 +161,8 @@ const WriteModal = ({
               gap="12px"
               direction="row"
               alignItems="center"
-              width="fit-content">
+              width="fit-content"
+            >
               <Button
                 variant="contained"
                 disableRipple
@@ -175,7 +183,8 @@ const WriteModal = ({
                     color: "white",
                   },
                   ":active": { backgroundColor: mint[700] },
-                }}>
+                }}
+              >
                 비공개
               </Button>
               <Button
@@ -199,7 +208,8 @@ const WriteModal = ({
                     color: "white",
                   },
                   ":active": { backgroundColor: mint[700] },
-                }}>
+                }}
+              >
                 공개
               </Button>
               <Button
@@ -223,7 +233,8 @@ const WriteModal = ({
                     color: "white",
                   },
                   ":active": { backgroundColor: mint[700] },
-                }}>
+                }}
+              >
                 자동 공개
               </Button>
             </Stack>
@@ -238,7 +249,8 @@ const WriteModal = ({
               gap="12px"
               maxHeight="170px"
               overflow="scroll"
-              flexWrap="wrap">
+              flexWrap="wrap"
+            >
               {tagArray.map((tag, i) => (
                 <Chip
                   sx={{
@@ -268,13 +280,15 @@ const WriteModal = ({
           width="300px"
           alignItems="center"
           justifyContent="space-between"
-          p="24px 36px 0px 60px">
+          p="24px 36px 0px 60px"
+        >
           <Stack height="300px">
             <Stack
               color="black"
               fontSize="20px"
               marginBottom="12px"
-              fontWeight="bold">
+              fontWeight="bold"
+            >
               미리보기
             </Stack>
             <Stack width="300px">
@@ -318,7 +332,8 @@ const WriteModal = ({
               color="black"
               fontSize="20px"
               fontWeight="bold"
-              marginBottom="12px">
+              marginBottom="12px"
+            >
               카테고리
             </Stack>
             <Stack oveflow="scroll">
@@ -336,7 +351,8 @@ const WriteModal = ({
                       setCategoryArray([...categoryArray, textFieldValue]);
                       setTextFieldValue("");
                     }}
-                    sx={{ color: mint[500], padding: "2px 16px" }}>
+                    sx={{ color: mint[500], padding: "2px 16px" }}
+                  >
                     카테고리 추가
                   </MenuItem>
                 </Stack>
@@ -361,7 +377,8 @@ const WriteModal = ({
                         },
                       },
                     },
-                  }}>
+                  }}
+                >
                   <MenuItem value={0} sx={{ display: "none" }}>
                     선택
                   </MenuItem>
@@ -383,7 +400,8 @@ const WriteModal = ({
                 color: "white",
                 backgroundColor: mint[500],
                 ":hover": { backgroundColor: mint[600] },
-              }}>
+              }}
+            >
               발행
             </Button>
           </Stack>

@@ -2,7 +2,7 @@ import { IconButton, Stack } from "@mui/material";
 import React from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
-import { mint } from "../static/style/color";
+import { mint } from "../themes/color";
 
 const SideNavigation = () => {
   const navigate = useNavigate();
@@ -14,12 +14,14 @@ const SideNavigation = () => {
       height="100%"
       left={0}
       padding="95px 10px 20px 10px"
-      position="fixed">
+      position="fixed"
+    >
       <Stack direction="row" alignItems="center" marginBottom="5px">
         <IconButton
           width="16px"
           height="16px"
-          onClick={() => navigate("/write")}>
+          onClick={() => navigate("/write")}
+        >
           <AddIcon />
         </IconButton>
         <Stack
@@ -27,7 +29,8 @@ const SideNavigation = () => {
             color: "black",
             fontSize: "16px",
             fontWeight: "bold",
-          }}>
+          }}
+        >
           글쓰기
         </Stack>
       </Stack>
@@ -41,7 +44,8 @@ const SideNavigation = () => {
               paddingLeft="10px"
               marginBottom="5px"
               justifyContent="center"
-              fontWeight="bold">
+              fontWeight="bold"
+            >
               파이썬
             </Stack>
             <Stack>
@@ -60,7 +64,8 @@ const SideNavigation = () => {
                 fontSize="16px"
                 padding="0px 0px 5px 20px"
                 color={mint[600]}
-                height="25px">
+                height="25px"
+              >
                 - 알고리즘
               </Stack>
               <Stack
@@ -78,7 +83,8 @@ const SideNavigation = () => {
                 fontSize="16px"
                 padding="0px 0px 5px 20px"
                 color="black"
-                height="25px">
+                height="25px"
+              >
                 - 머신러닝
               </Stack>
               <Stack
@@ -96,7 +102,8 @@ const SideNavigation = () => {
                 fontSize="16px"
                 padding="0px 0px 5px 20px"
                 color="black"
-                height="25px">
+                height="25px"
+              >
                 - 데이터 분석
               </Stack>
             </Stack>
@@ -111,7 +118,8 @@ const SideNavigation = () => {
               paddingLeft="10px"
               marginBottom="5px"
               justifyContent="center"
-              fontWeight="bold">
+              fontWeight="bold"
+            >
               파이썬
             </Stack>
             <Stack>
@@ -130,7 +138,8 @@ const SideNavigation = () => {
                 fontSize="16px"
                 padding="0px 0px 5px 20px"
                 color={mint[600]}
-                height="25px">
+                height="25px"
+              >
                 - 알고리즘
               </Stack>
               <Stack
@@ -148,7 +157,8 @@ const SideNavigation = () => {
                 fontSize="16px"
                 padding="0px 0px 5px 20px"
                 color="black"
-                height="25px">
+                height="25px"
+              >
                 - 머신러닝
               </Stack>
               <Stack
@@ -166,7 +176,8 @@ const SideNavigation = () => {
                 fontSize="16px"
                 padding="0px 0px 5px 20px"
                 color="black"
-                height="25px">
+                height="25px"
+              >
                 - 데이터 분석
               </Stack>
             </Stack>

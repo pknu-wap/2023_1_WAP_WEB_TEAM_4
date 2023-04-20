@@ -7,7 +7,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { searchOpenState, selectValueState } from "../states/homeState";
 import axios from "axios";
-import { gray, mint } from "../static/style/color";
+import { gray, mint } from "../themes/color";
 
 const Home = () => {
   const [selectValue, setSelectValue] = useRecoilState(selectValueState);
@@ -165,7 +165,8 @@ const Home = () => {
                     },
                   },
                 },
-              }}>
+              }}
+            >
               <MenuItem value={0} sx={{ display: "none" }}>
                 선택
               </MenuItem>
@@ -222,7 +223,8 @@ const Home = () => {
                         return updatedNumber;
                       })
                     }
-                    sx={{ borderRadius: "0px" }}>
+                    sx={{ borderRadius: "0px" }}
+                  >
                     <ChevronLeftIcon />
                   </IconButton>
                   {card[categoryName]
@@ -242,7 +244,8 @@ const Home = () => {
                           <Stack
                             color="black"
                             fontSize="16px"
-                            fontWeight="bold">
+                            fontWeight="bold"
+                          >
                             {cardContent.title}
                           </Stack>
                           <Stack color="black" fontSize="12px">
@@ -266,7 +269,8 @@ const Home = () => {
                         return updatedNumber;
                       })
                     }
-                    sx={{ borderRadius: "0px" }}>
+                    sx={{ borderRadius: "0px" }}
+                  >
                     <ChevronRightIcon />
                   </IconButton>
                 </Stack>
@@ -280,7 +284,8 @@ const Home = () => {
                   width="fit-content"
                   paddingLeft="6.5%"
                   justifyContent="flex-start"
-                  flexWrap="wrap">
+                  flexWrap="wrap"
+                >
                   {card.random?.map((cardContent, i) => {
                     return (
                       <Stack key={i} marginLeft="32px" marginBottom="24px">

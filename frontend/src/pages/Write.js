@@ -8,7 +8,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import "@toast-ui/editor/dist/i18n/ko-kr";
 import WriteModal from "../components/WriteModal";
 import Header from "../components/Header";
-import { gray, mint } from "../static/style/color";
+import { gray, mint } from "../themes/color";
 
 const Write = () => {
   const editorRef = useRef();
@@ -39,7 +39,8 @@ const Write = () => {
           spacing={2}
           padding="60px 96px 40px 96px"
           direction="column"
-          width="100%">
+          width="100%"
+        >
           <input
             placeholder="제목을 입력해주세요"
             value={title}
@@ -60,7 +61,8 @@ const Write = () => {
             alignItems="center"
             height="60px"
             justifyContent="space-between"
-            direction="row">
+            direction="row"
+          >
             <Stack spacing={1} maxWidth="100px" color="white" direction="row">
               {tagArray.map((tag, i) => (
                 <Chip
@@ -130,7 +132,8 @@ const Write = () => {
                   },
                   ":active": { color: "#4D999D" },
                 }}
-                width="fit-content">
+                width="fit-content"
+              >
                 원본
               </Button>
               <Button
@@ -143,7 +146,8 @@ const Write = () => {
                   },
                 }}
                 onClick={handleRegisterButton}
-                width="fit-content">
+                width="fit-content"
+              >
                 저장
               </Button>
             </Stack>
@@ -181,12 +185,14 @@ const Write = () => {
         <Snackbar
           open={snackbarOpen}
           autoHideDuration={3000}
-          onClose={() => setSnackbarOpen(false)}>
+          onClose={() => setSnackbarOpen(false)}
+        >
           <Alert
             onClose={() => setSnackbarOpen(false)}
             severity="error"
             variant=""
-            sx={{ color: "white", width: "100%", backgroundColor: "red" }}>
+            sx={{ color: "white", width: "100%", backgroundColor: "red" }}
+          >
             {toastMessage}
           </Alert>
         </Snackbar>

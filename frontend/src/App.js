@@ -7,26 +7,12 @@ import Write from "./pages/Write";
 import { createTheme, ThemeProvider } from "@mui/material";
 import Home from "./pages/Home";
 import { RecoilRoot } from "recoil";
-
-const darkTheme = createTheme({
-  palette: {
-    mode: "light",
-  },
-  breakpoints: {
-    values: {
-      // xl: 1920,
-      lg: 1440,
-      md: 1000,
-      sm: 600,
-      // xs: 375,
-    },
-  },
-});
+import { themes } from "../src/themes";
 
 const App = () => {
   return (
     <RecoilRoot>
-      <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={themes.light}>
         <Router>
           <Routes>
             <Route path="/" element={<Main />} />
