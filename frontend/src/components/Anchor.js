@@ -1,7 +1,7 @@
 import { Stack } from "@mui/material";
 import React from "react";
 
-function Anchor() {
+const Anchor = () => {
   return (
     <Stack
       paddingTop="30px"
@@ -40,6 +40,6 @@ function Anchor() {
       </Stack>
     </Stack>
   );
-}
+};
 
 export default Anchor;

@@ -8,22 +8,25 @@ import { useTheme } from "@mui/material/styles";
 
 const Main = () => {
   const theme = useTheme();
-  const isLg = useMediaQuery(theme.breakpoints.down("lg"));
+  const isNotLarge = useMediaQuery(theme.breakpoints.down("lg"));
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <Stack
       sx={{
-        width: "100%",
-        height: "100%",
+        minHeight: "100%",
         backgroundColor: "background.main",
       }}>
       <Stack direction="row" height="100%">
         {!isTablet && <SideNavigation />}
         <Header />
-        <Stack alignItems="center" width="100%" padding="56px 40px 84px 254px">
+        <Stack
+          alignItems="center"
+          bgcolor="background.main"
+          width="100%"
+          padding="56px 40px 84px 254px">
           <Post />
-          {!isLg && <Anchor />}
+          {!isNotLarge && <Anchor />}
         </Stack>
       </Stack>
     </Stack>

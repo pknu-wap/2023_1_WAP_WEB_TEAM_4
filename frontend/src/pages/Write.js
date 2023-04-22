@@ -9,11 +9,13 @@ import "@toast-ui/editor/dist/i18n/ko-kr";
 import WriteModal from "../components/WriteModal";
 import Header from "../components/Header";
 import { useTheme } from "@mui/material/styles";
+import { postState, titleState } from "../states/writeState";
+import { useRecoilState } from "recoil";
 
 const Write = () => {
   const editorRef = useRef();
-  const [title, setTitle] = useState("");
-  const [text, setText] = useState("");
+  const [title, setTitle] = useRecoilState(titleState);
+  const [post, setPost] = useRecoilState(postState);
   const [tagArray, setTagArray] = useState([]);
   const [tag, setTag] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -30,7 +32,7 @@ const Write = () => {
   };
 
   const textChange = () => {
-    setText(editorRef.current.getInstance().getHTML());
+    setPost(editorRef.current.getInstance().getHTML());
   };
 
   return (
@@ -179,8 +181,8 @@ const Write = () => {
           dialogOpen={dialogOpen}
           setDialogOpen={setDialogOpen}
           tagArray={tagArray}
-          text={text}
-          setText={setText}
+          text={post}
+          setText={setPost}
         />
         <Snackbar
           open={snackbarOpen}
