@@ -12,6 +12,7 @@ import { useTheme } from "@mui/material/styles";
 import { postState, titleState } from "../states/writeState";
 import { useRecoilState } from "recoil";
 import "./write.css";
+import ReactMarkdown from "react-markdown";
 
 import ReactHtmlParser from "react-html-parser";
 
@@ -159,26 +160,9 @@ const Write = () => {
           </Stack>
           <Stack direction="row" minHeight="500px" overflow="auto">
             <Stack width="50%">
-              <Editor
-                className="hidden-header"
-                initialValue={post}
-                previewStyle="tab"
-                minHeight="500px"
-                height="auto"
-                ref={editorRef}
-                onChange={textChange}
-                hideModeSwitch={true}
-                initialEditType="wysiwyg"
-                usageStatistics={false}
-                toolbarItems={[
-                  ["heading", "bold", "italic", "strike"],
-                  ["hr", "quote"],
-                  ["ul", "ol", "task"],
-                  ["table", "image", "link"],
-                  ["code", "codeblock"],
-                ]}
-                theme={theme.palette.mode}
-                language="ko-KR"
+              <textarea
+                value={post}
+                onChange={(e) => setPost(e.target.value)}
               />
             </Stack>
             <Stack
@@ -186,17 +170,14 @@ const Write = () => {
               bgcolor="background.main"
               color="background.color"
               alignItems="center">
-              {ReactHtmlParser(post, {
-                transform: (node, index) => {
-                  if (node.type === "tag") {
-                    node.attribs = {
-                      ...node.attribs,
-                      id: "",
-                      style: "margin: 0;",
-                    };
-                  }
-                },
-              })}
+              <ReactMarkdown
+                renderers={{
+                  root: ({ children }) => (
+                    <Stack sx={{ margin: 0 }}>{children}</Stack>
+                  ),
+                }}>
+                {post}
+              </ReactMarkdown>
             </Stack>
           </Stack>
         </Stack>

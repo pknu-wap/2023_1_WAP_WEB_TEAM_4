@@ -13,7 +13,7 @@ import { themes } from "../src/themes";
 const App = () => {
   return (
     <RecoilRoot>
-      <ThemeProvider theme={themes.dark}>
+      <ThemeProvider theme={themes.light}>
         <Router>
           <Routes>
             <Route path="/" element={<Main />} />
