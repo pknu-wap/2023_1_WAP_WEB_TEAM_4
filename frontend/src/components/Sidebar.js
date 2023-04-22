@@ -31,6 +31,7 @@ function App() {
     const selectedSection = sections.find(
       (section) => section.id === sectionId
     );
+    console.log(selectedSection);
     selectedSection?.ref?.current?.scrollIntoView({ behavior: "smooth" });
   };
 

@@ -20,14 +20,8 @@ const Main = () => {
       <Stack direction="row" height="100%">
         {!isTablet && <SideNavigation />}
         <Header />
-        <Stack
-          alignItems="center"
-          bgcolor="background.main"
-          width="100%"
-          padding="56px 40px 84px 254px">
-          <Post />
-          {!isNotLarge && <Anchor />}
-        </Stack>
+
+        <Post />
       </Stack>
     </Stack>
   );
