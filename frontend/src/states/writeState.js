@@ -17,3 +17,8 @@ export const titleState = atom({
   key: "title",
   default: "Title",
 });
+
+export const sectionsState = atom({
+  key: "sections",
+  default: [],
+});

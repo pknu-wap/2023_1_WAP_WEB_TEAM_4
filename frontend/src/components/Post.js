@@ -2,11 +2,12 @@ import { Button, Stack } from "@mui/material";
 import React from "react";
 import ReactHtmlParser from "react-html-parser";
 import { useRecoilState } from "recoil";
-import { postState, titleState } from "../states/writeState";
+import { postState, sectionsState, titleState } from "../states/writeState";
 
 const Post = () => {
   const [post, setPost] = useRecoilState(postState);
   const [title, setTitle] = useRecoilState(titleState);
+  const [sections, setSections] = useRecoilState(sectionsState);
 
   return (
     <Stack
@@ -43,14 +44,34 @@ const Post = () => {
                 color: "background.color",
               }}
               gap="5px">
-              {ReactHtmlParser(post, {
+              {/* {ReactHtmlParser(post, {
                 transform: (node, index) => {
                   console.log(node.type);
                   console.log(node);
                   if (node.type === "tag") {
-                    node.attribs = { ...node.attribs, style: "margin: 0;" };
+                    node.attribs = { ...node.attribs, id: "", style: "margin: 0;" };
                   }
                 },
+              })} */}
+
+              {sections.map((section, index) => {
+                // console.log(ReactHtmlParser(section.html));
+                // console.log(section.ref);
+                return (
+                  <Stack key={index} id={section.id} ref={section.ref.current}>
+                    {ReactHtmlParser(section.html, {
+                      transform: (node, index) => {
+                        if (node.type === "tag") {
+                          node.attribs = {
+                            ...node.attribs,
+                            id: "",
+                            style: "margin: 0;",
+                          };
+                        }
+                      },
+                    })}
+                  </Stack>
+                );
               })}
             </Stack>
           </Stack>
@@ -61,3 +82,10 @@ const Post = () => {
 };
 
 export default Post;
+
+{
+  /* <Stack key={index} ref={section.ref} id={section.id}>
+{/* {ReactHtmlParser(section.html)} */
+}
+// {section.html}
+// </Stack> */}

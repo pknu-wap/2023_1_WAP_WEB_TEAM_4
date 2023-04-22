@@ -1,10 +1,10 @@
 import { Stack } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { postState } from "../states/writeState";
+import React, { useEffect } from "react";
+import { postState, sectionsState } from "../states/writeState";
 import { useRecoilState } from "recoil";
 
 const Anchor = () => {
-  const [sections, setSections] = useState([]);
+  const [sections, setSections] = useRecoilState(sectionsState);
   const [post] = useRecoilState(postState);
 
   useEffect(() => {
@@ -32,6 +32,7 @@ const Anchor = () => {
     const selectedSection = sections.find(
       (section) => section.id === sectionId
     );
+    console.log(selectedSection);
     selectedSection?.ref?.current?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -41,6 +42,7 @@ const Anchor = () => {
       justifyContent="center"
       style={{
         height: "100%",
+        width: "200px",
         position: "fixed",
         top: 0,
         right: 100,
@@ -50,12 +52,15 @@ const Anchor = () => {
           return (
             <Stack
               fontWeight="bold"
-              ref={section.ref}
-              id={section.id}
+              position="relative"
               fontSize="18px"
               color="background.color"
               height="35px"
-              sx={{ cursor: "pointer" }}>
+              sx={{ cursor: "pointer" }}
+              onClick={() => {
+                handleClick(section.id);
+                console.log("클릭");
+              }}>
               {section.content}
             </Stack>
           );
@@ -64,10 +69,10 @@ const Anchor = () => {
             <Stack
               fontSize="16px"
               color="primary.500"
-              ref={section.ref}
-              id={section.id}
+              position="relative"
               paddingLeft="10px"
               height="30px"
+              onClick={() => handleClick(section.id)}
               sx={{ cursor: "pointer" }}>
               {section.content}
             </Stack>
@@ -77,10 +82,9 @@ const Anchor = () => {
             <Stack
               fontSize="16px"
               color="background.color"
-              ref={section.ref}
-              id={section.id}
               paddingLeft="10px"
               height="30px"
+              onClick={() => handleClick(section.id)}
               sx={{ cursor: "pointer" }}>
               {section.content}
             </Stack>

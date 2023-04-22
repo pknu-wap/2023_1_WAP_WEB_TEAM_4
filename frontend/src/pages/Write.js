@@ -156,7 +156,7 @@ const Write = () => {
           </Stack>
           <Stack minHeight="500px" overflow="auto">
             <Editor
-              initialValue=" "
+              initialValue={post}
               previewStyle="vertical"
               minHeight="500px"
               height="auto"
