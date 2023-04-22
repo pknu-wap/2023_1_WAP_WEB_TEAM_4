@@ -9,11 +9,16 @@ import "@toast-ui/editor/dist/i18n/ko-kr";
 import WriteModal from "../components/WriteModal";
 import Header from "../components/Header";
 import { useTheme } from "@mui/material/styles";
+import { postState, titleState } from "../states/writeState";
+import { useRecoilState } from "recoil";
+import "./write.css";
+
+import ReactHtmlParser from "react-html-parser";
 
 const Write = () => {
   const editorRef = useRef();
-  const [title, setTitle] = useState("");
-  const [text, setText] = useState("");
+  const [title, setTitle] = useRecoilState(titleState);
+  const [post, setPost] = useRecoilState(postState);
   const [tagArray, setTagArray] = useState([]);
   const [tag, setTag] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -30,7 +35,7 @@ const Write = () => {
   };
 
   const textChange = () => {
-    setText(editorRef.current.getInstance().getHTML());
+    setPost(editorRef.current.getInstance().getHTML());
   };
 
   return (
@@ -152,26 +157,47 @@ const Write = () => {
               </Button>
             </Stack>
           </Stack>
-          <Stack minHeight="500px" overflow="auto">
-            <Editor
-              initialValue=" "
-              previewStyle="vertical"
-              minHeight="500px"
-              height="auto"
-              ref={editorRef}
-              onChange={textChange}
-              hideModeSwitch={true}
-              initialEditType="markdown"
-              toolbarItems={[
-                ["heading", "bold", "italic", "strike"],
-                ["hr", "quote"],
-                ["ul", "ol", "task"],
-                ["table", "image", "link"],
-                ["code", "codeblock"],
-              ]}
-              theme={theme.palette.mode}
-              language="ko-KR"
-            />
+          <Stack direction="row" minHeight="500px" overflow="auto">
+            <Stack width="50%">
+              <Editor
+                className="hidden-header"
+                initialValue={post}
+                previewStyle="tab"
+                minHeight="500px"
+                height="auto"
+                ref={editorRef}
+                onChange={textChange}
+                hideModeSwitch={true}
+                initialEditType="wysiwyg"
+                usageStatistics={false}
+                toolbarItems={[
+                  ["heading", "bold", "italic", "strike"],
+                  ["hr", "quote"],
+                  ["ul", "ol", "task"],
+                  ["table", "image", "link"],
+                  ["code", "codeblock"],
+                ]}
+                theme={theme.palette.mode}
+                language="ko-KR"
+              />
+            </Stack>
+            <Stack
+              width="50%"
+              bgcolor="background.main"
+              color="background.color"
+              alignItems="center">
+              {ReactHtmlParser(post, {
+                transform: (node, index) => {
+                  if (node.type === "tag") {
+                    node.attribs = {
+                      ...node.attribs,
+                      id: "",
+                      style: "margin: 0;",
+                    };
+                  }
+                },
+              })}
+            </Stack>
           </Stack>
         </Stack>
         <WriteModal
@@ -179,8 +205,8 @@ const Write = () => {
           dialogOpen={dialogOpen}
           setDialogOpen={setDialogOpen}
           tagArray={tagArray}
-          text={text}
-          setText={setText}
+          text={post}
+          setText={setPost}
         />
         <Snackbar
           open={snackbarOpen}

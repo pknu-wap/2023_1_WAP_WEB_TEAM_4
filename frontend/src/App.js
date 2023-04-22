@@ -4,6 +4,7 @@ import Main from "./pages/Main";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Write from "./pages/Write";
+import Anchor from "./components/Sidebar";
 import { ThemeProvider } from "@mui/material";
 import Home from "./pages/Home";
 import { RecoilRoot } from "recoil";
@@ -20,6 +21,7 @@ const App = () => {
             <Route path="/home" element={<Home />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/anchor" element={<Anchor />} />
           </Routes>
         </Router>
       </ThemeProvider>
