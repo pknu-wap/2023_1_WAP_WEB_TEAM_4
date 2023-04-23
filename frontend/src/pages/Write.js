@@ -26,6 +26,7 @@ import "./write.css";
 import ReactMarkdown from "react-markdown";
 import CodeIcon from "@mui/icons-material/Code";
 import ImageIcon from "@mui/icons-material/Image";
+import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 
 const Write = () => {
   const editorRef = useRef();
@@ -179,11 +180,16 @@ const Write = () => {
                 <Button sx={{ fontWeight: "bold" }}>B</Button>
                 <Button sx={{ fontStyle: "italic" }}>I</Button>
                 <Button sx={{ fontWeight: "bold" }}> &gt;</Button>
+              </ButtonGroup>
+              <ButtonGroup sx={{ marginBottom: "8px" }}>
                 <Button>
                   <CodeIcon />
                 </Button>
                 <Button>
                   <ImageIcon />
+                </Button>
+                <Button>
+                  <KeyboardReturnIcon />
                 </Button>
               </ButtonGroup>
             </Stack>
@@ -215,13 +221,15 @@ const Write = () => {
               </Stack>
 
               <Stack
-                width="50%"
+                width="40%"
                 bgcolor="background.main"
                 color="background.color"
-                alignItems="center">
+                paddingLeft="10%"
+                alignItems="left">
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
+                    br: ({ node, ...props }) => <br />,
                     h1: ({ node, children, ...props }) => (
                       <h1 style={{ margin: 0 }} {...props}>
                         {children}

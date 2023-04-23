@@ -91,6 +91,12 @@ const Post = () => {
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
+                    br: ({ node, ...props }) => (
+                      <div
+                        {...props}
+                        style={{ height: "10px", color: "transparent" }}
+                      />
+                    ),
                     h1: ({ node, children, ...props }) => (
                       <h1 style={{ margin: 0 }} {...props}>
                         {children}
@@ -160,6 +166,14 @@ const Post = () => {
                           {...props}>
                           {children}
                         </div>
+                      );
+                    },
+                    br({ node, ...props }) {
+                      return (
+                        <div
+                          {...props}
+                          style={{ height: "10px", color: "transparent" }}
+                        />
                       );
                     },
                     img({ node, ...props }) {
