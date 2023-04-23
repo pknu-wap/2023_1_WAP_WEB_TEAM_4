@@ -18,7 +18,6 @@ const Post = () => {
 
   const [post] = useRecoilState(postState);
   const [title] = useRecoilState(titleState);
-  console.log(post);
 
   const [sections, setSections] = useState([]);
 
@@ -26,7 +25,6 @@ const Post = () => {
   useEffect(() => {
     const regex = /^#+\s*(.*?)$/gm;
     const matches = [...post.matchAll(regex)];
-    console.log(matches);
     const newSections = matches.map((match, index) => ({
       id: `section-${index + 1}`,
       html: match[0] || "",
@@ -48,7 +46,6 @@ const Post = () => {
     const selectedSection = sections.find(
       (section) => section.id === sectionId
     );
-    console.log(selectedSection);
     selectedSection?.ref?.current?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -88,29 +85,34 @@ const Post = () => {
             <Stack>
               <Stack
                 sx={{
-                  margin: "0px",
                   color: "background.color",
                 }}
                 gap="5px">
-                {/* // <Stack key={index} id={section.id} ref={section.ref}>
-                    //   {ReactHtmlParser(section.html, {
-                    //     transform: (node, index) => {
-                    //       if (node.type === "tag") {
-                    //         node.attribs = {
-                    //           ...node.attribs,
-                    //           id: "",
-                    //           style: "margin: 0;",
-                    //         };
-                    //       }
-                    //     },
-                    //   })}
-                    // </Stack> */}
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
+                    h1: ({ node, children, ...props }) => (
+                      <h1 style={{ margin: 0 }} {...props}>
+                        {children}
+                      </h1>
+                    ),
+                    h2: ({ node, children, ...props }) => (
+                      <h2 style={{ margin: 0 }} {...props}>
+                        {children}
+                      </h2>
+                    ),
+                    h3: ({ node, children, ...props }) => (
+                      <h3 style={{ margin: 0 }} {...props}>
+                        {children}
+                      </h3>
+                    ),
+                    h4: ({ node, children, ...props }) => (
+                      <h4 style={{ margin: 0 }} {...props}>
+                        {children}
+                      </h4>
+                    ),
                     code({ node, inline, className, children, ...props }) {
                       const match = /language-(\w+)/.exec(className || "");
-                      console.log(match);
                       return inline ? (
                         // 강조 (``)
                         <code
@@ -186,35 +188,34 @@ const Post = () => {
       </Stack>
       {!isNotLarge && (
         <Stack
-          paddingTop="30px"
+          marginTop="15%"
           justifyContent="center"
+          overflow="scroll"
           style={{
-            height: "100%",
+            height: "500px",
             width: "200px",
             position: "fixed",
             top: 0,
             right: 100,
           }}>
           {sections.map((section, i) => {
-            if (section?.html.startsWith("<h1")) {
+            if (section?.html.startsWith("###")) {
               return (
                 <Stack
-                  fontWeight="bold"
-                  position="relative"
-                  fontSize="18px"
+                  key={i}
+                  fontSize="16px"
                   color="background.color"
-                  height="35px"
-                  sx={{ cursor: "pointer" }}
-                  onClick={() => {
-                    handleClick(section.id);
-                    console.log("클릭");
-                  }}>
+                  paddingLeft="15px"
+                  height="30px"
+                  onClick={() => handleClick(section.id)}
+                  sx={{ cursor: "pointer" }}>
                   {section.content}
                 </Stack>
               );
-            } else if (section?.html.startsWith("<h2")) {
+            } else if (section?.html.startsWith("##")) {
               return (
                 <Stack
+                  key={i}
                   fontSize="16px"
                   color="primary.500"
                   position="relative"
@@ -225,15 +226,20 @@ const Post = () => {
                   {section.content}
                 </Stack>
               );
-            } else if (section?.html.startsWith("<h3")) {
+            } else if (section?.html.startsWith("#")) {
               return (
                 <Stack
-                  fontSize="16px"
+                  key={i}
+                  fontWeight="bold"
+                  position="relative"
+                  fontSize="18px"
                   color="background.color"
-                  paddingLeft="10px"
-                  height="30px"
-                  onClick={() => handleClick(section.id)}
-                  sx={{ cursor: "pointer" }}>
+                  height="35px"
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => {
+                    handleClick(section.id);
+                    console.log("클릭");
+                  }}>
                   {section.content}
                 </Stack>
               );

@@ -222,6 +222,26 @@ const Write = () => {
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
+                    h1: ({ node, children, ...props }) => (
+                      <h1 style={{ margin: 0 }} {...props}>
+                        {children}
+                      </h1>
+                    ),
+                    h2: ({ node, children, ...props }) => (
+                      <h2 style={{ margin: 0 }} {...props}>
+                        {children}
+                      </h2>
+                    ),
+                    h3: ({ node, children, ...props }) => (
+                      <h3 style={{ margin: 0 }} {...props}>
+                        {children}
+                      </h3>
+                    ),
+                    h4: ({ node, children, ...props }) => (
+                      <h4 style={{ margin: 0 }} {...props}>
+                        {children}
+                      </h4>
+                    ),
                     code({ node, inline, className, children, ...props }) {
                       const match = /language-(\w+)/.exec(className || "");
                       console.log(match);
@@ -275,7 +295,6 @@ const Write = () => {
                       );
                     },
                     img({ node, ...props }) {
-                      console.log("image");
                       return (
                         <img
                           style={{ maxWidth: "400px", maxHeight: "300px" }}
