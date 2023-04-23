@@ -10,7 +10,9 @@ import { atom } from "recoil";
 // });
 export const postState = atom({
   key: "post",
-  default: "#### asdfsafasdf ### asdfasdfasdf",
+  // default:
+  //   "<h1>Post</h1><h2>Post</h2><h3>Post</h3><h1>Post</h1><h2>Post</h2><h3>Post</h3><h1>Post</h1><h2>Post</h2><h3>Post</h3><h1>Post</h1><h1>Post</h1><h1>Post</h1><h1>Post</h1><h1>Post</h1><h1>Post</h1><h1>Post</h1><h1>Post</h1><h1>Post</h1><h1>Post</h1><h1>Post</h1><h1>Post</h1><h1>Post</h1><h1>Post</h1><h1>Post</h1><h1>Post</h1>",
+  default: "#### asdfsafasdf \n### asdfasdfasdf",
 });
 export const titleState = atom({
   key: "title",

@@ -48,8 +48,6 @@ const Write = () => {
     setDialogOpen(true);
   };
 
-  console.log(isFocus);
-
   return (
     <Stack height="100%">
       <Header />

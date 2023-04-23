@@ -4,6 +4,10 @@ import ReactHtmlParser from "react-html-parser";
 import { useRecoilState } from "recoil";
 import { postState, titleState } from "../states/writeState";
 import { useTheme } from "@mui/material/styles";
+import ReactMarkdown from "react-markdown";
+import { nord } from "react-syntax-highlighter/dist/esm/styles/prism";
+import remarkGfm from "remark-gfm";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/theme/toastui-editor-dark.css";
@@ -14,14 +18,15 @@ const Post = () => {
 
   const [post] = useRecoilState(postState);
   const [title] = useRecoilState(titleState);
+  console.log(post);
 
   const [sections, setSections] = useState([]);
 
   const isNotLarge = useMediaQuery(themes.breakpoints.down("lg"));
   useEffect(() => {
-    const regex =
-      /<h1.*?>(.*?)<\/h1>|<h2.*?>(.*?)<\/h2>|<h3.*?>(.*?)<\/h3>|<h4.*?>(.*?)<\/h4>|<p.*?>(.*?)<\/p>|<div.*?>(.*?)<\/div>/gs;
+    const regex = /^#+\s*(.*?)$/gm;
     const matches = [...post.matchAll(regex)];
+    console.log(matches);
     const newSections = matches.map((match, index) => ({
       id: `section-${index + 1}`,
       html: match[0] || "",
@@ -87,23 +92,93 @@ const Post = () => {
                   color: "background.color",
                 }}
                 gap="5px">
-                {sections.map((section, index) => {
-                  return (
-                    <Stack key={index} id={section.id} ref={section.ref}>
-                      {ReactHtmlParser(section.html, {
-                        transform: (node, index) => {
-                          if (node.type === "tag") {
-                            node.attribs = {
-                              ...node.attribs,
-                              id: "",
-                              style: "margin: 0;",
-                            };
-                          }
-                        },
-                      })}
-                    </Stack>
-                  );
-                })}
+                {/* // <Stack key={index} id={section.id} ref={section.ref}>
+                    //   {ReactHtmlParser(section.html, {
+                    //     transform: (node, index) => {
+                    //       if (node.type === "tag") {
+                    //         node.attribs = {
+                    //           ...node.attribs,
+                    //           id: "",
+                    //           style: "margin: 0;",
+                    //         };
+                    //       }
+                    //     },
+                    //   })}
+                    // </Stack> */}
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    code({ node, inline, className, children, ...props }) {
+                      const match = /language-(\w+)/.exec(className || "");
+                      console.log(match);
+                      return inline ? (
+                        // 강조 (``)
+                        <code
+                          style={{
+                            fontWeight: "bold",
+                            background:
+                              "linear-gradient( to right, var(--sub-highlight-color) 15%, var(--highlight-color) 85%, var(--sub-highlight-color) )",
+                            padding: "2px",
+                            borderRadius: "3px",
+                          }}
+                          {...props}>
+                          {children}
+                        </code>
+                      ) : match ? (
+                        // 코드 (```)
+                        <SyntaxHighlighter
+                          style={nord}
+                          language={match[1]}
+                          PreTag="div"
+                          {...props}>
+                          {String(children)
+                            .replace(/\n$/, "")
+                            .replace(/\n&nbsp;\n/g, "")
+                            .replace(/\n&nbsp\n/g, "")}
+                        </SyntaxHighlighter>
+                      ) : (
+                        <SyntaxHighlighter
+                          style={nord}
+                          language="textile"
+                          PreTag="div"
+                          {...props}>
+                          {String(children).replace(/\n$/, "")}
+                        </SyntaxHighlighter>
+                      );
+                    },
+                    // 인용문 (>)
+                    blockquote({ node, children, ...props }) {
+                      return (
+                        <div
+                          style={{
+                            background: "#f0f0f0",
+                            padding: "1px 15px",
+                            borderRadius: "10px",
+                          }}
+                          {...props}>
+                          {children}
+                        </div>
+                      );
+                    },
+                    img({ node, ...props }) {
+                      return (
+                        <img
+                          style={{ maxWidth: "400px", maxHeight: "300px" }}
+                          src={props.src.replace("../../../../public/", "/")}
+                          alt="MarkdownRenderer__Image"
+                        />
+                      );
+                    },
+                    em({ node, children, ...props }) {
+                      return (
+                        <span style={{ fontStyle: "italic" }} {...props}>
+                          {children}
+                        </span>
+                      );
+                    },
+                  }}>
+                  {post}
+                </ReactMarkdown>
               </Stack>
             </Stack>
           </Stack>
