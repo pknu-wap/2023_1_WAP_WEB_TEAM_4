@@ -1,7 +1,18 @@
 import React, { useState } from "react";
-import { Stack, Chip, Button, Snackbar, Alert } from "@mui/material";
+import {
+  Stack,
+  Chip,
+  Button,
+  Snackbar,
+  Alert,
+  TextareaAutosize,
+  ButtonGroup,
+  IconButton,
+} from "@mui/material";
 import { useRef } from "react";
-import { Editor } from "@toast-ui/react-editor";
+import remarkGfm from "remark-gfm";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { nord } from "react-syntax-highlighter/dist/esm/styles/prism";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/theme/toastui-editor-dark.css";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -13,8 +24,8 @@ import { postState, titleState } from "../states/writeState";
 import { useRecoilState } from "recoil";
 import "./write.css";
 import ReactMarkdown from "react-markdown";
-
-import ReactHtmlParser from "react-html-parser";
+import CodeIcon from "@mui/icons-material/Code";
+import ImageIcon from "@mui/icons-material/Image";
 
 const Write = () => {
   const editorRef = useRef();
@@ -25,6 +36,8 @@ const Write = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [isHover, setIsHover] = useState(false);
+  const [isFocus, setIsFocus] = useState(false);
 
   const theme = useTheme();
   // 등록 버튼 핸들러
@@ -35,9 +48,7 @@ const Write = () => {
     setDialogOpen(true);
   };
 
-  const textChange = () => {
-    setPost(editorRef.current.getInstance().getHTML());
-  };
+  console.log(isFocus);
 
   return (
     <Stack height="100%">
@@ -158,26 +169,134 @@ const Write = () => {
               </Button>
             </Stack>
           </Stack>
-          <Stack direction="row" minHeight="500px" overflow="auto">
-            <Stack width="50%">
-              <textarea
-                value={post}
-                onChange={(e) => setPost(e.target.value)}
-              />
+          <Stack minHeight="550px" overflow="auto">
+            <Stack direction="row" gap="8px">
+              <ButtonGroup sx={{ marginBottom: "8px" }}>
+                <Button>H1</Button>
+                <Button>H2</Button>
+                <Button>H3</Button>
+                <Button>H4</Button>
+              </ButtonGroup>
+              <ButtonGroup sx={{ marginBottom: "8px" }}>
+                <Button sx={{ fontWeight: "bold" }}>B</Button>
+                <Button sx={{ fontStyle: "italic" }}>I</Button>
+                <Button sx={{ fontWeight: "bold" }}> &gt;</Button>
+                <Button>
+                  <CodeIcon />
+                </Button>
+                <Button>
+                  <ImageIcon />
+                </Button>
+              </ButtonGroup>
             </Stack>
-            <Stack
-              width="50%"
-              bgcolor="background.main"
-              color="background.color"
-              alignItems="center">
-              <ReactMarkdown
-                renderers={{
-                  root: ({ children }) => (
-                    <Stack sx={{ margin: 0 }}>{children}</Stack>
-                  ),
+            <Stack direction="row">
+              <Stack
+                sx={{
+                  minHeight: "500px",
+                  width: "50%",
                 }}>
-                {post}
-              </ReactMarkdown>
+                <TextareaAutosize
+                  value={post}
+                  style={{
+                    resize: "none",
+                    minHeight: "70%",
+                    color: theme.palette.background.color,
+                    backgroundColor: "transparent",
+                    border: isHover
+                      ? `1px solid ${theme.palette.primary.main}`
+                      : isFocus
+                      ? `1px solid ${theme.palette.primary.main}`
+                      : `1px solid ${theme.palette.primary.main}`,
+                  }}
+                  onChange={(e) => setPost(e.target.value)}
+                  onMouseEnter={() => setIsHover(true)}
+                  onMouseLeave={() => setIsHover(false)}
+                  onFocus={() => setIsFocus(true)}
+                  onBlur={() => setIsFocus(false)}
+                />
+              </Stack>
+
+              <Stack
+                width="50%"
+                bgcolor="background.main"
+                color="background.color"
+                alignItems="center">
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    code({ node, inline, className, children, ...props }) {
+                      const match = /language-(\w+)/.exec(className || "");
+                      console.log(match);
+                      return inline ? (
+                        // 강조 (``)
+                        <code
+                          style={{
+                            fontWeight: "bold",
+                            background:
+                              "linear-gradient( to right, var(--sub-highlight-color) 15%, var(--highlight-color) 85%, var(--sub-highlight-color) )",
+                            padding: "2px",
+                            borderRadius: "3px",
+                          }}
+                          {...props}>
+                          {children}
+                        </code>
+                      ) : match ? (
+                        // 코드 (```)
+                        <SyntaxHighlighter
+                          style={nord}
+                          language={match[1]}
+                          PreTag="div"
+                          {...props}>
+                          {String(children)
+                            .replace(/\n$/, "")
+                            .replace(/\n&nbsp;\n/g, "")
+                            .replace(/\n&nbsp\n/g, "")}
+                        </SyntaxHighlighter>
+                      ) : (
+                        <SyntaxHighlighter
+                          style={nord}
+                          language="textile"
+                          PreTag="div"
+                          {...props}>
+                          {String(children).replace(/\n$/, "")}
+                        </SyntaxHighlighter>
+                      );
+                    },
+                    // 인용문 (>)
+                    blockquote({ node, children, ...props }) {
+                      return (
+                        <div
+                          style={{
+                            background: "#f0f0f0",
+                            padding: "1px 15px",
+                            borderRadius: "10px",
+                          }}
+                          {...props}>
+                          {children}
+                        </div>
+                      );
+                    },
+                    img({ node, ...props }) {
+                      console.log("image");
+                      return (
+                        <img
+                          style={{ maxWidth: "400px", maxHeight: "300px" }}
+                          src={props.src.replace("../../../../public/", "/")}
+                          alt="MarkdownRenderer__Image"
+                        />
+                      );
+                    },
+                    em({ node, children, ...props }) {
+                      return (
+                        <span style={{ fontStyle: "italic" }} {...props}>
+                          {children}
+                        </span>
+                      );
+                    },
+                  }}>
+                  {post}
+                </ReactMarkdown>
+              </Stack>
             </Stack>
           </Stack>
         </Stack>

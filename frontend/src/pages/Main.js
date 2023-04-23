@@ -8,7 +8,6 @@ import { useTheme } from "@mui/material/styles";
 
 const Main = () => {
   const theme = useTheme();
-  const isNotLarge = useMediaQuery(theme.breakpoints.down("lg"));
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
