@@ -171,7 +171,7 @@ const Write = () => {
           <Stack minHeight="550px" overflow="auto">
             <Stack direction="row" gap="8px">
               <ButtonGroup sx={{ marginBottom: "8px" }}>
-                <Button>H1</Button>
+                <Button onClick={() => setPost({...post, "\n"})}>H1</Button>
                 <Button>H2</Button>
                 <Button>H3</Button>
                 <Button>H4</Button>
