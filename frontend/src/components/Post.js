@@ -202,11 +202,11 @@ const Post = () => {
       </Stack>
       {!isNotLarge && (
         <Stack
-          marginTop="15%"
+          marginTop="14%"
           justifyContent="center"
           overflow="scroll"
           style={{
-            height: "500px",
+            height: "400px",
             width: "200px",
             position: "fixed",
             top: 0,
