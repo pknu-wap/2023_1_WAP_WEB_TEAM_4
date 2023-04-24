@@ -39,6 +39,7 @@ const Write = () => {
   const [toastMessage, setToastMessage] = useState("");
   const [isHover, setIsHover] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
+  const textareaRef = useRef(null);
 
   const theme = useTheme();
   // 등록 버튼 핸들러
@@ -171,32 +172,81 @@ const Write = () => {
           <Stack minHeight="550px" overflow="auto">
             <Stack direction="row" gap="8px">
               <ButtonGroup sx={{ marginBottom: "8px" }}>
-                <Button onClick={() => setPost(post + "\n# ")}>H1</Button>
-                <Button onClick={() => setPost(post + "\n## ")}>H2</Button>
-                <Button onClick={() => setPost(post + "\n### ")}>H3</Button>
-                <Button onClick={() => setPost(post + "\n#### ")}>H4</Button>
+                <Button
+                  onClick={() => {
+                    setPost(post + "\n# ");
+                    textareaRef.current.focus();
+                  }}>
+                  H1
+                </Button>
+                <Button
+                  onClick={() => {
+                    setPost(post + "\n## ");
+                    textareaRef.current.focus();
+                  }}>
+                  H2
+                </Button>
+                <Button
+                  onClick={() => {
+                    setPost(post + "\n### ");
+                    textareaRef.current.focus();
+                  }}>
+                  H3
+                </Button>
+                <Button
+                  onClick={() => {
+                    setPost(post + "\n#### ");
+                    textareaRef.current.focus();
+                  }}>
+                  H4
+                </Button>
               </ButtonGroup>
               <ButtonGroup sx={{ marginBottom: "8px" }}>
                 <Button
-                  onClick={() => setPost(post + "\n** **")}
+                  onClick={() => {
+                    setPost(post + "\n** **");
+                    textareaRef.current.focus();
+                  }}
                   sx={{ fontWeight: "bold" }}>
                   B
                 </Button>
                 <Button
-                  onClick={() => setPost(post + "\n* *")}
+                  onClick={() => {
+                    const position = textareaRef.current.value.length - 3;
+                    setPost(post + "\n**");
+                    textareaRef.current.focus();
+                    textareaRef.current.setSelectionRange(position, position);
+                  }}
                   sx={{ fontStyle: "italic" }}>
                   I
                 </Button>
-                <Button onClick={() => setPost(post + "\n> ")}> &gt;</Button>
+                <Button
+                  onClick={() => {
+                    setPost(post + "\n> ");
+                    textareaRef.current.focus();
+                  }}>
+                  &gt;
+                </Button>
               </ButtonGroup>
               <ButtonGroup sx={{ marginBottom: "8px" }}>
-                <Button onClick={() => setPost(post + "\n```\n\n```")}>
+                <Button
+                  onClick={() => {
+                    setPost(post + "\n```\n\n```");
+                    textareaRef.current.focus();
+                  }}>
                   <CodeIcon />
                 </Button>
-                <Button>
+                <Button
+                  onClick={() => {
+                    textareaRef.current.focus();
+                  }}>
                   <ImageIcon />
                 </Button>
-                <Button onClick={() => setPost(post + "\\")}>
+                <Button
+                  onClick={() => {
+                    setPost(post + "\\");
+                    textareaRef.current.focus();
+                  }}>
                   <KeyboardReturnIcon />
                 </Button>
               </ButtonGroup>
@@ -208,6 +258,7 @@ const Write = () => {
                   width: "50%",
                 }}>
                 <TextareaAutosize
+                  ref={textareaRef}
                   value={post}
                   style={{
                     resize: "none",
@@ -223,8 +274,6 @@ const Write = () => {
                   onChange={(e) => setPost(e.target.value)}
                   onMouseEnter={() => setIsHover(true)}
                   onMouseLeave={() => setIsHover(false)}
-                  onFocus={() => setIsFocus(true)}
-                  onBlur={() => setIsFocus(false)}
                 />
               </Stack>
 
