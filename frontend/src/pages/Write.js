@@ -171,24 +171,32 @@ const Write = () => {
           <Stack minHeight="550px" overflow="auto">
             <Stack direction="row" gap="8px">
               <ButtonGroup sx={{ marginBottom: "8px" }}>
-                <Button onClick={() => setPost({...post, "\n"})}>H1</Button>
-                <Button>H2</Button>
-                <Button>H3</Button>
-                <Button>H4</Button>
+                <Button onClick={() => setPost(post + "\n# ")}>H1</Button>
+                <Button onClick={() => setPost(post + "\n## ")}>H2</Button>
+                <Button onClick={() => setPost(post + "\n### ")}>H3</Button>
+                <Button onClick={() => setPost(post + "\n#### ")}>H4</Button>
               </ButtonGroup>
               <ButtonGroup sx={{ marginBottom: "8px" }}>
-                <Button sx={{ fontWeight: "bold" }}>B</Button>
-                <Button sx={{ fontStyle: "italic" }}>I</Button>
-                <Button sx={{ fontWeight: "bold" }}> &gt;</Button>
+                <Button
+                  onClick={() => setPost(post + "\n** **")}
+                  sx={{ fontWeight: "bold" }}>
+                  B
+                </Button>
+                <Button
+                  onClick={() => setPost(post + "\n* *")}
+                  sx={{ fontStyle: "italic" }}>
+                  I
+                </Button>
+                <Button onClick={() => setPost(post + "\n> ")}> &gt;</Button>
               </ButtonGroup>
               <ButtonGroup sx={{ marginBottom: "8px" }}>
-                <Button>
+                <Button onClick={() => setPost(post + "\n```\n\n```")}>
                   <CodeIcon />
                 </Button>
                 <Button>
                   <ImageIcon />
                 </Button>
-                <Button>
+                <Button onClick={() => setPost(post + "\\")}>
                   <KeyboardReturnIcon />
                 </Button>
               </ButtonGroup>
