@@ -212,10 +212,18 @@ const Write = () => {
                 </Button>
                 <Button
                   onClick={() => {
-                    const position = textareaRef.current.value.length - 3;
+                    const position = textareaRef.current.value.length + 3;
+                    console.log(position);
+                    console.log(
+                      textareaRef.current.setSelectionRange(position, position)
+                    );
                     setPost(post + "\n**");
-                    textareaRef.current.focus();
-                    textareaRef.current.setSelectionRange(position, position);
+                    // textareaRef.current.focus();
+                    // textareaRef.current.setSelectionRange(position, position);
+                    setTimeout(() => {
+                      textareaRef.current.focus();
+                      textareaRef.current.setSelectionRange(position, position);
+                    }, 0);
                   }}
                   sx={{ fontStyle: "italic" }}>
                   I
