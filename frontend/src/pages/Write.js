@@ -250,7 +250,7 @@ const Write = () => {
                 </Button>
                 <Button
                   onClick={() => {
-                    setPost(post + "\\");
+                    setPost(post + "\\\n");
                     textareaRef.current.focus();
                   }}>
                   <KeyboardReturnIcon />
