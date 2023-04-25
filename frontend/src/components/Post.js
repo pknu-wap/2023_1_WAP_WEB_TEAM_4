@@ -167,14 +167,6 @@ const Post = () => {
                         </div>
                       );
                     },
-                    br({ node, ...props }) {
-                      return (
-                        <div
-                          {...props}
-                          style={{ height: "10px", color: "transparent" }}
-                        />
-                      );
-                    },
                     img({ node, ...props }) {
                       return (
                         <img
