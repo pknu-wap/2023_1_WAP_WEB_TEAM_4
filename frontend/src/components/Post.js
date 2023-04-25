@@ -1,6 +1,5 @@
 import { Button, Stack, useMediaQuery } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import ReactHtmlParser from "react-html-parser";
 import { useRecoilState } from "recoil";
 import { postState, titleState } from "../states/writeState";
 import { useTheme } from "@mui/material/styles";

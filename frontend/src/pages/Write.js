@@ -7,7 +7,6 @@ import {
   Alert,
   TextareaAutosize,
   ButtonGroup,
-  IconButton,
 } from "@mui/material";
 import { useRef } from "react";
 import remarkGfm from "remark-gfm";
@@ -38,7 +37,6 @@ const Write = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [isHover, setIsHover] = useState(false);
-  const [isFocus, setIsFocus] = useState(false);
   const textareaRef = useRef(null);
 
   const theme = useTheme();
@@ -274,8 +272,6 @@ const Write = () => {
                     color: theme.palette.background.color,
                     backgroundColor: "transparent",
                     border: isHover
-                      ? `1px solid ${theme.palette.primary.main}`
-                      : isFocus
                       ? `1px solid ${theme.palette.primary.main}`
                       : `1px solid ${theme.palette.primary.main}`,
                   }}
