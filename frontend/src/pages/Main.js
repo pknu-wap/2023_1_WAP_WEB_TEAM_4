@@ -3,7 +3,6 @@ import Header from "../components/Header";
 import SideNavigation from "../components/SideNavigation";
 import Post from "../components/Post";
 import { Stack, useMediaQuery } from "@mui/material";
-import Anchor from "../components/Anchor";
 import { useTheme } from "@mui/material/styles";
 
 const Main = () => {
