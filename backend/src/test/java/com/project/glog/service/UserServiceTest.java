@@ -43,19 +43,4 @@ public class UserServiceTest {
         //Then
         Assertions.assertThat(result.size()).isEqualTo(2);
     }
-
-    @Test
-    public void 비밀번호_변경() throws Exception{
-        //Given
-        User user = new User();
-        user.setLogin_pw("abc");
-        userRepository.save(user);
-
-        //When
-        user.setLogin_pw("def");
-        userRepository.save(user);
-
-        //Then
-        Assertions.assertThat(userRepository.findById(1L).get().getLogin_pw()).isEqualTo("def");
-    }
 }

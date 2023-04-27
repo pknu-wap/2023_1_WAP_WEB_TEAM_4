@@ -23,32 +23,24 @@ public class MemoryContentRepository implements ContentRepository{
     }
 
     @Override
-    public void delete(Long id) {
-        Content content = entityManager.find(Content.class, Id);
-        if(content != null){
-            entityManager.remove(content);
-        }
-
+    public void delete(Long id){
+        store.remove(id);
     }
 
     @Override
     public Optional<Content> findById(Long id) {
-        return Optional.empty();
+        return Optional.ofNullable(store.get(id));
     }
-
-    @Override
-    public List<Content> findContentsByHashtag(String hashtag) {
-        String query = "SELECT p FROM Post p WHERE :hashTag MEMBER OF p.hashTags";
-        TypedQuery<Content> typedQuery = entityManager.createQuery(query, Content.class);
-        typedQuery.setParameter("hashTag", hashTag);
-        return typedQuery.getResultList();
-    } //
-
     @Override
     public List<Content> previewsByCreated() {
-        String jpql = "SELECT p FROM Post p ORDER BY p.createdDate DESC";
-        TypedQuery<Content> query = entityManager.createQuery(jpql, Post.class);
-        return query.getResultList();
+        ArrayList<Map.Entry<Long, Content>> map_list = new ArrayList<>(store.entrySet());
+        Collections.reverse(map_list);
+
+        List<Content> list = new ArrayList<>();
+        for (Map.Entry<Long, Content> value : map_list) {
+            list.add(value.getValue());
+        }
+        return list;
     }//생성일자 기준으로 게시글 목록을 조회하여 날짜 순서대로 정렬된 리스트 반환
 
     @Override
@@ -94,6 +86,16 @@ public class MemoryContentRepository implements ContentRepository{
 
     @Override
     public List<Content> previewsByRandom() {
-        return null;
+        ArrayList<Map.Entry<Long, Content>> map_list = new ArrayList<>(store.entrySet());
+
+
+        Collections.shuffle(map_list);
+
+        List<Content> list = new ArrayList<>();
+        for (Map.Entry<Long, Content> value : map_list) {
+            list.add(value.getValue());
+        }
+
+        return list;
     }
 }

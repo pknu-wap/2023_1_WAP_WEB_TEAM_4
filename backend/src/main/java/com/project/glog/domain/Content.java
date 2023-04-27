@@ -7,17 +7,13 @@ public class Content {
 
     private String title;
 
-    private String main_text;
+    private String text;
 
     private String image;
 
     private Integer likes;
 
     private Integer views;
-
-    private String hashtag;
-
-    private String category;
 
     private String date_created;
 
@@ -53,12 +49,12 @@ public class Content {
         this.title = title;
     }
 
-    public String getMain_text() {
-        return main_text;
+    public String getText() {
+        return text;
     }
 
-    public void setMain_text(String main_text) {
-        this.main_text = main_text;
+    public void setText(String text) {
+        this.text = text;
     }
 
     public String getImage() {
@@ -79,25 +75,9 @@ public class Content {
     public Integer getViews() {
         return views;
     }
-
     public void setViews(Integer views) {
         this.views = views;
-    }
-    public String getHashtag() {
-        return hashtag;
-    }
-
-    public void setHashtag(String hashtag) {
-        this.hashtag = hashtag;
-    }
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-    public String getDate_created() {
+    }public String getDate_created() {
         return date_created;
     }
 

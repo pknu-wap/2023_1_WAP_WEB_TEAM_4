@@ -4,7 +4,8 @@ public class Category {
     private Long id;
     private Long blog_id;
     private String name;
-    private int count;
+
+    private int count;  //해당 카테고리에 글이 몇개 있는지
 
     public Long getId() {
         return id;

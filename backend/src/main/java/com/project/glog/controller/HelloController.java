@@ -1,12 +1,15 @@
 package com.project.glog.controller;
 
+import com.project.glog.domain.Content;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -29,18 +32,39 @@ public class HelloController {
     //이번 프로젝트에서 최종적으로 이 기능이 많이 사용될 것으로 예상된다.
     @GetMapping("hello-api")
     @ResponseBody
-    public Map<String, Object> helloApi(@RequestParam("name") String name, @RequestParam("title") String title) {
+    public Map<String, Object> helloApi() {
         HashMap<String, Object> hashMap = new HashMap<>();
 
-        Hello hello = new Hello();
-        hello.setName(name);
-        hello.setAge(13);
-        hashMap.put("Hello", hello);
+        List<Content> views = new ArrayList<>();
+        List<Content> likes = new ArrayList<>();
+        List<Content> latest = new ArrayList<>();
+        List<Content> random = new ArrayList<>();
 
-        Content content = new Content();
-        content.setTitle(title);
-        content.setContent("api 사용");
-        hashMap.put("Content", content);
+        Content content1 = new Content();
+        content1.setTitle("content1");
+        Content content2 = new Content();
+        content2.setTitle("content2");
+        Content content3 = new Content();
+        content3.setTitle("content3");
+        Content content4 = new Content();
+        content4.setTitle("content4");
+
+        views.add(content1);
+        views.add(content2);
+
+        likes.add(content3);
+        likes.add(content2);
+
+        latest.add(content1);
+        latest.add(content3);
+
+        random.add(content3);
+        random.add(content4);
+
+        hashMap.put("views", views);
+        hashMap.put("likes", likes);
+        hashMap.put("latest", latest);
+        hashMap.put("random", random);
 
         return hashMap;
     }
@@ -60,27 +84,6 @@ public class HelloController {
 
         public void setAge(int age) {
             this.age = age;
-        }
-    }
-
-    static class Content{
-        private String title;
-        private String content;
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getContent() {
-            return content;
-        }
-
-        public void setContent(String content) {
-            this.content = content;
         }
     }
 }
