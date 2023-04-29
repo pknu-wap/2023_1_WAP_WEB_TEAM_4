@@ -36,9 +36,12 @@ UserService {
     }
 
     public Long login(String login_id, String login_pw){
-        User user = userRepository.findByLogin_id(login_id).get();
-        if(user.getLogin_pw().equals(login_pw)){
-            return user.getId();
+        Optional<User> userOptional = userRepository.findByLogin_id(login_id);
+        if(userOptional.isPresent()){
+            User user = userOptional.get();
+            if(user.getLogin_pw().equals(login_pw)){
+                return user.getId();
+            }
         }
 
         return null;
@@ -49,8 +52,7 @@ UserService {
     }
 
     public List<User> searchUsersByNickname(String nickname){
-        List<User> users= userRepository.findUsersByNickname(nickname);
-        return users;
+        return userRepository.findUsersByNickname(nickname);
     }
 
     public Long changeUserPw(User user){

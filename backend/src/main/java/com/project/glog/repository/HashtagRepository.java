@@ -9,9 +9,8 @@ import java.util.Map;
 
 public interface HashtagRepository {
     void save(Hashtag hastag);
-    void update(Hashtag hashtag);
-    void delete(Hashtag hastag);
+    void delete(Long cid);
     List<Hashtag> findHastagByContent(Long cid);
-    List<Content> findContentByHashtag(String hashtag);
+    List<Long> findContentsByHashtag(String hashtag);
 
 }

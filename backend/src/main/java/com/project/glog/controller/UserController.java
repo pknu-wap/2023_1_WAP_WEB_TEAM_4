@@ -6,10 +6,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +27,8 @@ public class UserController {
     }
 
     @PostMapping("/user/register")
-    public String create(UserForm form){
+    @ResponseBody
+    public UserForm create(@RequestBody UserForm form){
         User user = new User();
         user.setNickname(form.getNickname());
         user.setLogin_id(form.getLogin_id());
@@ -38,28 +36,19 @@ public class UserController {
 
         userService.join(user);
 
-        return "redirect:/user/login";
+        return form;
     }
 
-    @GetMapping("/user/login")
-    public String signinForm(HttpSession session){
-        Long uid = (Long) session.getAttribute("userId");
-        if(uid!=null){
-            return "redirect:/";
-        }
-        return "/user/login";
-    }
 
     @PostMapping("/user/login")
-    public String signin(Model model, UserForm form, HttpSession session){
-        Long uid = userService.login(form.getLogin_id(), form.getLogin_pw());
+    @ResponseBody
+    public String signin(HttpSession session, @RequestBody UserForm userform){
+        Long uid = userService.login(userform.getLogin_id(), userform.getLogin_pw());
         if(uid==null){
-            return "redirect:/user/login";
+            return "failed login";
         }
-
-        model.addAttribute("userid",uid);
         session.setAttribute("userId", uid);
-        return "/user/successlogin";
+        return "success login";
     }
 
     @GetMapping("/user/search")
@@ -87,6 +76,18 @@ public class UserController {
         user.setLogin_pw(change_pw);
         userService.changeUserPw(user);
         return userService.searchUserById(id);
+    }
+
+    @PostMapping("/user/mypage")
+    @ResponseBody
+    public User mypage(HttpSession session){
+        Long uid = (Long) session.getAttribute("userId");
+        if(uid==null){
+            return null;
+        }
+
+        User user = userService.searchUserById(uid);
+        return user;
     }
 
 }
