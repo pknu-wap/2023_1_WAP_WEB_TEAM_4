@@ -26,7 +26,7 @@ public class ContentService {
         contentRepository.delete(cid);
     }
 
-    public Content read(Long cid){
+    public Content getOne(Long cid){
         return contentRepository.findById(cid).get();
     }
 

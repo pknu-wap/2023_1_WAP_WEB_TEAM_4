@@ -15,4 +15,5 @@ public interface ContentRepository {
     List<Content> previewsByLikes();
     List<Content> previewsByViews();
     List<Content> previewsByRandom();
+
 }

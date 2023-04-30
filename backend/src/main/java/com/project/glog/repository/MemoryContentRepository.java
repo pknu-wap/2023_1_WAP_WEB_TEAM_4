@@ -12,6 +12,8 @@ public class MemoryContentRepository implements ContentRepository{
     @Override
     public Content save(Content content) {
         content.setId(++sequence);
+        content.setLikes(0);
+        content.setViews(0);
         store.put(content.getId(), content);
         return content;
     }
@@ -52,7 +54,7 @@ public class MemoryContentRepository implements ContentRepository{
             @Override
             public int compare(Map.Entry<Long, Content> o1, Map.Entry<Long, Content> o2) {
                 // 값(Value)을 기준으로 비교
-                return o1.getValue().getLikes().compareTo(o2.getValue().getLikes());
+                return o2.getValue().getLikes().compareTo(o1.getValue().getLikes());
             }
         });
 
@@ -98,4 +100,5 @@ public class MemoryContentRepository implements ContentRepository{
 
         return list;
     }
+
 }

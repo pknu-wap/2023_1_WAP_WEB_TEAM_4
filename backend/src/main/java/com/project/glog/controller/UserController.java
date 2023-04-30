@@ -90,4 +90,14 @@ public class UserController {
         return user;
     }
 
+    @GetMapping("/user/logout")
+    @ResponseBody
+    public String logout(HttpSession session) {
+        Long uid = (Long) session.getAttribute("userId");
+        if (uid != null) {
+            session.invalidate();
+            return "success logout";
+        }
+        return "Not Logined"; // 로그아웃 후 리다이렉트 할 페이지
+    }
 }

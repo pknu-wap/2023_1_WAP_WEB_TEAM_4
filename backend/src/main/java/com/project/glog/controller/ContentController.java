@@ -9,10 +9,7 @@ import com.project.glog.service.HashtagService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +23,6 @@ public class ContentController {
 
     @Autowired
     public ContentController(ContentService contentService, HashtagService hashtagService){
-
         this.contentService = contentService;
         this.hashtagService = hashtagService;
     }
@@ -84,12 +80,12 @@ public class ContentController {
 
         //2. 글을 찾아준다.
         Content content;
-        content = contentService.read(cid);
+        content = contentService.getOne(cid);
 
         return content;
     }
 
-    @PostMapping("/main")
+    @GetMapping("/main")
     @ResponseBody
     public Map<String, List<Content>> main(HttpSession session){
         //1. 세션을 확인한다.
@@ -124,19 +120,28 @@ public class ContentController {
         return contentService.searchContentsById(cids);
     }
 
+    @PostMapping("/content/pluslikes")
+    @ResponseBody
+    public String plusLikes(HttpSession session, @RequestParam Long cid){
+        //1. 세션을 확인한다.
+        Long uid = (Long) session.getAttribute("userId");
+        if(uid==null){
+            return "Not Logined";
+        }
+
+        //2. 해당 글의 좋아요를 1 증가 시킨다.
+        Content content = contentService.getOne(cid);
+        content.setLikes(content.getLikes()+1);
+
+        return "success plus Likes";
+    }
+
     @PostMapping("/test")
     @ResponseBody
-    public ContentForm test(){
-        Content content = new Content();
-        List<Hashtag> hashtags = new ArrayList<>();
-        hashtags.add(new Hashtag());
-        hashtags.add(new Hashtag());
-
-        ContentForm contentForm = new ContentForm();
-        contentForm.setContent(content);
-        contentForm.setHashtags(hashtags);
-
-        return contentForm;
+    public Map<String, Long> test(){
+        Map<String ,Long> map = new HashMap<>();
+        map.put("cid",1L);
+        return map;
     }
 }
 
