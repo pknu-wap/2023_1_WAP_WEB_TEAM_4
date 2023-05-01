@@ -5,6 +5,7 @@ import com.project.glog.domain.User;
 
 import java.util.*;
 
+
 public class MemoryContentRepository implements ContentRepository{
 
     private static Map<Long, Content> store = new HashMap<>();

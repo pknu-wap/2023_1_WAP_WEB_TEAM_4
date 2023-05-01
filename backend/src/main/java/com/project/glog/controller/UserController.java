@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@CrossOrigin(origins = "*")
 public class UserController {
     private final UserService userService;
 
@@ -60,22 +61,44 @@ public class UserController {
         return list;
     }
 
-    @GetMapping("user/changepw")
-    public String changPwForm(Model model, HttpSession session){
+    @GetMapping("/user/checkpw")
+    @ResponseBody
+    public String go_checkPw(HttpSession session){
         Long uid = (Long) session.getAttribute("userId");
         if(uid==null){
-            return "redirect:/";
+            return "go home";
         }
-        return "/user/changepw";
+        return "go checkpw";
+    }
+
+    @PostMapping("/user/checkpw")
+    @ResponseBody
+    public String checkPw(@RequestBody User user, HttpSession session){
+        Long uid = (Long) session.getAttribute("userId");
+
+        if(!userService.searchUserById(uid).getLogin_pw().equals(user.getLogin_pw()))
+            return "retry";
+        return "take permission and go changepw";
+
+    }
+
+    @GetMapping("/user/changepw")
+    @ResponseBody
+    public String changePw(){
+        //주소 값만 잘 숨기면 되는데..
+        //허락된 경로로만 접근할 수 있게 검사하는 코드..
+        return "go changepw";
     }
 
     @PostMapping("user/changepw")
     @ResponseBody
-    public User changePw(@RequestParam("id") Long id, @RequestParam("change_pw") String change_pw){
-        User user = userService.searchUserById(id);
+    public User changePw(@RequestBody String change_pw, HttpSession session){
+        Long uid = (Long) session.getAttribute("userId");
+
+        User user = userService.searchUserById(uid);
         user.setLogin_pw(change_pw);
         userService.changeUserPw(user);
-        return userService.searchUserById(id);
+        return userService.searchUserById(uid);
     }
 
     @PostMapping("/user/mypage")

@@ -27,7 +27,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void 회원_검색() throws Exception{
+    public void 회원_검색() throws Exception {
         //Given
         User user1 = new User();
         user1.setNickname("user1");
