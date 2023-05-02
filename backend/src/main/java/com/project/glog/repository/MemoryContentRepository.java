@@ -34,6 +34,18 @@ public class MemoryContentRepository implements ContentRepository{
     public Optional<Content> findById(Long id) {
         return Optional.ofNullable(store.get(id));
     }
+
+    @Override
+    public List<Content> searchContentsByString(String string) {
+        List<Content> contents = new ArrayList<>();
+        for (Map.Entry<Long, Content> entry : store.entrySet()) {
+            if (entry.getValue().getText().contains(string)) {
+                contents.add(entry.getValue());
+            }
+        }
+        return contents;
+    }
+
     @Override
     public List<Content> previewsByCreated() {
         ArrayList<Map.Entry<Long, Content>> map_list = new ArrayList<>(store.entrySet());
