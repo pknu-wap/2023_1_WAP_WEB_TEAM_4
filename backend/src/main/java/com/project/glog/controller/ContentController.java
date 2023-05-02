@@ -139,10 +139,6 @@ public class ContentController {
         return "success plus Likes";
     }
 
-    @PostMapping("/test")
-    @ResponseBody
-    public ResponseEntity<User> test(){
-        return ResponseEntity.ok(new User());
-    }
+
 }
 

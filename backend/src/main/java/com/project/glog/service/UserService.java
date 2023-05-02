@@ -17,7 +17,17 @@ UserService {
     }
     public Long join(User user){
 
-        validateDuplicateUser(user);
+        try {
+            validateDuplicateUser(user);
+        }
+        catch(Exception e){
+            if(e.getMessage().equals("이미 존재하는 회원입니다.")){
+                return -1L;
+            }
+            else if(e.getMessage().equals("이미 존재하는 아이디 입니다.")){
+                return -2L;
+            }
+        }
         userRepository.save(user);
         return user.getId();
     }

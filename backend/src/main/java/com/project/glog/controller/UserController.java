@@ -4,6 +4,8 @@ import com.project.glog.domain.User;
 import com.project.glog.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,15 +25,25 @@ public class UserController {
 
     @PostMapping("/user/register")
     @ResponseBody
-    public UserForm register(@RequestBody UserForm form){
+    public ResponseEntity<String> register(@RequestBody UserForm form){
         User user = new User();
         user.setNickname(form.getNickname());
         user.setLogin_id(form.getLogin_id());
         user.setLogin_pw(form.getLogin_pw());
 
-        userService.join(user);
+        Long result = userService.join(user);
+        ResponseEntity<String> responseEntity;
+        if(result==-1L){
+            responseEntity = ResponseEntity.status(HttpStatus.CONFLICT).body("present nickname");
+        }
+        else if(result==-2L){
+            responseEntity = ResponseEntity.status(HttpStatus.CONFLICT).body("present login_id");
+        }
+        else{
+            responseEntity = ResponseEntity.status(HttpStatus.OK).body("success register");
+        }
 
-        return form;
+        return responseEntity;
     }
 
 
@@ -81,7 +93,7 @@ public class UserController {
     public String changePw(HttpSession session){
         Long uid = (Long) session.getAttribute("userId");
         if(uid==null){
-            return "Not Logined";
+            return "not Logined";
         }
 
         //주소 값만 잘 숨기면 되는데..
