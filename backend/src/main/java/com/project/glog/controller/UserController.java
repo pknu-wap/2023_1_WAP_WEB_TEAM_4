@@ -23,7 +23,7 @@ public class UserController {
 
     @PostMapping("/user/register")
     @ResponseBody
-    public UserForm create(@RequestBody UserForm form){
+    public UserForm register(@RequestBody UserForm form){
         User user = new User();
         user.setNickname(form.getNickname());
         user.setLogin_id(form.getLogin_id());
@@ -37,7 +37,7 @@ public class UserController {
 
     @PostMapping("/user/login")
     @ResponseBody
-    public String signin(HttpSession session, @RequestBody UserForm userform){
+    public String login(HttpSession session, @RequestBody UserForm userform){
         Long uid = userService.login(userform.getLogin_id(), userform.getLogin_pw());
         if(uid==null){
             return "failed login";
