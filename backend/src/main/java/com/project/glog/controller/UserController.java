@@ -32,18 +32,15 @@ public class UserController {
         user.setLogin_pw(form.getLogin_pw());
 
         Long result = userService.join(user);
-        ResponseEntity<String> responseEntity;
         if(result==-1L){
-            responseEntity = ResponseEntity.status(HttpStatus.CONFLICT).body("present nickname");
+            return new ResponseEntity<>("present nickname", HttpStatus.OK);
         }
         else if(result==-2L){
-            responseEntity = ResponseEntity.status(HttpStatus.CONFLICT).body("present login_id");
+            return new ResponseEntity<>("present login_id", HttpStatus.CONFLICT);
         }
         else{
-            responseEntity = ResponseEntity.status(HttpStatus.OK).body("success register");
+            return new ResponseEntity<>("scucess register", HttpStatus.OK);
         }
-
-        return responseEntity;
     }
 
 
