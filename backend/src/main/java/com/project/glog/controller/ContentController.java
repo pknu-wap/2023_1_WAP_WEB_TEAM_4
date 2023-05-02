@@ -2,7 +2,6 @@ package com.project.glog.controller;
 
 
 import com.project.glog.domain.Content;
-import com.project.glog.domain.Hashtag;
 import com.project.glog.service.ContentService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ public class ContentController {
 
     @PostMapping("/content/create")
     @ResponseBody
-    public ContentForm create(HttpSession session, @RequestBody ContentForm contentform){
+    public Content create(HttpSession session, @RequestBody Content content){
         //1. 세션을 확인한다.
         Long uid = (Long) session.getAttribute("userId");
         if(uid==null){
@@ -34,16 +33,12 @@ public class ContentController {
             return null;
         }
 
-        Content content = contentform.getContent();
         content.setUser_id(uid);
-
-        List<Hashtag> hashtags = contentform.getHashtags();
-
         //2. 글을 저장한다.
         contentService.create(content);
 
 
-        return contentform;
+        return content;
     }
 
     @PostMapping("/content/delete")
