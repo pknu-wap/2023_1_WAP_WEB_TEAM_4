@@ -1,6 +1,7 @@
 package com.project.glog;
 
 import com.project.glog.repository.*;
+import com.project.glog.service.CategoryService;
 import com.project.glog.service.ContentService;
 import com.project.glog.service.UserService;
 import org.springframework.context.annotation.Bean;
@@ -25,5 +26,11 @@ public class SpringConfig {
 
     @Bean
     public ContentRepository contentRepository(){return new MemoryContentRepository();}
+
+    @Bean
+    public CategoryService categoryService(){return new CategoryService(categoryRepository());}
+
+    @Bean
+    public CategoryRepository categoryRepository(){return new MemoryCategoryRepository();}
 
 }

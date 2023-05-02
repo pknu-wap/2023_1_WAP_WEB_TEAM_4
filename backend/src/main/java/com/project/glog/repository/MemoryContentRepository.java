@@ -12,9 +12,11 @@ public class MemoryContentRepository implements ContentRepository{
     private static long sequence = 0L;
     @Override
     public Content save(Content content) {
-        content.setId(++sequence);
-        content.setLikes(0);
-        content.setViews(0);
+        if(content.getId()==null){
+            content.setId(++sequence);
+            content.setLikes(0);
+            content.setViews(0);
+        }
         store.put(content.getId(), content);
         return content;
     }
