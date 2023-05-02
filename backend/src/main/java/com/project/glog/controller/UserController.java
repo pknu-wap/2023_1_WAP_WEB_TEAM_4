@@ -49,7 +49,7 @@ public class UserController {
     public ResponseEntity<String> login(HttpSession session, @RequestBody UserForm userform){
         Long uid = userService.login(userform.getLogin_id(), userform.getLogin_pw());
         if(uid==null){
-            return new ResponseEntity<>("scucess register", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("failed login", HttpStatus.NOT_FOUND);
         }
         session.setAttribute("userId", uid);
         return new ResponseEntity<>("scucess login", HttpStatus.OK);

@@ -2,19 +2,14 @@ package com.project.glog.controller;
 
 
 import com.project.glog.domain.Content;
-import com.project.glog.domain.Hashtag;
-import com.project.glog.domain.User;
 import com.project.glog.service.ContentService;
-import com.project.glog.service.HashtagService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,17 +17,15 @@ import java.util.Map;
 @Controller
 public class ContentController {
     private final ContentService contentService;
-    private final HashtagService hashtagService;
 
     @Autowired
-    public ContentController(ContentService contentService, HashtagService hashtagService){
+    public ContentController(ContentService contentService){
         this.contentService = contentService;
-        this.hashtagService = hashtagService;
     }
 
     @PostMapping("/content/create")
     @ResponseBody
-    public ContentForm create(HttpSession session, @RequestBody ContentForm contentform){
+    public Content create(HttpSession session, @RequestBody Content content){
         //1. 세션을 확인한다.
         Long uid = (Long) session.getAttribute("userId");
         if(uid==null){
@@ -40,18 +33,12 @@ public class ContentController {
             return null;
         }
 
-        Content content = contentform.getContent();
         content.setUser_id(uid);
-
-        List<Hashtag> hashtags = contentform.getHashtags();
-
         //2. 글을 저장한다.
         contentService.create(content);
 
-        //3. 해쉬태그를 저장한다.
-        hashtagService.save(contentform.getHashtags(), content.getId());
 
-        return contentform;
+        return content;
     }
 
     @PostMapping("/content/delete")
@@ -66,26 +53,27 @@ public class ContentController {
         //2. 글을 삭제한다.
         contentService.delete(cid);
 
-        //3. 해쉬태그를 삭제한다.
-        hashtagService.delete(cid);
-
         return "deleted";
     }
 
     @PostMapping("/content")
     @ResponseBody
-    public Content readContent(HttpSession session, @RequestParam("cid") Long cid){
-        //1. 세션을 확인한다.
+    public ResponseEntity<Map<String, Object>> readContent(HttpSession session, @RequestParam("cid") Long cid){
+        //세션을 확인한다.
         Long uid = (Long) session.getAttribute("userId");
         if(uid==null){
-            System.out.println("Not Logined");;
+            System.out.println("Not Logined");
         }
 
-        //2. 글을 찾아준다.
+        Map<String, Object> response = new HashMap<>();
+
+        //글을 찾아준다.
         Content content;
         content = contentService.getOne(cid);
 
-        return content;
+        response.put("content", content);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/main")
@@ -116,11 +104,11 @@ public class ContentController {
 
     @PostMapping("/content/find")
     @ResponseBody
-    public List<Content> searchContentsByHastag(HttpSession session, @RequestParam("hashtag") String hashtag){
-        //1. 글을 찾아준다.
-        List<Long> cids = hashtagService.searchContentsByHashtag(hashtag);
+    public ResponseEntity<List<Content>> searchContentsByString(HttpSession session, @RequestParam("string") String string){
+        //string 내용을 포함한 게시글의 리스트를 생성한다.
+        List<Content> contents = contentService.searchContentsByString(string);
 
-        return contentService.searchContentsById(cids);
+        return new ResponseEntity<>(contents, HttpStatus.OK);
     }
 
     @PostMapping("/content/pluslikes")

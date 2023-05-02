@@ -1,9 +1,8 @@
 package com.project.glog;
 
-import com.project.glog.domain.Content;
 import com.project.glog.repository.*;
+import com.project.glog.service.CategoryService;
 import com.project.glog.service.ContentService;
-import com.project.glog.service.HashtagService;
 import com.project.glog.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,9 +28,9 @@ public class SpringConfig {
     public ContentRepository contentRepository(){return new MemoryContentRepository();}
 
     @Bean
-    public HashtagService hashtagService(){return new HashtagService(hashtagRepository());}
+    public CategoryService categoryService(){return new CategoryService(categoryRepository());}
 
     @Bean
-    public HashtagRepository hashtagRepository(){return new MemoryHashtagRepository();}
+    public CategoryRepository categoryRepository(){return new MemoryCategoryRepository();}
 
 }
