@@ -46,13 +46,13 @@ public class UserController {
 
     @PostMapping("/user/login")
     @ResponseBody
-    public String login(HttpSession session, @RequestBody UserForm userform){
+    public ResponseEntity<String> login(HttpSession session, @RequestBody UserForm userform){
         Long uid = userService.login(userform.getLogin_id(), userform.getLogin_pw());
         if(uid==null){
-            return "failed login";
+            return new ResponseEntity<>("scucess register", HttpStatus.NOT_FOUND);
         }
         session.setAttribute("userId", uid);
-        return "success login";
+        return new ResponseEntity<>("scucess login", HttpStatus.OK);
     }
 
     @GetMapping("/user/search")
