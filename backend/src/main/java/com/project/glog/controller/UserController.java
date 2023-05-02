@@ -78,7 +78,12 @@ public class UserController {
 
     @GetMapping("/user/changepw")
     @ResponseBody
-    public String changePw(){
+    public String changePw(HttpSession session){
+        Long uid = (Long) session.getAttribute("userId");
+        if(uid==null){
+            return "Not Logined";
+        }
+
         //주소 값만 잘 숨기면 되는데..
         //허락된 경로로만 접근할 수 있게 검사하는 코드..
         return "go changepw";
