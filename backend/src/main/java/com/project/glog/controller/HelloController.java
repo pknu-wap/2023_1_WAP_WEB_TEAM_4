@@ -13,11 +13,13 @@ import java.util.Map;
 @Controller
 public class HelloController {
 
+    /*
     @GetMapping("hello")
     public String hello(Model model){
         model.addAttribute("data", "hello!!");
         return "hello";
     }
+    */
 
     //뷰 리졸버 사용 x, http body에 직접 문자 내용을 반환함
     @GetMapping("hello-string")
