@@ -37,6 +37,8 @@ public class MemoryContentRepository implements ContentRepository{
         return Optional.ofNullable(store.get(id));
     }
 
+
+
     @Override
     public List<Content> searchContentsByString(String string) {
         List<Content> contents = new ArrayList<>();
@@ -116,4 +118,15 @@ public class MemoryContentRepository implements ContentRepository{
         return list;
     }
 
+    @Override
+    public List<Content> getAllContentsByUser(User user) {
+        Long uid = user.getId();
+        List<Content> contents = new ArrayList<>();
+        for(Map.Entry<Long, Content> entry : store.entrySet()){
+            if(entry.getValue().getUser_id().equals(uid) ){
+                contents.add(entry.getValue());
+            }
+        }
+        return contents;
+    }
 }

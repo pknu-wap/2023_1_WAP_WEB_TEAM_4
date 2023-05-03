@@ -1,8 +1,12 @@
 package com.project.glog.controller;
 
 
+import com.project.glog.domain.Blog;
+import com.project.glog.domain.Category;
 import com.project.glog.domain.Content;
 import com.project.glog.domain.User;
+import com.project.glog.service.BlogService;
+import com.project.glog.service.CategoryService;
 import com.project.glog.service.ContentService;
 import com.project.glog.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -21,16 +25,23 @@ import java.util.Map;
 public class ContentController {
     private final ContentService contentService;
     private final UserService userService;
+    private final CategoryService categoryService;
+    private final BlogService blogService;
 
     @Autowired
-    public ContentController(ContentService contentService, UserService userService){
+    public ContentController(ContentService contentService,
+                             UserService userService,
+                             CategoryService categoryService,
+                             BlogService blogService){
         this.contentService = contentService;
         this.userService = userService;
+        this.categoryService = categoryService;
+        this.blogService = blogService;
     }
 
     @PostMapping("/content/create")
     @ResponseBody
-    public Content create(HttpSession session, @RequestBody Content content){
+    public Content create(HttpSession session, @RequestBody CreateContentForm form){
         //1. 세션을 확인한다.
         Long uid = (Long) session.getAttribute("userId");
         if(uid==null){
@@ -38,12 +49,12 @@ public class ContentController {
             return null;
         }
 
-        content.setUser_id(uid);
         //2. 글을 저장한다.
-        contentService.create(content);
+        form.getContent().setUser_id(uid);
+        contentService.create(form);
 
 
-        return content;
+        return form.getContent();
     }
 
     @PostMapping("/content/delete")
@@ -63,7 +74,7 @@ public class ContentController {
 
     @PostMapping("/content")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> readContent(HttpSession session, @RequestParam("cid") Long cid){
+    public ResponseEntity<Map<String, Object>> readContent(HttpSession session, @RequestBody Content content){
         //세션을 확인한다.
         Long uid = (Long) session.getAttribute("userId");
         if(uid==null){
@@ -72,11 +83,39 @@ public class ContentController {
 
         Map<String, Object> response = new HashMap<>();
 
-        //글을 찾아준다.
-        Content content;
-        content = contentService.getOne(cid);
+        response.put("user", userService.searchUserById(uid));
 
+        //글을 반환한다.
+        content.setViews(content.getViews()+1);
         response.put("content", content);
+
+        //해당 블로그의 유저를 추출한다.
+        User blogAdmin = userService.searchUserById(content.getUser_id());
+
+
+        // 해당 컨텐츠를 작성한 블로그의 카테고리를 전부 불러온다.
+        List<Category> categoryList = categoryService.getBlogCategorys(blogService.getBlogIdByUserId(blogAdmin.getId()).get());
+
+        //사이드바 매핑 테이블을 만든다.
+        Map<String, List<Content>> sidebar = new HashMap<>();
+
+        //불러온 카테고리를 순회하면서 해당 카테고리 id를 가진 게시글을 전부 읽어
+        //리스트로 만들고 맵에 매핑 시킨다.
+        List<Content> allContents = contentService.getAllContentsByUser(blogAdmin);
+        for(Category categoryEntry : categoryList){
+            List<Content> categoryContents = new ArrayList<>();
+            for(Content contentEntry : allContents){
+                if(categoryEntry.getId().equals(contentEntry.getCat_id())){
+                    //리스트에 컨텐츠 추가
+                    categoryContents.add(contentEntry);
+                }
+            }
+            //리스트가 비어있지 않으면 Map 테이블에 추가
+            if(!categoryContents.isEmpty()){
+                sidebar.put(categoryEntry.getName(), categoryContents);
+            }
+        }
+        response.put("sidebar", sidebar);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -154,7 +193,7 @@ public class ContentController {
         return new ResponseEntity<>(contents,HttpStatus.OK);
     }
 
-    @PostMapping("/content/find")
+    @GetMapping("/content/find")
     @ResponseBody
     public ResponseEntity<List<Content>> searchContentsByString(HttpSession session, @RequestParam("string") String string){
         //string 내용을 포함한 게시글의 리스트를 생성한다.

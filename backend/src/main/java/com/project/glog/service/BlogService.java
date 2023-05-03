@@ -19,4 +19,8 @@ public class BlogService {
     public Optional<Blog> getOne(Blog blog){
         return blogRepository.find(blog);
     }
+
+    public Optional<Blog> getBlogIdByUserId(Long uid){
+        return blogRepository.getBlogIdByUserId(uid);
+    }
 }

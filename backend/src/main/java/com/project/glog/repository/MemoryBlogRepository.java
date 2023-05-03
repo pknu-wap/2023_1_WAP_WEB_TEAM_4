@@ -23,4 +23,11 @@ public class MemoryBlogRepository implements BlogRepository{
 
         return Optional.ofNullable(store.get(bid));
     }
+
+    @Override
+    public Optional<Blog> getBlogIdByUserId(Long uid) {
+        return store.values().stream()
+                .filter(blog -> blog.getUid().equals(uid))
+                .findAny();
+    }
 }

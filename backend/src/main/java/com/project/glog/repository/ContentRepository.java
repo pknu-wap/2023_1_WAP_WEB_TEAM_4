@@ -1,6 +1,7 @@
 package com.project.glog.repository;
 
 import com.project.glog.domain.Content;
+import com.project.glog.domain.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,5 +17,5 @@ public interface ContentRepository {
     List<Content> previewsByLikes();
     List<Content> previewsByViews();
     List<Content> previewsByRandom();
-
+    List<Content> getAllContentsByUser(User user);
 }

@@ -22,7 +22,7 @@ public class SpringConfig {
     }
 
     @Bean
-    public ContentService contentService(){return new ContentService(contentRepository());
+    public ContentService contentService(){return new ContentService(contentRepository(), categoryService());
     }
 
     @Bean

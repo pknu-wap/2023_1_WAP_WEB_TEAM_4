@@ -8,4 +8,5 @@ public interface BlogRepository {
     public void save(Blog blog);
     public Optional<Blog> find(Blog blog);
 
+    public Optional<Blog> getBlogIdByUserId(Long uid);
 }

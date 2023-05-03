@@ -1,6 +1,9 @@
 package com.project.glog.service;
 
+import com.project.glog.controller.CreateContentForm;
 import com.project.glog.domain.Content;
+import com.project.glog.domain.User;
+import com.project.glog.repository.CategoryRepository;
 import com.project.glog.repository.ContentRepository;
 
 import java.util.ArrayList;
@@ -8,15 +11,21 @@ import java.util.List;
 
 public class ContentService {
     private final ContentRepository contentRepository;
+    private final CategoryService categoryService;
 
-    public ContentService(ContentRepository contentRepository){
+    public ContentService(ContentRepository contentRepository,
+                          CategoryService categoryService){
         this.contentRepository = contentRepository;
+        this.categoryService = categoryService;
     }
 
-    public Content create(Content content){
-        contentRepository.save(content);
+    public Content create(CreateContentForm form){
+        contentRepository.save(form.getContent());
 
-        return content;
+        form.getContent().setCat_id(form.getCategory().getId());
+        categoryService.save(form.getCategory());
+
+        return form.getContent();
     }
 
     public void delete(Long cid){
@@ -54,4 +63,7 @@ public class ContentService {
         return contentRepository.previewsByRandom();
     }
 
+    public List<Content> getAllContentsByUser(User user){
+        return contentRepository.getAllContentsByUser(user);
+    }
 }
