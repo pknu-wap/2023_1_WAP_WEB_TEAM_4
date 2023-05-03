@@ -1,6 +1,7 @@
 package com.project.glog;
 
 import com.project.glog.repository.*;
+import com.project.glog.service.BlogService;
 import com.project.glog.service.CategoryService;
 import com.project.glog.service.ContentService;
 import com.project.glog.service.UserService;
@@ -12,7 +13,7 @@ public class SpringConfig {
 
     @Bean
     public UserService userService(){
-        return new UserService(userRepository());
+        return new UserService(userRepository(),blogService());
     }
 
     @Bean
@@ -21,7 +22,7 @@ public class SpringConfig {
     }
 
     @Bean
-    public ContentService contentService(){return new ContentService(contentRepository());
+    public ContentService contentService(){return new ContentService(contentRepository(), categoryService());
     }
 
     @Bean
@@ -32,5 +33,11 @@ public class SpringConfig {
 
     @Bean
     public CategoryRepository categoryRepository(){return new MemoryCategoryRepository();}
+
+    @Bean
+    public BlogService blogService(){return new BlogService(blogRepository());}
+
+    @Bean
+    public BlogRepository blogRepository(){return new MemoryBlogRepository();}
 
 }

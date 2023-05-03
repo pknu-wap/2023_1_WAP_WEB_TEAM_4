@@ -17,8 +17,8 @@ public class MemoryCategoryRepository implements CategoryRepository{
     public void save(Category category) {
         if(category.getId()==null){
             category.setId(++sequence);
-            category.setCount(0);
         }
+
         store.put(category.getId(), category);
     }
 

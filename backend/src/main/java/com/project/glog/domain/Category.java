@@ -5,7 +5,6 @@ public class Category {
     private Long blog_id;
     private String name;
 
-    private int count;  //해당 카테고리에 글이 몇개 있는지
 
     public Long getId() {
         return id;
@@ -31,11 +30,4 @@ public class Category {
         this.name = name;
     }
 
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
 }
