@@ -1,5 +1,6 @@
 package com.project.glog.service;
 
+import com.project.glog.domain.Blog;
 import com.project.glog.domain.User;
 import com.project.glog.repository.MemoryUserRepository;
 import com.project.glog.repository.UserRepository;
@@ -11,9 +12,12 @@ public class
 UserService {
 
     private final UserRepository userRepository;
+    private final BlogService blogService;
 
-    public UserService(UserRepository userRepository){
+    public UserService(UserRepository userRepository, BlogService blogService){
+
         this.userRepository = userRepository;
+        this.blogService = blogService;
     }
     public Long join(User user){
 
@@ -29,6 +33,12 @@ UserService {
             }
         }
         userRepository.save(user);
+
+        //블로그를 새로 판다.
+        Blog blog = new Blog();
+        blog.setUid(user.getId());
+        blogService.save(blog);
+
         return user.getId();
     }
 

@@ -14,11 +14,12 @@ public class UserServiceTest {
 
     UserService userService;
     MemoryUserRepository userRepository;
+    BlogService blogService;
 
     @BeforeEach
     public void beforeEach(){
         userRepository = new MemoryUserRepository();
-        userService = new UserService(userRepository);
+        userService = new UserService(userRepository, blogService);
     }
 
     @AfterEach

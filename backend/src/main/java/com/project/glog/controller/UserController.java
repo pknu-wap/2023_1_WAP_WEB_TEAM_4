@@ -33,7 +33,7 @@ public class UserController {
 
         Long result = userService.join(user);
         if(result==-1L){
-            return new ResponseEntity<>("present nickname", HttpStatus.OK);
+            return new ResponseEntity<>("present nickname", HttpStatus.CONFLICT);
         }
         else if(result==-2L){
             return new ResponseEntity<>("present login_id", HttpStatus.CONFLICT);
