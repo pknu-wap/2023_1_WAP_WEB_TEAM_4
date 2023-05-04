@@ -3,6 +3,7 @@ package com.project.glog.controller;
 import com.project.glog.domain.Blog;
 import com.project.glog.domain.Category;
 import com.project.glog.domain.Content;
+import com.project.glog.service.BlogService;
 import com.project.glog.service.CategoryService;
 import com.project.glog.service.ContentService;
 import jakarta.servlet.http.HttpSession;
@@ -21,10 +22,14 @@ import java.util.List;
 public class CategoryController {
 
     private final CategoryService categoryService;
+    private final BlogService blogService;
 
     @Autowired
-    public CategoryController(CategoryService categoryService){
+    public CategoryController(CategoryService categoryService,
+                              BlogService blogService){
+
         this.categoryService = categoryService;
+        this.blogService = blogService;
     }
 
     @PostMapping("/category/save")
@@ -36,6 +41,10 @@ public class CategoryController {
             System.out.println("Not Logined");
             return null;
         }
+
+        //카테고리의 블로그 외래키를 저장한다.
+        Long bid = blogService.getBlogIdByUserId(uid).get().getId();
+        category.setBlog_id(bid);
 
         //카테고리를 저장한다.
         categoryService.save(category);
