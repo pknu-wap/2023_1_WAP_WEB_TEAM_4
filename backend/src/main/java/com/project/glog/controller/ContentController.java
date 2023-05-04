@@ -72,7 +72,7 @@ public class ContentController {
         return "deleted";
     }
 
-    @PostMapping("/content")
+    @GetMapping("/content/read")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> readContent(HttpSession session, @RequestBody Content content){
         //세션을 확인한다.
