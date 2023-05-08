@@ -4,6 +4,7 @@ public class Content {
     private Long id;
     private Long user_id;
     private Long cat_id;
+    private Long blog_id;
 
     private String title;
 
@@ -39,6 +40,13 @@ public class Content {
 
     public void setCat_id(Long cat_id) {
         this.cat_id = cat_id;
+    }
+    public Long getBlog_id() {
+        return blog_id;
+    }
+
+    public void setBlog_id(Long blog_id) {
+        this.blog_id = blog_id;
     }
 
     public String getTitle() {
