@@ -44,7 +44,6 @@ public class CategoryController {
 
         //카테고리의 블로그 외래키를 저장한다.
         Long bid = blogService.getBlogIdByUserId(uid).get().getId();
-        category.setBlog_id(bid);
 
         //카테고리를 저장한다.
         categoryService.save(category);

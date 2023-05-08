@@ -22,7 +22,7 @@ public class ContentService {
     public Content create(CreateContentForm form){
         contentRepository.save(form.getContent());
 
-        form.getContent().setCat_id(form.getCategory().getId());
+        form.getContent().setCategory(form.getCategory());
         categoryService.save(form.getCategory());
 
         return form.getContent();

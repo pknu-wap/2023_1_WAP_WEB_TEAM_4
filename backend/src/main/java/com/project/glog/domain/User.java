@@ -1,14 +1,23 @@
 package com.project.glog.domain;
 
-//DTO, VO
-public class User {
+import jakarta.persistence.*;
 
+//DTO, VO
+@Entity
+public class Member {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @OneToOne
+    @JoinColumn(name="blog_id")
+    private Blog blog;
     private String login_id;
     private String login_pw;
     private String nickname;
     private String url;
     private String profile_image;
+
 
     public Long getId() {
         return id;
@@ -16,6 +25,14 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Blog getBlog() {
+        return blog;
+    }
+
+    public void setBlog(Blog blog) {
+        this.blog = blog;
     }
 
     public String getLogin_id() {

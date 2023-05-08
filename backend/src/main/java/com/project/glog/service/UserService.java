@@ -36,7 +36,7 @@ UserService {
 
         //블로그를 새로 판다.
         Blog blog = new Blog();
-        blog.setUid(user.getId());
+        blog.setUser(user);
         blogService.save(blog);
 
         return user.getId();

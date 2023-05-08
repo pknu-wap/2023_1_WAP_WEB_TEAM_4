@@ -1,10 +1,16 @@
 package com.project.glog.domain;
 
+import jakarta.persistence.*;
+
 import java.util.List;
 
+@Entity
 public class Blog {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long uid;
+    @OneToOne(mappedBy = "blog")
+    private User user;
     private String blog_name;
     private String blog_url;
     private String introduction;
@@ -17,12 +23,12 @@ public class Blog {
         this.id = id;
     }
 
-    public Long getUid() {
-        return uid;
+    public User getUser() {
+        return user;
     }
 
-    public void setUid(Long uid) {
-        this.uid = uid;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getBlog_name() {

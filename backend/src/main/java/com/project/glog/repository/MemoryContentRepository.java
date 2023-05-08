@@ -123,7 +123,7 @@ public class MemoryContentRepository implements ContentRepository{
         Long uid = user.getId();
         List<Content> contents = new ArrayList<>();
         for(Map.Entry<Long, Content> entry : store.entrySet()){
-            if(entry.getValue().getUser_id().equals(uid) ){
+            if(entry.getValue().getUser().getId().equals(uid) ){
                 contents.add(entry.getValue());
             }
         }

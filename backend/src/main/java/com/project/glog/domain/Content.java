@@ -1,10 +1,22 @@
 package com.project.glog.domain;
 
+import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
+
+import java.time.LocalDateTime;
+
+@Entity
 public class Content {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long user_id;
-    private Long cat_id;
-    private Long blog_id;
+
+    @ManyToOne
+    private User user;
+    @ManyToOne
+    private Category category;
+    @ManyToOne
+    private Blog blog;
 
     private String title;
 
@@ -16,7 +28,8 @@ public class Content {
 
     private Integer views;
 
-    private String date_created;
+    @ColumnDefault("CURRENT_TIMESTAMP")
+    private LocalDateTime createdAt;
 
     public Long getId() {
         return id;
@@ -26,28 +39,30 @@ public class Content {
         this.id = id;
     }
 
-    public Long getUser_id() {
-        return user_id;
+    public User getUser() {
+        return user;
     }
 
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Long getCat_id() {
-        return cat_id;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCat_id(Long cat_id) {
-        this.cat_id = cat_id;
-    }
-    public Long getBlog_id() {
-        return blog_id;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
-    public void setBlog_id(Long blog_id) {
-        this.blog_id = blog_id;
+    public Blog getBlog() {
+        return blog;
     }
+
+    public void setBlog(Blog blog) {
+        this.blog = blog;
+    }
+
 
     public String getTitle() {
         return title;
@@ -83,14 +98,16 @@ public class Content {
     public Integer getViews() {
         return views;
     }
+
     public void setViews(Integer views) {
         this.views = views;
-    }public String getDate_created() {
-        return date_created;
     }
 
-    public void setDate_created(String date_created) {
-        this.date_created = date_created;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 }

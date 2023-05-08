@@ -50,7 +50,6 @@ public class ContentController {
         }
 
         //2. 글을 저장한다.
-        form.getContent().setUser_id(uid);
         contentService.create(form);
 
 
@@ -90,7 +89,7 @@ public class ContentController {
         response.put("content", content);
 
         //해당 블로그의 유저를 추출한다.
-        User blogAdmin = userService.searchUserById(content.getUser_id());
+        User blogAdmin = userService.searchUserById(content.getUser().getId());
 
 
         // 해당 컨텐츠를 작성한 블로그의 카테고리를 전부 불러온다.
@@ -105,7 +104,7 @@ public class ContentController {
         for(Category categoryEntry : categoryList){
             List<Content> categoryContents = new ArrayList<>();
             for(Content contentEntry : allContents){
-                if(categoryEntry.getId().equals(contentEntry.getCat_id())){
+                if(categoryEntry.getId().equals(contentEntry.getCategory().getId())){
                     //리스트에 컨텐츠 추가
                     categoryContents.add(contentEntry);
                 }

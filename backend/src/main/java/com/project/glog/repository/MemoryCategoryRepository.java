@@ -31,7 +31,7 @@ public class MemoryCategoryRepository implements CategoryRepository{
     public List<Category> getBlogCategorys(Blog blog) {
         List<Category> categoryList = new ArrayList<>();
         for (Map.Entry<Long, Category> entry : store.entrySet()) {
-            if (entry.getValue().getBlog_id().equals(blog.getId())) {
+            if (entry.getValue().getBlog().getId().equals(blog.getId())) {
                 categoryList.add(entry.getValue());
             }
         }

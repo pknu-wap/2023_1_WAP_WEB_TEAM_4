@@ -1,8 +1,15 @@
 package com.project.glog.domain;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Category {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long blog_id;
+
+    @ManyToOne
+    private Blog blog;
     private String name;
 
 
@@ -14,12 +21,12 @@ public class Category {
         this.id = id;
     }
 
-    public Long getBlog_id() {
-        return blog_id;
+    public Blog getBlog() {
+        return blog;
     }
 
-    public void setBlog_id(Long blog_id) {
-        this.blog_id = blog_id;
+    public void setBlog(Blog blog) {
+        this.blog = blog;
     }
 
     public String getName() {

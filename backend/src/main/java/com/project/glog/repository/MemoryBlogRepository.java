@@ -27,7 +27,7 @@ public class MemoryBlogRepository implements BlogRepository{
     @Override
     public Optional<Blog> getBlogIdByUserId(Long uid) {
         return store.values().stream()
-                .filter(blog -> blog.getUid().equals(uid))
+                .filter(blog -> blog.getUser().getId().equals(uid))
                 .findAny();
     }
 }
