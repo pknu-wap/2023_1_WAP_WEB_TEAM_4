@@ -10,7 +10,7 @@ public class Blog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne(mappedBy = "blog")
-    private User user;
+    private Member member;
     private String blog_name;
     private String blog_url;
     private String introduction;
@@ -23,12 +23,12 @@ public class Blog {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public Member getMember() {
+        return member;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setMember(Member member) {
+        this.member = member;
     }
 
     public String getBlog_name() {

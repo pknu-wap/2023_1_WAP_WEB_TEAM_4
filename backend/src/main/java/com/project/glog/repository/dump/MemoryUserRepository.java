@@ -1,11 +1,12 @@
-package com.project.glog.repository;
+package com.project.glog.repository.dump;
 
 import com.project.glog.domain.User;
+import com.project.glog.repository.UserRepository;
 
 import java.util.*;
 
 //DAO
-public class MemoryUserRepository implements UserRepository{
+public class MemoryUserRepository implements UserRepository {
 
     private static Map<Long, User> store = new HashMap<>();
     private static long sequence = 0L;

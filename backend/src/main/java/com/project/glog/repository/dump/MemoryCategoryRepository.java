@@ -1,15 +1,16 @@
-package com.project.glog.repository;
+package com.project.glog.repository.dump;
 
 import com.project.glog.domain.Blog;
 import com.project.glog.domain.Category;
 import com.project.glog.domain.Content;
+import com.project.glog.repository.CategoryRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MemoryCategoryRepository implements CategoryRepository{
+public class MemoryCategoryRepository implements CategoryRepository {
     private static Map<Long, Category> store = new HashMap<>();
     private static long sequence = 0L;
 

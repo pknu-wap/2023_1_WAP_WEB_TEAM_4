@@ -1,12 +1,11 @@
 package com.project.glog.repository;
 
 import com.project.glog.domain.Blog;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-public interface BlogRepository {
-    public void save(Blog blog);
-    public Optional<Blog> find(Blog blog);
-
-    public Optional<Blog> getBlogIdByUserId(Long uid);
+@Repository
+public interface BlogRepository extends JpaRepository<Blog, Long> {
 }

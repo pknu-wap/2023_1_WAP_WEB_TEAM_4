@@ -1,12 +1,13 @@
-package com.project.glog.repository;
+package com.project.glog.repository.dump;
 
 import com.project.glog.domain.Blog;
+import com.project.glog.repository.BlogRepository;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class MemoryBlogRepository implements BlogRepository{
+public class MemoryBlogRepository implements BlogRepository {
     public static Map<Long, Blog> store = new HashMap<>();
     public static Long sequence=0L;
     @Override

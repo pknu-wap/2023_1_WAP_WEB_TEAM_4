@@ -12,7 +12,7 @@ public class Content {
     private Long id;
 
     @ManyToOne
-    private User user;
+    private Member member;
     @ManyToOne
     private Category category;
     @ManyToOne
@@ -39,12 +39,12 @@ public class Content {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public Member getMember() {
+        return member;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setMember(Member member) {
+        this.member = member;
     }
 
     public Category getCategory() {

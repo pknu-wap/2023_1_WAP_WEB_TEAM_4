@@ -2,11 +2,10 @@ package com.project.glog.repository;
 
 import com.project.glog.domain.Blog;
 import com.project.glog.domain.Category;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface CategoryRepository {
-    public void save(Category category);
-    public void delete(Category category);
-    public List<Category> getBlogCategorys(Blog blog);
+public interface CategoryRepository extends JpaRepository<Category,Long> {
+
 }

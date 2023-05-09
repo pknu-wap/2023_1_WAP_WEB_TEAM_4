@@ -1,8 +1,7 @@
 package com.project.glog.service;
 
 import com.project.glog.domain.User;
-import com.project.glog.repository.MemoryUserRepository;
-import com.project.glog.repository.UserRepository;
+import com.project.glog.repository.dump.MemoryUserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,14 +11,14 @@ import java.util.List;
 
 public class UserServiceTest {
 
-    UserService userService;
+    MemberService userService;
     MemoryUserRepository userRepository;
     BlogService blogService;
 
     @BeforeEach
     public void beforeEach(){
         userRepository = new MemoryUserRepository();
-        userService = new UserService(userRepository, blogService);
+        userService = new MemberService(userRepository, blogService);
     }
 
     @AfterEach

@@ -1,14 +1,13 @@
 package com.project.glog.controller;
 
 
-import com.project.glog.domain.Blog;
 import com.project.glog.domain.Category;
 import com.project.glog.domain.Content;
-import com.project.glog.domain.User;
+import com.project.glog.domain.Member;
 import com.project.glog.service.BlogService;
 import com.project.glog.service.CategoryService;
 import com.project.glog.service.ContentService;
-import com.project.glog.service.UserService;
+import com.project.glog.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,83 +23,79 @@ import java.util.Map;
 @Controller
 public class ContentController {
     private final ContentService contentService;
-    private final UserService userService;
+    private final MemberService memberService;
     private final CategoryService categoryService;
     private final BlogService blogService;
 
     @Autowired
     public ContentController(ContentService contentService,
-                             UserService userService,
+                             MemberService memberService,
                              CategoryService categoryService,
                              BlogService blogService){
         this.contentService = contentService;
-        this.userService = userService;
+        this.memberService = memberService;
         this.categoryService = categoryService;
         this.blogService = blogService;
     }
 
     @PostMapping("/content/create")
     @ResponseBody
-    public Content create(HttpSession session, @RequestBody CreateContentForm form){
+    public ResponseEntity<CreateContentForm> create(HttpSession session, @RequestBody CreateContentForm form){
         //1. 세션을 확인한다.
-        Long uid = (Long) session.getAttribute("userId");
+        Long uid = (Long) session.getAttribute("memberId");
         if(uid==null){
-            System.out.println("Not Logined");
-            return null;
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
 
         //2. 글을 저장한다.
-        contentService.create(form);
+        //카테고리는 이미 저장되어 있어서 요청으로 들어올 것이므로 글만 저장하면 된다.
+        contentService.save(form);
 
-
-        return form.getContent();
+        return new ResponseEntity<>(form, HttpStatus.OK);
     }
 
     @PostMapping("/content/delete")
     @ResponseBody
-    public String delete(HttpSession session, @RequestParam("cid") Long cid){
+    public ResponseEntity<String> delete(HttpSession session, @RequestBody Content content){
         //1. 세션을 확인한다.
-        Long uid = (Long) session.getAttribute("userId");
+        Long uid = (Long) session.getAttribute("memberId");
         if(uid==null){
-            return null;
+            return new ResponseEntity<>("not logined",HttpStatus.UNAUTHORIZED);
+        }
+        else if(uid!= content.getMember().getId()){
+            return new ResponseEntity<>("not creator",HttpStatus.UNAUTHORIZED);
         }
 
         //2. 글을 삭제한다.
-        contentService.delete(cid);
+        contentService.delete(content);
 
-        return "deleted";
+        return new ResponseEntity<>("success delete",HttpStatus.OK);
     }
 
     @GetMapping("/content/read")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> readContent(HttpSession session, @RequestBody Content content){
         //세션을 확인한다.
-        Long uid = (Long) session.getAttribute("userId");
+        Long uid = (Long) session.getAttribute("memberId");
         if(uid==null){
             System.out.println("Not Logined");
         }
 
         Map<String, Object> response = new HashMap<>();
 
-        response.put("user", userService.searchUserById(uid));
-
         //글을 반환한다.
         content.setViews(content.getViews()+1);
         response.put("content", content);
 
-        //해당 블로그의 유저를 추출한다.
-        User blogAdmin = userService.searchUserById(content.getUser().getId());
-
-
         // 해당 컨텐츠를 작성한 블로그의 카테고리를 전부 불러온다.
-        List<Category> categoryList = categoryService.getBlogCategorys(blogService.getBlogIdByUserId(blogAdmin.getId()).get());
+        List<Category> categoryList = categoryService.getCategorysByBlog(content.getBlog());
 
         //사이드바 매핑 테이블을 만든다.
         Map<String, List<Content>> sidebar = new HashMap<>();
 
         //불러온 카테고리를 순회하면서 해당 카테고리 id를 가진 게시글을 전부 읽어
         //리스트로 만들고 맵에 매핑 시킨다.
-        List<Content> allContents = contentService.getAllContentsByUser(blogAdmin);
+        List<Content> allContents = contentService.getAllContentsByBlog(content.getBlog());
         for(Category categoryEntry : categoryList){
             List<Content> categoryContents = new ArrayList<>();
             for(Content contentEntry : allContents){
@@ -126,14 +121,14 @@ public class ContentController {
         Map<String, Object> response = new HashMap<>();
 
         //세션을 확인한다.
-        Long uid = (Long) session.getAttribute("userId");
+        Long uid = (Long) session.getAttribute("memberId");
         if(uid==null){
             System.out.println("Not Logined");
-            response.put("user", null);
+            response.put("member", null);
         }
         else{
-            User user = userService.searchUserById(uid);
-            response.put("user", user);
+            Member member = memberService.searchMemberById(uid);
+            response.put("member", member);
         }
 
         //미리보기용 리스트에 각각 글을 넣는다.
@@ -165,7 +160,7 @@ public class ContentController {
     @ResponseBody
     public ResponseEntity<List<Content>> mainMore(HttpSession session, @RequestParam("kind") String kind, @RequestParam("index") int index){
         //1. 세션을 확인한다.
-        Long uid = (Long) session.getAttribute("userId");
+        Long uid = (Long) session.getAttribute("memberId");
         if(uid==null){
             System.out.println("Not Logined");
         }
@@ -203,18 +198,18 @@ public class ContentController {
 
     @PostMapping("/content/pluslikes")
     @ResponseBody
-    public String plusLikes(HttpSession session, @RequestParam Long cid){
+    public ResponseEntity<String> plusLikes(HttpSession session, @RequestParam Long cid){
         //1. 세션을 확인한다.
-        Long uid = (Long) session.getAttribute("userId");
+        Long uid = (Long) session.getAttribute("memberId");
         if(uid==null){
-            return "Not Logined";
+            return new ResponseEntity<>("not logined", HttpStatus.OK);
         }
 
         //2. 해당 글의 좋아요를 1 증가 시킨다.
-        Content content = contentService.getOne(cid);
+        Content content = contentService.findById(cid);
         content.setLikes(content.getLikes()+1);
 
-        return "success plus Likes";
+        return new ResponseEntity<>("success plus likes", HttpStatus.OK);
     }
 
 

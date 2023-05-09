@@ -36,28 +36,29 @@ public class CategoryController {
     @ResponseBody
     public ResponseEntity<String> save(HttpSession session, @RequestBody Category category){
         //세션을 확인한다.
-        Long uid = (Long) session.getAttribute("userId");
+        Long uid = (Long) session.getAttribute("memberId");
         if(uid==null){
-            System.out.println("Not Logined");
+            System.out.println("not Logined");
             return null;
         }
 
         //카테고리의 블로그 외래키를 저장한다.
-        Long bid = blogService.getBlogIdByUserId(uid).get().getId();
+        Blog blog = blogService.getBlogByMemberId(uid);
+        category.setBlog(blog);
 
         //카테고리를 저장한다.
         categoryService.save(category);
 
-        return new ResponseEntity<>("success create category",HttpStatus.OK);
+        return new ResponseEntity<>("success save category",HttpStatus.OK);
     }
 
     @PostMapping("/category/delete")
     @ResponseBody
     public ResponseEntity<String> create(HttpSession session, @RequestBody Category category){
         //세션을 확인한다.
-        Long uid = (Long) session.getAttribute("userId");
+        Long uid = (Long) session.getAttribute("memberId");
         if(uid==null){
-            System.out.println("Not Logined");
+            System.out.println("not Logined");
             return null;
         }
 
@@ -72,14 +73,14 @@ public class CategoryController {
     @ResponseBody
     public ResponseEntity<List<Category>> create(HttpSession session, @RequestBody Blog blog){
         //세션을 확인한다.
-        Long uid = (Long) session.getAttribute("userId");
+        Long uid = (Long) session.getAttribute("memberId");
         if(uid==null){
             System.out.println("Not Logined");
             return null;
         }
 
         //해당 블로그의 카테고리를 전부 읽어온다.
-        List<Category> categoryList = categoryService.getBlogCategorys(blog);
+        List<Category> categoryList = categoryService.getCategorysByBlog(blog);
 
         return new ResponseEntity<>(categoryList,HttpStatus.OK);
     }

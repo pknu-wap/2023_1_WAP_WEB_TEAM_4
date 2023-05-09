@@ -20,7 +20,7 @@ public class BlogService {
         return blogRepository.find(blog);
     }
 
-    public Optional<Blog> getBlogIdByUserId(Long uid){
-        return blogRepository.getBlogIdByUserId(uid);
+    public Blog getBlogByMemberId(Long uid){
+        return blogRepository.getBlogByMemberId(uid).get();
     }
 }

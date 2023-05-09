@@ -1,12 +1,13 @@
-package com.project.glog.repository;
+package com.project.glog.repository.dump;
 
 import com.project.glog.domain.Content;
 import com.project.glog.domain.User;
+import com.project.glog.repository.ContentRepository;
 
 import java.util.*;
 
 
-public class MemoryContentRepository implements ContentRepository{
+public class MemoryContentRepository implements ContentRepository {
 
     private static Map<Long, Content> store = new HashMap<>();
     private static long sequence = 0L;

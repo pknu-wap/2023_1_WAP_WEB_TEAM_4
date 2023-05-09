@@ -1,21 +1,12 @@
 package com.project.glog.repository;
 
+import com.project.glog.domain.Category;
 import com.project.glog.domain.Content;
-import com.project.glog.domain.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ContentRepository {
+public interface ContentRepository extends JpaRepository<Content,Long> {
 
-    Content save(Content content);
-    Content update(Content content);
-    void delete(Long id);
-    Optional<Content> findById(Long id);
-    List<Content> searchContentsByString(String string);
-    List<Content> previewsByCreated();
-    List<Content> previewsByLikes();
-    List<Content> previewsByViews();
-    List<Content> previewsByRandom();
-    List<Content> getAllContentsByUser(User user);
 }

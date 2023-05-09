@@ -1,8 +1,9 @@
 package com.project.glog.service;
 
 import com.project.glog.controller.CreateContentForm;
+import com.project.glog.domain.Blog;
 import com.project.glog.domain.Content;
-import com.project.glog.domain.User;
+import com.project.glog.domain.Member;
 import com.project.glog.repository.CategoryRepository;
 import com.project.glog.repository.ContentRepository;
 
@@ -19,20 +20,21 @@ public class ContentService {
         this.categoryService = categoryService;
     }
 
-    public Content create(CreateContentForm form){
-        contentRepository.save(form.getContent());
-
+    public Content save(CreateContentForm form){
+        form.getContent().setBlog(form.getBlog());
         form.getContent().setCategory(form.getCategory());
+        Content content = contentRepository.save(form.getContent());
+
         categoryService.save(form.getCategory());
 
         return form.getContent();
     }
 
-    public void delete(Long cid){
-        contentRepository.delete(cid);
+    public void delete(Content content){
+        contentRepository.delete(content);
     }
 
-    public Content getOne(Long cid){
+    public Content findById(Long cid){
         return contentRepository.findById(cid).get();
     }
 
@@ -63,7 +65,7 @@ public class ContentService {
         return contentRepository.previewsByRandom();
     }
 
-    public List<Content> getAllContentsByUser(User user){
-        return contentRepository.getAllContentsByUser(user);
+    public List<Content> getAllContentsByBlog(Blog blog){
+        return contentRepository.getAllContentsByBlogId(blog.getId());
     }
 }
