@@ -15,12 +15,11 @@ public class BlogService {
     public void save(Blog blog){
         blogRepository.save(blog);
     }
-
-    public Optional<Blog> getOne(Blog blog){
-        return blogRepository.find(blog);
-    }
-
-    public Blog getBlogByMemberId(Long uid){
-        return blogRepository.getBlogByMemberId(uid).get();
+    public Blog findByMemberId(Long uid){
+        Optional<Blog> result = blogRepository.findByMemberId(uid);
+        if(!result.isPresent()){
+            return null;
+        }
+        return result.get();
     }
 }

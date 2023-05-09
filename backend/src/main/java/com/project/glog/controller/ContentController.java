@@ -88,7 +88,7 @@ public class ContentController {
         response.put("content", content);
 
         // 해당 컨텐츠를 작성한 블로그의 카테고리를 전부 불러온다.
-        List<Category> categoryList = categoryService.getCategorysByBlog(content.getBlog());
+        List<Category> categoryList = categoryService.findAllByBlogId(content.getBlog());
 
         //사이드바 매핑 테이블을 만든다.
         Map<String, List<Content>> sidebar = new HashMap<>();
@@ -132,10 +132,10 @@ public class ContentController {
         }
 
         //미리보기용 리스트에 각각 글을 넣는다.
-        List<Content>  allContentsByCreated = contentService.searchContentsByCreated();
-        List<Content>  allContentsByLikes = contentService.searchContentsByLikes();
-        List<Content>  allContentsByViews = contentService.searchContentsByViews();
-        List<Content>  allContentsByRandom = contentService.searchContentsByRandom();
+        List<Content>  allContentsByCreated = contentService.findAllByCreated();
+        List<Content>  allContentsByLikes = contentService.findAllByLikes();
+        List<Content>  allContentsByViews = contentService.findAllByViews();
+        List<Content>  allContentsByRandom = contentService.findAllByRandom();
 
         //처음 부터 8개만 뽑아서 다시 리스트에 넣는다.
         List<Content> contentsByCreated = new ArrayList<>(allContentsByCreated.subList(0,8));
@@ -168,19 +168,19 @@ public class ContentController {
         //종류에 맞게 시작위치부터 +8까지의 컨텐츠를 담아서 응답으로 보낸다.
         List<Content> contents = new ArrayList<>();
         if(kind.equals("created")){
-            List<Content>  allContentsByCreated = contentService.searchContentsByCreated();
+            List<Content>  allContentsByCreated = contentService.findAllByCreated();
             contents = new ArrayList<>(allContentsByCreated.subList(index,index+8));
         }
         else if(kind.equals("likes")){
-            List<Content>  allContentsByLikes = contentService.searchContentsByLikes();
+            List<Content>  allContentsByLikes = contentService.findAllByLikes();
             contents = new ArrayList<>(allContentsByLikes.subList(index,index+8));
         }
         else if(kind.equals("views")){
-            List<Content>  allContentsByViews = contentService.searchContentsByViews();
+            List<Content>  allContentsByViews = contentService.findAllByViews();
             contents = new ArrayList<>(allContentsByViews.subList(index,index+8));
         }
         else if(kind.equals("random")){
-            List<Content>  allContentsByRandom = contentService.searchContentsByRandom();
+            List<Content>  allContentsByRandom = contentService.findAllByRandom();
             contents = new ArrayList<>(allContentsByRandom.subList(index,index+8));
         }
 

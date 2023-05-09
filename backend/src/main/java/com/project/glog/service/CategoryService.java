@@ -19,8 +19,8 @@ public class CategoryService {
         categoryRepository.delete(category);
     }
 
-    public List<Category> getCategorysByBlog(Blog blog){
-        return categoryRepository.getCategorysByBlog(blog);
+    public List<Category> findAllByBlogId(Blog blog){
+        return categoryRepository.findAllByBlogId(blog.getId());
     }
 
 }

@@ -26,12 +26,7 @@ public class MemberController {
 
     @PostMapping("/member/register")
     @ResponseBody
-    public ResponseEntity<String> register(@RequestBody MemberForm form){
-        Member member = new Member();
-        member.setNickname(form.getNickname());
-        member.setLogin_id(form.getLogin_id());
-        member.setLogin_pw(form.getLogin_pw());
-
+    public ResponseEntity<String> register(@RequestBody Member member){
         Long result = memberService.join(member);
         if(result==-1L){
             return new ResponseEntity<>("present nickname", HttpStatus.CONFLICT);

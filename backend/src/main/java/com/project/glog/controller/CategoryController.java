@@ -43,7 +43,7 @@ public class CategoryController {
         }
 
         //카테고리의 블로그 외래키를 저장한다.
-        Blog blog = blogService.getBlogByMemberId(uid);
+        Blog blog = blogService.findByMemberId(uid);
         category.setBlog(blog);
 
         //카테고리를 저장한다.
@@ -80,7 +80,7 @@ public class CategoryController {
         }
 
         //해당 블로그의 카테고리를 전부 읽어온다.
-        List<Category> categoryList = categoryService.getCategorysByBlog(blog);
+        List<Category> categoryList = categoryService.findAllByBlogId(blog);
 
         return new ResponseEntity<>(categoryList,HttpStatus.OK);
     }

@@ -8,6 +8,7 @@ import com.project.glog.repository.CategoryRepository;
 import com.project.glog.repository.ContentRepository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ContentService {
@@ -39,7 +40,7 @@ public class ContentService {
     }
 
     public List<Content> searchContentsByString(String string){
-        return contentRepository.searchContentsByString(string);
+        return contentRepository.findAllByText(string);
     }
     public List<Content> searchContentsById(List<Long> cids){
         List<Content> contents = new ArrayList<>();
@@ -49,23 +50,25 @@ public class ContentService {
         return contents;
     }
 
-    public List<Content> searchContentsByCreated() {
-        return contentRepository.previewsByCreated();
+    public List<Content> findAllByCreated() {
+        return contentRepository.findAllByOrderByCreatedAtDesc();
     }
 
-    public List<Content> searchContentsByLikes() {
-        return contentRepository.previewsByLikes();
+    public List<Content> findAllByLikes() {
+        return contentRepository.findAllByOrderByLikesDesc();
     }
 
-    public List<Content> searchContentsByViews() {
-        return contentRepository.previewsByViews();
+    public List<Content> findAllByViews() {
+        return contentRepository.findAllByOrderByViewsDesc();
     }
 
-    public List<Content> searchContentsByRandom() {
-        return contentRepository.previewsByRandom();
+    public List<Content> findAllByRandom() {
+        List<Content> contents = contentRepository.findAll();
+        Collections.shuffle(contents);
+        return contents;
     }
 
     public List<Content> getAllContentsByBlog(Blog blog){
-        return contentRepository.getAllContentsByBlogId(blog.getId());
+        return contentRepository.findAllByBlogId(blog.getId());
     }
 }
