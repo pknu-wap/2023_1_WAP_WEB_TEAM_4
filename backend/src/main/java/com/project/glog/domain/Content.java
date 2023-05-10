@@ -2,10 +2,13 @@ package com.project.glog.domain;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Content {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +31,7 @@ public class Content {
 
     private Integer views;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    @CreatedDate
     private LocalDateTime createdAt;
 
     public Long getId() {

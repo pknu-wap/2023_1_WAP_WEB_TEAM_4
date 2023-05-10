@@ -52,17 +52,17 @@ MemberService {
                     throw new IllegalStateException("이미 존재하는 회원입니다.");
                 });
 
-        memberRepository.findByLogin_id(member.getLogin_id())
+        memberRepository.findByLoginid(member.getLoginid())
                 .ifPresent(m -> {
                     throw new IllegalStateException("이미 존재하는 아이디 입니다.");
                 });
     }
 
     public Long login(Member member){
-        Optional<Member> resultOptional = memberRepository.findByLogin_id(member.getLogin_id());
+        Optional<Member> resultOptional = memberRepository.findByLoginid(member.getLoginid());
         if(resultOptional.isPresent()){
             Member result = resultOptional.get();
-            if(result.getLogin_pw().equals(member.getLogin_pw())){
+            if(result.getLoginpw().equals(member.getLoginpw())){
                 return result.getId();
             }
         }

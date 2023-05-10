@@ -6,10 +6,9 @@ import java.util.List;
 
 @Entity
 public class Blog {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne(mappedBy = "blog")
+    @OneToOne
     private Member member;
     private String blog_name;
     private String blog_url;

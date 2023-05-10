@@ -5,15 +5,13 @@ import jakarta.persistence.*;
 //DTO, VO
 @Entity
 public class Member {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
-    @JoinColumn(name="blog_id")
+
+    @OneToOne(mappedBy = "member")
     private Blog blog;
-    private String login_id;
-    private String login_pw;
+    private String loginid;
+    private String loginpw;
     private String nickname;
     private String url;
     private String profile_image;
@@ -35,20 +33,20 @@ public class Member {
         this.blog = blog;
     }
 
-    public String getLogin_id() {
-        return login_id;
+    public String getLoginid() {
+        return loginid;
     }
 
-    public void setLogin_id(String login_id) {
-        this.login_id = login_id;
+    public void setLoginid(String login_id) {
+        this.loginid = login_id;
     }
 
-    public String getLogin_pw() {
-        return login_pw;
+    public String getLoginpw() {
+        return loginpw;
     }
 
-    public void setLogin_pw(String login_pw) {
-        this.login_pw = login_pw;
+    public void setLoginpw(String login_pw) {
+        this.loginpw = login_pw;
     }
 
     public String getNickname() {

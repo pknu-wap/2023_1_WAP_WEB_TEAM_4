@@ -68,7 +68,7 @@ public class MemberController {
         if(uid==null){
             return new ResponseEntity<>("not logined", HttpStatus.UNAUTHORIZED);
         }
-        else if(!memberService.searchMemberById(uid).getLogin_pw().equals(pw))
+        else if(!memberService.searchMemberById(uid).getLoginpw().equals(pw))
             return new ResponseEntity<>("not match", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>("scucess check pw", HttpStatus.OK);
 
@@ -83,7 +83,7 @@ public class MemberController {
         }
 
         Member member = memberService.searchMemberById(uid);
-        member.setLogin_pw(changepw);
+        member.setLoginpw(changepw);
         memberService.save(member);
         return new ResponseEntity<>("succes change pw", HttpStatus.OK);
     }
