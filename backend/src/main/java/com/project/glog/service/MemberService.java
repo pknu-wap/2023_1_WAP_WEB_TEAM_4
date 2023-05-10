@@ -2,7 +2,7 @@ package com.project.glog.service;
 
 import com.project.glog.domain.Blog;
 import com.project.glog.domain.Member;
-import com.project.glog.domain.MemberRepository;
+import com.project.glog.repository.MemberRepository;
 
 import javax.swing.text.html.Option;
 import java.util.List;
@@ -19,7 +19,7 @@ MemberService {
         this.memberRepository = memberRepository;
         this.blogService = blogService;
     }
-    public Long join(Member member){
+    public Long save(Member member){
 
         try {
             validateDuplicateMember(member);
@@ -47,22 +47,22 @@ MemberService {
 
     private void validateDuplicateMember(Member member) {
 
-        memberRepository.findMemberByNickname(member.getNickname())
+        memberRepository.findByNickname(member.getNickname())
                 .ifPresent(m -> {
                     throw new IllegalStateException("이미 존재하는 회원입니다.");
                 });
 
-        memberRepository.findMemberByLogin_id(member.getLogin_id())
+        memberRepository.findByLogin_id(member.getLogin_id())
                 .ifPresent(m -> {
                     throw new IllegalStateException("이미 존재하는 아이디 입니다.");
                 });
     }
 
     public Long login(Member member){
-        Optional<Member> resultOptional = memberRepository.findMemberByLogin_id(member.get(login_id)).get();
+        Optional<Member> resultOptional = memberRepository.findByLogin_id(member.getLogin_id());
         if(resultOptional.isPresent()){
             Member result = resultOptional.get();
-            if(result.getLogin_pw().equals(member.get(login_pw))){
+            if(result.getLogin_pw().equals(member.getLogin_pw())){
                 return result.getId();
             }
         }
@@ -75,7 +75,7 @@ MemberService {
     }
 
     public List<Member> searchMembersByNickname(String nickname){
-        return memberRepository.findMembersByNickname(nickname);
+        return memberRepository.findAllByNickname(nickname);
     }
 
 }

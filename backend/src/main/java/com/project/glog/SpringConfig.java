@@ -1,9 +1,6 @@
 package com.project.glog;
 
 import com.project.glog.repository.*;
-import com.project.glog.repository.dump.MemoryBlogRepository;
-import com.project.glog.repository.dump.MemoryCategoryRepository;
-import com.project.glog.repository.dump.MemoryContentRepository;
 import com.project.glog.service.BlogService;
 import com.project.glog.service.CategoryService;
 import com.project.glog.service.ContentService;

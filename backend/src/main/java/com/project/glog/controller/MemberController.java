@@ -27,7 +27,7 @@ public class MemberController {
     @PostMapping("/member/register")
     @ResponseBody
     public ResponseEntity<String> register(@RequestBody Member member){
-        Long result = memberService.join(member);
+        Long result = memberService.save(member);
         if(result==-1L){
             return new ResponseEntity<>("present nickname", HttpStatus.CONFLICT);
         }
@@ -93,14 +93,14 @@ public class MemberController {
     public ResponseEntity<Map<String,Object>> mypage(HttpSession session){
         Long uid = (Long) session.getAttribute("memberId");
         if(uid==null){
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);;
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
 
         Map<String,Object> response = new HashMap<>();
         Member member = memberService.searchMemberById(uid);
         response.put("member", member);
         response.put("blog",member.getBlog());
-        return new ResponseEntity<>(response, HttpStatus.OK);;
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/member/logout")
