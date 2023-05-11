@@ -1,4 +1,4 @@
-package com.project.glog;
+package com.project.glog.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;

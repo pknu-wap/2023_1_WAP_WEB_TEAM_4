@@ -1,4 +1,4 @@
-package com.project.glog;
+package com.project.glog.config;
 
 import com.project.glog.repository.*;
 import com.project.glog.service.BlogService;
