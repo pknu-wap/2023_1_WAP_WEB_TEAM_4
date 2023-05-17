@@ -10,6 +10,9 @@ import Home from "./pages/Home";
 import { RecoilRoot } from "recoil";
 import { themes } from "../src/themes";
 import { QueryClient, QueryClientProvider } from "react-query";
+import settingCookie from "./util/settingCookie";
+import jwt_decode from "jwt-decode";
+import { useEffect } from "react";
 
 const App = () => {
   const queryClient = new QueryClient({
@@ -17,6 +20,19 @@ const App = () => {
       queries: { refetchOnWindowFocus: false },
     },
   });
+
+  const isLogin = () => {
+    const token = settingCookie("get-access");
+    // 로그인이 되어있다면
+    if (token !== undefined) {
+      const decode = jwt_decode(token);
+      // dispatch(GET_NAME(decode.nickname));
+    }
+  };
+
+  useEffect(() => {
+    isLogin();
+  }, []);
 
   return (
     <RecoilRoot>

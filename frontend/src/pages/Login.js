@@ -2,6 +2,7 @@ import React from "react";
 import { Stack, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header.js";
+import { Cookies } from "react-cookie";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -19,6 +20,32 @@ const Login = () => {
   const loginButtonClick = () => {
     navigate("/");
   };
+
+  // const login = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const res = await noAuthClient({
+  //       method: "post",
+  //       url: `${process.env.REACT_APP_LOCAL}/auth`,
+  //       data: {
+  //         id: id,
+  //         pw: password,
+  //       },
+  //     });
+  //     const cookie = new Cookies();
+  //     cookie.set("accessToken", res.data.accessToken);
+  //     cookie.set("refreshToken", res.data.refreshToken);
+  //     const decode = jwt_decode(res.data.accessToken);
+  //     // redux에 nickname 저장
+  //     dispatch(GET_NAME(decode.nickname));
+  //     navigate("/");
+  //   } catch (error) {
+  //     const err = error.response.data;
+  //     console.log(err);
+  //     alert("아이디, 비밀번호가 일치하지 않습니다.");
+  //   }
+  // };
+
   return (
     <Stack height="100%">
       <Header />
@@ -81,13 +108,15 @@ const Login = () => {
             justifyContent: "center",
             position: "fixed",
             right: 0,
-          }}>
+          }}
+        >
           <Stack width="80%" style={{ alignItems: "center" }}>
             <Stack
               fontWeight="bold"
               fontSize="20px"
               color="#ECD8A4"
-              marginBottom="30px">
+              marginBottom="30px"
+            >
               Login
             </Stack>
             <input
@@ -130,7 +159,8 @@ const Login = () => {
                   border: "1px solid #ECD8A4",
                   color: "#ECD8A4",
                 },
-              }}>
+              }}
+            >
               Login
             </Button>
           </Stack>
@@ -141,7 +171,8 @@ const Login = () => {
             fontSize="11px"
             marginTop="10px"
             marginLeft="8%"
-            sx={{ ":hover": { color: "#FFC222" }, cursor: "pointer" }}>
+            sx={{ ":hover": { color: "#FFC222" }, cursor: "pointer" }}
+          >
             Register
           </Stack>
         </Stack>
