@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import { Stack, Chip, Button, Snackbar, Alert } from "@mui/material";
 import { useRef } from "react";
-import { Editor } from "@toast-ui/react-editor";
-import "@toast-ui/editor/dist/toastui-editor.css";
-import "@toast-ui/editor/dist/theme/toastui-editor-dark.css";
 import CancelIcon from "@mui/icons-material/Cancel";
-import "@toast-ui/editor/dist/i18n/ko-kr";
 import WriteModal from "../components/WriteModal";
 import Header from "../components/Header";
 import { useTheme } from "@mui/material/styles";
@@ -47,7 +43,8 @@ const Write = () => {
           spacing={2}
           padding="48px 96px 40px 96px"
           direction="column"
-          width="100%">
+          width="100%"
+        >
           <input
             placeholder="제목을 입력해주세요"
             value={title}
@@ -68,7 +65,8 @@ const Write = () => {
             alignItems="center"
             height="60px"
             justifyContent="space-between"
-            direction="row">
+            direction="row"
+          >
             <Stack spacing={1} maxWidth="100px" color="white" direction="row">
               {tagArray.map((tag, i) => (
                 <Chip
@@ -138,7 +136,8 @@ const Write = () => {
                   },
                   ":active": { color: "primary.700" },
                 }}
-                width="fit-content">
+                width="fit-content"
+              >
                 원본
               </Button>
               <Button
@@ -152,14 +151,15 @@ const Write = () => {
                   ":active": { backgroundColor: "primary.700" },
                 }}
                 onClick={handleRegisterButton}
-                width="fit-content">
+                width="fit-content"
+              >
                 저장
               </Button>
             </Stack>
           </Stack>
           <Stack direction="row" minHeight="500px" overflow="auto">
             <Stack width="50%">
-              <Editor
+              {/* <Editor
                 className="hidden-header"
                 initialValue={post}
                 previewStyle="tab"
@@ -179,13 +179,14 @@ const Write = () => {
                 ]}
                 theme={theme.palette.mode}
                 language="ko-KR"
-              />
+              /> */}
             </Stack>
             <Stack
               width="50%"
               bgcolor="background.main"
               color="background.color"
-              alignItems="center">
+              alignItems="center"
+            >
               {ReactHtmlParser(post, {
                 transform: (node, index) => {
                   if (node.type === "tag") {
@@ -211,12 +212,14 @@ const Write = () => {
         <Snackbar
           open={snackbarOpen}
           autoHideDuration={3000}
-          onClose={() => setSnackbarOpen(false)}>
+          onClose={() => setSnackbarOpen(false)}
+        >
           <Alert
             onClose={() => setSnackbarOpen(false)}
             severity="error"
             variant=""
-            sx={{ color: "white", width: "100%", backgroundColor: "red" }}>
+            sx={{ color: "white", width: "100%", backgroundColor: "red" }}
+          >
             {toastMessage}
           </Alert>
         </Snackbar>

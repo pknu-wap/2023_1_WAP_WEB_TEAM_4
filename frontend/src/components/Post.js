@@ -5,10 +5,6 @@ import { useRecoilState } from "recoil";
 import { postState, titleState } from "../states/writeState";
 import { useTheme } from "@mui/material/styles";
 
-import "@toast-ui/editor/dist/toastui-editor.css";
-import "@toast-ui/editor/dist/theme/toastui-editor-dark.css";
-import "@toast-ui/editor/dist/i18n/ko-kr";
-
 const Post = () => {
   const themes = useTheme();
 
@@ -52,13 +48,15 @@ const Post = () => {
       alignItems="center"
       bgcolor="background.main"
       width="100%"
-      padding="56px 40px 84px 254px">
+      padding="56px 40px 84px 254px"
+    >
       <Stack
         marginRight="100px"
         alignItems="flex-start"
         width="850px"
         marginTop="80px"
-        justifyContent="center">
+        justifyContent="center"
+      >
         {title && (
           <Stack>
             <Stack direction="row" justifyContent="space-between">
@@ -66,7 +64,8 @@ const Post = () => {
                 color="background.color"
                 fontSize="32px"
                 height="45px"
-                fontWeight="bold">
+                fontWeight="bold"
+              >
                 {title}
               </Stack>
               <Stack direction="row">
@@ -86,7 +85,8 @@ const Post = () => {
                   margin: "0px",
                   color: "background.color",
                 }}
-                gap="5px">
+                gap="5px"
+              >
                 {sections.map((section, index) => {
                   return (
                     <Stack key={index} id={section.id} ref={section.ref}>
@@ -119,7 +119,8 @@ const Post = () => {
             position: "fixed",
             top: 0,
             right: 100,
-          }}>
+          }}
+        >
           {sections.map((section, i) => {
             if (section?.html.startsWith("<h1")) {
               return (
@@ -133,7 +134,8 @@ const Post = () => {
                   onClick={() => {
                     handleClick(section.id);
                     console.log("클릭");
-                  }}>
+                  }}
+                >
                   {section.content}
                 </Stack>
               );
@@ -146,7 +148,8 @@ const Post = () => {
                   paddingLeft="10px"
                   height="30px"
                   onClick={() => handleClick(section.id)}
-                  sx={{ cursor: "pointer" }}>
+                  sx={{ cursor: "pointer" }}
+                >
                   {section.content}
                 </Stack>
               );
@@ -158,7 +161,8 @@ const Post = () => {
                   paddingLeft="10px"
                   height="30px"
                   onClick={() => handleClick(section.id)}
-                  sx={{ cursor: "pointer" }}>
+                  sx={{ cursor: "pointer" }}
+                >
                   {section.content}
                 </Stack>
               );

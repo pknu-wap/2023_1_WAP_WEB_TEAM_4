@@ -9,22 +9,31 @@ import { ThemeProvider } from "@mui/material";
 import Home from "./pages/Home";
 import { RecoilRoot } from "recoil";
 import { themes } from "../src/themes";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const App = () => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: { refetchOnWindowFocus: false },
+    },
+  });
+
   return (
     <RecoilRoot>
-      <ThemeProvider theme={themes.dark}>
-        <Router>
-          <Routes>
-            <Route path="/" element={<Main />} />
-            <Route path="/write" element={<Write />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/anchor" element={<Anchor />} />
-          </Routes>
-        </Router>
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={themes.dark}>
+          <Router>
+            <Routes>
+              <Route path="/" element={<Main />} />
+              <Route path="/write" element={<Write />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/anchor" element={<Anchor />} />
+            </Routes>
+          </Router>
+        </ThemeProvider>
+      </QueryClientProvider>
     </RecoilRoot>
   );
 };
