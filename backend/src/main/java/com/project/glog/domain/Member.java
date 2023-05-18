@@ -8,7 +8,7 @@ public class Member {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(mappedBy = "member")
+    @OneToOne(mappedBy = "member", cascade=CascadeType.ALL)
     private Blog blog;
     private String loginid;
     private String loginpw;
