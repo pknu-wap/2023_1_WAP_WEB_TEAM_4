@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Stack, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { PostRegisterApi } from "../apis/api/common-api";
+import { PostRegisterApi, PostTestApi } from "../apis/api/common-api";
 import { useMutation, useQueryClient } from "react-query";
 
 const Register = () => {
@@ -24,6 +24,7 @@ const Register = () => {
     setRegisterState({ ...registerState, [name]: value });
   };
   const postRegister = useMutation(PostRegisterApi);
+  const postTest = useMutation(PostTestApi);
 
   const handleSubmit = async () => {
     const body = {
@@ -33,9 +34,20 @@ const Register = () => {
     };
 
     postRegister.mutate(body);
-    // postRegister.mutate(body, {
-    //   onSuccess: navigate("/login"),
-    // });
+    postTest.mutate({
+      blog: {
+        blog_name: "chaeyeon",
+        introduction: "chaeyeon",
+      },
+      loginid: email,
+      loginpw: password,
+      nickname: nickName,
+      url: "/chaeyeon",
+      profile_image: "asd",
+    });
+    postRegister.mutate(body, {
+      onSuccess: navigate("/login"),
+    });
   };
 
   return (
