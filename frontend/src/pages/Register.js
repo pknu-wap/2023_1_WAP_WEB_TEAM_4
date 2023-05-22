@@ -1,11 +1,27 @@
 import React, { useState } from "react";
-import { Stack, Button } from "@mui/material";
+import { Stack, Button, Icon } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { PostRegisterApi, PostTestApi } from "../apis/api/common-api";
 import { useMutation, useQueryClient } from "react-query";
+import {
+  motion,
+  useMotionValue,
+  useTransform,
+  useViewportScroll,
+} from "framer-motion";
 
 const Register = () => {
+  const x = useMotionValue(0);
+  const background = useTransform(
+    x,
+    [-100, 0, 100],
+    ["#ff008c", "#7700ff", "rgb(230, 255, 0)"]
+  );
+
+  const { scrollYProgress } = useViewportScroll();
+  const scale = useTransform(scrollYProgress, [1, 1], [2, 2]);
+
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -24,17 +40,9 @@ const Register = () => {
     setRegisterState({ ...registerState, [name]: value });
   };
   const postRegister = useMutation(PostRegisterApi);
-  const postTest = useMutation(PostTestApi);
 
   const handleSubmit = async () => {
     const body = {
-      login_id: registerState.email,
-      login_pw: registerState.password,
-      nickname: registerState.nickName,
-    };
-
-    postRegister.mutate(body);
-    postTest.mutate({
       blog: {
         blog_name: "chaeyeon",
         introduction: "chaeyeon",
@@ -44,7 +52,8 @@ const Register = () => {
       nickname: nickName,
       url: "/chaeyeon",
       profile_image: "asd",
-    });
+    };
+
     postRegister.mutate(body, {
       onSuccess: navigate("/login"),
     });
@@ -73,7 +82,7 @@ const Register = () => {
               marginTop="170px"
               marginLeft="100px"
               backgroundColor="white"
-            ></Stack>
+            />
             <Stack
               width="350px"
               height="60px"
@@ -83,6 +92,42 @@ const Register = () => {
             >
               저희 대박 징조는 폴더별로 나눠서 파일을 관리할 수 있습니다
             </Stack>
+            {/* <motion.div
+              animate={{
+                x: 0,
+                scale: [1, 2, 2, 1, 1],
+                rotate: [0, 0, 270, 270, 0],
+                borderRadius: ["20%", "20%", "50%", "50%", "20%"],
+                width: "300px",
+                height: "300px",
+                backgroundColor: "#ffffff",
+                boxShadow: "10px 10px 0 rgba(0, 0, 0, 0.2)",
+                position: "fixed",
+                transitionEnd: {
+                  display: "none",
+                },
+              }}
+            /> */}
+            <motion.div style={{ background }}>
+              <motion.div
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                style={{ x }}
+              >
+                <Icon x={x} />
+              </motion.div>
+            </motion.div>
+
+            <motion.div style={{ scale }}>
+              <motion.div
+                style={{
+                  width: "500px",
+                  height: "600px",
+                  backgroundColor: "red",
+                  scaleY: scrollYProgress,
+                }}
+              />
+            </motion.div>
           </Stack>
           <Stack flexDirection="row" alignItems="center">
             <Stack
