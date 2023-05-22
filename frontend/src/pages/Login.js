@@ -2,7 +2,7 @@ import React from "react";
 import { Stack, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header.js";
-import { Cookies } from "react-cookie";
+// import { Cookies } from "react-cookie";
 
 const Login = () => {
   const navigate = useNavigate();
