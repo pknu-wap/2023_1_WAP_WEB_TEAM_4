@@ -16,7 +16,6 @@ export const lightTheme = createTheme({
     mode: "light",
     primary: {
       buttonColor: mint[500],
-
       700: mint[700],
       600: mint[600],
       500: mint[500],

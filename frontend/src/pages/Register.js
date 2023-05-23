@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Stack, Button, Icon, useMediaQuery, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -42,6 +42,7 @@ const Register = () => {
 
     setRegisterState({ ...registerState, [name]: value });
   };
+
   const postRegister = useMutation(PostRegisterApi);
 
   const handleSubmit = async () => {
@@ -49,6 +50,7 @@ const Register = () => {
       blog: {
         blog_name: "chaeyeon",
         introduction: "chaeyeon",
+        blog_url: "/chaeyeon",
       },
       loginid: email,
       loginpw: password,
@@ -57,6 +59,8 @@ const Register = () => {
       profile_image: "asd",
     };
 
+    console.log(body);
+
     postRegister.mutate(body, {
       onSuccess: navigate("/login"),
     });
@@ -64,131 +68,140 @@ const Register = () => {
 
   return (
     <Stack
-      style={{ height: "100%", backgroundColor: "black", padding: "10px" }}>
-      <Stack
-        style={{
-          width: "100%",
-          fontWeight: "bold",
-          color: "#ECD8A4",
-          fontSize: "30px",
-          position: "fixed",
-          padding: "10px 0px 10px 20px",
-        }}>
-        GLOG
-      </Stack>
-      <Stack flexDirection="row">
-        {isNotSmall && (
-          <Stack width="100%">
-            <ImageDescription />
-            <ImageDescription />
-          </Stack>
-        )}
+      style={{
+        minHeight: "100vh",
+        height: "1000%",
+        backgroundColor: "black",
+        padding: "10px",
+      }}>
+      <Stack height="100%">
         <Stack
           style={{
-            width: isNotSmall ? "20%" : "80%",
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            width: "100%",
+            fontWeight: "bold",
+            color: "#ECD8A4",
+            fontSize: "30px",
             position: "fixed",
-            right: 0,
-            top: 0,
+            padding: "10px 0px 10px 20px",
           }}>
-          <Stack width="80%" style={{ alignItems: "center" }}>
-            <Stack
-              fontWeight="bold"
-              fontSize="20px"
-              color="#ECD8A4"
-              marginBottom="30px">
-              Regsiter
+          GLOG
+        </Stack>
+        <Stack flexDirection="row">
+          {isNotSmall && (
+            <Stack width="100%">
+              <ImageDescription />
+              <ImageDescription />
             </Stack>
-            <input
-              placeholder="Email"
-              onChange={registerHandler}
-              name="email"
-              value={email}
-              style={{
-                color: "#ffffff",
-                width: "80%",
-                outline: "transparent",
-                backgroundColor: "transparent",
-                border: "transparent",
-                borderBottom: "1px solid #ffffff",
-                marginBottom: "25px",
-              }}></input>
-            <input
-              placeholder="Password"
-              type="password"
-              onChange={registerHandler}
-              name="password"
-              value={password}
-              style={{
-                color: "#ffffff",
-                marginBottom: "25px",
-                outline: "transparent",
-                width: "80%",
-                backgroundColor: "transparent",
-                border: "transparent",
-                borderBottom:
-                  password === passwordCheck
-                    ? "1px solid #ffffff"
-                    : "1px solid red",
-              }}></input>
-            <input
-              placeholder="Password Check"
-              type="password"
-              onChange={registerHandler}
-              name="passwordCheck"
-              value={passwordCheck}
-              style={{
-                color: "#ffffff",
-                marginBottom: password === passwordCheck ? "25px" : "5px",
-                outline: "transparent",
-                width: "80%",
-                backgroundColor: "transparent",
-                border: "transparent",
-                borderBottom:
-                  password === passwordCheck
-                    ? "1px solid #ffffff"
-                    : "1px solid red",
-              }}
-            />
-            {password !== passwordCheck && (
+          )}
+          <Stack
+            style={{
+              width: isNotSmall ? "20%" : "80%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              position: "fixed",
+              right: 0,
+              top: 0,
+            }}>
+            <Stack width="80%" style={{ alignItems: "center" }}>
               <Stack
                 fontWeight="bold"
-                marginBottom="25px"
-                fontSize="6px"
-                color="red">
-                비밀번호와 비밀번호 확인이 일치하지 않습니다.
+                fontSize="20px"
+                color="#ECD8A4"
+                marginBottom="30px">
+                Regsiter
               </Stack>
-            )}
-            <input
-              placeholder="Nickname"
-              onChange={registerHandler}
-              name="nickName"
-              value={nickName}
-              style={{
-                color: "#ffffff",
-                marginBottom: "25px",
-                outline: "transparent",
-                width: "80%",
-                backgroundColor: "transparent",
-                border: "transparent",
-                borderBottom: "1px solid #ffffff",
-              }}
-            />
-            <Button
-              onClick={handleSubmit}
-              variant="outlined"
-              sx={{
-                width: "80%",
-                "&.MuiButton-root": {
-                  border: "1px solid #ECD8A4",
-                  color: "#ECD8A4",
-                },
-              }}>
-              Register
-            </Button>
+              <input
+                placeholder="Email"
+                onChange={registerHandler}
+                name="email"
+                value={email}
+                style={{
+                  color: "#ffffff",
+                  width: "80%",
+                  outline: "transparent",
+                  backgroundColor: "transparent",
+                  border: "transparent",
+                  borderBottom: "1px solid #ffffff",
+                  marginBottom: "25px",
+                }}
+              />
+              <input
+                placeholder="Password"
+                type="password"
+                onChange={registerHandler}
+                name="password"
+                value={password}
+                style={{
+                  color: "#ffffff",
+                  marginBottom: "25px",
+                  outline: "transparent",
+                  width: "80%",
+                  backgroundColor: "transparent",
+                  border: "transparent",
+                  borderBottom:
+                    password === passwordCheck
+                      ? "1px solid #ffffff"
+                      : "1px solid red",
+                }}
+              />
+              <input
+                placeholder="Password Check"
+                type="password"
+                onChange={registerHandler}
+                name="passwordCheck"
+                value={passwordCheck}
+                style={{
+                  color: "#ffffff",
+                  marginBottom: password === passwordCheck ? "25px" : "5px",
+                  outline: "transparent",
+                  width: "80%",
+                  backgroundColor: "transparent",
+                  border: "transparent",
+                  borderBottom:
+                    password === passwordCheck
+                      ? "1px solid #ffffff"
+                      : "1px solid red",
+                }}
+              />
+              {password !== passwordCheck && (
+                <Stack
+                  fontWeight="bold"
+                  marginBottom="25px"
+                  fontSize="6px"
+                  color="red">
+                  비밀번호와 비밀번호 확인이 일치하지 않습니다.
+                </Stack>
+              )}
+              <input
+                placeholder="Nickname"
+                onChange={registerHandler}
+                name="nickName"
+                value={nickName}
+                style={{
+                  color: "#ffffff",
+                  marginBottom: "25px",
+                  outline: "transparent",
+                  width: "80%",
+                  backgroundColor: "transparent",
+                  border: "transparent",
+                  borderBottom: "1px solid #ffffff",
+                }}
+              />
+              <Button
+                onClick={handleSubmit}
+                variant="outlined"
+                sx={{
+                  width: "80%",
+                  "&.MuiButton-root": {
+                    border: "1px solid #ECD8A4",
+                    color: "#ECD8A4",
+                  },
+                }}>
+                Register
+              </Button>
+            </Stack>
           </Stack>
         </Stack>
       </Stack>
