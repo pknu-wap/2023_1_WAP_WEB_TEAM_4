@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Stack, Button, Icon } from "@mui/material";
+import { Stack, Button, Icon, useMediaQuery, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { PostRegisterApi, PostTestApi } from "../apis/api/common-api";
@@ -10,8 +10,10 @@ import {
   useTransform,
   useViewportScroll,
 } from "framer-motion";
+import ImageDescription from "../components/ImageDescription";
 
 const Register = () => {
+  const themes = useTheme();
   const x = useMotionValue(0);
   const background = useTransform(
     x,
@@ -33,6 +35,7 @@ const Register = () => {
   });
   const { email, password, passwordCheck, nickName } = registerState;
   const [, setData] = useState("");
+  const isNotSmall = useMediaQuery(themes.breakpoints.up("xs"));
 
   const registerHandler = (event) => {
     const { name, value } = event.target;
@@ -60,7 +63,8 @@ const Register = () => {
   };
 
   return (
-    <Stack style={{ backgroundColor: "black" }}>
+    <Stack
+      style={{ height: "100%", backgroundColor: "black", padding: "10px" }}>
       <Stack
         style={{
           width: "100%",
@@ -69,137 +73,33 @@ const Register = () => {
           fontSize: "30px",
           position: "fixed",
           padding: "10px 0px 10px 20px",
-        }}
-      >
+        }}>
         GLOG
       </Stack>
       <Stack flexDirection="row">
-        <Stack style={{ width: "80%" }}>
-          <Stack flexDirection="row" alignItems="center">
-            <Stack
-              width="600px"
-              height="330px"
-              marginTop="170px"
-              marginLeft="100px"
-              backgroundColor="white"
-            />
-            <Stack
-              width="350px"
-              height="60px"
-              marginTop="170px"
-              marginLeft="100px"
-              color="white"
-            >
-              저희 대박 징조는 폴더별로 나눠서 파일을 관리할 수 있습니다
-            </Stack>
-            {/* <motion.div
-              animate={{
-                x: 0,
-                scale: [1, 2, 2, 1, 1],
-                rotate: [0, 0, 270, 270, 0],
-                borderRadius: ["20%", "20%", "50%", "50%", "20%"],
-                width: "300px",
-                height: "300px",
-                backgroundColor: "#ffffff",
-                boxShadow: "10px 10px 0 rgba(0, 0, 0, 0.2)",
-                position: "fixed",
-                transitionEnd: {
-                  display: "none",
-                },
-              }}
-            /> */}
-            <motion.div style={{ background }}>
-              <motion.div
-                drag="x"
-                dragConstraints={{ left: 0, right: 0 }}
-                style={{ x }}
-              >
-                <Icon x={x} />
-              </motion.div>
-            </motion.div>
-
-            <motion.div style={{ scale }}>
-              <motion.div
-                style={{
-                  width: "500px",
-                  height: "600px",
-                  backgroundColor: "red",
-                  scaleY: scrollYProgress,
-                }}
-              />
-            </motion.div>
+        {isNotSmall && (
+          <Stack width="100%">
+            <ImageDescription />
+            <ImageDescription />
           </Stack>
-          <Stack flexDirection="row" alignItems="center">
-            <Stack
-              width="350px"
-              height="60px"
-              marginTop="170px"
-              marginLeft="100px"
-              color="white"
-            >
-              저희 대박 징조는 폴더별로 나눠서 파일을 관리할 수 있습니다
-            </Stack>
-            <Stack
-              width="600px"
-              height="330px"
-              marginTop="170px"
-              marginLeft="100px"
-              backgroundColor="white"
-            ></Stack>
-          </Stack>
-          <Stack flexDirection="row" alignItems="center">
-            <Stack
-              width="600px"
-              height="330px"
-              marginTop="170px"
-              marginLeft="100px"
-              backgroundColor="white"
-            ></Stack>
-            <Stack
-              width="350px"
-              height="60px"
-              marginTop="170px"
-              marginLeft="100px"
-              color="white"
-            >
-              저희 대박 징조는 폴더별로 나눠서 파일을 관리할 수 있습니다
-            </Stack>
-          </Stack>
-          <Stack flexDirection="row" alignItems="center">
-            <Stack
-              width="350px"
-              height="60px"
-              margin="170px 0px 100px 100px"
-              color="white"
-            >
-              저희 대박 징조는 폴더별로 나눠서 파일을 관리할 수 있습니다
-            </Stack>
-            <Stack
-              width="600px"
-              height="330px"
-              margin="170px 0px 100px 100px"
-              backgroundColor="white"
-            ></Stack>
-          </Stack>
-        </Stack>
+        )}
         <Stack
           style={{
-            width: "20%",
+            width: isNotSmall ? "20%" : "80%",
             height: "100%",
             display: "flex",
             alignItems: "center",
-            marginTop: "15%",
+            justifyContent: "center",
             position: "fixed",
             right: 0,
-          }}
-        >
-          <Stack width="80%" height="150px" style={{ alignItems: "center" }}>
+            top: 0,
+          }}>
+          <Stack width="80%" style={{ alignItems: "center" }}>
             <Stack
               fontWeight="bold"
               fontSize="20px"
               color="#ECD8A4"
-              marginBottom="30px"
-            >
+              marginBottom="30px">
               Regsiter
             </Stack>
             <input
@@ -215,8 +115,7 @@ const Register = () => {
                 border: "transparent",
                 borderBottom: "1px solid #ffffff",
                 marginBottom: "25px",
-              }}
-            ></input>
+              }}></input>
             <input
               placeholder="Password"
               type="password"
@@ -234,8 +133,7 @@ const Register = () => {
                   password === passwordCheck
                     ? "1px solid #ffffff"
                     : "1px solid red",
-              }}
-            ></input>
+              }}></input>
             <input
               placeholder="Password Check"
               type="password"
@@ -260,8 +158,7 @@ const Register = () => {
                 fontWeight="bold"
                 marginBottom="25px"
                 fontSize="6px"
-                color="red"
-              >
+                color="red">
                 비밀번호와 비밀번호 확인이 일치하지 않습니다.
               </Stack>
             )}
@@ -289,8 +186,7 @@ const Register = () => {
                   border: "1px solid #ECD8A4",
                   color: "#ECD8A4",
                 },
-              }}
-            >
+              }}>
               Register
             </Button>
           </Stack>
