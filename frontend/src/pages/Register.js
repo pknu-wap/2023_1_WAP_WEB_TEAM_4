@@ -11,6 +11,7 @@ import {
   useViewportScroll,
 } from "framer-motion";
 import ImageDescription from "../components/ImageDescription";
+import Toast from "../components/Toast";
 
 const Register = () => {
   const themes = useTheme();
@@ -21,6 +22,8 @@ const Register = () => {
     ["#ff008c", "#7700ff", "rgb(230, 255, 0)"]
   );
 
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
   const { scrollYProgress } = useViewportScroll();
   const scale = useTransform(scrollYProgress, [1, 1], [2, 2]);
 
@@ -43,7 +46,14 @@ const Register = () => {
     setRegisterState({ ...registerState, [name]: value });
   };
 
-  const postRegister = useMutation(PostRegisterApi);
+  const postRegister = useMutation(PostRegisterApi, {
+    onSuccess: () => navigate("/login"),
+    onError: (error) => {
+      // alert(error.response.data);
+      setMessage(error.response.data);
+      setOpen(true);
+    },
+  });
 
   const handleSubmit = async () => {
     const body = {
@@ -61,9 +71,7 @@ const Register = () => {
 
     console.log(body);
 
-    postRegister.mutate(body, {
-      onSuccess: navigate("/login"),
-    });
+    postRegister.mutate(body);
   };
 
   return (
@@ -73,7 +81,8 @@ const Register = () => {
         height: "1000%",
         backgroundColor: "black",
         padding: "10px",
-      }}>
+      }}
+    >
       <Stack height="100%">
         <Stack
           style={{
@@ -83,7 +92,8 @@ const Register = () => {
             fontSize: "30px",
             position: "fixed",
             padding: "10px 0px 10px 20px",
-          }}>
+          }}
+        >
           GLOG
         </Stack>
         <Stack flexDirection="row">
@@ -103,13 +113,15 @@ const Register = () => {
               position: "fixed",
               right: 0,
               top: 0,
-            }}>
+            }}
+          >
             <Stack width="80%" style={{ alignItems: "center" }}>
               <Stack
                 fontWeight="bold"
                 fontSize="20px"
                 color="#ECD8A4"
-                marginBottom="30px">
+                marginBottom="30px"
+              >
                 Regsiter
               </Stack>
               <input
@@ -170,7 +182,8 @@ const Register = () => {
                   fontWeight="bold"
                   marginBottom="25px"
                   fontSize="6px"
-                  color="red">
+                  color="red"
+                >
                   비밀번호와 비밀번호 확인이 일치하지 않습니다.
                 </Stack>
               )}
@@ -198,11 +211,13 @@ const Register = () => {
                     border: "1px solid #ECD8A4",
                     color: "#ECD8A4",
                   },
-                }}>
+                }}
+              >
                 Register
               </Button>
             </Stack>
           </Stack>
+          <Toast open={open} setOpen={setOpen} message={message} />
         </Stack>
       </Stack>
     </Stack>
