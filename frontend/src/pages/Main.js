@@ -3,12 +3,10 @@ import Header from "../components/Header";
 import SideNavigation from "../components/SideNavigation";
 import Post from "../components/Post";
 import { Stack, useMediaQuery } from "@mui/material";
-import Anchor from "../components/Anchor";
 import { useTheme } from "@mui/material/styles";
 
 const Main = () => {
   const theme = useTheme();
-  const isNotLarge = useMediaQuery(theme.breakpoints.down("lg"));
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
