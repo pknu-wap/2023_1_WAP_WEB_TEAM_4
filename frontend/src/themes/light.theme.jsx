@@ -8,7 +8,7 @@ export const lightTheme = createTheme({
       lg: 1440,
       md: 900,
       sm: 600,
-      xs: 375,
+      xs: 300,
     },
   },
   spacing: 4,
@@ -16,7 +16,6 @@ export const lightTheme = createTheme({
     mode: "light",
     primary: {
       buttonColor: mint[500],
-
       700: mint[700],
       600: mint[600],
       500: mint[500],

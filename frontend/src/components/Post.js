@@ -8,10 +8,6 @@ import { nord } from "react-syntax-highlighter/dist/esm/styles/prism";
 import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 
-import "@toast-ui/editor/dist/toastui-editor.css";
-import "@toast-ui/editor/dist/theme/toastui-editor-dark.css";
-import "@toast-ui/editor/dist/i18n/ko-kr";
-
 const Post = () => {
   const themes = useTheme();
 
@@ -53,13 +49,15 @@ const Post = () => {
       alignItems="center"
       bgcolor="background.main"
       width="100%"
-      padding="56px 40px 84px 254px">
+      padding="56px 40px 84px 254px"
+    >
       <Stack
         marginRight="100px"
         alignItems="flex-start"
         width="850px"
         marginTop="80px"
-        justifyContent="center">
+        justifyContent="center"
+      >
         {title && (
           <Stack>
             <Stack direction="row" justifyContent="space-between">
@@ -67,7 +65,8 @@ const Post = () => {
                 color="background.color"
                 fontSize="32px"
                 height="45px"
-                fontWeight="bold">
+                fontWeight="bold"
+              >
                 {title}
               </Stack>
               <Stack direction="row">
@@ -202,7 +201,8 @@ const Post = () => {
             position: "fixed",
             top: 0,
             right: 100,
-          }}>
+          }}
+        >
           {sections.map((section, i) => {
             if (section?.html.startsWith("###")) {
               return (
@@ -244,7 +244,8 @@ const Post = () => {
                   onClick={() => {
                     handleClick(section.id);
                     console.log("클릭");
-                  }}>
+                  }}
+                >
                   {section.content}
                 </Stack>
               );
