@@ -12,6 +12,7 @@ import { useRef } from "react";
 import CancelIcon from "@mui/icons-material/Cancel";
 import WriteModal from "../components/WriteModal";
 import Header from "../components/Header";
+import { nord } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { useTheme } from "@mui/material/styles";
 import { postState, titleState } from "../states/writeState";
 import { useRecoilState } from "recoil";
@@ -20,6 +21,8 @@ import ReactMarkdown from "react-markdown";
 import CodeIcon from "@mui/icons-material/Code";
 import ImageIcon from "@mui/icons-material/Image";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
+import remarkGfm from "remark-gfm";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 
 const Write = () => {
   const editorRef = useRef();
@@ -172,28 +175,32 @@ const Write = () => {
                   onClick={() => {
                     setPost(post + "\n# ");
                     textareaRef.current.focus();
-                  }}>
+                  }}
+                >
                   H1
                 </Button>
                 <Button
                   onClick={() => {
                     setPost(post + "\n## ");
                     textareaRef.current.focus();
-                  }}>
+                  }}
+                >
                   H2
                 </Button>
                 <Button
                   onClick={() => {
                     setPost(post + "\n### ");
                     textareaRef.current.focus();
-                  }}>
+                  }}
+                >
                   H3
                 </Button>
                 <Button
                   onClick={() => {
                     setPost(post + "\n#### ");
                     textareaRef.current.focus();
-                  }}>
+                  }}
+                >
                   H4
                 </Button>
               </ButtonGroup>
@@ -203,7 +210,8 @@ const Write = () => {
                     setPost(post + "\n** **");
                     textareaRef.current.focus();
                   }}
-                  sx={{ fontWeight: "bold" }}>
+                  sx={{ fontWeight: "bold" }}
+                >
                   B
                 </Button>
                 <Button
@@ -221,14 +229,16 @@ const Write = () => {
                       textareaRef.current.setSelectionRange(position, position);
                     }, 0);
                   }}
-                  sx={{ fontStyle: "italic" }}>
+                  sx={{ fontStyle: "italic" }}
+                >
                   I
                 </Button>
                 <Button
                   onClick={() => {
                     setPost(post + "\n> ");
                     textareaRef.current.focus();
-                  }}>
+                  }}
+                >
                   &gt;
                 </Button>
               </ButtonGroup>
@@ -237,20 +247,23 @@ const Write = () => {
                   onClick={() => {
                     setPost(post + "\n```\n\n```");
                     textareaRef.current.focus();
-                  }}>
+                  }}
+                >
                   <CodeIcon />
                 </Button>
                 <Button
                   onClick={() => {
                     textareaRef.current.focus();
-                  }}>
+                  }}
+                >
                   <ImageIcon />
                 </Button>
                 <Button
                   onClick={() => {
                     setPost(post + "\\\n");
                     textareaRef.current.focus();
-                  }}>
+                  }}
+                >
                   <KeyboardReturnIcon />
                 </Button>
               </ButtonGroup>
@@ -260,7 +273,8 @@ const Write = () => {
                 sx={{
                   minHeight: "500px",
                   width: "50%",
-                }}>
+                }}
+              >
                 <TextareaAutosize
                   ref={textareaRef}
                   value={post}
@@ -284,7 +298,8 @@ const Write = () => {
                 bgcolor="background.main"
                 color="background.color"
                 paddingLeft="10%"
-                alignItems="left">
+                alignItems="left"
+              >
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
@@ -322,7 +337,8 @@ const Write = () => {
                             padding: "2px",
                             borderRadius: "3px",
                           }}
-                          {...props}>
+                          {...props}
+                        >
                           {children}
                         </code>
                       ) : match ? (
@@ -331,7 +347,8 @@ const Write = () => {
                           style={nord}
                           language={match[1]}
                           PreTag="div"
-                          {...props}>
+                          {...props}
+                        >
                           {String(children)
                             .replace(/\n$/, "")
                             .replace(/\n&nbsp;\n/g, "")
@@ -342,7 +359,8 @@ const Write = () => {
                           style={nord}
                           language="textile"
                           PreTag="div"
-                          {...props}>
+                          {...props}
+                        >
                           {String(children).replace(/\n$/, "")}
                         </SyntaxHighlighter>
                       );
@@ -356,7 +374,8 @@ const Write = () => {
                             padding: "1px 15px",
                             borderRadius: "10px",
                           }}
-                          {...props}>
+                          {...props}
+                        >
                           {children}
                         </div>
                       );
@@ -377,7 +396,8 @@ const Write = () => {
                         </span>
                       );
                     },
-                  }}>
+                  }}
+                >
                   {post}
                 </ReactMarkdown>
               </Stack>
