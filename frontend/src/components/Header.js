@@ -21,7 +21,8 @@ const Header = ({ isHome }) => {
       height="80px"
       justifyContent="space-between"
       bgcolor="header.background"
-      zIndex={100}>
+      zIndex={100}
+    >
       <Stack alignItems="flex-start" marginLeft="20px">
         <Stack
           sx={{
@@ -36,7 +37,8 @@ const Header = ({ isHome }) => {
           onClick={() => navigate("/home")}
           fontWeight="bold"
           color="header.logo"
-          fontSize="28px">
+          fontSize="28px"
+        >
           GLOG
         </Stack>
         <Button
@@ -54,17 +56,21 @@ const Header = ({ isHome }) => {
             ":active": {
               color: "header.titleActive",
             },
-          }}>
+          }}
+        >
           CHAEYEON'S BLOG
         </Button>
       </Stack>
       <Stack marginRight="28px" direction="row" spacing={4} alignItems="center">
+        <Button onClick={() => navigate("/register")}>회원가입</Button>
+        <Button onClick={() => navigate("/login")}>로그인</Button>
         {isHome && (
           <IconButton
             onClick={() => {
               setIsSearchOpen(!isSearchOpen);
               setSelectValue(0);
-            }}>
+            }}
+          >
             {isSearchOpen ? (
               <HomeIcon sx={{ color: "white" }} />
             ) : (
