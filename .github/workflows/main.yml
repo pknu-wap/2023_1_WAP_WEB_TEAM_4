@@ -18,7 +18,7 @@ jobs:
 
       - name: Install dependencies # 의존 파일 설치
         working-directory: frontend # frontend 폴더로 이동
-        run: npm install
+        run: npm install --force
 
       - name: Generate build # React Build
         working-directory: frontend # frontend 폴더로 이동
