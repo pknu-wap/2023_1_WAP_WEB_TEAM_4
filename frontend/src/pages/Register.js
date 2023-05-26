@@ -59,8 +59,8 @@ const Register = () => {
   const postRegister = useMutation(PostRegisterApi, {
     onSuccess: () => navigate("/login"),
     onError: (error) => {
-      // alert(error.response.data);
-      openSnackBar({ message: error.response.data, type: "error" });
+      alert(error.response.data);
+      // openSnackBar({ message: error.response.data, type: "error" });
     },
   });
 
@@ -90,8 +90,7 @@ const Register = () => {
         height: "1000%",
         backgroundColor: "black",
         padding: "10px",
-      }}
-    >
+      }}>
       <Stack height="100%">
         <Stack
           style={{
@@ -101,8 +100,7 @@ const Register = () => {
             fontSize: "30px",
             position: "fixed",
             padding: "10px 0px 10px 20px",
-          }}
-        >
+          }}>
           GLOG
         </Stack>
         <Stack flexDirection="row">
@@ -122,15 +120,13 @@ const Register = () => {
               position: "fixed",
               right: 0,
               top: 0,
-            }}
-          >
+            }}>
             <Stack width="80%" style={{ alignItems: "center" }}>
               <Stack
                 fontWeight="bold"
                 fontSize="20px"
                 color="#ECD8A4"
-                marginBottom="30px"
-              >
+                marginBottom="30px">
                 Regsiter
               </Stack>
               <input
@@ -191,8 +187,7 @@ const Register = () => {
                   fontWeight="bold"
                   marginBottom="25px"
                   fontSize="6px"
-                  color="red"
-                >
+                  color="red">
                   비밀번호와 비밀번호 확인이 일치하지 않습니다.
                 </Stack>
               )}
@@ -220,8 +215,7 @@ const Register = () => {
                     border: "1px solid #ECD8A4",
                     color: "#ECD8A4",
                   },
-                }}
-              >
+                }}>
                 Register
               </Button>
             </Stack>
@@ -236,8 +230,7 @@ const Register = () => {
         //   closeSnackBar();
         //   if (onClose) onClose();
         // }}
-        sx={{ boxShadow: 1, width: "500px", backgroundColor: "red" }}
-      >
+        sx={{ boxShadow: 1, width: "500px", backgroundColor: "red" }}>
         <Alert severity="error" sx={{ width: "100%" }}>
           {message}
         </Alert>
