@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Stack, Button, Icon, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Stack,
+  Button,
+  Icon,
+  useMediaQuery,
+  useTheme,
+  Snackbar,
+  Alert,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { PostRegisterApi, PostTestApi } from "../apis/api/common-api";
@@ -11,7 +19,7 @@ import {
   useViewportScroll,
 } from "framer-motion";
 import ImageDescription from "../components/ImageDescription";
-import Toast from "../components/Toast";
+import { useSnackBar } from "../hooks/useSnackBar";
 
 const Register = () => {
   const themes = useTheme();
@@ -22,7 +30,6 @@ const Register = () => {
     ["#ff008c", "#7700ff", "rgb(230, 255, 0)"]
   );
 
-  const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const { scrollYProgress } = useViewportScroll();
   const scale = useTransform(scrollYProgress, [1, 1], [2, 2]);
@@ -39,6 +46,9 @@ const Register = () => {
   const { email, password, passwordCheck, nickName } = registerState;
   const [, setData] = useState("");
   const isNotSmall = useMediaQuery(themes.breakpoints.up("xs"));
+  const { CustomSnackbar, openSnackBar } = useSnackBar();
+  CustomSnackbar();
+  console.log(openSnackBar);
 
   const registerHandler = (event) => {
     const { name, value } = event.target;
@@ -50,8 +60,7 @@ const Register = () => {
     onSuccess: () => navigate("/login"),
     onError: (error) => {
       // alert(error.response.data);
-      setMessage(error.response.data);
-      setOpen(true);
+      openSnackBar({ message: error.response.data, type: "error" });
     },
   });
 
@@ -217,9 +226,22 @@ const Register = () => {
               </Button>
             </Stack>
           </Stack>
-          <Toast open={open} setOpen={setOpen} message={message} />
         </Stack>
       </Stack>
+      <Snackbar
+        //   anchorOrigin={{ vertical: "top", horizontal: "left" }}
+        open={true}
+        autoHideDuration={3000}
+        // onClose={() => {
+        //   closeSnackBar();
+        //   if (onClose) onClose();
+        // }}
+        sx={{ boxShadow: 1, width: "500px", backgroundColor: "red" }}
+      >
+        <Alert severity="error" sx={{ width: "100%" }}>
+          {message}
+        </Alert>
+      </Snackbar>
     </Stack>
   );
 };
