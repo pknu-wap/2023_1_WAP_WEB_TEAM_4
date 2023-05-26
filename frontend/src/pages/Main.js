@@ -4,10 +4,14 @@ import SideNavigation from "../components/SideNavigation";
 import Post from "../components/Post";
 import { Stack, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { useRecoilState } from "recoil";
+import { isNavigateOpenState } from "../states/mainState";
 
 const Main = () => {
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
+  const [isNavigateOpen, setIsNavigateOpen] =
+    useRecoilState(isNavigateOpenState);
 
   return (
     <Stack
@@ -16,9 +20,8 @@ const Main = () => {
         backgroundColor: "background.main",
       }}>
       <Stack direction="row" height="100%">
-        {!isTablet && <SideNavigation />}
+        {isNavigateOpen && <SideNavigation />}
         <Header />
-
         <Post />
       </Stack>
     </Stack>

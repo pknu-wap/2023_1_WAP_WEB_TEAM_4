@@ -2,33 +2,44 @@ import { IconButton, Stack } from "@mui/material";
 import React from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
-
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+import { useRecoilState } from "recoil";
+import { isNavigateOpenState } from "../states/mainState";
 const SideNavigation = () => {
   const navigate = useNavigate();
+  const [isNavigateOpen, setIsNavigateOpen] =
+    useRecoilState(isNavigateOpenState);
+
   return (
     <Stack
       boxShadow="0px 0px 1px"
       backgroundColor="sideNavigation.background"
-      width="210px"
       height="100%"
+      maxWidth="180px"
+      width="100%"
       left={0}
-      padding="88px 10px 20px 12px"
+      padding="88px 16px 20px 12px"
       position="fixed">
-      <Stack direction="row" alignItems="center" marginBottom="5px">
-        <IconButton
-          width="16px"
-          height="16px"
-          onClick={() => navigate("/write")}>
-          <AddIcon />
-        </IconButton>
-        <Stack
-          sx={{
-            color: "background.color",
-            fontSize: "16px",
-            fontWeight: "bold",
-          }}>
-          글쓰기
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Stack direction="row" alignItems="center" marginBottom="5px">
+          <IconButton
+            width="16px"
+            height="16px"
+            onClick={() => navigate("/write")}>
+            <AddIcon />
+          </IconButton>
+          <Stack
+            sx={{
+              color: "background.color",
+              fontSize: "16px",
+              fontWeight: "bold",
+            }}>
+            글쓰기
+          </Stack>
         </Stack>
+        <IconButton onClick={() => setIsNavigateOpen(false)}>
+          <KeyboardDoubleArrowLeftIcon />
+        </IconButton>
       </Stack>
       <Stack gap="16px">
         <Stack gap="10px">

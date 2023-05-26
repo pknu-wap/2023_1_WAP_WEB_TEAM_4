@@ -37,7 +37,7 @@ const App = () => {
   return (
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider theme={themes.dark}>
+        <ThemeProvider theme={themes.light}>
           <Router>
             <Routes>
               <Route path="/" element={<Main />} />
