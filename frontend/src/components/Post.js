@@ -44,20 +44,22 @@ const Post = () => {
     selectedSection?.ref?.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  console.log(sections);
+  console.log(post);
+
   return (
     <Stack
       alignItems="center"
       bgcolor="background.main"
-      width="100%"
-      padding="56px 40px 84px 254px"
-    >
+      height="100%"
+      // width="100%"
+      padding="80px 40px 84px 254px">
       <Stack
         marginRight="100px"
         alignItems="flex-start"
-        width="850px"
+        // width="850px"
         marginTop="80px"
-        justifyContent="center"
-      >
+        justifyContent="center">
         {title && (
           <Stack>
             <Stack direction="row" justifyContent="space-between">
@@ -65,8 +67,7 @@ const Post = () => {
                 color="background.color"
                 fontSize="32px"
                 height="45px"
-                fontWeight="bold"
-              >
+                fontWeight="bold">
                 {title}
               </Stack>
               <Stack direction="row">
@@ -110,11 +111,161 @@ const Post = () => {
                         {children}
                       </h3>
                     ),
-                    h4: ({ node, children, ...props }) => (
-                      <h4 style={{ margin: 0 }} {...props}>
-                        {children}
-                      </h4>
+                    h4: ({ node, children, ...props }) => {
+                      console.log("asdf");
+                      return (
+                        <h4 style={{ margin: 0 }} {...props}>
+                          {children}
+                        </h4>
+                      );
+                    },
+                    code({ node, inline, className, children, ...props }) {
+                      const match = /language-(\w+)/.exec(className || "");
+                      return inline ? (
+                        // 강조 (``)
+                        <code
+                          style={{
+                            fontWeight: "bold",
+                            background:
+                              "linear-gradient( to right, var(--sub-highlight-color) 15%, var(--highlight-color) 85%, var(--sub-highlight-color) )",
+                            padding: "2px",
+                            borderRadius: "3px",
+                          }}
+                          {...props}>
+                          {children}
+                        </code>
+                      ) : match ? (
+                        // 코드 (```)
+                        <SyntaxHighlighter
+                          style={nord}
+                          language={match[1]}
+                          PreTag="div"
+                          {...props}>
+                          {String(children)
+                            .replace(/\n$/, "")
+                            .replace(/\n&nbsp;\n/g, "")
+                            .replace(/\n&nbsp\n/g, "")}
+                        </SyntaxHighlighter>
+                      ) : (
+                        <SyntaxHighlighter
+                          style={nord}
+                          language="textile"
+                          PreTag="div"
+                          {...props}>
+                          {String(children).replace(/\n$/, "")}
+                        </SyntaxHighlighter>
+                      );
+                    },
+                    // 인용문 (>)
+                    blockquote({ node, children, ...props }) {
+                      return (
+                        <div
+                          style={{
+                            background: "#f0f0f0",
+                            padding: "1px 15px",
+                            borderRadius: "10px",
+                          }}
+                          {...props}>
+                          {children}
+                        </div>
+                      );
+                    },
+                    img({ node, ...props }) {
+                      return (
+                        <img
+                          style={{ maxWidth: "400px", maxHeight: "300px" }}
+                          src={props.src.replace("../../../../public/", "/")}
+                          alt="MarkdownRenderer__Image"
+                        />
+                      );
+                    },
+                    em({ node, children, ...props }) {
+                      return (
+                        <span style={{ fontStyle: "italic" }} {...props}>
+                          {children}
+                        </span>
+                      );
+                    },
+                  }}>
+                  {post}
+                </ReactMarkdown>
+              </Stack>
+            </Stack>
+          </Stack>
+        )}
+      </Stack>
+    </Stack>
+  );
+};
+
+export default Post;
+
+{
+  /* <Stack
+        marginRight="100px"
+        alignItems="flex-start"
+        width="850px"
+        marginTop="80px"
+        justifyContent="center">
+        {title && (
+          <Stack>
+            <Stack direction="row" justifyContent="space-between">
+              <Stack
+                color="background.color"
+                fontSize="32px"
+                height="45px"
+                fontWeight="bold">
+                {title}
+              </Stack>
+              <Stack direction="row">
+                <Button>수정</Button>
+                <Button color="error">삭제</Button>
+              </Stack>
+            </Stack>
+            <Stack
+              width="850px"
+              height="2px"
+              bgcolor="primary.500"
+              marginBottom="24px"
+            />
+            <Stack>
+              <Stack
+                sx={{
+                  color: "background.color",
+                }}
+                gap="5px">
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    br: ({ node, ...props }) => (
+                      <div
+                        {...props}
+                        style={{ height: "10px", color: "transparent" }}
+                      />
                     ),
+                    h1: ({ node, children, ...props }) => (
+                      <h1 style={{ margin: 0 }} {...props}>
+                        {children}
+                      </h1>
+                    ),
+                    h2: ({ node, children, ...props }) => (
+                      <h2 style={{ margin: 0 }} {...props}>
+                        {children}
+                      </h2>
+                    ),
+                    h3: ({ node, children, ...props }) => (
+                      <h3 style={{ margin: 0 }} {...props}>
+                        {children}
+                      </h3>
+                    ),
+                    h4: ({ node, children, ...props }) => {
+                      console.log("asdf");
+                      return (
+                        <h4 style={{ margin: 0 }} {...props}>
+                          {children}
+                        </h4>
+                      );
+                    },
                     code({ node, inline, className, children, ...props }) {
                       const match = /language-(\w+)/.exec(className || "");
                       return inline ? (
@@ -201,8 +352,7 @@ const Post = () => {
             position: "fixed",
             top: 0,
             right: 100,
-          }}
-        >
+          }}>
           {sections.map((section, i) => {
             if (section?.html.startsWith("###")) {
               return (
@@ -244,17 +394,12 @@ const Post = () => {
                   onClick={() => {
                     handleClick(section.id);
                     console.log("클릭");
-                  }}
-                >
+                  }}>
                   {section.content}
                 </Stack>
               );
             } else return null;
           })}
         </Stack>
-      )}
-    </Stack>
-  );
-};
-
-export default Post;
+      )} */
+}
