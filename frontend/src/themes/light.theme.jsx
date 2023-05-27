@@ -8,7 +8,7 @@ export const lightTheme = createTheme({
       lg: 1440,
       md: 900,
       sm: 600,
-      xs: 300,
+      xs: 460,
     },
   },
   spacing: 4,

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
+import HeaderMobile from "../components/HeaderMobile";
 import SideNavigation from "../components/SideNavigation";
 import Post from "../components/Post";
 import { Stack, useMediaQuery } from "@mui/material";
@@ -9,9 +10,17 @@ import { isNavigateOpenState } from "../states/mainState";
 
 const Main = () => {
   const theme = useTheme();
-  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
+  const isPhone = useMediaQuery(theme.breakpoints.down("xs"));
+  const isDeskop = useMediaQuery(theme.breakpoints.up("lg"));
   const [isNavigateOpen, setIsNavigateOpen] =
     useRecoilState(isNavigateOpenState);
+  const [navigateWidth, setNavigateWidth] = useState(0);
+  const [anchorWidth, setAnchoreWidth] = useState(0);
+
+  useEffect(() => {
+    isNavigateOpen ? setNavigateWidth(180) : setNavigateWidth(0);
+    isDeskop ? setAnchoreWidth(300) : setAnchoreWidth(0);
+  }, [isNavigateOpen, isDeskop]);
 
   return (
     <Stack
@@ -22,10 +31,17 @@ const Main = () => {
       }}>
       <Stack direction="row" height="100%">
         {isNavigateOpen && <SideNavigation />}
-        <Header />
+        {isPhone ? <HeaderMobile /> : <Header />}
         {/* <Post /> */}
-        <Stack p="80px 40px 84px 254px" bgcolor="white"></Stack>
-        {!isTablet && (
+        <Stack
+          margin={`80px ${40 + anchorWidth}px 84px ${40 + navigateWidth}px`}
+          width="100%"
+          height="100%"
+          color="white"
+          bgcolor="white">
+          asdfadsfds
+        </Stack>
+        {isDeskop && (
           <Stack
             marginTop="14%"
             justifyContent="center"

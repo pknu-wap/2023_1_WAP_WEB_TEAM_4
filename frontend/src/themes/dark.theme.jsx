@@ -8,7 +8,7 @@ export const darkTheme = createTheme({
       lg: 1440,
       md: 900,
       sm: 600,
-      xs: 375,
+      xs: 460,
     },
   },
 

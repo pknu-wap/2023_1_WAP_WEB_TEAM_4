@@ -1,4 +1,4 @@
-import { Stack, Button, IconButton } from "@mui/material";
+import { Stack, Button, IconButton, useMediaQuery } from "@mui/material";
 import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
@@ -7,9 +7,12 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { searchOpenState, selectValueState } from "../states/homeState";
 import MenuIcon from "@mui/icons-material/Menu";
 import { isNavigateOpenState } from "../states/mainState";
+import { useTheme } from "@mui/material/styles";
 
 const Header = ({ isHome }) => {
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const [isSearchOpen, setIsSearchOpen] = useRecoilState(searchOpenState);
   const setSelectValue = useSetRecoilState(selectValueState);
   const [isNavigateOpen, setIsNavigateOpen] =

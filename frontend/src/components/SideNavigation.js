@@ -13,14 +13,14 @@ const SideNavigation = () => {
   const [isNavigateOpen, setIsNavigateOpen] =
     useRecoilState(isNavigateOpenState);
 
-  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
+  const isPhone = useMediaQuery(theme.breakpoints.down("xs"));
 
   return (
     <Stack
       boxShadow="0px 0px 1px"
       backgroundColor="sideNavigation.background"
       height="100%"
-      maxWidth={!isTablet ? "180px" : undefined}
+      maxWidth={!isPhone ? "180px" : undefined}
       width="100%"
       left={0}
       position="fixed">

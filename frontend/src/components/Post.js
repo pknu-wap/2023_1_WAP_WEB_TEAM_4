@@ -16,7 +16,8 @@ const Post = () => {
 
   const [sections, setSections] = useState([]);
 
-  const isNotLarge = useMediaQuery(themes.breakpoints.down("lg"));
+  // const isNotLarge = useMediaQuery(themes.breakpoints.down("lg"));
+
   useEffect(() => {
     const regex = /^#+\s*(.*?)$/gm;
     const matches = [...post.matchAll(regex)];
