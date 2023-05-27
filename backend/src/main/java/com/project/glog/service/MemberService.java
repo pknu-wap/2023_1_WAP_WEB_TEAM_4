@@ -40,7 +40,6 @@ MemberService {
         blog.setMember(member);
 
         memberRepository.save(member);
-        blogService.save(blog);
 
         return member.getId();
     }
