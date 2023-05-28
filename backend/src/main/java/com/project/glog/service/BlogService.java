@@ -22,4 +22,8 @@ public class BlogService {
         }
         return result.get();
     }
+
+    public Blog findById(Long bid){
+        return blogRepository.findById(bid).get();
+    }
 }

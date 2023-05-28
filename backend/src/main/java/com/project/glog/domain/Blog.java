@@ -11,7 +11,7 @@ public class Blog {
     @OneToOne
     private Member member;
     private String blog_name;
-    private String blog_url;
+    private String blogUrl;
     private String introduction;
 
     public Long getId() {
@@ -39,11 +39,11 @@ public class Blog {
     }
 
     public String getBlog_url() {
-        return blog_url;
+        return blogUrl;
     }
 
     public void setBlog_url(String blog_url) {
-        this.blog_url = blog_url;
+        this.blogUrl = blog_url;
     }
 
     public String getIntroduction() {

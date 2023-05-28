@@ -35,11 +35,11 @@ public class SpringConfig {
     }
 
     @Bean
-    public ContentService contentService(){return new ContentService(contentRepository, categoryService());
+    public ContentService contentService(){return new ContentService(contentRepository, categoryService(), memberService(), blogService());
     }
 
     @Bean
-    public CategoryService categoryService(){return new CategoryService(categoryRepository);}
+    public CategoryService categoryService(){return new CategoryService(categoryRepository, blogService());}
 
     @Bean
     public BlogService blogService(){return new BlogService(blogRepository);}

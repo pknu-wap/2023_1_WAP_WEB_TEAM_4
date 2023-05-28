@@ -35,10 +35,15 @@ MemberService {
 
         //블로그를 새로 판다.
         Blog blog = new Blog();
+        blog.setBlog_name(member.getNickname());
+        blog.setBlog_url(member.getNickname());
 
+        //블로그가 멤버를 참조하도록함
         member.setBlog(blog);
         blog.setMember(member);
 
+        //따로 블로그를 저장하는 로직을 만들지 않아도 알아서 DB에 저장하고
+        //멤버를 참조함
         memberRepository.save(member);
 
         return member.getId();

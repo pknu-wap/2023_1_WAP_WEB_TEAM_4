@@ -13,7 +13,6 @@ public class Member {
     private String loginid;
     private String loginpw;
     private String nickname;
-    private String url;
     private String profile_image;
 
 
@@ -55,14 +54,6 @@ public class Member {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public String getProfile_image() {

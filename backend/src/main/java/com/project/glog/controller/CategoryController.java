@@ -1,11 +1,8 @@
 package com.project.glog.controller;
 
-import com.project.glog.domain.Blog;
 import com.project.glog.domain.Category;
-import com.project.glog.domain.Content;
 import com.project.glog.service.BlogService;
 import com.project.glog.service.CategoryService;
-import com.project.glog.service.ContentService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,9 +29,9 @@ public class CategoryController {
         this.blogService = blogService;
     }
 
-    @PostMapping("/category/save")
+    @PostMapping("/category/create")
     @ResponseBody
-    public ResponseEntity<String> save(HttpSession session, @RequestBody Category category){
+    public ResponseEntity<String> save(HttpSession session, @RequestBody String name){
         //세션을 확인한다.
         Long uid = (Long) session.getAttribute("memberId");
         if(uid==null){
@@ -42,12 +39,7 @@ public class CategoryController {
             return null;
         }
 
-        //카테고리의 블로그 외래키를 저장한다.
-        Blog blog = blogService.findByMemberId(uid);
-        category.setBlog(blog);
-
-        //카테고리를 저장한다.
-        categoryService.save(category);
+        categoryService.create(name, uid);
 
         return new ResponseEntity<>("success save category",HttpStatus.OK);
     }
@@ -69,9 +61,9 @@ public class CategoryController {
         return new ResponseEntity<>("success delete category",HttpStatus.OK);
     }
 
-    @GetMapping ("/category/read")
+    @GetMapping ("/category/get")
     @ResponseBody
-    public ResponseEntity<List<Category>> create(HttpSession session, @RequestBody Blog blog){
+    public ResponseEntity<List<String>> getCategoriesByBlog(HttpSession session){
         //세션을 확인한다.
         Long uid = (Long) session.getAttribute("memberId");
         if(uid==null){
@@ -79,9 +71,10 @@ public class CategoryController {
             return null;
         }
 
+        //게시글 작성시에 카테고리 목록을 확인하기 위한 컨트롤러이기 때문에
+        //세션을 확인하여 처리하면 되므로 별다른 매개변수가 필요 없다.
         //해당 블로그의 카테고리를 전부 읽어온다.
-        List<Category> categoryList = categoryService.findAllByBlogId(blog);
-
-        return new ResponseEntity<>(categoryList,HttpStatus.OK);
+        List<String> categories = categoryService.getCategoriesByBlogId(blogService.findByMemberId(uid).getId());
+        return new ResponseEntity<>(categories,HttpStatus.OK);
     }
 }

@@ -30,6 +30,8 @@ public class Content {
     private Integer likes;
 
     private Integer views;
+    private Integer isPrivate;
+    private String hashtags;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -112,5 +114,21 @@ public class Content {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Integer getIsPrivate() {
+        return isPrivate;
+    }
+
+    public void setIsPrivate(Integer isPrivate) {
+        this.isPrivate = isPrivate;
+    }
+
+    public String getHashtags() {
+        return hashtags;
+    }
+
+    public void setHashtags(String hashtags) {
+        this.hashtags = hashtags;
     }
 }

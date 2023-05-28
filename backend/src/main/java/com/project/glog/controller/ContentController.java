@@ -4,6 +4,8 @@ package com.project.glog.controller;
 import com.project.glog.domain.Category;
 import com.project.glog.domain.Content;
 import com.project.glog.domain.Member;
+import com.project.glog.dto.ContentCreateRequest;
+import com.project.glog.dto.ContentReadResponse;
 import com.project.glog.service.BlogService;
 import com.project.glog.service.CategoryService;
 import com.project.glog.service.ContentService;
@@ -40,18 +42,15 @@ public class ContentController {
 
     @PostMapping("/content/create")
     @ResponseBody
-    public ResponseEntity<CreateContentForm> create(HttpSession session, @RequestBody CreateContentForm form){
+    public ResponseEntity<Long> create(HttpSession session, @RequestBody ContentCreateRequest contentCreateRequest){
         //1. 세션을 확인한다.
         Long uid = (Long) session.getAttribute("memberId");
         if(uid==null){
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
 
-        //2. 글을 저장한다.
-        //카테고리는 이미 저장되어 있어서 요청으로 들어올 것이므로 글만 저장하면 된다.
-        contentService.save(form);
-
-        return new ResponseEntity<>(form, HttpStatus.OK);
+        Content content = contentService.create(contentCreateRequest, uid);
+        return new ResponseEntity<>(content.getId(), HttpStatus.OK);
     }
 
     @PostMapping("/content/delete")
@@ -74,44 +73,16 @@ public class ContentController {
 
     @GetMapping("/content/read")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> readContent(HttpSession session, @RequestBody Content content){
+    public ResponseEntity<ContentReadResponse> readContent(HttpSession session, @RequestBody Long cid){
         //세션을 확인한다.
         Long uid = (Long) session.getAttribute("memberId");
         if(uid==null){
             System.out.println("Not Logined");
         }
 
-        Map<String, Object> response = new HashMap<>();
+        ContentReadResponse contentReadResponse = contentService.readContent(cid);
 
-        //글을 반환한다.
-        content.setViews(content.getViews()+1);
-        response.put("content", content);
-
-        // 해당 컨텐츠를 작성한 블로그의 카테고리를 전부 불러온다.
-        List<Category> categoryList = categoryService.findAllByBlogId(content.getBlog());
-
-        //사이드바 매핑 테이블을 만든다.
-        Map<String, List<Content>> sidebar = new HashMap<>();
-
-        //불러온 카테고리를 순회하면서 해당 카테고리 id를 가진 게시글을 전부 읽어
-        //리스트로 만들고 맵에 매핑 시킨다.
-        List<Content> allContents = contentService.getAllContentsByBlog(content.getBlog());
-        for(Category categoryEntry : categoryList){
-            List<Content> categoryContents = new ArrayList<>();
-            for(Content contentEntry : allContents){
-                if(categoryEntry.getId().equals(contentEntry.getCategory().getId())){
-                    //리스트에 컨텐츠 추가
-                    categoryContents.add(contentEntry);
-                }
-            }
-            //리스트가 비어있지 않으면 Map 테이블에 추가
-            if(!categoryContents.isEmpty()){
-                sidebar.put(categoryEntry.getName(), categoryContents);
-            }
-        }
-        response.put("sidebar", sidebar);
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(contentReadResponse, HttpStatus.OK);
     }
 
     @GetMapping("/main")

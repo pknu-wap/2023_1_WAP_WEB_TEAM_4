@@ -2,6 +2,8 @@ package com.project.glog.controller;
 
 import com.project.glog.domain.Blog;
 import com.project.glog.domain.Member;
+import com.project.glog.dto.LoginRequest;
+import com.project.glog.dto.RegisterRequest;
 import com.project.glog.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,12 @@ public class MemberController {
 
     @PostMapping("/member/register")
     @ResponseBody
-    public ResponseEntity<String> register(@RequestBody Member member){
+    public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest){
+        Member member = new Member();
+        member.setLoginid(registerRequest.getLoginid());
+        member.setLoginpw(registerRequest.getLoginpw());
+        member.setNickname(registerRequest.getNickname());
+
         Long result = memberService.save(member);
         if(result==-1L){
             return new ResponseEntity<>("present nickname", HttpStatus.CONFLICT);
@@ -41,7 +48,11 @@ public class MemberController {
 
     @PostMapping("/member/login")
     @ResponseBody
-    public ResponseEntity<String> login(HttpSession session, @RequestBody Member member){
+    public ResponseEntity<String> login(HttpSession session, @RequestBody LoginRequest loginRequest){
+        Member member = new Member();
+        member.setLoginid(loginRequest.getLoginId());
+        member.setLoginpw(loginRequest.getLoginPw());
+
         Long uid = memberService.login(member);
         if(uid==null){
             return new ResponseEntity<>("failed login", HttpStatus.NOT_FOUND);
