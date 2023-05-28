@@ -33,7 +33,7 @@ public class MemberController {
         member.setLoginpw(registerRequest.getLoginpw());
         member.setNickname(registerRequest.getNickname());
 
-        Long result = memberService.save(member);
+        Long result = memberService.save(registerRequest);
         if(result==-1L){
             return new ResponseEntity<>("present nickname", HttpStatus.CONFLICT);
         }
@@ -49,11 +49,8 @@ public class MemberController {
     @PostMapping("/member/login")
     @ResponseBody
     public ResponseEntity<String> login(HttpSession session, @RequestBody LoginRequest loginRequest){
-        Member member = new Member();
-        member.setLoginid(loginRequest.getLoginId());
-        member.setLoginpw(loginRequest.getLoginPw());
 
-        Long uid = memberService.login(member);
+        Long uid = memberService.login(loginRequest);
         if(uid==null){
             return new ResponseEntity<>("failed login", HttpStatus.NOT_FOUND);
         }
@@ -86,15 +83,13 @@ public class MemberController {
 
     @PostMapping("member/changepw")
     @ResponseBody
-    public ResponseEntity<String> changePw(@RequestParam("changepw") String changepw, HttpSession session){
+    public ResponseEntity<String> changePw(@RequestParam("changePw") String changePw, HttpSession session){
         Long uid = (Long) session.getAttribute("memberId");
         if(uid==null){
             return new ResponseEntity<>("not logined", HttpStatus.UNAUTHORIZED);
         }
 
-        Member member = memberService.searchMemberById(uid);
-        member.setLoginpw(changepw);
-        memberService.save(member);
+        memberService.changePw(memberService.searchMemberById(uid), changePw);
         return new ResponseEntity<>("succes change pw", HttpStatus.OK);
     }
 

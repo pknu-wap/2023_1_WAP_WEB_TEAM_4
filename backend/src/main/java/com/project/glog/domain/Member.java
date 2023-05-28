@@ -15,6 +15,13 @@ public class Member {
     private String nickname;
     private String profile_image;
 
+    public Member(){}
+    public Member(String loginid, String loginpw, String nickname, String profile_image) {
+        this.loginid = loginid;
+        this.loginpw = loginpw;
+        this.nickname = nickname;
+        this.profile_image = profile_image;
+    }
 
     public Long getId() {
         return id;

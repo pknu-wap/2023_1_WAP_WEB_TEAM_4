@@ -99,9 +99,10 @@ public class ContentService {
         return contentRepository.findAllByBlogId(blog.getId());
     }
 
-    public ContentReadResponse readContent(Long cid){
+    public ContentReadResponse readContent(Long uid, Long cid){
         //ContentDTO
         Content content = contentRepository.findById(cid).get();
+        content.setLikes(content.getLikes()+1);
         ContentDTO contentDTO = new ContentDTO(content);
 
         //List<CategorySidebar>
@@ -116,8 +117,14 @@ public class ContentService {
         }
 
         //MemberDTO
-        Member member = content.getMember();
-        MemberDTO memberDTO = new MemberDTO(member.getNickname(), member.getProfile_image(), member.getBlog().getBlog_url());
+        MemberDTO memberDTO;
+        if(uid==null){
+            memberDTO= null;
+        }
+        else{
+            Member member = memberService.searchMemberById(uid);
+            memberDTO = new MemberDTO(member.getNickname(), member.getProfile_image(), member.getBlog().getBlog_url());
+        }
 
         return new ContentReadResponse(contentDTO, categorySidebars, memberDTO);
     }

@@ -2,10 +2,13 @@ package com.project.glog.service;
 
 import com.project.glog.domain.Blog;
 import com.project.glog.domain.Member;
+import com.project.glog.dto.LoginRequest;
+import com.project.glog.dto.RegisterRequest;
 import com.project.glog.repository.MemberRepository;
 
 import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public class
@@ -19,7 +22,13 @@ MemberService {
         this.memberRepository = memberRepository;
         this.blogService = blogService;
     }
-    public Long save(Member member){
+    public Long save(RegisterRequest registerRequest){
+        Member member = new Member(
+                registerRequest.getLoginid(),
+                registerRequest.getLoginpw(),
+                registerRequest.getNickname(),
+                ""
+        );
 
         try {
             validateDuplicateMember(member);
@@ -34,9 +43,11 @@ MemberService {
         }
 
         //블로그를 새로 판다.
-        Blog blog = new Blog();
-        blog.setBlog_name(member.getNickname());
-        blog.setBlog_url(member.getNickname());
+        Blog blog = new Blog(
+                member.getNickname(),
+                member.getNickname(),
+                ""
+                );
 
         //블로그가 멤버를 참조하도록함
         member.setBlog(blog);
@@ -62,11 +73,11 @@ MemberService {
                 });
     }
 
-    public Long login(Member member){
-        Optional<Member> resultOptional = memberRepository.findByLoginid(member.getLoginid());
+    public Long login(LoginRequest loginRequest){
+        Optional<Member> resultOptional = memberRepository.findByLoginid(loginRequest.getLoginId());
         if(resultOptional.isPresent()){
             Member result = resultOptional.get();
-            if(result.getLoginpw().equals(member.getLoginpw())){
+            if(result.getLoginpw().equals(loginRequest.getLoginPw())){
                 return result.getId();
             }
         }
@@ -74,12 +85,23 @@ MemberService {
         return null;
     }
     public Member searchMemberById(Long id){
-        Member member = memberRepository.findById(id).get();
-        return member;
+        Optional<Member> memberOptional = memberRepository.findById(id);
+        try {
+            Member member = memberOptional.get();
+            return member;
+        }
+        catch(Exception e){
+            return null;
+        }
     }
 
     public List<Member> searchMembersByNickname(String nickname){
         return memberRepository.findAllByNickname(nickname);
+    }
+
+    public void changePw(Member member, String changePw){
+        member.setLoginpw(changePw);
+        memberRepository.save(member);
     }
 
 }

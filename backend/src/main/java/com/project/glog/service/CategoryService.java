@@ -23,6 +23,8 @@ public class CategoryService {
 
         //Blog를 참조하므로 객체를 불러온다.
         Blog blog = blogService.findByMemberId(uid);
+        category.setBlog(blog);
+
         categoryRepository.save(category);
     }
 

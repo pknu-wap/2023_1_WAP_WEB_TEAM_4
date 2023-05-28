@@ -80,7 +80,7 @@ public class ContentController {
             System.out.println("Not Logined");
         }
 
-        ContentReadResponse contentReadResponse = contentService.readContent(cid);
+        ContentReadResponse contentReadResponse = contentService.readContent(uid, cid);
 
         return new ResponseEntity<>(contentReadResponse, HttpStatus.OK);
     }

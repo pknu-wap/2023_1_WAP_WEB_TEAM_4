@@ -3,6 +3,7 @@ package com.project.glog.dto;
 import com.project.glog.domain.Category;
 import com.project.glog.domain.Content;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategorySidebar {
@@ -14,6 +15,7 @@ public class CategorySidebar {
         this.category_id = category.getId();
         this.category_name = category.getName();
 
+        this.titles = new ArrayList<>();
         for(Content content : contents){
             this.titles.add(new ContentTitle(content.getId(), content.getTitle()));
         }

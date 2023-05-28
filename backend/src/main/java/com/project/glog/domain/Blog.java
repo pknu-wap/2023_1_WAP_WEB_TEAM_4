@@ -14,6 +14,14 @@ public class Blog {
     private String blogUrl;
     private String introduction;
 
+    public Blog(){}
+
+    public Blog(String blog_name, String blogUrl, String introduction) {
+        this.blog_name = blog_name;
+        this.blogUrl = blogUrl;
+        this.introduction = introduction;
+    }
+
     public Long getId() {
         return id;
     }
