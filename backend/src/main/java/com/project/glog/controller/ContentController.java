@@ -73,7 +73,7 @@ public class ContentController {
 
     @GetMapping("/content/read")
     @ResponseBody
-    public ResponseEntity<ContentReadResponse> readContent(HttpSession session, @RequestBody Long cid){
+    public ResponseEntity<ContentReadResponse> readContent(HttpSession session, @RequestParam("cid") Long cid){
         //세션을 확인한다.
         Long uid = (Long) session.getAttribute("memberId");
         if(uid==null){
