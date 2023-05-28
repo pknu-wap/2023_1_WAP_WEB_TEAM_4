@@ -1,6 +1,7 @@
 package com.project.glog.controller;
 
 import com.project.glog.domain.Category;
+import com.project.glog.dto.CategoryDTO;
 import com.project.glog.service.BlogService;
 import com.project.glog.service.CategoryService;
 import jakarta.servlet.http.HttpSession;
@@ -63,7 +64,7 @@ public class CategoryController {
 
     @GetMapping ("/category/get")
     @ResponseBody
-    public ResponseEntity<List<String>> getCategoriesByBlog(HttpSession session){
+    public ResponseEntity<List<CategoryDTO>> getCategoriesByBlog(HttpSession session){
         //세션을 확인한다.
         Long uid = (Long) session.getAttribute("memberId");
         if(uid==null){
@@ -74,7 +75,7 @@ public class CategoryController {
         //게시글 작성시에 카테고리 목록을 확인하기 위한 컨트롤러이기 때문에
         //세션을 확인하여 처리하면 되므로 별다른 매개변수가 필요 없다.
         //해당 블로그의 카테고리를 전부 읽어온다.
-        List<String> categories = categoryService.getCategoriesByBlogId(blogService.findByMemberId(uid).getId());
+        List<CategoryDTO> categories = categoryService.getCategoriesByBlogId(blogService.findByMemberId(uid).getId());
         return new ResponseEntity<>(categories,HttpStatus.OK);
     }
 }

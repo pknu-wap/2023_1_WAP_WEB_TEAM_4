@@ -2,6 +2,7 @@ package com.project.glog.service;
 
 import com.project.glog.domain.Blog;
 import com.project.glog.domain.Category;
+import com.project.glog.dto.CategoryDTO;
 import com.project.glog.repository.CategoryRepository;
 
 import java.util.ArrayList;
@@ -40,12 +41,12 @@ public class CategoryService {
         return categoryRepository.findById(cid).get();
     }
 
-    public List<String> getCategoriesByBlogId(Long bid){
+    public List<CategoryDTO> getCategoriesByBlogId(Long bid){
         List<Category> categories = categoryRepository.findAllByBlogId(bid);
 
-        List<String> results = new ArrayList<>();
+        List<CategoryDTO> results = new ArrayList<>();
         for(Category category : categories){
-            results.add(category.getName());
+            results.add(new CategoryDTO(category));
         }
 
         return results;
