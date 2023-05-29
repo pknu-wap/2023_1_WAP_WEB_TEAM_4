@@ -12,11 +12,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ContentRepository extends JpaRepository<Content,Long> {
-    @Query("SELECT c FROM Content c WHERE c.text like '%:stirng%'")
+    @Query("SELECT c FROM Content c WHERE c.text LIKE %:string%")
     List<Content> findAllByText(@Param("string") String string);
 
-    @Query("SELECT c FROM Content c JOIN c.blog b WHERE b.id=:blogId")
-    List<Content> findAllByBlogId(@Param("blogId") Long bid);
+    @Query("SELECT c FROM Content c WHERE c.hashtags LIKE %:hashtag%")
+    List<Content> findAllByHashtag(@Param("hashtag") String hashtag);
+
 
     @Query("SELECT con FROM Content con JOIN con.category cat WHERE cat.id=:catId ")
     List<Content> findAllByCategoryId(@Param("catId") Long id);

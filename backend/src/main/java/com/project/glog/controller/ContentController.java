@@ -110,21 +110,30 @@ public class ContentController {
 
     @GetMapping("/main/more")
     @ResponseBody
-    public ResponseEntity<List<Content>> mainMore(HttpSession session, @RequestParam("kind") String kind, @RequestParam("index") int index){
+    public ResponseEntity<ContentDTOS> mainMore(HttpSession session, @RequestParam("kind") String kind, @RequestParam("index") Long index){
         //1. 세션을 확인한다.
         Long uid = (Long) session.getAttribute("memberId");
         if(uid==null){
             System.out.println("Not Logined");
         }
-
-        return new ResponseEntity<>(null,HttpStatus.OK);
+        ContentDTOS contents = contentService.getMorePreviews(kind, index);
+        return new ResponseEntity<>(contents,HttpStatus.OK);
     }
 
-    @GetMapping("/content/find")
+    @GetMapping("/content/find/string")
     @ResponseBody
-    public ResponseEntity<List<Content>> searchContentsByString(HttpSession session, @RequestParam("string") String string){
+    public ResponseEntity<ContentDTOS> searchContentsByString(@RequestParam("string") String string){
         //string 내용을 포함한 게시글의 리스트를 생성한다.
-        List<Content> contents = contentService.searchContentsByString(string);
+        ContentDTOS contents = contentService.getContentsByString(string);
+
+        return new ResponseEntity<>(contents, HttpStatus.OK);
+    }
+
+    @GetMapping("/content/find/hashtag")
+    @ResponseBody
+    public ResponseEntity<ContentDTOS> searchContentsByHashtag(@RequestParam("hashtag") String hashtag){
+        //string 내용을 포함한 게시글의 리스트를 생성한다.
+        ContentDTOS contents = contentService.getContentsByHashtag(hashtag);
 
         return new ResponseEntity<>(contents, HttpStatus.OK);
     }
@@ -139,8 +148,7 @@ public class ContentController {
         }
 
         //2. 해당 글의 좋아요를 1 증가 시킨다.
-        Content content = contentService.findById(cid);
-        content.setLikes(content.getLikes()+1);
+        contentService.plusLikes(cid);
 
         return new ResponseEntity<>("success plus likes", HttpStatus.OK);
     }

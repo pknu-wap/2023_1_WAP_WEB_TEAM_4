@@ -67,15 +67,14 @@ public class ContentService {
         return contentRepository.findById(cid).get();
     }
 
-    public List<Content> searchContentsByString(String string){
-        return contentRepository.findAllByText(string);
+    public ContentDTOS getContentsByString(String string){
+        List<Content> contents = contentRepository.findAllByText(string);
+        return new ContentDTOS(contents);
     }
-    public List<Content> searchContentsById(List<Long> cids){
-        List<Content> contents = new ArrayList<>();
-        for(Long cid : cids){
-            contents.add(contentRepository.findById(cid).get());
-        }
-        return contents;
+
+    public ContentDTOS getContentsByHashtag(String hashtag){
+        List<Content> contents = contentRepository.findAllByHashtag(hashtag);
+        return new ContentDTOS(contents);
     }
 
     public ContentReadResponse readContent(Long uid, Long cid){
@@ -150,5 +149,31 @@ public class ContentService {
                                                         .limit(8)
                                                         .collect(Collectors.toList());
         return new ContentDTOS(randomContents);
+    }
+
+    public void plusLikes(Long cid){
+        Content content = contentRepository.findById(cid).get();
+        content.setLikes(content.getLikes()+1);
+        contentRepository.save(content);
+    }
+
+    public ContentDTOS getMorePreviews(String kind, Long index){
+        ContentDTOS contents;
+        if(kind.equals("created")){
+            contents = getCreatedPreviews(index*8);
+        }
+        else if(kind.equals("views")){
+            contents = getViewsPreviews(index*8);
+        }
+        else if(kind.equals("likes")){
+            contents = getLikesPreviews(index*8);
+        }
+        else if(kind.equals("random")){
+            contents = getRandomPreviews(index*8);
+        }
+        else{
+            contents=null;
+        }
+        return contents;
     }
 }
