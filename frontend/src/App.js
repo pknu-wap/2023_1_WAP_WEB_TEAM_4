@@ -4,6 +4,7 @@ import Main from "./pages/Main";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Write from "./pages/Write";
+import Mypage from "./pages/Mypage";
 import Anchor from "./components/Sidebar";
 import { ThemeProvider } from "@mui/material";
 import Home from "./pages/Home";
@@ -37,7 +38,7 @@ const App = () => {
   return (
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider theme={themes.dark}>
+        <ThemeProvider theme={themes.light}>
           <Router>
             <Routes>
               <Route path="/" element={<Main />} />
@@ -46,6 +47,7 @@ const App = () => {
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
               <Route path="/anchor" element={<Anchor />} />
+              <Route path="/mypage" element={<Mypage />} />
             </Routes>
           </Router>
         </ThemeProvider>
