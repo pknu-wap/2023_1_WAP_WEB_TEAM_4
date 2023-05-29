@@ -4,8 +4,7 @@ package com.project.glog.controller;
 import com.project.glog.domain.Category;
 import com.project.glog.domain.Content;
 import com.project.glog.domain.Member;
-import com.project.glog.dto.ContentCreateRequest;
-import com.project.glog.dto.ContentReadResponse;
+import com.project.glog.dto.*;
 import com.project.glog.service.BlogService;
 import com.project.glog.service.CategoryService;
 import com.project.glog.service.ContentService;
@@ -55,9 +54,11 @@ public class ContentController {
 
     @PostMapping("/content/delete")
     @ResponseBody
-    public ResponseEntity<String> delete(HttpSession session, @RequestBody Content content){
+    public ResponseEntity<String> delete(HttpSession session, @RequestBody Long cid){
         //1. 세션을 확인한다.
         Long uid = (Long) session.getAttribute("memberId");
+
+        Content content = contentService.findById(cid);
         if(uid==null){
             return new ResponseEntity<>("not logined",HttpStatus.UNAUTHORIZED);
         }
@@ -98,32 +99,12 @@ public class ContentController {
             response.put("member", null);
         }
         else{
-            Member member = memberService.searchMemberById(uid);
-            response.put("member", member);
+            MemberDTO memberDTO = new MemberDTO(memberService.searchMemberById(uid));
+            response.put("member", memberDTO);
         }
 
-        //미리보기용 리스트에 각각 글을 넣는다.
-        List<Content>  allContentsByCreated = contentService.findAllByCreated();
-        List<Content>  allContentsByLikes = contentService.findAllByLikes();
-        List<Content>  allContentsByViews = contentService.findAllByViews();
-        List<Content>  allContentsByRandom = contentService.findAllByRandom();
-
-        //처음 부터 8개만 뽑아서 다시 리스트에 넣는다.
-        List<Content> contentsByCreated = new ArrayList<>(allContentsByCreated.subList(0,8));
-        List<Content> contentsByLikes = new ArrayList<>(allContentsByLikes.subList(0,8));
-        List<Content> contentsByViews = new ArrayList<>(allContentsByViews.subList(0,8));
-        List<Content> contentsByRandom = new ArrayList<>(allContentsByRandom.subList(0,8));
-
-        Map<String, List<Content>> contents = new HashMap<>();
-        contents.put("created", contentsByCreated);
-        contents.put("likes", contentsByLikes);
-        contents.put("views", contentsByViews);
-        contents.put("random", contentsByRandom);
-
-        //데이터를 response에 담는다.
-
-        response.put("contents", contents);
-
+        ContentPreviewsResponse contentsPreviews = contentService.getFirstPreviews();
+        response.put("contents", contentsPreviews);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
@@ -136,26 +117,7 @@ public class ContentController {
             System.out.println("Not Logined");
         }
 
-        //종류에 맞게 시작위치부터 +8까지의 컨텐츠를 담아서 응답으로 보낸다.
-        List<Content> contents = new ArrayList<>();
-        if(kind.equals("created")){
-            List<Content>  allContentsByCreated = contentService.findAllByCreated();
-            contents = new ArrayList<>(allContentsByCreated.subList(index,index+8));
-        }
-        else if(kind.equals("likes")){
-            List<Content>  allContentsByLikes = contentService.findAllByLikes();
-            contents = new ArrayList<>(allContentsByLikes.subList(index,index+8));
-        }
-        else if(kind.equals("views")){
-            List<Content>  allContentsByViews = contentService.findAllByViews();
-            contents = new ArrayList<>(allContentsByViews.subList(index,index+8));
-        }
-        else if(kind.equals("random")){
-            List<Content>  allContentsByRandom = contentService.findAllByRandom();
-            contents = new ArrayList<>(allContentsByRandom.subList(index,index+8));
-        }
-
-        return new ResponseEntity<>(contents,HttpStatus.OK);
+        return new ResponseEntity<>(null,HttpStatus.OK);
     }
 
     @GetMapping("/content/find")

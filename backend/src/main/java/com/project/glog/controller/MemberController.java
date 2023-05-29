@@ -3,6 +3,7 @@ package com.project.glog.controller;
 import com.project.glog.domain.Blog;
 import com.project.glog.domain.Member;
 import com.project.glog.dto.LoginRequest;
+import com.project.glog.dto.MemberDTO;
 import com.project.glog.dto.RegisterRequest;
 import com.project.glog.service.MemberService;
 import jakarta.servlet.http.HttpSession;
@@ -60,13 +61,26 @@ public class MemberController {
 
     @GetMapping("/member/search")
     @ResponseBody
-    public ResponseEntity<List<Member>> searchMembers(@RequestParam("nickname") String nickname){
-        List<Member> list;
-        list = memberService.searchMembersByNickname(nickname);
+    public ResponseEntity<List<MemberDTO>> searchMembers(@RequestParam("nickname") String nickname){
+        List<MemberDTO> members;
+        members = memberService.searchMembersByNickname(nickname);
 
-        return new ResponseEntity<>(list,HttpStatus.OK);
+        return new ResponseEntity<>(members,HttpStatus.OK);
     }
 
+    @GetMapping("/member/logout")
+    @ResponseBody
+    public ResponseEntity<String> logout(HttpSession session) {
+        Long uid = (Long) session.getAttribute("memberId");
+        if (uid != null) {
+            session.invalidate();
+            return new ResponseEntity<>("succes logout", HttpStatus.OK);
+
+        }
+        return new ResponseEntity<>("not logined", HttpStatus.UNAUTHORIZED);
+    }
+
+    /*현재 사용하지 않는 기능
     @PostMapping("/member/checkpw")
     @ResponseBody
     public ResponseEntity<String> checkPw(@RequestParam("pw") String pw, HttpSession session){
@@ -107,16 +121,5 @@ public class MemberController {
         response.put("blog",member.getBlog());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
-    @GetMapping("/member/logout")
-    @ResponseBody
-    public ResponseEntity<String> logout(HttpSession session) {
-        Long uid = (Long) session.getAttribute("memberId");
-        if (uid != null) {
-            session.invalidate();
-            return new ResponseEntity<>("succes logout", HttpStatus.OK);
-
-        }
-        return new ResponseEntity<>("not logined", HttpStatus.UNAUTHORIZED);
-    }
+    */
 }

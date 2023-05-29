@@ -18,12 +18,16 @@ public interface ContentRepository extends JpaRepository<Content,Long> {
     @Query("SELECT c FROM Content c JOIN c.blog b WHERE b.id=:blogId")
     List<Content> findAllByBlogId(@Param("blogId") Long bid);
 
-    List<Content> findAllByOrderByCreatedAtDesc();
-
-    List<Content> findAllByOrderByLikesDesc();
-
-    List<Content> findAllByOrderByViewsDesc();
-
     @Query("SELECT con FROM Content con JOIN con.category cat WHERE cat.id=:catId ")
     List<Content> findAllByCategoryId(@Param("catId") Long id);
+
+    @Query("SELECT c FROM Content c ORDER BY c.id DESC")
+    List<Content> findAllByOrderByIdDesc();
+
+    @Query("SELECT c FROM Content c ORDER BY c.views DESC")
+    List<Content> findAllByOrderByViewsDesc();
+
+    @Query("SELECT c FROM Content c ORDER BY c.likes DESC")
+    List<Content> findAllByOrderByLikesDesc();
+
 }

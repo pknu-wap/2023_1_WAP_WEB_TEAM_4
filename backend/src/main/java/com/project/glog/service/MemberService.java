@@ -3,10 +3,12 @@ package com.project.glog.service;
 import com.project.glog.domain.Blog;
 import com.project.glog.domain.Member;
 import com.project.glog.dto.LoginRequest;
+import com.project.glog.dto.MemberDTO;
 import com.project.glog.dto.RegisterRequest;
 import com.project.glog.repository.MemberRepository;
 
 import javax.swing.text.html.Option;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -95,10 +97,14 @@ MemberService {
         }
     }
 
-    public List<Member> searchMembersByNickname(String nickname){
-        return memberRepository.findAllByNickname(nickname);
+    public List<MemberDTO> searchMembersByNickname(String nickname){
+        List<Member> members = memberRepository.findAllByNickname(nickname);
+        List<MemberDTO> memberDTOS = new ArrayList<>();
+        for(Member member : members) {
+            memberDTOS.add(new MemberDTO(member));
+        }
+        return memberDTOS;
     }
-
     public void changePw(Member member, String changePw){
         member.setLoginpw(changePw);
         memberRepository.save(member);

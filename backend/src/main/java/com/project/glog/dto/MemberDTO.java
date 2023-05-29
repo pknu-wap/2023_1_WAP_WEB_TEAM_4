@@ -1,5 +1,7 @@
 package com.project.glog.dto;
 
+import com.project.glog.domain.Member;
+
 public class MemberDTO {
     String nickname;
     String profile_image;
@@ -9,6 +11,12 @@ public class MemberDTO {
         this.nickname = nickname;
         this.profile_image = profile_image;
         this.blogUrl = blogUrl;
+    }
+
+    public MemberDTO(Member member) {
+        this.nickname = member.getNickname();
+        this.profile_image = member.getProfile_image();
+        this.blogUrl = member.getBlog().getBlog_url();
     }
 
     public String getNickname() {

@@ -10,6 +10,7 @@ import com.project.glog.repository.ContentRepository;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ContentService {
     private final ContentRepository contentRepository;
@@ -77,32 +78,11 @@ public class ContentService {
         return contents;
     }
 
-    public List<Content> findAllByCreated() {
-        return contentRepository.findAllByOrderByCreatedAtDesc();
-    }
-
-    public List<Content> findAllByLikes() {
-        return contentRepository.findAllByOrderByLikesDesc();
-    }
-
-    public List<Content> findAllByViews() {
-        return contentRepository.findAllByOrderByViewsDesc();
-    }
-
-    public List<Content> findAllByRandom() {
-        List<Content> contents = contentRepository.findAll();
-        Collections.shuffle(contents);
-        return contents;
-    }
-
-    public List<Content> getAllContentsByBlog(Blog blog){
-        return contentRepository.findAllByBlogId(blog.getId());
-    }
-
     public ContentReadResponse readContent(Long uid, Long cid){
         //ContentDTO
         Content content = contentRepository.findById(cid).get();
-        content.setLikes(content.getLikes()+1);
+        content.setViews(content.getViews()+1);
+        contentRepository.save(content);
         ContentDTO contentDTO = new ContentDTO(content);
 
         //List<CategorySidebar>
@@ -127,5 +107,48 @@ public class ContentService {
         }
 
         return new ContentReadResponse(contentDTO, categorySidebars, memberDTO);
+    }
+
+    public ContentPreviewsResponse getFirstPreviews(){
+        ContentDTOS created = getCreatedPreviews(0L);
+        ContentDTOS views = getViewsPreviews(0L);
+        ContentDTOS likes = getLikesPreviews(0L);
+        ContentDTOS random = getRandomPreviews(0L);
+
+        return new ContentPreviewsResponse(created, likes, views, random);
+    }
+
+    public ContentDTOS getCreatedPreviews(Long cursor){
+        List<Content> allCratedContents = contentRepository.findAllByOrderByIdDesc();
+        List<Content> createdContents = allCratedContents.stream()
+                                                            .skip(cursor)
+                                                            .limit(8)
+                                                            .collect(Collectors.toList());
+        return new ContentDTOS(createdContents);
+    }
+    public ContentDTOS getViewsPreviews(Long cursor){
+        List<Content> allViewsContents = contentRepository.findAllByOrderByViewsDesc();
+        List<Content> viewsContents = allViewsContents.stream()
+                                                        .skip(cursor)
+                                                        .limit(8)
+                                                        .collect(Collectors.toList());
+        return new ContentDTOS(viewsContents);
+    }
+    public ContentDTOS getLikesPreviews(Long cursor){
+        List<Content> allLikesContents = contentRepository.findAllByOrderByLikesDesc();
+        List<Content> likesContents = allLikesContents.stream()
+                                                        .skip(cursor)
+                                                        .limit(8)
+                                                        .collect(Collectors.toList());
+        return new ContentDTOS(likesContents);
+    }
+    public ContentDTOS getRandomPreviews(Long cursor){
+        List<Content> allRandomContents = contentRepository.findAll();
+        Collections.shuffle(allRandomContents);
+        List<Content> randomContents = allRandomContents.stream()
+                                                        .skip(cursor)
+                                                        .limit(8)
+                                                        .collect(Collectors.toList());
+        return new ContentDTOS(randomContents);
     }
 }

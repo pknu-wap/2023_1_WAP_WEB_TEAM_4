@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
 public class ContentDTO {
+    private Long contentId;
     private String title;
 
     private String text;
@@ -23,6 +24,7 @@ public class ContentDTO {
     private String hashtags;
 
     public ContentDTO(Content content){
+        this.contentId = content.getId();
         this.title = content.getTitle();
         this.text = content.getText();
         this.image = content.getImage();
@@ -32,59 +34,35 @@ public class ContentDTO {
         this.hashtags = content.getHashtags();
     }
 
-    public String getTitle() {
-        return title;
+    public Long getContentId() {
+        return contentId;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String getTitle() {
+        return title;
     }
 
     public String getText() {
         return text;
     }
 
-    public void setText(String text) {
-        this.text = text;
-    }
-
     public String getImage() {
         return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     public Integer getLikes() {
         return likes;
     }
 
-    public void setLikes(Integer likes) {
-        this.likes = likes;
-    }
-
     public Integer getViews() {
         return views;
-    }
-
-    public void setViews(Integer views) {
-        this.views = views;
     }
 
     public Integer getIsPrivate() {
         return isPrivate;
     }
 
-    public void setIsPrivate(Integer isPrivate) {
-        this.isPrivate = isPrivate;
-    }
-
     public String getHashtags() {
         return hashtags;
-    }
-
-    public void setHashtags(String hashtags) {
-        this.hashtags = hashtags;
     }
 }
