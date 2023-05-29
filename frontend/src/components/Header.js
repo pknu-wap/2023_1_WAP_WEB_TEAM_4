@@ -89,7 +89,14 @@ const Header = ({ isHome }) => {
             )}
           </IconButton>
         )}
-        <Stack width="40px" height="40px" borderRadius="20px" bgcolor="white" />
+        <Stack
+          onClick={() => navigate("/mypage")}
+          width="40px"
+          height="40px"
+          borderRadius="20px"
+          bgcolor="white"
+          sx={{ cursor: "pointer" }}
+        />
       </Stack>
     </Stack>
   );

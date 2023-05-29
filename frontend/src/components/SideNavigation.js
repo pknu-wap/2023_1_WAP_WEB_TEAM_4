@@ -23,6 +23,7 @@ const SideNavigation = () => {
       maxWidth={!isPhone ? "180px" : undefined}
       width="100%"
       left={0}
+      zIndex={100}
       position="fixed">
       <Stack p="88px 20px 20px 20px">
         <Stack
