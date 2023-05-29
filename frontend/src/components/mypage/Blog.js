@@ -1,33 +1,47 @@
-import { Stack, TextField } from "@mui/material";
+import { Button, Stack, TextField } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import React from "react";
 
 function Blog() {
   const theme = useTheme();
   return (
-    <Stack
-      // border={`1px solid ${theme.palette.primary.main}`}
-      justifyContent="center"
-      width="100%"
-      maxWidth="400px"
-      bgcolor="background.contractColor"
-      border={`1px solid ${theme.palette.primary.main}`}
-      alignItems="center"
-      borderRadius="0px 10px 10px 0px"
-      borderLeft="0px solid black"
-      gap="24px"
-      //   marginLeft="-10px"
-      p="8%">
+    <Stack width="100%" p="24px" gap="36px">
       <Stack
-        width="300px"
-        alignItems="center"
-        p="4%"
-        color="primary.main"
-        borderRadius="10px"
-        border={`1px solid ${theme.palette.primary.main}`}>
-        블로그 설정
+        bgcolor="background.contractColor"
+        borderRadius="0px 10px 10px 0px"
+        justifyContent="space-between"
+        direction="row">
+        <Stack direction="row">
+          <Stack
+            width="120px"
+            alignItems="flex-start"
+            justifyContent="center"
+            fontSize="16px"
+            fontWeight={600}>
+            블로그 이름
+          </Stack>
+          <TextField size="small" sx={{ width: "300px" }} />
+        </Stack>
+        <Button
+          variant="contained"
+          sx={{ color: "white", marginRight: "32px" }}>
+          저장
+        </Button>
       </Stack>
-      <TextField size="small">비밀번호 확인</TextField>
+      <Stack
+        bgcolor="background.contractColor"
+        borderRadius="0px 10px 10px 0px"
+        direction="row">
+        <Stack
+          width="120px"
+          alignItems="flex-start"
+          fontSize="16px"
+          justifyContent="center"
+          fontWeight={600}>
+          한줄 소개
+        </Stack>
+        <TextField size="small" sx={{ width: "300px" }} />
+      </Stack>
     </Stack>
   );
 }

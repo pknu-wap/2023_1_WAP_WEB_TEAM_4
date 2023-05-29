@@ -26,6 +26,7 @@ function Mypage() {
       alignItems="center"
       height="100%"
       minHeight="100vh"
+      overflow="scroll"
       backgroundColor="background.main">
       <Header />
 
@@ -60,10 +61,11 @@ function Mypage() {
         </Stack>
         <Stack direction="row" width="100%">
           <Stack
-            width="fit-content"
-            p="2% 5%"
+            minWidth="fit-content"
+            width="25%"
+            p="0px 2%"
             borderRadius="10px"
-            alignContent="center"
+            alignItems="center"
             justifyContent="center"
             color={option === 0 ? "white" : "black"}
             bgcolor={option === 0 ? theme.palette.primary[400] : undefined}
@@ -72,10 +74,11 @@ function Mypage() {
             계정 설정
           </Stack>
           <Stack
-            width="fit-content"
-            padding="2% 5%"
+            minWidth="fit-content"
+            width="25%"
+            p="0px 2%"
             borderRadius="10px"
-            alignContent="center"
+            alignItems="center"
             justifyContent="center"
             onClick={() => setOption(3)}
             sx={{ cursor: "pointer" }}
@@ -84,10 +87,11 @@ function Mypage() {
             블로그 설정
           </Stack>
           <Stack
-            width="fit-content"
-            padding="2% 5%"
+            minWidth="fit-content"
+            width="25%"
+            p="0px 2%"
             borderRadius="10px"
-            alignContent="center"
+            alignItems="center"
             justifyContent="center"
             sx={{ cursor: "pointer" }}
             onClick={() => setOption(1)}
@@ -96,10 +100,11 @@ function Mypage() {
             방명록 설정
           </Stack>
           <Stack
-            width="fit-content"
-            padding="2% 5%"
+            minWidth="fit-content"
+            width="25%"
+            p="1% 2%"
             borderRadius="10px"
-            alignContent="center"
+            alignItems="center"
             sx={{ cursor: "pointer" }}
             justifyContent="center"
             onClick={() => setOption(2)}
