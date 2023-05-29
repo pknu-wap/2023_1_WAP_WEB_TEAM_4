@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -47,7 +44,7 @@ public class CategoryController {
 
     @PostMapping("/category/delete")
     @ResponseBody
-    public ResponseEntity<String> create(HttpSession session, @RequestBody Category category){
+    public ResponseEntity<String> create(HttpSession session, @RequestParam("categoryId") Long categoryId){
         //세션을 확인한다.
         Long uid = (Long) session.getAttribute("memberId");
         if(uid==null){
@@ -55,10 +52,12 @@ public class CategoryController {
             return null;
         }
 
-        //카테고리를 삭제한다.
-        //만약 글이 하나라도 있다면 예외처리
-        categoryService.delete(category);
-
+        try{
+            categoryService.delete(uid, categoryId);
+        }
+        catch(IllegalAccessException e){
+            return new ResponseEntity<>("not creater",HttpStatus.UNAUTHORIZED);
+        }
         return new ResponseEntity<>("success delete category",HttpStatus.OK);
     }
 

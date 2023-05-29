@@ -29,8 +29,15 @@ public class CategoryService {
         categoryRepository.save(category);
     }
 
-    public void delete(Category category){
-        categoryRepository.delete(category);
+    public void delete(Long uid, Long categoryId) throws IllegalAccessException {
+        Category category = categoryRepository.findById(categoryId).get();
+        if(category.getBlog().getMember().getId()==uid){
+            categoryRepository.delete(category);
+        }
+        else{
+            throw new IllegalAccessException("not creater");
+        }
+
     }
 
     public List<Category> findAllByBlogId(Long bid){
