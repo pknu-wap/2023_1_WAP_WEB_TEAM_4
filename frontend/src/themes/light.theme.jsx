@@ -54,5 +54,8 @@ export const lightTheme = createTheme({
       pointColorTitle: mint[700],
       pointColorContent: mint[600],
     },
+    text: {
+      subColor: "#ffffff",
+    },
   },
 });

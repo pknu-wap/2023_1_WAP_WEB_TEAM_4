@@ -8,12 +8,13 @@ import Mypage from "./pages/Mypage";
 import Anchor from "./components/Sidebar";
 import { ThemeProvider } from "@mui/material";
 import Home from "./pages/Home";
-import { RecoilRoot } from "recoil";
+import { RecoilRoot, useRecoilState, useRecoilValue } from "recoil";
 import { themes } from "../src/themes";
 import { QueryClient, QueryClientProvider } from "react-query";
 // import settingCookie from "./util/settingCookie";
 import jwt_decode from "jwt-decode";
 import { useEffect } from "react";
+import { themeState } from "./states/common";
 
 const App = () => {
   const queryClient = new QueryClient({
@@ -21,6 +22,7 @@ const App = () => {
       queries: { refetchOnWindowFocus: false },
     },
   });
+  const theme = useRecoilValue(themeState);
 
   const isLogin = () => {
     // const token = settingCookie("get-access");
@@ -36,23 +38,21 @@ const App = () => {
   }, []);
 
   return (
-    <RecoilRoot>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider theme={themes.light}>
-          <Router>
-            <Routes>
-              <Route path="/" element={<Main />} />
-              <Route path="/write" element={<Write />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/anchor" element={<Anchor />} />
-              <Route path="/mypage" element={<Mypage />} />
-            </Routes>
-          </Router>
-        </ThemeProvider>
-      </QueryClientProvider>
-    </RecoilRoot>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme === "DARK" ? themes.dark : themes.light}>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="/write" element={<Write />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/anchor" element={<Anchor />} />
+            <Route path="/mypage" element={<Mypage />} />
+          </Routes>
+        </Router>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 };
 

@@ -19,3 +19,8 @@ export const snackBarDurationState = atom({
   key: "SnackBarDuration",
   default: 3000,
 });
+
+export const themeState = atom({
+  key: "Theme",
+  default: "DARK",
+});

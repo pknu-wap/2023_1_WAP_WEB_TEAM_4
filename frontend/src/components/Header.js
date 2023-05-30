@@ -27,12 +27,14 @@ const Header = ({ isHome }) => {
       height="80px"
       justifyContent="space-between"
       bgcolor="header.background"
-      zIndex={100}>
+      zIndex={100}
+    >
       <Stack direction="row" alignItems="center">
         {!isNavigateOpen && (
           <IconButton
             sx={{ color: "header.logo" }}
-            onClick={() => setIsNavigateOpen(true)}>
+            onClick={() => setIsNavigateOpen(true)}
+          >
             <MenuIcon />
           </IconButton>
         )}
@@ -50,7 +52,8 @@ const Header = ({ isHome }) => {
             onClick={() => navigate("/home")}
             fontWeight="bold"
             color="header.logo"
-            fontSize="28px">
+            fontSize="28px"
+          >
             GLOG
           </Stack>
           <Button
@@ -68,7 +71,8 @@ const Header = ({ isHome }) => {
               ":active": {
                 color: "header.titleActive",
               },
-            }}>
+            }}
+          >
             CHAEYEON'S BLOG
           </Button>
         </Stack>
@@ -81,7 +85,8 @@ const Header = ({ isHome }) => {
             onClick={() => {
               setIsSearchOpen(!isSearchOpen);
               setSelectValue(0);
-            }}>
+            }}
+          >
             {isSearchOpen ? (
               <HomeIcon sx={{ color: "white" }} />
             ) : (

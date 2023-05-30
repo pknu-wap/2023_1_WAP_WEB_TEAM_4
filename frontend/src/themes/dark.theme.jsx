@@ -56,5 +56,8 @@ export const darkTheme = createTheme({
       pointColorTitle: darkYellow[400],
       pointColorContent: yellow[500],
     },
+    text: {
+      subColor: yellow[500],
+    },
   },
 });
