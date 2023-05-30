@@ -8,7 +8,7 @@ export const lightTheme = createTheme({
       lg: 1440,
       md: 900,
       sm: 600,
-      xs: 300,
+      xs: 460,
     },
   },
   spacing: 4,
@@ -53,6 +53,9 @@ export const lightTheme = createTheme({
       active: "#B5DBBC",
       pointColorTitle: mint[700],
       pointColorContent: mint[600],
+    },
+    text: {
+      subColor: "#ffffff",
     },
   },
 });

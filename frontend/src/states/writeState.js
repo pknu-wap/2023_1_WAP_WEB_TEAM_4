@@ -2,11 +2,11 @@ import { atom } from "recoil";
 
 export const postState = atom({
   key: "post",
-  default: "",
+  default: "#### asdfasdfasdf",
 });
 export const titleState = atom({
   key: "title",
-  default: "",
+  default: "123",
 });
 
 export const sectionsState = atom({

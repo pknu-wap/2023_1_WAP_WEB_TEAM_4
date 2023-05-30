@@ -8,7 +8,7 @@ export const darkTheme = createTheme({
       lg: 1440,
       md: 900,
       sm: 600,
-      xs: 375,
+      xs: 460,
     },
   },
 
@@ -55,6 +55,9 @@ export const darkTheme = createTheme({
       active: yellow[700],
       pointColorTitle: darkYellow[400],
       pointColorContent: yellow[500],
+    },
+    text: {
+      subColor: yellow[500],
     },
   },
 });

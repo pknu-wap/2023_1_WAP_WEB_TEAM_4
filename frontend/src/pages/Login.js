@@ -2,6 +2,8 @@ import React from "react";
 import { Stack, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header.js";
+import { useMutation } from "react-query";
+import { PostLoginApi } from "../apis/api/common-api.js";
 // import { Cookies } from "react-cookie";
 
 const Login = () => {
@@ -12,13 +14,25 @@ const Login = () => {
   });
   const { email, password } = loginState;
 
+  const postRegister = useMutation(PostLoginApi, {
+    onSuccess: () => navigate("/"),
+    onError: (error) => {
+      alert(error.response.data);
+    },
+  });
+
   const loginHandler = (event) => {
     const { name, value } = event.target;
     setLoginState({ ...loginState, [name]: value });
   };
 
   const loginButtonClick = () => {
-    navigate("/");
+    const body = {
+      loginid: email,
+      loginpw: password,
+    };
+
+    postRegister.mutate(body);
   };
 
   // const login = async (e) => {
@@ -108,15 +122,13 @@ const Login = () => {
             justifyContent: "center",
             position: "fixed",
             right: 0,
-          }}
-        >
+          }}>
           <Stack width="80%" style={{ alignItems: "center" }}>
             <Stack
               fontWeight="bold"
               fontSize="20px"
               color="#ECD8A4"
-              marginBottom="30px"
-            >
+              marginBottom="30px">
               Login
             </Stack>
             <input
@@ -159,8 +171,7 @@ const Login = () => {
                   border: "1px solid #ECD8A4",
                   color: "#ECD8A4",
                 },
-              }}
-            >
+              }}>
               Login
             </Button>
           </Stack>
@@ -171,8 +182,7 @@ const Login = () => {
             fontSize="11px"
             marginTop="10px"
             marginLeft="8%"
-            sx={{ ":hover": { color: "#FFC222" }, cursor: "pointer" }}
-          >
+            sx={{ ":hover": { color: "#FFC222" }, cursor: "pointer" }}>
             Register
           </Stack>
         </Stack>

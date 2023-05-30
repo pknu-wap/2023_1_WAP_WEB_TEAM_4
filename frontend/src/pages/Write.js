@@ -48,14 +48,13 @@ const Write = () => {
   return (
     <Stack height="100%">
       <Header />
-      <Stack height="5000px" paddingTop="60px" width="100%" direction="row">
+      <Stack paddingTop="60px" width="100%" direction="row">
         <Stack
+          gap="12px"
           bgcolor="background.main"
-          spacing={2}
           padding="48px 96px 40px 96px"
           direction="column"
-          width="100%"
-        >
+          width="100%">
           <input
             placeholder="제목을 입력해주세요"
             value={title}
@@ -74,11 +73,16 @@ const Write = () => {
           <Stack
             display="flex"
             alignItems="center"
-            height="60px"
+            height="fit-content"
             justifyContent="space-between"
-            direction="row"
-          >
-            <Stack spacing={1} maxWidth="100px" color="white" direction="row">
+            direction="row">
+            <Stack
+              spacing={1}
+              width="100%"
+              flexWrap="wrap"
+              gap="4px"
+              color="white"
+              direction="row">
               {tagArray.map((tag, i) => (
                 <Chip
                   sx={{
@@ -136,37 +140,20 @@ const Write = () => {
                 }}
               />
             </Stack>
-            <Stack direction="row">
-              <Button
-                disableRipple
-                sx={{
-                  color: "primary.300",
-                  ":hover": {
-                    color: "primary.500",
-                    backgroundColor: "transparent",
-                  },
-                  ":active": { color: "primary.700" },
-                }}
-                width="fit-content"
-              >
-                원본
-              </Button>
-              <Button
-                variant="contained"
-                sx={{
-                  color: "background.contractColor",
-                  backgroundColor: "primary.500",
-                  ":hover": {
-                    backgroundColor: "primary.600",
-                  },
-                  ":active": { backgroundColor: "primary.700" },
-                }}
-                onClick={handleRegisterButton}
-                width="fit-content"
-              >
-                저장
-              </Button>
-            </Stack>
+            <Button
+              variant="contained"
+              sx={{
+                color: "background.contractColor",
+                backgroundColor: "primary.500",
+                ":hover": {
+                  backgroundColor: "primary.600",
+                },
+                ":active": { backgroundColor: "primary.700" },
+              }}
+              onClick={handleRegisterButton}
+              width="fit-content">
+              저장
+            </Button>
           </Stack>
           <Stack minHeight="550px" overflow="auto">
             <Stack direction="row" gap="8px">
@@ -175,32 +162,28 @@ const Write = () => {
                   onClick={() => {
                     setPost(post + "\n# ");
                     textareaRef.current.focus();
-                  }}
-                >
+                  }}>
                   H1
                 </Button>
                 <Button
                   onClick={() => {
                     setPost(post + "\n## ");
                     textareaRef.current.focus();
-                  }}
-                >
+                  }}>
                   H2
                 </Button>
                 <Button
                   onClick={() => {
                     setPost(post + "\n### ");
                     textareaRef.current.focus();
-                  }}
-                >
+                  }}>
                   H3
                 </Button>
                 <Button
                   onClick={() => {
                     setPost(post + "\n#### ");
                     textareaRef.current.focus();
-                  }}
-                >
+                  }}>
                   H4
                 </Button>
               </ButtonGroup>
@@ -210,8 +193,7 @@ const Write = () => {
                     setPost(post + "\n** **");
                     textareaRef.current.focus();
                   }}
-                  sx={{ fontWeight: "bold" }}
-                >
+                  sx={{ fontWeight: "bold" }}>
                   B
                 </Button>
                 <Button
@@ -229,16 +211,14 @@ const Write = () => {
                       textareaRef.current.setSelectionRange(position, position);
                     }, 0);
                   }}
-                  sx={{ fontStyle: "italic" }}
-                >
+                  sx={{ fontStyle: "italic" }}>
                   I
                 </Button>
                 <Button
                   onClick={() => {
                     setPost(post + "\n> ");
                     textareaRef.current.focus();
-                  }}
-                >
+                  }}>
                   &gt;
                 </Button>
               </ButtonGroup>
@@ -247,23 +227,20 @@ const Write = () => {
                   onClick={() => {
                     setPost(post + "\n```\n\n```");
                     textareaRef.current.focus();
-                  }}
-                >
+                  }}>
                   <CodeIcon />
                 </Button>
                 <Button
                   onClick={() => {
                     textareaRef.current.focus();
-                  }}
-                >
+                  }}>
                   <ImageIcon />
                 </Button>
                 <Button
                   onClick={() => {
                     setPost(post + "\\\n");
                     textareaRef.current.focus();
-                  }}
-                >
+                  }}>
                   <KeyboardReturnIcon />
                 </Button>
               </ButtonGroup>
@@ -273,8 +250,7 @@ const Write = () => {
                 sx={{
                   minHeight: "500px",
                   width: "50%",
-                }}
-              >
+                }}>
                 <TextareaAutosize
                   ref={textareaRef}
                   value={post}
@@ -298,8 +274,7 @@ const Write = () => {
                 bgcolor="background.main"
                 color="background.color"
                 paddingLeft="10%"
-                alignItems="left"
-              >
+                alignItems="left">
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
@@ -337,8 +312,7 @@ const Write = () => {
                             padding: "2px",
                             borderRadius: "3px",
                           }}
-                          {...props}
-                        >
+                          {...props}>
                           {children}
                         </code>
                       ) : match ? (
@@ -347,8 +321,7 @@ const Write = () => {
                           style={nord}
                           language={match[1]}
                           PreTag="div"
-                          {...props}
-                        >
+                          {...props}>
                           {String(children)
                             .replace(/\n$/, "")
                             .replace(/\n&nbsp;\n/g, "")
@@ -359,8 +332,7 @@ const Write = () => {
                           style={nord}
                           language="textile"
                           PreTag="div"
-                          {...props}
-                        >
+                          {...props}>
                           {String(children).replace(/\n$/, "")}
                         </SyntaxHighlighter>
                       );
@@ -374,8 +346,7 @@ const Write = () => {
                             padding: "1px 15px",
                             borderRadius: "10px",
                           }}
-                          {...props}
-                        >
+                          {...props}>
                           {children}
                         </div>
                       );
@@ -396,8 +367,7 @@ const Write = () => {
                         </span>
                       );
                     },
-                  }}
-                >
+                  }}>
                   {post}
                 </ReactMarkdown>
               </Stack>
@@ -415,14 +385,12 @@ const Write = () => {
         <Snackbar
           open={snackbarOpen}
           autoHideDuration={3000}
-          onClose={() => setSnackbarOpen(false)}
-        >
+          onClose={() => setSnackbarOpen(false)}>
           <Alert
             onClose={() => setSnackbarOpen(false)}
             severity="error"
             variant=""
-            sx={{ color: "white", width: "100%", backgroundColor: "red" }}
-          >
+            sx={{ color: "white", width: "100%", backgroundColor: "red" }}>
             {toastMessage}
           </Alert>
         </Snackbar>
