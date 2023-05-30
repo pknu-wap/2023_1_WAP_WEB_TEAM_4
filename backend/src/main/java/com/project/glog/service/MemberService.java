@@ -2,9 +2,7 @@ package com.project.glog.service;
 
 import com.project.glog.domain.Blog;
 import com.project.glog.domain.Member;
-import com.project.glog.dto.LoginRequest;
-import com.project.glog.dto.MemberDTO;
-import com.project.glog.dto.RegisterRequest;
+import com.project.glog.dto.*;
 import com.project.glog.repository.MemberRepository;
 
 import javax.swing.text.html.Option;
@@ -17,12 +15,10 @@ public class
 MemberService {
 
     private final MemberRepository memberRepository;
-    private final BlogService blogService;
 
-    public MemberService(MemberRepository memberRepository, BlogService blogService){
+    public MemberService(MemberRepository memberRepository){
 
         this.memberRepository = memberRepository;
-        this.blogService = blogService;
     }
     public Long save(RegisterRequest registerRequest){
         Member member = new Member(
@@ -48,8 +44,8 @@ MemberService {
         Blog blog = new Blog(
                 member.getNickname(),
                 member.getNickname(),
-                ""
-                );
+                "",
+                1);
 
         //블로그가 멤버를 참조하도록함
         member.setBlog(blog);
@@ -59,6 +55,22 @@ MemberService {
         //멤버를 참조함
         memberRepository.save(member);
 
+        return member.getId();
+    }
+
+    public Long update(Member member){
+        try {
+            validateDuplicateMember(member);
+        }
+        catch(Exception e){
+            if(e.getMessage().equals("이미 존재하는 회원입니다.")){
+                return -1L;
+            }
+            else if(e.getMessage().equals("이미 존재하는 아이디 입니다.")){
+                return -2L;
+            }
+        }
+        memberRepository.save(member);
         return member.getId();
     }
 
@@ -109,5 +121,6 @@ MemberService {
         member.setLoginpw(changePw);
         memberRepository.save(member);
     }
+
 
 }

@@ -31,7 +31,7 @@ public class SpringConfig {
 
     @Bean
     public MemberService memberService(){
-        return new MemberService(memberRepository,blogService());
+        return new MemberService(memberRepository);
     }
 
     @Bean
@@ -42,6 +42,6 @@ public class SpringConfig {
     public CategoryService categoryService(){return new CategoryService(categoryRepository, blogService());}
 
     @Bean
-    public BlogService blogService(){return new BlogService(blogRepository);}
+    public BlogService blogService(){return new BlogService(blogRepository, memberService());}
 
 }

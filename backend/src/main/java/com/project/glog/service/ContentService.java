@@ -102,7 +102,7 @@ public class ContentService {
         }
         else{
             Member member = memberService.searchMemberById(uid);
-            memberDTO = new MemberDTO(member.getNickname(), member.getProfile_image(), member.getBlog().getBlog_url());
+            memberDTO = new MemberDTO(member.getNickname(), member.getProfile_image(), member.getBlog().getBlogUrl());
         }
 
         return new ContentReadResponse(contentDTO, categorySidebars, memberDTO);

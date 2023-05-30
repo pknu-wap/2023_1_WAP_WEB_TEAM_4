@@ -10,16 +10,19 @@ public class Blog {
     private Long id;
     @OneToOne
     private Member member;
-    private String blog_name;
+    private String blogName;
     private String blogUrl;
     private String introduction;
+    private Integer skin;
 
     public Blog(){}
 
-    public Blog(String blog_name, String blogUrl, String introduction) {
-        this.blog_name = blog_name;
+    public Blog(String blogName, String blogUrl, String introduction, Integer skin) {
+        this.blogName = blogName;
         this.blogUrl = blogUrl;
         this.introduction = introduction;
+        this.skin = skin;
+
     }
 
     public Long getId() {
@@ -38,20 +41,20 @@ public class Blog {
         this.member = member;
     }
 
-    public String getBlog_name() {
-        return blog_name;
+    public String getBlogName() {
+        return blogName;
     }
 
-    public void setBlog_name(String blog_name) {
-        this.blog_name = blog_name;
+    public void setBlogName(String blogName) {
+        this.blogName = blogName;
     }
 
-    public String getBlog_url() {
+    public String getBlogUrl() {
         return blogUrl;
     }
 
-    public void setBlog_url(String blog_url) {
-        this.blogUrl = blog_url;
+    public void setBlogUrl(String blogUrl) {
+        this.blogUrl = blogUrl;
     }
 
     public String getIntroduction() {
@@ -60,5 +63,13 @@ public class Blog {
 
     public void setIntroduction(String introduction) {
         this.introduction = introduction;
+    }
+
+    public Integer getSkin() {
+        return skin;
+    }
+
+    public void setSkin(Integer skin) {
+        this.skin = skin;
     }
 }

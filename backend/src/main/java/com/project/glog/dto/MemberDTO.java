@@ -16,7 +16,7 @@ public class MemberDTO {
     public MemberDTO(Member member) {
         this.nickname = member.getNickname();
         this.profile_image = member.getProfile_image();
-        this.blogUrl = member.getBlog().getBlog_url();
+        this.blogUrl = member.getBlog().getBlogUrl();
     }
 
     public String getNickname() {

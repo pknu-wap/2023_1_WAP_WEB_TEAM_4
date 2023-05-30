@@ -2,9 +2,7 @@ package com.project.glog.controller;
 
 import com.project.glog.domain.Blog;
 import com.project.glog.domain.Member;
-import com.project.glog.dto.LoginRequest;
-import com.project.glog.dto.MemberDTO;
-import com.project.glog.dto.RegisterRequest;
+import com.project.glog.dto.*;
 import com.project.glog.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,46 +78,5 @@ public class MemberController {
         return new ResponseEntity<>("not logined", HttpStatus.UNAUTHORIZED);
     }
 
-    /*현재 사용하지 않는 기능
-    @PostMapping("/member/checkpw")
-    @ResponseBody
-    public ResponseEntity<String> checkPw(@RequestParam("pw") String pw, HttpSession session){
-        Long uid = (Long) session.getAttribute("memberId");
 
-        if(uid==null){
-            return new ResponseEntity<>("not logined", HttpStatus.UNAUTHORIZED);
-        }
-        else if(!memberService.searchMemberById(uid).getLoginpw().equals(pw))
-            return new ResponseEntity<>("not match", HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>("scucess check pw", HttpStatus.OK);
-
-    }
-
-    @PostMapping("member/changepw")
-    @ResponseBody
-    public ResponseEntity<String> changePw(@RequestParam("changePw") String changePw, HttpSession session){
-        Long uid = (Long) session.getAttribute("memberId");
-        if(uid==null){
-            return new ResponseEntity<>("not logined", HttpStatus.UNAUTHORIZED);
-        }
-
-        memberService.changePw(memberService.searchMemberById(uid), changePw);
-        return new ResponseEntity<>("succes change pw", HttpStatus.OK);
-    }
-
-    @PostMapping("/member/mypage")
-    @ResponseBody
-    public ResponseEntity<Map<String,Object>> mypage(HttpSession session){
-        Long uid = (Long) session.getAttribute("memberId");
-        if(uid==null){
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-        }
-
-        Map<String,Object> response = new HashMap<>();
-        Member member = memberService.searchMemberById(uid);
-        response.put("member", member);
-        response.put("blog",member.getBlog());
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-    */
 }
