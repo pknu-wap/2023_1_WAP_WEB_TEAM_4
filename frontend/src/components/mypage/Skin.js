@@ -41,7 +41,10 @@ function Skin() {
         </Stack>
         <Button
           variant="contained"
-          sx={{ color: "white", marginRight: "32px" }}
+          sx={{
+            color: theme.palette.background.contractColor,
+            marginRight: "32px",
+          }}
         >
           저장
         </Button>
