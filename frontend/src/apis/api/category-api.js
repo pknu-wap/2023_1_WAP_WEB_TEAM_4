@@ -1,8 +1,8 @@
 import { useQuery } from "react-query";
 import { defaultInstance } from "..";
 
-export const PostCategorySaveApi = async (body) => {
-  return await defaultInstance.post("/category/save", body);
+export const PostCategoryCreateApi = async (body) => {
+  return await defaultInstance.post("/category/create", body);
 };
 
 // const queryClient = useQueryClient();

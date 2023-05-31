@@ -66,7 +66,8 @@ const Main = () => {
         height: "100%",
         minHeight: "100vh",
         backgroundColor: "background.main",
-      }}>
+      }}
+    >
       <Stack direction="row" height="100%">
         {isNavigateOpen && <SideNavigation />}
         {isPhone ? <HeaderMobile /> : <Header />}
@@ -76,15 +77,18 @@ const Main = () => {
           width="100%"
           height="100%"
           p={isTablet ? "36px 0px" : "36px 160px"}
-          color="white">
+          color="white"
+        >
           {title && (
             <Stack>
+              <Button>카테고리 추가</Button>
               <Stack direction="row" justifyContent="space-between">
                 <Stack
                   color="background.color"
                   fontSize="32px"
                   height="45px"
-                  fontWeight="bold">
+                  fontWeight="bold"
+                >
                   {title}
                 </Stack>
                 <Stack direction="row">
@@ -98,7 +102,8 @@ const Main = () => {
                   sx={{
                     color: "background.color",
                   }}
-                  gap="5px">
+                  gap="5px"
+                >
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
                     components={{
@@ -143,7 +148,8 @@ const Main = () => {
                               padding: "2px",
                               borderRadius: "3px",
                             }}
-                            {...props}>
+                            {...props}
+                          >
                             {children}
                           </code>
                         ) : match ? (
@@ -152,7 +158,8 @@ const Main = () => {
                             style={nord}
                             language={match[1]}
                             PreTag="div"
-                            {...props}>
+                            {...props}
+                          >
                             {String(children)
                               .replace(/\n$/, "")
                               .replace(/\n&nbsp;\n/g, "")
@@ -163,7 +170,8 @@ const Main = () => {
                             style={nord}
                             language="textile"
                             PreTag="div"
-                            {...props}>
+                            {...props}
+                          >
                             {String(children).replace(/\n$/, "")}
                           </SyntaxHighlighter>
                         );
@@ -177,7 +185,8 @@ const Main = () => {
                               padding: "1px 15px",
                               borderRadius: "10px",
                             }}
-                            {...props}>
+                            {...props}
+                          >
                             {children}
                           </div>
                         );
@@ -198,7 +207,8 @@ const Main = () => {
                           </span>
                         );
                       },
-                    }}>
+                    }}
+                  >
                     {post}
                   </ReactMarkdown>
                 </Stack>
@@ -219,7 +229,8 @@ const Main = () => {
               position: "fixed",
               top: 0,
               right: 100,
-            }}>
+            }}
+          >
             {sections.map((section, i) => {
               if (section?.html.startsWith("###")) {
                 return (
@@ -230,7 +241,8 @@ const Main = () => {
                     paddingLeft="15px"
                     height="30px"
                     onClick={() => handleClick(section.id)}
-                    sx={{ cursor: "pointer" }}>
+                    sx={{ cursor: "pointer" }}
+                  >
                     {section.content}
                   </Stack>
                 );
@@ -244,7 +256,8 @@ const Main = () => {
                     paddingLeft="10px"
                     height="30px"
                     onClick={() => handleClick(section.id)}
-                    sx={{ cursor: "pointer" }}>
+                    sx={{ cursor: "pointer" }}
+                  >
                     {section.content}
                   </Stack>
                 );
@@ -261,7 +274,8 @@ const Main = () => {
                     onClick={() => {
                       handleClick(section.id);
                       console.log("클릭");
-                    }}>
+                    }}
+                  >
                     {section.content}
                   </Stack>
                 );
