@@ -13,6 +13,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AddIcon from "@mui/icons-material/Add";
 import { useTheme } from "@mui/material/styles";
+import { useMutation } from "react-query";
+import { PostCreateApi } from "../apis/api/content-api";
+import { useGetCategoryQuery } from "../apis/api/category-api";
 
 const WriteModal = ({
   title,
@@ -24,8 +27,6 @@ const WriteModal = ({
 }) => {
   const theme = useTheme();
   const [privateMode, setPrivateMode] = useState(true);
-  const [publicMode, setPublicMode] = useState(false);
-  const [autoPublicMode, setAutoPublicMode] = useState(false);
   const [selectValue, setSelectValue] = useState(0);
   const [textFieldValue, setTextFieldValue] = useState("");
 
@@ -59,26 +60,21 @@ const WriteModal = ({
     });
   };
 
+  const postCreateQuery = useMutation(PostCreateApi, {
+    onSuccess: () => navigate("/"),
+  });
+  const { data } = useGetCategoryQuery();
+
   const writeButtonClick = async () => {
     const body = {
       title: title,
       text: text,
-      category: "미정",
-      hashtag: tagArray,
+      image: "",
+      ispPrivate: privateMode ? 0 : 1,
+      categoryId: 6,
+      hashtag: "tagArray",
     };
-
-    try {
-      await axios.post(
-        "http://test-env.eba-babq7paf.us-east-1.elasticbeanstalk.com/content/create",
-        body
-      );
-      navigate("/");
-      alert("성공");
-
-      setDialogOpen(false);
-    } catch (e) {
-      alert("실패");
-    }
+    postCreateQuery.mutate(body);
   };
   return (
     <Modal
@@ -162,8 +158,6 @@ const WriteModal = ({
                 disableRipple
                 onClick={() => {
                   setPrivateMode(true);
-                  setPublicMode(false);
-                  setAutoPublicMode(false);
                 }}
                 sx={{
                   backgroundColor: privateMode ? "primary.500" : "white",
@@ -188,14 +182,12 @@ const WriteModal = ({
                 disableRipple
                 onClick={() => {
                   setPrivateMode(false);
-                  setPublicMode(true);
-                  setAutoPublicMode(false);
                 }}
                 sx={{
-                  backgroundColor: publicMode ? "primary.500" : "white",
-                  width: publicMode ? "90px" : "fit-content",
-                  height: publicMode ? "60px" : "40px",
-                  color: publicMode
+                  backgroundColor: !privateMode ? "primary.500" : "white",
+                  width: !privateMode ? "90px" : "fit-content",
+                  height: !privateMode ? "60px" : "40px",
+                  color: !privateMode
                     ? "background.contractColor"
                     : "primary.buttonColor",
                   ":hover": {
@@ -207,32 +199,6 @@ const WriteModal = ({
                   ":active": { backgroundColor: "primary.700" },
                 }}>
                 공개
-              </Button>
-              <Button
-                variant="contained"
-                size="small"
-                disableRipple
-                onClick={() => {
-                  setPrivateMode(false);
-                  setPublicMode(false);
-                  setAutoPublicMode(true);
-                }}
-                sx={{
-                  backgroundColor: autoPublicMode ? "primary.500" : "white",
-                  width: autoPublicMode ? "90px" : "fit-content",
-                  height: autoPublicMode ? "60px" : "40px",
-                  color: autoPublicMode
-                    ? "background.contractColor"
-                    : "primary.buttonColor",
-                  ":hover": {
-                    backgroundColor: "primary.600",
-                    width: "90px",
-                    height: "60px",
-                    color: "background.contractColor",
-                  },
-                  ":active": { backgroundColor: "primary.700" },
-                }}>
-                자동 공개
               </Button>
             </Stack>
           </Stack>

@@ -52,7 +52,7 @@ export const useGetMainMoreQuery = (params) => {
 };
 
 export const GetContentReadApi = async (params) => {
-  const { data } = await defaultInstance.get("/main/more", { params });
+  const { data } = await defaultInstance.get("/content/read", { params });
   return data;
 };
 

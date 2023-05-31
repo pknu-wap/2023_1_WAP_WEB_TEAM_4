@@ -6,14 +6,19 @@ import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrow
 import { useRecoilState } from "recoil";
 import { isNavigateOpenState } from "../states/mainState";
 import { useTheme } from "@mui/material/styles";
+import { useGetContentReadQuery } from "../apis/api/content-api";
 
-const SideNavigation = () => {
+const SideNavigation = ({ setClickId }) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const [isNavigateOpen, setIsNavigateOpen] =
     useRecoilState(isNavigateOpenState);
 
   const isPhone = useMediaQuery(theme.breakpoints.down("xs"));
+
+  const { data: contentData } = useGetContentReadQuery({ cid: 10 });
+
+  console.log(contentData?.sidebar);
 
   return (
     <Stack
@@ -53,72 +58,49 @@ const SideNavigation = () => {
         <Stack gap="16px">
           <Stack gap="10px">
             <Stack>
-              <Stack
-                fontSize="18px"
-                color="sideNavigation.pointColorTitle"
-                height="30px"
-                paddingLeft="10px"
-                marginBottom="5px"
-                justifyContent="center"
-                fontWeight="bold">
-                파이썬
-              </Stack>
-              <Stack>
-                <Stack
-                  justifyContent="center"
-                  borderRadius="4px"
-                  sx={{
-                    ":hover": {
-                      backgroundColor: "sideNavigation.hover",
-                    },
-                    ":active": {
-                      backgroundColor: "sideNavigation.active",
-                    },
-                    cursor: "pointer",
-                  }}
-                  fontSize="16px"
-                  padding="0px 0px 5px 20px"
-                  color="sideNavigation.pointColorContent"
-                  height="25px">
-                  - 알고리즘
-                </Stack>
-                <Stack
-                  justifyContent="center"
-                  borderRadius="4px"
-                  sx={{
-                    ":hover": {
-                      backgroundColor: "sideNavigation.hover",
-                      ":active": {
-                        backgroundColor: "sideNavigation.active",
-                      },
-                      cursor: "pointer",
-                    },
-                  }}
-                  fontSize="16px"
-                  padding="0px 0px 5px 20px"
-                  color="background.color"
-                  height="25px">
-                  - 머신러닝
-                </Stack>
-                <Stack
-                  justifyContent="center"
-                  borderRadius="4px"
-                  sx={{
-                    ":hover": {
-                      backgroundColor: "sideNavigation.hover",
-                      ":active": {
-                        backgroundColor: "sideNavigation.active",
-                      },
-                      cursor: "pointer",
-                    },
-                  }}
-                  fontSize="16px"
-                  padding="0px 0px 5px 20px"
-                  color="background.color"
-                  height="25px">
-                  - 데이터 분석
-                </Stack>
-              </Stack>
+              {contentData?.sidebar?.map((category, i) => {
+                return (
+                  <>
+                    <Stack
+                      key={i}
+                      fontSize="18px"
+                      color="sideNavigation.pointColorTitle"
+                      height="30px"
+                      paddingLeft="10px"
+                      marginBottom="5px"
+                      justifyContent="center"
+                      fontWeight="bold">
+                      {category?.category_name}
+                    </Stack>
+                    <Stack marginBottom="10px">
+                      {category?.titles.map((title, index) => {
+                        return (
+                          <Stack
+                            key={index}
+                            justifyContent="center"
+                            borderRadius="4px"
+                            sx={{
+                              ":hover": {
+                                backgroundColor: "sideNavigation.hover",
+                              },
+                              ":active": {
+                                backgroundColor: "sideNavigation.active",
+                              },
+                              cursor: "pointer",
+                            }}
+                            fontSize="16px"
+                            padding="0px 0px 5px 20px"
+                            color="sideNavigation.pointColorContent"
+                            onClick={() => setClickId(title?.contentId)}
+                            height="25px">
+                            - {title.title}
+                          </Stack>
+                        );
+                      })}
+                    </Stack>
+                  </>
+                );
+              })}
             </Stack>
           </Stack>
         </Stack>

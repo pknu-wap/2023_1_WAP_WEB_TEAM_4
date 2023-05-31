@@ -28,8 +28,8 @@ const Login = () => {
 
   const loginButtonClick = () => {
     const body = {
-      loginid: email,
-      loginpw: password,
+      loginId: email,
+      loginPw: password,
     };
 
     postRegister.mutate(body);
@@ -122,15 +122,13 @@ const Login = () => {
             justifyContent: "center",
             position: "fixed",
             right: 0,
-          }}
-        >
+          }}>
           <Stack width="80%" style={{ alignItems: "center" }}>
             <Stack
               fontWeight="bold"
               fontSize="20px"
               color="#ECD8A4"
-              marginBottom="30px"
-            >
+              marginBottom="30px">
               Login
             </Stack>
             <input
@@ -173,8 +171,7 @@ const Login = () => {
                   border: "1px solid #ECD8A4",
                   color: "#ECD8A4",
                 },
-              }}
-            >
+              }}>
               Login
             </Button>
           </Stack>
@@ -185,8 +182,7 @@ const Login = () => {
             fontSize="11px"
             marginTop="10px"
             marginLeft="8%"
-            sx={{ ":hover": { color: "#FFC222" }, cursor: "pointer" }}
-          >
+            sx={{ ":hover": { color: "#FFC222" }, cursor: "pointer" }}>
             Register
           </Stack>
         </Stack>

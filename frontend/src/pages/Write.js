@@ -23,9 +23,14 @@ import ImageIcon from "@mui/icons-material/Image";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { useMutation, useQueryClient } from "react-query";
+import { PostCreateApi } from "../apis/api/content-api";
+import { useNavigate } from "react-router-dom";
 
 const Write = () => {
+  const queryClient = useQueryClient();
   const editorRef = useRef();
+  const navigate = useNavigate();
   const [title, setTitle] = useRecoilState(titleState);
   const [post, setPost] = useRecoilState(postState);
   const [tagArray, setTagArray] = useState([]);
