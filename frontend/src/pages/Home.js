@@ -9,6 +9,7 @@ import { searchOpenState, selectValueState } from "../states/homeState";
 import axios from "axios";
 import { gray } from "../themes/color";
 import { useTheme } from "@mui/material/styles";
+import { useGetMainQuery } from "../apis/api/content-api";
 
 const Home = () => {
   const [selectValue, setSelectValue] = useRecoilState(selectValueState);
@@ -17,6 +18,11 @@ const Home = () => {
     setSelectValue(event.target.value);
   };
   const theme = useTheme();
+
+  const { data } = useGetMainQuery();
+
+  console.log(data?.contents);
+
   const [array, setArray] = useState([
     {
       random: [
@@ -116,7 +122,7 @@ const Home = () => {
     },
   ]);
 
-  const category = ["random", "views", "likes", "latest"];
+  const category = ["created", "likes", "views", "randoms"];
   const [startNumber, setStartNumber] = useState({
     random: 0,
     views: 0,
@@ -125,21 +131,21 @@ const Home = () => {
   });
   const [isHome, setIsHome] = useState(false);
 
-  useEffect(() => {
-    setIsHome(true);
-    const getPostData = async () => {
-      try {
-        const response = await axios.get(
-          "http://test-env.eba-babq7paf.us-east-1.elasticbeanstalk.com/main"
-        );
+  // useEffect(() => {
+  //   setIsHome(true);
+  //   const getPostData = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "http://test-env.eba-babq7paf.us-east-1.elasticbeanstalk.com/main"
+  //       );
 
-        setArray(response.data);
-      } catch (e) {
-        alert(e.response);
-        console.log(e);
-      }
-    };
-  }, []);
+  //       setArray(response.data);
+  //     } catch (e) {
+  //       alert(e.response);
+  //       console.log(e);
+  //     }
+  //   };
+  // }, []);
 
   return (
     <Stack>
@@ -204,120 +210,130 @@ const Home = () => {
             />
           </Stack>
         )}
-        {!isSearchOpen
-          ? array.map((card, index) => {
-              const categoryName = category[index];
-              return (
-                <Stack key={index} spacing={4} direction="row">
-                  <Stack>
-                    <Stack
-                      color="background.color"
-                      fontSize="20px"
-                      width="65px">
-                      {categoryName}
-                    </Stack>
-                  </Stack>
-                  <IconButton
-                    onClick={() =>
-                      setStartNumber((prevNumber) => {
-                        const updatedNumber = {
-                          ...prevNumber,
-                          [categoryName]:
-                            prevNumber[categoryName] === 0
-                              ? prevNumber[categoryName]
-                              : prevNumber[categoryName] - 4,
-                        };
+        {category.forEach((categoryName, i) => {
+          console.log(categoryName);
+          console.log(data?.contents[categoryName]);
 
-                        return updatedNumber;
-                      })
-                    }
-                    sx={{ borderRadius: "0px" }}>
-                    <ChevronLeftIcon />
-                  </IconButton>
-                  {card[categoryName]
-                    .slice(
-                      startNumber[categoryName],
-                      startNumber[categoryName] + 4
-                    )
-                    .map((cardContent, i) => {
-                      return (
-                        <Stack key={i} flex={1}>
-                          <Stack
-                            minWidth="300px"
-                            minHeight="200px"
-                            bgcolor={gray[300]}
-                            marginBottom="8px"
-                          />
-                          <Stack
-                            color="background.color"
-                            fontSize="16px"
-                            fontWeight="bold">
-                            {cardContent.title}
-                          </Stack>
-                          <Stack color="background.color" fontSize="12px">
-                            {cardContent.main_text}
-                          </Stack>
-                        </Stack>
-                      );
-                    })}
-                  <IconButton
-                    onClick={() =>
-                      setStartNumber((prevNumber) => {
-                        const updatedNumber = {
-                          ...prevNumber,
-                          [categoryName]:
-                            prevNumber[categoryName] ===
-                            card[categoryName]?.length - 4
-                              ? prevNumber[categoryName]
-                              : prevNumber[categoryName] + 4,
-                        };
-
-                        return updatedNumber;
-                      })
-                    }
-                    sx={{ borderRadius: "0px" }}>
-                    <ChevronRightIcon />
-                  </IconButton>
-                </Stack>
-              );
-            })
-          : array.map((card, index) => {
-              return (
-                <Stack
-                  key={index}
-                  direction="row"
-                  width="fit-content"
-                  paddingLeft="6.5%"
-                  justifyContent="flex-start"
-                  flexWrap="wrap">
-                  {card.random?.map((cardContent, i) => {
-                    return (
-                      <Stack key={i} marginLeft="32px" marginBottom="24px">
-                        <Stack
-                          minWidth="300px"
-                          minHeight="200px"
-                          flex={1}
-                          bgcolor={gray[300]}
-                          marginBottom="8px"
-                        />
-                        <Stack
-                          color="background.color"
-                          fontSize="16px"
-                          fontWeight="bold">
-                          {cardContent.title}
-                        </Stack>
-                        <Stack color="background.color" fontSize="12px">
-                          {cardContent.main_text}
-                        </Stack>
-                      </Stack>
-                    );
-                  })}
-                </Stack>
-              );
-            })}
+          data?.contents[categoryName]?.map((content, index) => {
+            console.log(content.contentDTOS);
+            return <></>;
+          });
+        })}
       </Stack>
     </Stack>
   );
 };
 
 export default Home;
+
+// {!isSearchOpen
+//   ? data?.map((card, index) => {
+//       const categoryName = category[index];
+//       return (
+//         <Stack key={index} spacing={4} direction="row">
+//           <Stack>
+//             <Stack
+//               color="background.color"
+//               fontSize="20px"
+//               width="65px">
+//               {categoryName}
+//             </Stack>
+//           </Stack>
+//           <IconButton
+//             onClick={() =>
+//               setStartNumber((prevNumber) => {
+//                 const updatedNumber = {
+//                   ...prevNumber,
+//                   [categoryName]:
+//                     prevNumber[categoryName] === 0
+//                       ? prevNumber[categoryName]
+//                       : prevNumber[categoryName] - 4,
+//                 };
+
+//                 return updatedNumber;
+//               })
+//             }
+//             sx={{ borderRadius: "0px" }}>
+//             <ChevronLeftIcon />
+//           </IconButton>
+//           {card?.contentDTOS[categoryName]
+//             .slice(
+//               startNumber[categoryName],
+//               startNumber[categoryName] + 4
+//             )
+//             .map((cardContent, i) => {
+//               return (
+// <Stack key={i} flex={1}>
+//   <Stack
+//     minWidth="300px"
+//     minHeight="200px"
+//     bgcolor={gray[300]}
+//     marginBottom="8px"
+//   />
+//   <Stack
+//     color="background.color"
+//     fontSize="16px"
+//     fontWeight="bold">
+//     {cardContent.title}
+//   </Stack>
+//   <Stack color="background.color" fontSize="12px">
+//     {cardContent.main_text}
+//   </Stack>
+// </Stack>
+//               );
+//             })}
+//           <IconButton
+//             onClick={() =>
+//               setStartNumber((prevNumber) => {
+//                 const updatedNumber = {
+//                   ...prevNumber,
+//                   [categoryName]:
+//                     prevNumber[categoryName] ===
+//                     card[categoryName]?.length - 4
+//                       ? prevNumber[categoryName]
+//                       : prevNumber[categoryName] + 4,
+//                 };
+
+//                 return updatedNumber;
+//               })
+//             }
+//             sx={{ borderRadius: "0px" }}>
+//             <ChevronRightIcon />
+//           </IconButton>
+//         </Stack>
+//       );
+//     })
+//   : array.map((card, index) => {
+//       return (
+//         <Stack
+//           key={index}
+//           direction="row"
+//           width="fit-content"
+//           paddingLeft="6.5%"
+//           justifyContent="flex-start"
+//           flexWrap="wrap">
+//           {card.random?.map((cardContent, i) => {
+//             return (
+//               <Stack key={i} marginLeft="32px" marginBottom="24px">
+//                 <Stack
+//                   minWidth="300px"
+//                   minHeight="200px"
+//                   flex={1}
+//                   bgcolor={gray[300]}
+//                   marginBottom="8px"
+//                 />
+//                 <Stack
+//                   color="background.color"
+//                   fontSize="16px"
+//                   fontWeight="bold">
+//                   {cardContent.title}
+//                 </Stack>
+//                 <Stack color="background.color" fontSize="12px">
+//                   {cardContent.main_text}
+//                 </Stack>
+//               </Stack>
+//             );
+//           })}
+//         </Stack>
+//       );
+//     })}
