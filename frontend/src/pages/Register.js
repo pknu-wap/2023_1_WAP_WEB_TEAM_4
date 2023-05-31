@@ -18,21 +18,24 @@ import {
   useTransform,
   useViewportScroll,
 } from "framer-motion";
-import ImageDescription from "../components/ImageDescription";
+import {
+  ImageDescription,
+  ImageRightDescription,
+} from "../components/ImageDescription";
 import { useSnackBar } from "../hooks/useSnackBar";
 
 const Register = () => {
   const themes = useTheme();
-  const x = useMotionValue(0);
-  const background = useTransform(
-    x,
-    [-100, 0, 100],
-    ["#ff008c", "#7700ff", "rgb(230, 255, 0)"]
-  );
+  // const x = useMotionValue(0);
+  // const background = useTransform(
+  //   x,
+  //   [-100, 0, 100],
+  //   ["#ff008c", "#7700ff", "rgb(230, 255, 0)"]
+  // );
 
   const [message, setMessage] = useState("");
-  const { scrollYProgress } = useViewportScroll();
-  const scale = useTransform(scrollYProgress, [1, 1], [2, 2]);
+  // const { scrollYProgress } = useViewportScroll();
+  // const scale = useTransform(scrollYProgress, [1, 1], [2, 2]);
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -46,9 +49,6 @@ const Register = () => {
   const { email, password, passwordCheck, nickName } = registerState;
   const [, setData] = useState("");
   const isNotSmall = useMediaQuery(themes.breakpoints.up("xs"));
-  const { CustomSnackbar, openSnackBar } = useSnackBar();
-  CustomSnackbar();
-  console.log(openSnackBar);
 
   const registerHandler = (event) => {
     const { name, value } = event.target;
@@ -90,7 +90,8 @@ const Register = () => {
         height: "1000%",
         backgroundColor: "black",
         padding: "10px",
-      }}>
+      }}
+    >
       <Stack height="100%">
         <Stack
           style={{
@@ -100,14 +101,23 @@ const Register = () => {
             fontSize: "30px",
             position: "fixed",
             padding: "10px 0px 10px 20px",
-          }}>
+          }}
+        >
           GLOG
         </Stack>
         <Stack flexDirection="row">
           {isNotSmall && (
-            <Stack width="100%">
+            <Stack width="100%" gap="200px">
               <ImageDescription />
+              <ImageRightDescription />
               <ImageDescription />
+              <ImageRightDescription />
+              <ImageDescription />
+              <ImageRightDescription />
+              <ImageDescription />
+              <ImageRightDescription />
+              <ImageDescription />
+              <ImageRightDescription />
             </Stack>
           )}
           <Stack
@@ -120,13 +130,15 @@ const Register = () => {
               position: "fixed",
               right: 0,
               top: 0,
-            }}>
+            }}
+          >
             <Stack width="80%" style={{ alignItems: "center" }}>
               <Stack
                 fontWeight="bold"
                 fontSize="20px"
                 color="#ECD8A4"
-                marginBottom="30px">
+                marginBottom="30px"
+              >
                 Regsiter
               </Stack>
               <input
@@ -187,7 +199,8 @@ const Register = () => {
                   fontWeight="bold"
                   marginBottom="25px"
                   fontSize="6px"
-                  color="red">
+                  color="red"
+                >
                   비밀번호와 비밀번호 확인이 일치하지 않습니다.
                 </Stack>
               )}
@@ -211,30 +224,19 @@ const Register = () => {
                 variant="outlined"
                 sx={{
                   width: "80%",
+
                   "&.MuiButton-root": {
                     border: "1px solid #ECD8A4",
                     color: "#ECD8A4",
                   },
-                }}>
+                }}
+              >
                 Register
               </Button>
             </Stack>
           </Stack>
         </Stack>
       </Stack>
-      <Snackbar
-        //   anchorOrigin={{ vertical: "top", horizontal: "left" }}
-        open={true}
-        autoHideDuration={3000}
-        // onClose={() => {
-        //   closeSnackBar();
-        //   if (onClose) onClose();
-        // }}
-        sx={{ boxShadow: 1, width: "500px", backgroundColor: "red" }}>
-        <Alert severity="error" sx={{ width: "100%" }}>
-          {message}
-        </Alert>
-      </Snackbar>
     </Stack>
   );
 };
