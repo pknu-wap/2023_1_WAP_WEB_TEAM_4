@@ -7,7 +7,7 @@ import SideNavigation from "./SideNavigation";
 import Header from "./Header";
 import HeaderMobile from "./HeaderMobile";
 
-const Layout = ({ children }) => {
+const Layout = ({ children, isMain, isHome }) => {
   const theme = useTheme();
   const isPhone = useMediaQuery(theme.breakpoints.down("xs"));
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
@@ -23,8 +23,12 @@ const Layout = ({ children }) => {
         width: "100%",
         backgroundColor: "background.main",
       }}>
-      <Stack direction="row" width="100%" height="100%">
-        {isPhone ? <HeaderMobile /> : <Header />}
+      {isPhone ? (
+        <HeaderMobile isMain={isMain} isHome={isHome} />
+      ) : (
+        <Header isMain={isMain} isHome={isHome} />
+      )}
+      <Stack direction="row" width="100%" height="100%" paddingTop="120px">
         {children}
       </Stack>
     </Stack>

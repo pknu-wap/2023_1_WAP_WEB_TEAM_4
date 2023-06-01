@@ -1,11 +1,13 @@
-import { Button, Stack, TextField } from "@mui/material";
+import { Button, Stack, TextField, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import React from "react";
 
-function ChangePassword() {
+const ChangePassword = () => {
   const theme = useTheme();
+  const isPhone = useMediaQuery(theme.breakpoints.down("xs"));
+
   return (
-    <Stack width="100%" p="24px" gap="36px">
+    <Stack width="100%" gap="36px">
       <Stack
         bgcolor="background.contractColor"
         borderRadius="0px 10px 10px 0px"
@@ -31,14 +33,16 @@ function ChangePassword() {
             Chaeyeon
           </Stack>
         </Stack>
-        <Button
-          variant="contained"
-          sx={{
-            color: theme.palette.background.contractColor,
-            marginRight: "32px",
-          }}>
-          저장
-        </Button>
+        {!isPhone && (
+          <Button
+            variant="contained"
+            sx={{
+              color: theme.palette.background.contractColor,
+              marginRight: "32px",
+            }}>
+            저장
+          </Button>
+        )}
       </Stack>
       <Stack
         bgcolor="background.contractColor"
@@ -53,7 +57,7 @@ function ChangePassword() {
           fontWeight={600}>
           비밀번호
         </Stack>
-        <TextField size="small" sx={{ width: "300px" }} />
+        <TextField size="small" />
       </Stack>
       <Stack
         bgcolor="background.contractColor"
@@ -68,10 +72,11 @@ function ChangePassword() {
           fontWeight={600}>
           닉네임
         </Stack>
-        <TextField size="small" sx={{ width: "300px" }} />
+        <TextField size="small" />
       </Stack>
+      {isPhone && <Button variant="contained">저장</Button>}
     </Stack>
   );
-}
+};
 
 export default ChangePassword;

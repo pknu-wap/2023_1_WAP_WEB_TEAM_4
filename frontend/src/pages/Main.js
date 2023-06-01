@@ -82,10 +82,10 @@ const Main = () => {
   const { data: contentData } = useGetContentReadQuery({ cid: clickId });
 
   return (
-    <Layout>
+    <Layout isMain={true}>
       {isNavigateOpen && <SideNavigation setClickId={setClickId} />}
       <Stack
-        margin={`80px ${40 + anchorWidth}px 84px ${40 + navigateWidth}px`}
+        margin={`0px ${40 + anchorWidth}px 84px ${40 + navigateWidth}px`}
         width="100%"
         height="100%"
         p={isTablet ? "36px 0px" : "36px 160px"}

@@ -1,21 +1,16 @@
-import { Stack, TextField, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 import React, { useState } from "react";
-import HeaderMobile from "../components/HeaderMobile";
 import { useTheme } from "@mui/material/styles";
-import SideButton from "../components/SideButton";
 import ChangePassword from "../components/mypage/ChangePassword";
 import Post from "../components/mypage/Post";
 import Skin from "../components/mypage/Skin";
 import Blog from "../components/mypage/Blog";
 import Pororo from "../static/pic/Pororo.jpg";
-import { themeState } from "../states/common";
-import { useRecoilValue } from "recoil";
 import Layout from "../components/Layout";
 
 function Mypage() {
   const theme = useTheme();
   const [option, setOption] = useState(0);
-  const [isAccountOpen, setIsAccountOpen] = useState(false);
   const optionArray = {
     0: <ChangePassword />,
     1: <Post />,
@@ -32,7 +27,6 @@ function Mypage() {
         width="100%"
         backgroundColor="background.main">
         <Stack
-          marginTop="80px"
           width="fit-content"
           bgcolor="background.contractColor"
           border={`1px solid ${theme.palette.primary.main}`}
@@ -47,23 +41,26 @@ function Mypage() {
             alignItems="center"
             bgcolor="background.contractColor"
             direction="row"
-            height="100%">
+            marginBottom="32px">
             <img
-              style={{ width: "40%", height: "40%", borderRadius: "50%" }}
+              style={{ width: "20%", height: "70%", borderRadius: "50%" }}
               src={Pororo}
               alt="User_Picture"
             />
 
-            <Stack width="100%" gap="32px">
-              <Stack color={theme.palette.background.color} fontSize="24px">
+            <Stack gap="28px">
+              <Stack
+                color={theme.palette.background.color}
+                width="fit-content"
+                fontSize="24px">
                 Chae yeon
               </Stack>
-              <Stack color={theme.palette.background.color}>
+              <Stack width="fit-content" color={theme.palette.background.color}>
                 한줄 소개를 작성하세요
               </Stack>
             </Stack>
           </Stack>
-          <Stack direction="row" width="100%">
+          <Stack direction="row" width="100%" marginBottom="32px">
             <Stack
               minWidth="fit-content"
               width="25%"
