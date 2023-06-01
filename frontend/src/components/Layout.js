@@ -28,7 +28,7 @@ const Layout = ({ children, isMain, isHome }) => {
       ) : (
         <Header isMain={isMain} isHome={isHome} />
       )}
-      <Stack direction="row" width="100%" height="100%" paddingTop="120px">
+      <Stack direction="row" width="100%" height="100%" paddingTop="80px">
         {children}
       </Stack>
     </Stack>

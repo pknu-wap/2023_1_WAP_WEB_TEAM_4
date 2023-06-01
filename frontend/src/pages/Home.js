@@ -136,6 +136,7 @@ const Home = () => {
   return (
     <Layout>
       <Stack
+        marginTop="40px"
         bgcolor="background.main"
         spacing={10}
         padding="0px 96px 40px 96px">

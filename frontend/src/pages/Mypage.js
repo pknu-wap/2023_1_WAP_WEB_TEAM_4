@@ -21,13 +21,15 @@ function Mypage() {
   return (
     <Layout>
       <Stack
+        width="100%"
+        height="100%"
+        marginTop="40px"
         justifyContent="center"
         alignItems="center"
-        overflow="scroll"
-        width="100%"
         backgroundColor="background.main">
         <Stack
           width="fit-content"
+          height="100%"
           bgcolor="background.contractColor"
           border={`1px solid ${theme.palette.primary.main}`}
           alignItems="flex-start"

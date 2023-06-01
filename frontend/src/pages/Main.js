@@ -104,8 +104,7 @@ const Main = () => {
                 fontSize="32px"
                 height="45px"
                 fontWeight="bold">
-                {/* {contentData?.contentDTO?.title} */}
-                아아아
+                {contentData?.contentDTO?.title}
               </Stack>
               <Stack direction="row" gap={isPhone ? "0px" : "12px"}>
                 {!isPhone && (

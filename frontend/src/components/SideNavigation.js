@@ -25,22 +25,20 @@ const SideNavigation = ({ clickId, setClickId }) => {
       height="100%"
       maxWidth={!isPhone ? "180px" : undefined}
       width="100%"
+      p="12px 10px 0px 0px"
       left={0}
       zIndex={100}
-      position="fixed"
-    >
-      <Stack p="88px 20px 20px 20px">
+      position="fixed">
+      <Stack p="0px 20px 20px 20px">
         <Stack
           direction="row"
           justifyContent="space-between"
-          alignItems="center"
-        >
+          alignItems="center">
           <Stack direction="row" alignItems="center" marginBottom="5px">
             <IconButton
               width="16px"
               height="16px"
-              onClick={() => navigate("/write")}
-            >
+              onClick={() => navigate("/write")}>
               <AddIcon />
             </IconButton>
             <Stack
@@ -48,8 +46,7 @@ const SideNavigation = ({ clickId, setClickId }) => {
                 color: "background.color",
                 fontSize: "16px",
                 fontWeight: "bold",
-              }}
-            >
+              }}>
               글쓰기
             </Stack>
           </Stack>
@@ -71,8 +68,7 @@ const SideNavigation = ({ clickId, setClickId }) => {
                       paddingLeft="10px"
                       marginBottom="5px"
                       justifyContent="center"
-                      fontWeight="bold"
-                    >
+                      fontWeight="bold">
                       {category?.category_name}
                     </Stack>
                     <Stack marginBottom="10px">
@@ -99,8 +95,7 @@ const SideNavigation = ({ clickId, setClickId }) => {
                                 : "white"
                             }
                             onClick={() => setClickId(title?.contentId)}
-                            height="25px"
-                          >
+                            height="25px">
                             - {title.title}
                           </Stack>
                         );
