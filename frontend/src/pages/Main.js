@@ -17,7 +17,7 @@ import {
   PostCategoryCreateApi,
   useGetCategoryQuery,
 } from "../apis/api/category-api";
-import { useGetContentReadQuery } from "../apis/api/content-api";
+import { useGetContentReadQuery, PostDeleteApi } from "../apis/api/content-api";
 
 const Main = () => {
   const theme = useTheme();
@@ -70,15 +70,15 @@ const Main = () => {
 
   const { data } = useGetCategoryQuery();
 
-  console.log(clickId);
-
   const postCategoryCreate = useMutation(PostCategoryCreateApi, {
     onSuccess: () => queryClient.invalidateQueries("CategoryRead"),
   });
 
-  const { data: contentData } = useGetContentReadQuery({ cid: clickId });
+  const postContentDeleteQuery = useMutation(PostDeleteApi, {
+    onSuccess: () => queryClient.invalidateQueries("ContentRead"),
+  });
 
-  console.log(contentData?.sidebar);
+  const { data: contentData } = useGetContentReadQuery({ cid: clickId });
 
   return (
     <Stack
@@ -88,7 +88,9 @@ const Main = () => {
         backgroundColor: "background.main",
       }}>
       <Stack direction="row" height="100%">
-        {isNavigateOpen && <SideNavigation setClickId={setClickId} />}
+        {isNavigateOpen && (
+          <SideNavigation clickId={clickId} setClickId={setClickId} />
+        )}
         {isPhone ? <HeaderMobile /> : <Header />}
         {/* <Post anchorWidth={anchorWidth} navigateWidth={navigateWidth} /> */}
         <Stack
@@ -111,8 +113,7 @@ const Main = () => {
                   fontSize="32px"
                   height="45px"
                   fontWeight="bold">
-                  {/* {contentData?.contentDTO?.title} */}
-                  아아아
+                  {contentData?.contentDTO?.title}
                 </Stack>
                 <Stack direction="row" gap={isPhone ? "0px" : "12px"}>
                   {!isPhone && (
@@ -132,7 +133,11 @@ const Main = () => {
                     </Stack>
                   )}
                   <Button>수정</Button>
-                  <Button color="error">삭제</Button>
+                  <Button
+                    color="error"
+                    onClick={() => postContentDeleteQuery.mutate(clickId)}>
+                    삭제
+                  </Button>
                 </Stack>
               </Stack>
               <Stack height="2px" bgcolor="primary.500" marginBottom="24px" />
