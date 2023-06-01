@@ -12,6 +12,12 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import remarkGfm from "remark-gfm";
 import { nord } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { postState, titleState } from "../states/writeState";
+import { useMutation, useQueryClient } from "react-query";
+import {
+  PostCategoryCreateApi,
+  useGetCategoryQuery,
+} from "../apis/api/category-api";
+import { useGetContentReadQuery, PostDeleteApi } from "../apis/api/content-api";
 
 const Main = () => {
   const theme = useTheme();
@@ -26,11 +32,13 @@ const Main = () => {
   const [post] = useRecoilState(postState);
   const [title] = useRecoilState(titleState);
 
+  const queryClient = useQueryClient();
+
   useEffect(() => {
     isNavigateOpen ? setNavigateWidth(180) : setNavigateWidth(0);
     isDeskop ? setAnchoreWidth(300) : setAnchoreWidth(0);
   }, [isNavigateOpen, isDeskop]);
-
+  const [clickId, setClickId] = useState(10);
   const [sections, setSections] = useState([]);
 
   useEffect(() => {
@@ -60,15 +68,30 @@ const Main = () => {
     selectedSection?.ref?.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const { data } = useGetCategoryQuery();
+
+  const postCategoryCreate = useMutation(PostCategoryCreateApi, {
+    onSuccess: () => queryClient.invalidateQueries("CategoryRead"),
+  });
+
+  const postContentDeleteQuery = useMutation(PostDeleteApi, {
+    onSuccess: () => queryClient.invalidateQueries("ContentRead"),
+  });
+
+  const { data: contentData } = useGetContentReadQuery({ cid: clickId });
+
   return (
     <Stack
       sx={{
         height: "100%",
         minHeight: "100vh",
         backgroundColor: "background.main",
-      }}>
+      }}
+    >
       <Stack direction="row" height="100%">
-        {isNavigateOpen && <SideNavigation />}
+        {isNavigateOpen && (
+          <SideNavigation clickId={clickId} setClickId={setClickId} />
+        )}
         {isPhone ? <HeaderMobile /> : <Header />}
         {/* <Post anchorWidth={anchorWidth} navigateWidth={navigateWidth} /> */}
         <Stack
@@ -76,20 +99,34 @@ const Main = () => {
           width="100%"
           height="100%"
           p={isTablet ? "36px 0px" : "36px 160px"}
-          color="white">
+          color="white"
+        >
           {title && (
             <Stack>
+              <Button
+                onClick={() => {
+                  postCategoryCreate.mutate("asdfff");
+                }}
+              >
+                카테고리 추가
+              </Button>
               <Stack direction="row" justifyContent="space-between">
                 <Stack
                   color="background.color"
                   fontSize="32px"
                   height="45px"
-                  fontWeight="bold">
-                  {title}
+                  fontWeight="bold"
+                >
+                  {contentData?.contentDTO?.title}
                 </Stack>
                 <Stack direction="row">
                   <Button>수정</Button>
-                  <Button color="error">삭제</Button>
+                  <Button
+                    color="error"
+                    onClick={() => postContentDeleteQuery.mutate(clickId)}
+                  >
+                    삭제
+                  </Button>
                 </Stack>
               </Stack>
               <Stack height="2px" bgcolor="primary.500" marginBottom="24px" />
@@ -98,7 +135,8 @@ const Main = () => {
                   sx={{
                     color: "background.color",
                   }}
-                  gap="5px">
+                  gap="5px"
+                >
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
                     components={{
@@ -124,7 +162,6 @@ const Main = () => {
                         </h3>
                       ),
                       h4: ({ node, children, ...props }) => {
-                        console.log("asdf");
                         return (
                           <h4 style={{ margin: 0 }} {...props}>
                             {children}
@@ -143,7 +180,8 @@ const Main = () => {
                               padding: "2px",
                               borderRadius: "3px",
                             }}
-                            {...props}>
+                            {...props}
+                          >
                             {children}
                           </code>
                         ) : match ? (
@@ -152,7 +190,8 @@ const Main = () => {
                             style={nord}
                             language={match[1]}
                             PreTag="div"
-                            {...props}>
+                            {...props}
+                          >
                             {String(children)
                               .replace(/\n$/, "")
                               .replace(/\n&nbsp;\n/g, "")
@@ -163,7 +202,8 @@ const Main = () => {
                             style={nord}
                             language="textile"
                             PreTag="div"
-                            {...props}>
+                            {...props}
+                          >
                             {String(children).replace(/\n$/, "")}
                           </SyntaxHighlighter>
                         );
@@ -177,7 +217,8 @@ const Main = () => {
                               padding: "1px 15px",
                               borderRadius: "10px",
                             }}
-                            {...props}>
+                            {...props}
+                          >
                             {children}
                           </div>
                         );
@@ -198,8 +239,9 @@ const Main = () => {
                           </span>
                         );
                       },
-                    }}>
-                    {post}
+                    }}
+                  >
+                    {contentData?.contentDTO?.text}
                   </ReactMarkdown>
                 </Stack>
               </Stack>
@@ -219,7 +261,8 @@ const Main = () => {
               position: "fixed",
               top: 0,
               right: 100,
-            }}>
+            }}
+          >
             {sections.map((section, i) => {
               if (section?.html.startsWith("###")) {
                 return (
@@ -230,7 +273,8 @@ const Main = () => {
                     paddingLeft="15px"
                     height="30px"
                     onClick={() => handleClick(section.id)}
-                    sx={{ cursor: "pointer" }}>
+                    sx={{ cursor: "pointer" }}
+                  >
                     {section.content}
                   </Stack>
                 );
@@ -244,7 +288,8 @@ const Main = () => {
                     paddingLeft="10px"
                     height="30px"
                     onClick={() => handleClick(section.id)}
-                    sx={{ cursor: "pointer" }}>
+                    sx={{ cursor: "pointer" }}
+                  >
                     {section.content}
                   </Stack>
                 );
@@ -261,7 +306,8 @@ const Main = () => {
                     onClick={() => {
                       handleClick(section.id);
                       console.log("클릭");
-                    }}>
+                    }}
+                  >
                     {section.content}
                   </Stack>
                 );

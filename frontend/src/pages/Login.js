@@ -28,8 +28,8 @@ const Login = () => {
 
   const loginButtonClick = () => {
     const body = {
-      loginid: email,
-      loginpw: password,
+      loginId: email,
+      loginPw: password,
     };
 
     postRegister.mutate(body);

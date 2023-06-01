@@ -15,7 +15,11 @@ export const PostPlusLikesApi = async (body) => {
 };
 
 export const PostDeleteApi = async (body) => {
-  return await defaultInstance.post("/content/delete", body);
+  return await defaultInstance.post("/content/delete", body, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 };
 
 export const PostCreateApi = async (body) => {
@@ -52,7 +56,7 @@ export const useGetMainMoreQuery = (params) => {
 };
 
 export const GetContentReadApi = async (params) => {
-  const { data } = await defaultInstance.get("/main/more", { params });
+  const { data } = await defaultInstance.get("/content/read", { params });
   return data;
 };
 

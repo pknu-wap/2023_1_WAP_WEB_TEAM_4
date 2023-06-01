@@ -1,8 +1,8 @@
 import { useQuery } from "react-query";
 import { defaultInstance } from "..";
 
-export const PostCategorySaveApi = async (body) => {
-  return await defaultInstance.post("/category/save", body);
+export const PostCategoryCreateApi = async (body) => {
+  return await defaultInstance.post("/category/create", body);
 };
 
 // const queryClient = useQueryClient();
@@ -19,15 +19,20 @@ export const PostCategoryDeleteApi = async (body) => {
 };
 
 // const { data: rowsData } = useGetSafetyPlanQuery({id: "asdf"});
-export const GetCategoryReadApi = async (params) => {
-  const { data } = await defaultInstance.get("/main/more", { params });
+export const GetCategoryApi = async () => {
+  const { data } = await defaultInstance.get("/category/get");
+
+  console.log(data);
   return data;
 };
 
-export const useGetCategoryReadQuery = (params) => {
+export const useGetCategoryQuery = () => {
   const { isLoading, error, data, status } = useQuery(
-    [`CategoryRead`, params],
-    () => GetCategoryReadApi(params)
+    [`CategoryRead`],
+    () => GetCategoryApi(),
+    {
+      refetchOnMount: "always",
+    }
   );
   return { data, isLoading, error, status };
 };
