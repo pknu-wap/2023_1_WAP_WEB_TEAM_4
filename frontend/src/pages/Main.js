@@ -111,9 +111,26 @@ const Main = () => {
                   fontSize="32px"
                   height="45px"
                   fontWeight="bold">
-                  {contentData?.contentDTO?.title}
+                  {/* {contentData?.contentDTO?.title} */}
+                  아아아
                 </Stack>
-                <Stack direction="row">
+                <Stack direction="row" gap={isPhone ? "0px" : "12px"}>
+                  {!isPhone && (
+                    <Stack
+                      color="background.color"
+                      fontSize="12px"
+                      justifyContent="center">
+                      조회수 2
+                    </Stack>
+                  )}
+                  {!isPhone && (
+                    <Stack
+                      fontSize="12px"
+                      color="background.color"
+                      justifyContent="center">
+                      추천수 3
+                    </Stack>
+                  )}
                   <Button>수정</Button>
                   <Button color="error">삭제</Button>
                 </Stack>
