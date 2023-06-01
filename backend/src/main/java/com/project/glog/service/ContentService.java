@@ -84,16 +84,7 @@ public class ContentService {
         contentRepository.save(content);
         ContentDTO contentDTO = new ContentDTO(content);
 
-        //List<CategorySidebar>
-        //List<Category> 해당 블로그의 카테고리 리스트를 불러온다.
-        //카테고리 리스트를 순회하면서 해당 카테고리마다 List<ContentTitle>을 불러오고
-        //List<CategorySidebar>에 채워 넣는다.
-        List<CategorySidebar> categorySidebars = new ArrayList<>();
-        List<Category> categories = categoryService.findAllByBlogId(content.getBlog().getId());
-        for(Category category : categories){
-            List<Content> contents = contentRepository.findAllByCategoryId(category.getId());
-            categorySidebars.add(new CategorySidebar(category, contents));
-        }
+        List<CategorySidebar> categorySidebars = getCategorySidebars(content.getBlog().getId());
 
         //MemberDTO
         MemberDTO memberDTO;
@@ -102,17 +93,31 @@ public class ContentService {
         }
         else{
             Member member = memberService.searchMemberById(uid);
-            memberDTO = new MemberDTO(member.getNickname(), member.getProfile_image(), member.getBlog().getBlogUrl());
+            memberDTO = new MemberDTO(member);
         }
 
         return new ContentReadResponse(contentDTO, categorySidebars, memberDTO);
     }
 
-    public ContentPreviewsResponse getFirstPreviews(){
-        ContentDTOS created = getCreatedPreviews(0L);
-        ContentDTOS views = getViewsPreviews(0L);
-        ContentDTOS likes = getLikesPreviews(0L);
-        ContentDTOS random = getRandomPreviews(0L);
+    public List<CategorySidebar> getCategorySidebars(Long bid){
+        //List<CategorySidebar>
+        //List<Category> 해당 블로그의 카테고리 리스트를 불러온다.
+        //카테고리 리스트를 순회하면서 해당 카테고리마다 List<ContentTitle>을 불러오고
+        //List<CategorySidebar>에 채워 넣는다.
+        List<CategorySidebar> categorySidebars = new ArrayList<>();
+        List<Category> categories = categoryService.findAllByBlogId(bid);
+        for(Category category : categories){
+            List<Content> contents = contentRepository.findAllByCategoryId(category.getId());
+            categorySidebars.add(new CategorySidebar(category, contents));
+        }
+        return categorySidebars;
+    }
+
+    public ContentPreviewsResponse getPreviews(Long index){
+        ContentDTOS created = getCreatedPreviews(index);
+        ContentDTOS views = getViewsPreviews(index);
+        ContentDTOS likes = getLikesPreviews(index);
+        ContentDTOS random = getRandomPreviews(index);
 
         return new ContentPreviewsResponse(created, likes, views, random);
     }

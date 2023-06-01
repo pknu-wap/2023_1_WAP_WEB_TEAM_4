@@ -13,14 +13,14 @@ public class Member {
     private String loginid;
     private String loginpw;
     private String nickname;
-    private String profile_image;
+    private String profileImage;
 
     public Member(){}
-    public Member(String loginid, String loginpw, String nickname, String profile_image) {
+    public Member(String loginid, String loginpw, String nickname, String profileImage) {
         this.loginid = loginid;
         this.loginpw = loginpw;
         this.nickname = nickname;
-        this.profile_image = profile_image;
+        this.profileImage = profileImage;
     }
 
     public Long getId() {
@@ -43,16 +43,16 @@ public class Member {
         return loginid;
     }
 
-    public void setLoginid(String login_id) {
-        this.loginid = login_id;
+    public void setLoginid(String loginid) {
+        this.loginid = loginid;
     }
 
     public String getLoginpw() {
         return loginpw;
     }
 
-    public void setLoginpw(String login_pw) {
-        this.loginpw = login_pw;
+    public void setLoginpw(String loginpw) {
+        this.loginpw = loginpw;
     }
 
     public String getNickname() {
@@ -63,11 +63,11 @@ public class Member {
         this.nickname = nickname;
     }
 
-    public String getProfile_image() {
-        return profile_image;
+    public String getProfileImage() {
+        return profileImage;
     }
 
-    public void setProfile_image(String profile_image) {
-        this.profile_image = profile_image;
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 }

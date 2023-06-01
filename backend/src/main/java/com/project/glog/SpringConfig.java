@@ -1,10 +1,8 @@
 package com.project.glog;
 
+import com.amazonaws.services.s3.AmazonS3;
 import com.project.glog.repository.*;
-import com.project.glog.service.BlogService;
-import com.project.glog.service.CategoryService;
-import com.project.glog.service.ContentService;
-import com.project.glog.service.MemberService;
+import com.project.glog.service.*;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

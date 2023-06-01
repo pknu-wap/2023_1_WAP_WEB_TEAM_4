@@ -1,6 +1,7 @@
 package com.project.glog.dto;
 
 import com.project.glog.domain.Blog;
+import org.springframework.beans.factory.annotation.Value;
 
 public class BlogDTO {
     private Long blogId;
@@ -29,8 +30,8 @@ public class BlogDTO {
         this.skin = blog.getSkin();
         this.memberId = blog.getMember().getId();
         this.nickname = blog.getMember().getNickname();
-        this.profileImage = blog.getMember().getProfile_image();
         this.introduction = blog.getIntroduction();
+        this.profileImage = blog.getMember().getProfileImage();
     }
 
     public Long getBlogId() {

@@ -6,15 +6,18 @@ import com.project.glog.dto.BlogDTO;
 import com.project.glog.dto.ChangeAccountRequest;
 import com.project.glog.dto.ChangeBlogSettingRequest;
 import com.project.glog.repository.BlogRepository;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 public class BlogService {
     private final BlogRepository blogRepository;
     private final MemberService memberService;
     public BlogService(BlogRepository blogRepository,
-                       MemberService memberService){
-
+                       MemberService memberService
+                        )
+    {
         this.blogRepository=blogRepository;
         this.memberService=memberService;
     }
@@ -74,4 +77,5 @@ public class BlogService {
         blogRepository.save(blog);
         return new BlogDTO(blog);
     }
+
 }

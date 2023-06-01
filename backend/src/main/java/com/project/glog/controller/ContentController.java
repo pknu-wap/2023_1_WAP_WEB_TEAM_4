@@ -88,7 +88,7 @@ public class ContentController {
 
     @GetMapping("/main")
     @ResponseBody
-    public ResponseEntity<Object> main(HttpSession session){
+    public ResponseEntity<Object> main(HttpSession session, Long index){
         //응답 데이터
         Map<String, Object> response = new HashMap<>();
 
@@ -103,11 +103,12 @@ public class ContentController {
             response.put("member", memberDTO);
         }
 
-        ContentPreviewsResponse contentsPreviews = contentService.getFirstPreviews();
+        ContentPreviewsResponse contentsPreviews = contentService.getPreviews(index);
         response.put("contents", contentsPreviews);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
+    /*
     @GetMapping("/main/more")
     @ResponseBody
     public ResponseEntity<ContentDTOS> mainMore(HttpSession session, @RequestParam("kind") String kind, @RequestParam("index") Long index){
@@ -119,6 +120,7 @@ public class ContentController {
         ContentDTOS contents = contentService.getMorePreviews(kind, index);
         return new ResponseEntity<>(contents,HttpStatus.OK);
     }
+    */
 
     @GetMapping("/content/find/string")
     @ResponseBody
@@ -151,6 +153,17 @@ public class ContentController {
         contentService.plusLikes(cid);
 
         return new ResponseEntity<>("success plus likes", HttpStatus.OK);
+    }
+
+    @GetMapping("/home")
+    public ResponseEntity<List<CategorySidebar>> goToMypage(HttpSession session, Long memberId){
+        Long uid = (Long) session.getAttribute("memberId");
+        if(uid==null){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        List<CategorySidebar> categorySidebars = contentService.getCategorySidebars(blogService.findByMemberId(memberId).getId());
+        return new ResponseEntity<>(categorySidebars, HttpStatus.OK);
     }
 
 

@@ -1,6 +1,7 @@
 package com.project.glog.controller;
 
 import com.project.glog.dto.BlogDTO;
+import com.project.glog.dto.CategorySidebar;
 import com.project.glog.dto.ChangeAccountRequest;
 import com.project.glog.dto.ChangeBlogSettingRequest;
 import com.project.glog.service.BlogService;
@@ -8,11 +9,11 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -68,6 +69,4 @@ public class BlogController {
         BlogDTO blog = blogService.changeBlogSkin(uid, blogSkin);
         return new ResponseEntity<>(blog, HttpStatus.OK);
     }
-
-
 }

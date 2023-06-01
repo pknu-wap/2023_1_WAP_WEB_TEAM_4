@@ -3,6 +3,7 @@ package com.project.glog.controller;
 import com.project.glog.domain.Blog;
 import com.project.glog.domain.Member;
 import com.project.glog.dto.*;
+import com.project.glog.service.AwsS3Service;
 import com.project.glog.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +78,5 @@ public class MemberController {
         }
         return new ResponseEntity<>("not logined", HttpStatus.UNAUTHORIZED);
     }
-
 
 }
