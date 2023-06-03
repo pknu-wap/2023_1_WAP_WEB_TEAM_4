@@ -2,12 +2,7 @@ import { useQuery } from "react-query";
 import { defaultInstance } from "..";
 
 export const PostCategoryCreateApi = async (body) => {
-  const config = {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  };
-  return await defaultInstance.post("/category/create", body, config);
+  return await defaultInstance.post("/category/create", body);
 };
 
 export const PostCategoryDeleteApi = async (body) => {
