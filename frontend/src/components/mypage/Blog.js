@@ -1,6 +1,8 @@
 import { Button, Stack, TextField, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import React, { useEffect, useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
+import { PostChangeBlogSettingApi } from "../../apis/api/mypage-api";
 
 const Blog = () => {
   const theme = useTheme();
@@ -13,6 +15,15 @@ const Blog = () => {
     setBlogName("Chaeyeon's blog");
     setDescription("채연입니다.");
   }, []);
+
+  const queryClient = useQueryClient();
+
+  const postChangeBlogSettingQuery = useMutation(PostChangeBlogSettingApi, {
+    onSuccess: () => queryClient.invalidateQueries("mypage"),
+    onError: (error) => {
+      alert(error.response.data);
+    },
+  });
 
   return (
     <Stack width="100%" paddingBottom="24px" gap="36px">
@@ -82,7 +93,15 @@ const Blog = () => {
         )}
       </Stack>
       {isPhone && (
-        <Button variant="contained" onClick={() => setEdit(!edit)}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            setEdit(!edit);
+            postChangeBlogSettingQuery.mutate({
+              blogName,
+              introduction: description,
+            });
+          }}>
           {edit ? "저장" : "편집"}
         </Button>
       )}

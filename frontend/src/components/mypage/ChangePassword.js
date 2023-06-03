@@ -10,9 +10,16 @@ import { useTheme } from "@mui/material/styles";
 import React, { useEffect, useState } from "react";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useMutation, useQueryClient } from "react-query";
+import {
+  PostChangeAccountApi,
+  PostChangeProfileApi,
+} from "../../apis/api/mypage-api";
+import { useNavigate } from "react-router-dom";
 
 const ChangePassword = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const isPhone = useMediaQuery(theme.breakpoints.down("xs"));
   const [edit, setEdit] = useState(false);
   const [id, setId] = useState("");
@@ -25,6 +32,21 @@ const ChangePassword = () => {
     setPassword("password");
     setNickName("채연");
   }, []);
+  const queryClient = useQueryClient();
+
+  const postChangeProfileQuery = useMutation(PostChangeProfileApi, {
+    onSuccess: () => queryClient.invalidateQueries("mypage"),
+    onError: (error) => {
+      alert(error.response.data);
+    },
+  });
+
+  const postChangeAccountQuery = useMutation(PostChangeAccountApi, {
+    onSuccess: () => queryClient.invalidateQueries("mypage"),
+    onError: (error) => {
+      alert(error.response.data);
+    },
+  });
 
   return (
     <Stack width="100%" paddingBottom="24px" gap="36px">
@@ -44,7 +66,6 @@ const ChangePassword = () => {
             fontWeight={600}>
             아이디
           </Stack>
-          {/* <TextField size="small" fullWidth /> */}
           <Stack
             color={theme.palette.background.color}
             fontWeight="bold"
@@ -80,7 +101,12 @@ const ChangePassword = () => {
         </Stack>
         {edit ? (
           <Stack direction="row">
-            <TextField size="small" type={visible ? "text" : "password"} />
+            <TextField
+              size="small"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              type={visible ? "text" : "password"}
+            />
             <IconButton
               aria-label="toggle password visibility"
               onClick={() => setVisible(!visible)}
@@ -108,6 +134,8 @@ const ChangePassword = () => {
           alignItems="flex-start"
           fontSize="16px"
           justifyContent="center"
+          value={nickName}
+          onChange={(event) => setNickName(event.target.value)}
           fontWeight={600}>
           닉네임
         </Stack>
@@ -124,7 +152,13 @@ const ChangePassword = () => {
         )}
       </Stack>
       {isPhone && (
-        <Button variant="contained" onClick={() => setEdit(!edit)}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            setEdit(!edit);
+            postChangeProfileQuery();
+            postChangeAccountQuery.mutate({ pw: password, nickname: nickName });
+          }}>
           {edit ? "저장" : "편집"}
         </Button>
       )}

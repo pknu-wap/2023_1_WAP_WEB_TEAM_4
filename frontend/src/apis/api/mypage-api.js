@@ -23,11 +23,26 @@ import { defaultInstance } from "..";
 //   });
 // };
 
-// export const PostCreateApi = async (body) => {
-//   return await defaultInstance.post("/content/create", body);
-// };
+export const PostChangeProfileApi = async (body) => {
+  return await defaultInstance.post("/mypage/change/profile", body);
+};
 
-// const { data: rowsData } = useGetSafetyPlanQuery({id: "asdf"});
+export const PostChangeBlogSkinApi = async (body) => {
+  return await defaultInstance.post("/mypage/change/blog/skin", body, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};
+
+export const PostChangeBlogSettingApi = async (body) => {
+  return await defaultInstance.post("/mypage/change/blog/setting", body);
+};
+
+export const PostChangeAccountApi = async (body) => {
+  return await defaultInstance.post("/mypage/change/account", body);
+};
+
 export const GetMypageApi = async () => {
   const { data } = await defaultInstance.get("/mypage");
   return data;
