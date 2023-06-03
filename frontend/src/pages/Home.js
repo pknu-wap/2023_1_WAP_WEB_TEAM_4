@@ -134,7 +134,7 @@ const Home = () => {
   // console.log(moreData);
 
   return (
-    <Layout>
+    <Layout isHome>
       <Stack
         marginTop="40px"
         bgcolor="background.main"

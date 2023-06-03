@@ -1,13 +1,21 @@
 import { Button, Stack, TextField, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const Blog = () => {
   const theme = useTheme();
   const isPhone = useMediaQuery(theme.breakpoints.down("xs"));
+  const [edit, setEdit] = useState(false);
+  const [blogName, setBlogName] = useState("");
+  const [description, setDescription] = useState("");
+
+  useEffect(() => {
+    setBlogName("Chaeyeon's blog");
+    setDescription("채연입니다.");
+  }, []);
 
   return (
-    <Stack width="100%" gap="36px">
+    <Stack width="100%" paddingBottom="24px" gap="36px">
       <Stack
         bgcolor="background.contractColor"
         borderRadius="0px 10px 10px 0px"
@@ -24,16 +32,27 @@ const Blog = () => {
             fontWeight={600}>
             블로그 이름
           </Stack>
-          <TextField size="small" />
+          {edit ? (
+            <TextField size="small" />
+          ) : (
+            <Stack
+              color={theme.palette.background.color}
+              fontWeight="bold"
+              justifyContent="center"
+              alignItems="flex-start">
+              {blogName}
+            </Stack>
+          )}
         </Stack>
         {!isPhone && (
           <Button
             variant="contained"
+            onClick={() => setEdit(!edit)}
             sx={{
               color: theme.palette.background.contractColor,
               marginRight: "32px",
             }}>
-            저장
+            {edit ? "저장" : "편집"}
           </Button>
         )}
       </Stack>
@@ -50,9 +69,23 @@ const Blog = () => {
           fontWeight={600}>
           한 줄 소개
         </Stack>
-        <TextField size="small" />
+        {edit ? (
+          <TextField size="small" />
+        ) : (
+          <Stack
+            color={theme.palette.background.color}
+            fontWeight="bold"
+            justifyContent="center"
+            alignItems="flex-start">
+            {description}
+          </Stack>
+        )}
       </Stack>
-      {isPhone && <Button variant="contained">저장</Button>}
+      {isPhone && (
+        <Button variant="contained" onClick={() => setEdit(!edit)}>
+          {edit ? "저장" : "편집"}
+        </Button>
+      )}
     </Stack>
   );
 };

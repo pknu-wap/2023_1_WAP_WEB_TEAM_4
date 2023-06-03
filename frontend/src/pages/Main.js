@@ -54,32 +54,6 @@ const Main = () => {
 
   const { data: contentData } = useGetContentReadQuery({ cid: clickId });
 
-  // contentData?.contentDTO?.text
-  // const lines = contentData?.contentDTO?.text.split('\n');
-  const lines = "## asdf\n # asdfasdf\n ## asdfasdf".split("\n");
-
-  // 각 줄의 제목 추출
-  const headings = lines.map((line) => {
-    // 제목 텍스트 추출
-    const text = line.replace(/#/g, "").trim();
-    // 제목 레벨 추출
-    const level = line.split(" ")[0].length;
-
-    return { text, level };
-  });
-  const [text, setText] = useState(
-    "### 안녕하세요 \n## 제 이름은 \n# 채연 입니다. "
-  );
-
-  // 목차 항목 생성
-  useEffect(() => {
-    const lines = text.split("\n");
-    const headings = lines.filter((line) => line.startsWith("#"));
-    setText(headings);
-  }, [text]);
-
-  console.log(text);
-
   return (
     <Layout isMain={true}>
       {isNavigateOpen && <SideNavigation setClickId={setClickId} />}
@@ -133,9 +107,7 @@ const Main = () => {
                 sx={{
                   color: "background.color",
                 }}
-                gap="5px">
-                <div dangerouslySetInnerHTML={{ __html: text }} />
-              </Stack>
+                gap="5px"></Stack>
             </Stack>
           </Stack>
         )}
@@ -153,13 +125,7 @@ const Main = () => {
             position: "fixed",
             top: 0,
             right: 100,
-          }}>
-          {headings.map((heading, index) => (
-            <li key={index}>
-              <a href="#{heading}">{heading}</a>
-            </li>
-          ))}
-        </Stack>
+          }}></Stack>
       )}
     </Layout>
   );

@@ -17,18 +17,16 @@ const Layout = ({ children, isMain, isHome }) => {
 
   return (
     <Stack
-      sx={{
-        height: "100%",
-        minHeight: "100vh",
-        width: "100%",
-        backgroundColor: "background.main",
-      }}>
+      height="100%"
+      minHeight="100vh"
+      width="100%"
+      backgroundColor="background.main">
       {isPhone ? (
         <HeaderMobile isMain={isMain} isHome={isHome} />
       ) : (
         <Header isMain={isMain} isHome={isHome} />
       )}
-      <Stack direction="row" width="100%" height="100%" paddingTop="80px">
+      <Stack direction="row" width="100%" height="100%" padding="80px 0px">
         {children}
       </Stack>
     </Stack>

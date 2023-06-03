@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material";
+import { Button, IconButton, Stack, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import ChangePassword from "../components/mypage/ChangePassword";
@@ -7,10 +7,11 @@ import Skin from "../components/mypage/Skin";
 import Blog from "../components/mypage/Blog";
 import Pororo from "../static/pic/Pororo.jpg";
 import Layout from "../components/Layout";
-
+import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 function Mypage() {
   const theme = useTheme();
   const [option, setOption] = useState(0);
+  const [description, setDescription] = useState(false);
   const optionArray = {
     0: <ChangePassword />,
     1: <Post />,
@@ -57,9 +58,23 @@ function Mypage() {
                 fontSize="24px">
                 Chae yeon
               </Stack>
-              <Stack width="fit-content" color={theme.palette.background.color}>
-                한줄 소개를 작성하세요
-              </Stack>
+              {description ? (
+                <Stack direction="row" alignItems="center">
+                  <Stack
+                    width="fit-content"
+                    color={theme.palette.background.color}>
+                    한 줄 소개를 작성하세요
+                  </Stack>
+                  <IconButton onClick={() => setDescription(false)}>
+                    <ModeEditOutlineIcon />
+                  </IconButton>
+                </Stack>
+              ) : (
+                <Stack direction="row">
+                  <TextField size="small" />
+                  <Button onClick={() => setDescription(true)}>저장</Button>
+                </Stack>
+              )}
             </Stack>
           </Stack>
           <Stack direction="row" width="100%" marginBottom="32px">

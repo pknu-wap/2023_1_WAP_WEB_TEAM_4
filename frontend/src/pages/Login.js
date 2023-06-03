@@ -1,17 +1,25 @@
 import React from "react";
-import { Stack, Button } from "@mui/material";
+import { Stack, Button, useMediaQuery, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header.js";
 import { useMutation } from "react-query";
 import { PostLoginApi } from "../apis/api/common-api.js";
+import {
+  ImageDescription,
+  ImageRightDescription,
+} from "../components/ImageDescription.js";
+import Layout from "../components/Layout.js";
 // import { Cookies } from "react-cookie";
 
 const Login = () => {
   const navigate = useNavigate();
+  const themes = useTheme();
   const [loginState, setLoginState] = React.useState({
     email: "",
     password: "",
   });
+  const isNotSmall = useMediaQuery(themes.breakpoints.up("xs"));
+
   const { email, password } = loginState;
 
   const postRegister = useMutation(PostLoginApi, {
@@ -61,74 +69,27 @@ const Login = () => {
   // };
 
   return (
-    <Stack height="100%">
-      <Header />
-      <Stack flexDirection="row" height="5000px" bgcolor="black">
-        <Stack bgcolor="black" style={{ width: "80%", paddingBottom: "5%" }}>
-          <Stack flexDirection="row" alignItems="center">
-            <Stack
-              width="600px"
-              height="330px"
-              marginTop="15%"
-              marginLeft="8%"
-              backgroundColor="white"
-            />
-            <Stack width="350px" margin="15% 5% 0 5%" color="white">
-              저희 The glog는 폴더별로 나눠서 파일을 관리할 수 있습니다
-            </Stack>
+    <Layout>
+      <Stack width="100%" flexDirection="row" bgcolor="black">
+        {isNotSmall && (
+          <Stack width="100%" paddingRight="200px">
+            <ImageDescription />
+            <ImageRightDescription />
           </Stack>
-          <Stack flexDirection="row" alignItems="center">
-            <Stack width="350px" margin="15% 5% 0 5%" color="white">
-              저희 The glog는 폴더별로 나눠서 파일을 관리할 수 있습니다
-            </Stack>
-            <Stack
-              width="600px"
-              height="330px"
-              marginTop="15%"
-              marginLeft="5%"
-              backgroundColor="white"
-            />
-          </Stack>
-          <Stack flexDirection="row" alignItems="center">
-            <Stack
-              width="600px"
-              height="330px"
-              marginTop="15%"
-              marginLeft="8%"
-              backgroundColor="white"
-            />
-            <Stack width="350px" margin="15% 5% 0 5%" color="white">
-              저희 The glog는 폴더별로 나눠서 파일을 관리할 수 있습니다
-            </Stack>
-          </Stack>
-          <Stack flexDirection="row" alignItems="center">
-            <Stack width="350px" margin="15% 5% 0 5%" color="white">
-              저희 The glog는 폴더별로 나눠서 파일을 관리할 수 있습니다
-            </Stack>
-            <Stack
-              width="600px"
-              height="330px"
-              marginTop="15%"
-              marginLeft="8%"
-              backgroundColor="white"
-            />
-          </Stack>
-        </Stack>
+        )}
         <Stack
           style={{
-            width: "20%",
+            width: isNotSmall ? "20%" : "100%",
             height: "100%",
             display: "flex",
+            alignItems: "center",
             justifyContent: "center",
             position: "fixed",
             right: 0,
+            top: 0,
           }}>
-          <Stack width="80%" style={{ alignItems: "center" }}>
-            <Stack
-              fontWeight="bold"
-              fontSize="20px"
-              color="#ECD8A4"
-              marginBottom="30px">
+          <Stack width="80%" gap="30px" style={{ alignItems: "center" }}>
+            <Stack fontWeight="bold" fontSize="20px" color="#ECD8A4">
               Login
             </Stack>
             <input
@@ -143,7 +104,6 @@ const Login = () => {
                 backgroundColor: "transparent",
                 border: "transparent",
                 borderBottom: "1px solid #ffffff",
-                marginBottom: "25px",
               }}
             />
             <input
@@ -154,7 +114,6 @@ const Login = () => {
               value={password}
               style={{
                 color: "#ffffff",
-                marginBottom: "25px",
                 outline: "transparent",
                 width: "80%",
                 backgroundColor: "transparent",
@@ -165,6 +124,7 @@ const Login = () => {
             <Button
               onClick={loginButtonClick}
               variant="outlined"
+              size="small"
               sx={{
                 width: "80%",
                 "&.MuiButton-root": {
@@ -174,9 +134,19 @@ const Login = () => {
               }}>
               Login
             </Button>
+            <Button
+              onClick={() => navigate("/register")}
+              variant="contained"
+              size="small"
+              sx={{
+                width: "80%",
+                marginTop: "-20px",
+              }}>
+              Sign Up
+            </Button>
           </Stack>
 
-          <Stack
+          {/* <Stack
             onClick={() => navigate("/register")}
             color="#ECD8A4"
             fontSize="11px"
@@ -184,10 +154,10 @@ const Login = () => {
             marginLeft="8%"
             sx={{ ":hover": { color: "#FFC222" }, cursor: "pointer" }}>
             Register
-          </Stack>
+          </Stack> */}
         </Stack>
       </Stack>
-    </Stack>
+    </Layout>
   );
 };
 

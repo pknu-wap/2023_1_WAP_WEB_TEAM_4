@@ -50,32 +50,12 @@ const Header = ({ isHome, isMain }) => {
             onClick={() => navigate("/home")}
             fontWeight="bold"
             color="header.logo"
-            fontSize="28px">
+            fontSize="32px">
             GLOG
           </Stack>
-          <Button
-            size="small"
-            disableRipple
-            onClick={() => navigate("/")}
-            sx={{
-              height: "30px",
-              marginTop: "-5px",
-              marginLeft: "-3px",
-              color: "header.title",
-              ":hover": {
-                color: "header.titleHover",
-              },
-              ":active": {
-                color: "header.titleActive",
-              },
-            }}>
-            CHAEYEON'S BLOG
-          </Button>
         </Stack>
       </Stack>
       <Stack marginRight="28px" direction="row" spacing={4} alignItems="center">
-        <Button onClick={() => navigate("/register")}>회원가입</Button>
-        <Button onClick={() => navigate("/login")}>로그인</Button>
         {isHome && (
           <IconButton
             onClick={() => {
@@ -89,8 +69,11 @@ const Header = ({ isHome, isMain }) => {
             )}
           </IconButton>
         )}
+        <Button onClick={() => navigate("/mypage")}>마이페이지</Button>
+        <Button onClick={() => navigate("/login")}>로그인</Button>
+        <Button onClick={() => navigate("/register")}>회원가입</Button>
         <Stack
-          onClick={() => navigate("/mypage")}
+          onClick={() => navigate("/")}
           width="40px"
           height="40px"
           borderRadius="20px"

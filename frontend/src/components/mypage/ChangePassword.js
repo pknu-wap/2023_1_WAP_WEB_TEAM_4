@@ -1,13 +1,33 @@
-import { Button, Stack, TextField, useMediaQuery } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  InputAdornment,
+  Stack,
+  TextField,
+  useMediaQuery,
+} from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const ChangePassword = () => {
   const theme = useTheme();
   const isPhone = useMediaQuery(theme.breakpoints.down("xs"));
+  const [edit, setEdit] = useState(false);
+  const [id, setId] = useState("");
+  const [password, setPassword] = useState("");
+  const [visible, setVisible] = useState(false);
+  const [nickName, setNickName] = useState("");
+
+  useEffect(() => {
+    setId("Chae yeon");
+    setPassword("password");
+    setNickName("채연");
+  }, []);
 
   return (
-    <Stack width="100%" gap="36px">
+    <Stack width="100%" paddingBottom="24px" gap="36px">
       <Stack
         bgcolor="background.contractColor"
         borderRadius="0px 10px 10px 0px"
@@ -30,17 +50,18 @@ const ChangePassword = () => {
             fontWeight="bold"
             justifyContent="center"
             alignItems="flex-start">
-            Chaeyeon
+            {id}
           </Stack>
         </Stack>
         {!isPhone && (
           <Button
             variant="contained"
+            onClick={() => setEdit(!edit)}
             sx={{
               color: theme.palette.background.contractColor,
               marginRight: "32px",
             }}>
-            저장
+            {edit ? "저장" : "편집"}
           </Button>
         )}
       </Stack>
@@ -57,7 +78,25 @@ const ChangePassword = () => {
           fontWeight={600}>
           비밀번호
         </Stack>
-        <TextField size="small" />
+        {edit ? (
+          <Stack direction="row">
+            <TextField size="small" type={visible ? "text" : "password"} />
+            <IconButton
+              aria-label="toggle password visibility"
+              onClick={() => setVisible(!visible)}
+              edge="end">
+              {visible ? <VisibilityOff /> : <Visibility />}
+            </IconButton>
+          </Stack>
+        ) : (
+          <Stack
+            color={theme.palette.background.color}
+            fontWeight="bold"
+            justifyContent="center"
+            alignItems="flex-start">
+            {password}
+          </Stack>
+        )}
       </Stack>
       <Stack
         bgcolor="background.contractColor"
@@ -72,9 +111,23 @@ const ChangePassword = () => {
           fontWeight={600}>
           닉네임
         </Stack>
-        <TextField size="small" />
+        {edit ? (
+          <TextField size="small" />
+        ) : (
+          <Stack
+            color={theme.palette.background.color}
+            fontWeight="bold"
+            justifyContent="center"
+            alignItems="flex-start">
+            {nickName}
+          </Stack>
+        )}
       </Stack>
-      {isPhone && <Button variant="contained">저장</Button>}
+      {isPhone && (
+        <Button variant="contained" onClick={() => setEdit(!edit)}>
+          {edit ? "저장" : "편집"}
+        </Button>
+      )}
     </Stack>
   );
 };
