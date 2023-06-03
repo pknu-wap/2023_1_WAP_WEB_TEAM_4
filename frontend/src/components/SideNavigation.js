@@ -6,7 +6,10 @@ import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrow
 import { useRecoilState } from "recoil";
 import { isNavigateOpenState } from "../states/mainState";
 import { useTheme } from "@mui/material/styles";
-import { useGetContentReadQuery } from "../apis/api/content-api";
+import {
+  useGetContentReadQuery,
+  useGetHomeQuery,
+} from "../apis/api/content-api";
 
 const SideNavigation = ({ clickId, setClickId }) => {
   const theme = useTheme();
@@ -16,7 +19,8 @@ const SideNavigation = ({ clickId, setClickId }) => {
 
   const isPhone = useMediaQuery(theme.breakpoints.down("xs"));
 
-  const { data: contentData } = useGetContentReadQuery({ cid: 10 });
+  const { data: contentData } = useGetContentReadQuery({ cid: clickId });
+  const { data: homeData } = useGetHomeQuery({ memberId: 1 });
 
   return (
     <Stack
@@ -57,53 +61,101 @@ const SideNavigation = ({ clickId, setClickId }) => {
         <Stack gap="16px">
           <Stack gap="10px">
             <Stack>
-              {contentData?.sidebar?.map((category, i) => {
-                return (
-                  <>
-                    <Stack
-                      key={i}
-                      fontSize="18px"
-                      color="sideNavigation.pointColorTitle"
-                      height="30px"
-                      paddingLeft="10px"
-                      marginBottom="5px"
-                      justifyContent="center"
-                      fontWeight="bold">
-                      {category?.category_name}
-                    </Stack>
-                    <Stack marginBottom="10px">
-                      {category?.titles.map((title, index) => {
-                        return (
-                          <Stack
-                            key={index}
-                            justifyContent="center"
-                            borderRadius="4px"
-                            sx={{
-                              ":hover": {
-                                backgroundColor: "sideNavigation.hover",
-                              },
-                              ":active": {
-                                backgroundColor: "sideNavigation.active",
-                              },
-                              cursor: "pointer",
-                            }}
-                            fontSize="16px"
-                            padding="0px 0px 5px 20px"
-                            color={
-                              clickId === title.contentId
-                                ? "sideNavigation.pointColorContent"
-                                : "white"
-                            }
-                            onClick={() => setClickId(title?.contentId)}
-                            height="25px">
-                            - {title.title}
-                          </Stack>
-                        );
-                      })}
-                    </Stack>
-                  </>
-                );
-              })}
+              {contentData
+                ? contentData?.sidebar?.map((category, i) => {
+                    return (
+                      <>
+                        <Stack
+                          key={i}
+                          fontSize="18px"
+                          color="sideNavigation.pointColorTitle"
+                          height="30px"
+                          paddingLeft="10px"
+                          marginBottom="5px"
+                          justifyContent="center"
+                          fontWeight="bold">
+                          {category?.category_name}
+                        </Stack>
+                        <Stack marginBottom="10px">
+                          {category?.titles.map((title, index) => {
+                            return (
+                              <Stack
+                                key={index}
+                                justifyContent="center"
+                                borderRadius="4px"
+                                sx={{
+                                  ":hover": {
+                                    backgroundColor: "sideNavigation.hover",
+                                  },
+                                  ":active": {
+                                    backgroundColor: "sideNavigation.active",
+                                  },
+                                  cursor: "pointer",
+                                }}
+                                fontSize="16px"
+                                padding="0px 0px 5px 20px"
+                                color={
+                                  clickId === title.contentId
+                                    ? "sideNavigation.pointColorContent"
+                                    : "white"
+                                }
+                                onClick={() => setClickId(title?.contentId)}
+                                height="25px">
+                                - {title.title}
+                              </Stack>
+                            );
+                          })}
+                        </Stack>
+                      </>
+                    );
+                  })
+                : homeData?.map((category, i) => {
+                    return (
+                      <>
+                        <Stack
+                          key={i}
+                          fontSize="18px"
+                          color="sideNavigation.pointColorTitle"
+                          height="30px"
+                          paddingLeft="10px"
+                          marginBottom="5px"
+                          justifyContent="center"
+                          fontWeight="bold">
+                          {category?.category_name}
+                        </Stack>
+                        <Stack marginBottom="10px">
+                          {category?.titles.map((title, index) => {
+                            return (
+                              <Stack
+                                key={index}
+                                justifyContent="center"
+                                borderRadius="4px"
+                                sx={{
+                                  ":hover": {
+                                    backgroundColor: "sideNavigation.hover",
+                                  },
+                                  ":active": {
+                                    backgroundColor: "sideNavigation.active",
+                                  },
+                                  cursor: "pointer",
+                                }}
+                                fontSize="16px"
+                                padding="0px 0px 5px 20px"
+                                color={
+                                  clickId === title.contentId
+                                    ? "sideNavigation.pointColorContent"
+                                    : "white"
+                                }
+                                onClick={() => setClickId(title?.contentId)}
+                                height="25px">
+                                - {title.title}
+                              </Stack>
+                            );
+                          })}
+                        </Stack>
+                      </>
+                    );
+                  })}
             </Stack>
           </Stack>
         </Stack>

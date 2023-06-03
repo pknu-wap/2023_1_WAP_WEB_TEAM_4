@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Stack, Button, useMediaQuery, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header.js";
@@ -9,11 +9,13 @@ import {
   ImageRightDescription,
 } from "../components/ImageDescription.js";
 import Layout from "../components/Layout.js";
+import axios from "axios";
 // import { Cookies } from "react-cookie";
 
 const Login = () => {
   const navigate = useNavigate();
   const themes = useTheme();
+  const [cookie, setCookie] = useState();
   const [loginState, setLoginState] = React.useState({
     email: "",
     password: "",
@@ -41,6 +43,18 @@ const Login = () => {
     };
 
     postRegister.mutate(body);
+    // axios
+    //   .post("/member/login", body)
+    //   .then((response) => {
+    //     const cookies = response.headers["set-cookie"];
+
+    //     const newCookie = cookies.join(";");
+
+    //     setCookie(newCookie);
+    //   })
+    //   .catch((error) => {
+    //     alert(error);
+    //   });
   };
 
   // const login = async (e) => {

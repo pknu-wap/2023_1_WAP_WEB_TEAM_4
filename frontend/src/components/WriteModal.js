@@ -13,9 +13,12 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AddIcon from "@mui/icons-material/Add";
 import { useTheme } from "@mui/material/styles";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { PostCreateApi } from "../apis/api/content-api";
-import { useGetCategoryQuery } from "../apis/api/category-api";
+import {
+  PostCategoryCreateApi,
+  useGetCategoryQuery,
+} from "../apis/api/category-api";
 
 const WriteModal = ({
   title,
@@ -24,8 +27,10 @@ const WriteModal = ({
   tagArray,
   text,
   setText,
+  data,
 }) => {
   const theme = useTheme();
+  const queryClient = useQueryClient();
   const [privateMode, setPrivateMode] = useState(true);
   const [selectValue, setSelectValue] = useState(0);
   const [textFieldValue, setTextFieldValue] = useState("");
@@ -63,19 +68,24 @@ const WriteModal = ({
   const postCreateQuery = useMutation(PostCreateApi, {
     onSuccess: () => navigate("/"),
   });
-  const { data } = useGetCategoryQuery();
+
+  const postCategoryCreateQuery = useMutation(PostCategoryCreateApi, {
+    onSuccess: () => queryClient.invalidateQueries("CategoryRead"),
+  });
 
   const writeButtonClick = async () => {
-    const body = {
-      title: title,
-      text: text,
-      image: "",
-      ispPrivate: privateMode ? 0 : 1,
-      categoryId: 6,
-      hashtag: "tagArray",
-    };
-    postCreateQuery.mutate(body);
+    const formData = new FormData();
+
+    formData.append("image", imageSrc);
+    formData.append("title", title);
+    formData.append("text", text);
+    formData.append("isPrivate", privateMode ? 0 : 1);
+    formData.append("categoryId", selectValue);
+    formData.append("hashtag", tagArray.join(" "));
+
+    postCreateQuery.mutate(formData);
   };
+
   return (
     <Modal
       open={dialogOpen}
@@ -310,6 +320,7 @@ const WriteModal = ({
                     onClick={() => {
                       setCategoryArray([...categoryArray, textFieldValue]);
                       setTextFieldValue("");
+                      postCategoryCreateQuery.mutate(textFieldValue);
                     }}
                     sx={{ color: "primary.500", padding: "2px 16px" }}>
                     카테고리 추가
@@ -340,9 +351,9 @@ const WriteModal = ({
                   <MenuItem value={0} sx={{ display: "none" }}>
                     선택
                   </MenuItem>
-                  {categoryArray.map((category, index) => (
-                    <MenuItem value={index + 1} key={index}>
-                      {category}
+                  {data?.map((category, index) => (
+                    <MenuItem value={category?.categoryId} key={index}>
+                      {category?.name}
                     </MenuItem>
                   ))}
                 </Select>

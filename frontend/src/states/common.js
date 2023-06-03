@@ -24,3 +24,8 @@ export const themeState = atom({
   key: "Theme",
   default: "DARK",
 });
+
+export const cookies = atom({
+  key: "Cookies",
+  default: "",
+});

@@ -63,7 +63,10 @@ export const GetContentReadApi = async (params) => {
 export const useGetContentReadQuery = (params) => {
   const { isLoading, error, data, status } = useQuery(
     [`ContentRead`, params],
-    () => GetContentReadApi(params)
+    () => GetContentReadApi(params),
+    {
+      enabled: !!params.cid,
+    }
   );
   return { data, isLoading, error, status };
 };
@@ -78,6 +81,18 @@ export const useGetContentFindQuery = (params) => {
   const { isLoading, error, data, status } = useQuery(
     [`ContentFind`, params],
     () => GetContentFindApi(params)
+  );
+  return { data, isLoading, error, status };
+};
+
+export const GetHomeApi = async (params) => {
+  const { data } = await defaultInstance.get("/home", { params });
+  return data;
+};
+
+export const useGetHomeQuery = (params) => {
+  const { isLoading, error, data, status } = useQuery([`Home`, params], () =>
+    GetHomeApi(params)
   );
   return { data, isLoading, error, status };
 };

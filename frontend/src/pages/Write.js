@@ -26,6 +26,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { useMutation, useQueryClient } from "react-query";
 import { PostCreateApi } from "../apis/api/content-api";
 import { useNavigate } from "react-router-dom";
+import { useGetCategoryQuery } from "../apis/api/category-api";
 
 const Write = () => {
   const queryClient = useQueryClient();
@@ -49,6 +50,29 @@ const Write = () => {
 
     setDialogOpen(true);
   };
+
+  // const { data } = useGetCategoryQuery();
+
+  // console.log(data);
+
+  const data = [
+    {
+      categoryId: 1,
+      name: '"Test"',
+    },
+    {
+      categoryId: 2,
+      name: '"Test2"',
+    },
+    {
+      categoryId: 3,
+      name: '{"name":"Test3"}',
+    },
+    {
+      categoryId: 4,
+      name: "Test4",
+    },
+  ];
 
   return (
     <Stack height="100%">
@@ -386,6 +410,7 @@ const Write = () => {
           tagArray={tagArray}
           text={post}
           setText={setPost}
+          data={data}
         />
         <Snackbar
           open={snackbarOpen}

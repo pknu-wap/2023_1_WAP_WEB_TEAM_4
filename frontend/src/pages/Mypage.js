@@ -8,7 +8,8 @@ import Blog from "../components/mypage/Blog";
 import Pororo from "../static/pic/Pororo.jpg";
 import Layout from "../components/Layout";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-function Mypage() {
+import { useGetMypageQuery } from "../apis/api/mypage-api";
+const Mypage = () => {
   const theme = useTheme();
   const [option, setOption] = useState(0);
   const [description, setDescription] = useState(false);
@@ -18,6 +19,10 @@ function Mypage() {
     2: <Skin />,
     3: <Blog />,
   };
+
+  const { data } = useGetMypageQuery();
+
+  console.log(data);
 
   return (
     <Layout>
@@ -152,6 +157,6 @@ function Mypage() {
       </Stack>
     </Layout>
   );
-}
+};
 
 export default Mypage;
