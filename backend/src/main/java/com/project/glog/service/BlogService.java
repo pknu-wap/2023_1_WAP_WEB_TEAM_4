@@ -2,16 +2,20 @@ package com.project.glog.service;
 
 import com.project.glog.domain.Blog;
 import com.project.glog.domain.Member;
+import com.project.glog.dto.AwsS3;
 import com.project.glog.dto.BlogDTO;
 import com.project.glog.dto.ChangeAccountRequest;
 import com.project.glog.dto.ChangeBlogSettingRequest;
 import com.project.glog.repository.BlogRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Optional;
 
 public class BlogService {
+    @Autowired
+    private AwsS3Service awsS3Service;
     private final BlogRepository blogRepository;
     private final MemberService memberService;
     public BlogService(BlogRepository blogRepository,
@@ -22,9 +26,6 @@ public class BlogService {
         this.memberService=memberService;
     }
 
-    public void save(Blog blog){
-        blogRepository.save(blog);
-    }
     public Blog findByMemberId(Long uid){
         Optional<Blog> result = blogRepository.findByMemberId(uid);
         if(!result.isPresent()){
@@ -78,4 +79,13 @@ public class BlogService {
         return new BlogDTO(blog);
     }
 
+    public BlogDTO changeProfileImage(Long uid, MultipartFile multipartFile) throws IOException {
+        AwsS3 awsS3 = awsS3Service.upload(multipartFile, "profile");
+
+        Member member = blogRepository.findByMemberId(uid).get().getMember();
+        member.setProfileImage(awsS3.getPath());
+        memberService.update(member);
+
+        return new BlogDTO(member.getBlog());
+    }
 }

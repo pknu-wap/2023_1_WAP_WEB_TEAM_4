@@ -69,4 +69,15 @@ public class BlogController {
         BlogDTO blog = blogService.changeBlogSkin(uid, blogSkin);
         return new ResponseEntity<>(blog, HttpStatus.OK);
     }
+
+    @PostMapping("/mypage/change/profile")
+    public ResponseEntity<BlogDTO> changeBlogSkin(HttpSession session, @RequestPart("image") MultipartFile multipartFile) throws IOException {
+        Long uid = (Long) session.getAttribute("memberId");
+        if (uid == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        BlogDTO blog = blogService.changeProfileImage(uid, multipartFile);
+        return new ResponseEntity<>(blog, HttpStatus.OK);
+    }
 }

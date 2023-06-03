@@ -1,11 +1,11 @@
 package com.project.glog.dto;
 
 import com.project.glog.domain.Content;
+import org.springframework.web.multipart.MultipartFile;
 
 public class ContentCreateRequest {
     private String title;
     private String text;
-    private String image;
     private Integer isPrivate;
     private Long categoryId;
     private String hashtags;
@@ -18,9 +18,6 @@ public class ContentCreateRequest {
         return text;
     }
 
-    public String getImage() {
-        return image;
-    }
 
     public Integer getIsPrivate() {
         return isPrivate;

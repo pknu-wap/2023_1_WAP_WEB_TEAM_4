@@ -6,13 +6,18 @@ import com.project.glog.domain.Content;
 import com.project.glog.domain.Member;
 import com.project.glog.dto.*;
 import com.project.glog.repository.ContentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ContentService {
+    @Autowired
+    private AwsS3Service awsS3Service;
     private final ContentRepository contentRepository;
     private final CategoryService categoryService;
     private final MemberService memberService;
@@ -28,7 +33,7 @@ public class ContentService {
         this.blogService = blogService;
     }
 
-    public Content create(ContentCreateRequest contentCreateRequest, Long uid){
+    public Content create(MultipartFile multipartFile, ContentCreateRequest contentCreateRequest, Long uid) throws IOException {
         //카테고리는 이미 저장되어 있어서 요청으로 들어올 것이므로 글만 저장하면 된다.
         //content는 다른 엔티티를 참조할 뿐 다른 엔티티가 content에 대한 영속성을 갖지 않는다.
         //따라서, content값만 잘 저장해주면 된다.
@@ -39,11 +44,14 @@ public class ContentService {
         //컨텐츠의 필요 속성을 저장한다.
         content.setTitle(contentCreateRequest.getTitle());
         content.setText(contentCreateRequest.getText());
-        content.setImage(contentCreateRequest.getImage());
         content.setIsPrivate(contentCreateRequest.getIsPrivate());
         content.setHashtags(contentCreateRequest.getHashtags());
         content.setLikes(0);
         content.setViews(0);
+
+        //이미지를 저장한다.
+        AwsS3 awsS3 = awsS3Service.upload(multipartFile, "thumbnail");
+        content.setImage(awsS3.getPath());
 
         //멤버와 카테고리, 블로그에 대한 정보를 가져 온다.
         Member member = memberService.searchMemberById(uid);

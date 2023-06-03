@@ -15,7 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,14 +43,14 @@ public class ContentController {
 
     @PostMapping("/content/create")
     @ResponseBody
-    public ResponseEntity<Long> create(HttpSession session, @RequestBody ContentCreateRequest contentCreateRequest){
+    public ResponseEntity<Long> create(HttpSession session, @RequestPart MultipartFile multipartFile, @RequestPart ContentCreateRequest contentCreateRequest) throws IOException {
         //1. 세션을 확인한다.
         Long uid = (Long) session.getAttribute("memberId");
         if(uid==null){
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
 
-        Content content = contentService.create(contentCreateRequest, uid);
+        Content content = contentService.create(multipartFile, contentCreateRequest, uid);
         return new ResponseEntity<>(content.getId(), HttpStatus.OK);
     }
 
