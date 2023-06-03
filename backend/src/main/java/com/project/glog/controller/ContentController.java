@@ -156,11 +156,9 @@ public class ContentController {
     }
 
     @GetMapping("/home")
+    @ResponseBody
     public ResponseEntity<List<CategorySidebar>> goToMypage(HttpSession session, Long memberId){
         Long uid = (Long) session.getAttribute("memberId");
-        if(uid==null){
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
 
         List<CategorySidebar> categorySidebars = contentService.getCategorySidebars(blogService.findByMemberId(memberId).getId());
         return new ResponseEntity<>(categorySidebars, HttpStatus.OK);
