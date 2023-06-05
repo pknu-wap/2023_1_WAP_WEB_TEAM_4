@@ -54,6 +54,19 @@ public class ContentController {
         return new ResponseEntity<>(content.getId(), HttpStatus.OK);
     }
 
+    @PostMapping("/content/update")
+    @ResponseBody
+    public ResponseEntity<Long> update(HttpSession session, @RequestPart MultipartFile multipartFile, @RequestPart ContentUpdateRequest contentUpdateRequest) throws IOException {
+        //1. 세션을 확인한다.
+        Long uid = (Long) session.getAttribute("memberId");
+        if(uid==null){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
+        Content content = contentService.update(multipartFile, contentUpdateRequest, uid);
+        return new ResponseEntity<>(content.getId(), HttpStatus.OK);
+    }
+
     @PostMapping("/content/delete")
     @ResponseBody
     public ResponseEntity<String> delete(HttpSession session, @RequestBody Long cid){

@@ -48,14 +48,14 @@ public class MemberController {
 
     @PostMapping("/member/login")
     @ResponseBody
-    public ResponseEntity<String> login(HttpSession session, @RequestBody LoginRequest loginRequest){
+    public ResponseEntity<MemberDTO> login(HttpSession session, @RequestBody LoginRequest loginRequest){
 
         Long uid = memberService.login(loginRequest);
         if(uid==null){
-            return new ResponseEntity<>("failed login", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
         session.setAttribute("memberId", uid);
-        return new ResponseEntity<>("scucess login", HttpStatus.OK);
+        return new ResponseEntity<>(new MemberDTO(memberService.searchMemberById(uid)), HttpStatus.OK);
     }
 
     @GetMapping("/member/search")

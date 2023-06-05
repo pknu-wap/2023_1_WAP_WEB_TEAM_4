@@ -122,10 +122,10 @@ public class ContentService {
     }
 
     public ContentPreviewsResponse getPreviews(Long index){
-        ContentDTOS created = getCreatedPreviews(index);
-        ContentDTOS views = getViewsPreviews(index);
-        ContentDTOS likes = getLikesPreviews(index);
-        ContentDTOS random = getRandomPreviews(index);
+        ContentDTOS created = getCreatedPreviews(index*8);
+        ContentDTOS views = getViewsPreviews(index*8);
+        ContentDTOS likes = getLikesPreviews(index*8);
+        ContentDTOS random = getRandomPreviews(index*8);
 
         return new ContentPreviewsResponse(created, likes, views, random);
     }
@@ -188,5 +188,24 @@ public class ContentService {
             contents=null;
         }
         return contents;
+    }
+
+    public Content update(MultipartFile multipartFile, ContentUpdateRequest contentUpdateRequest, Long uid) throws IOException{
+        //컨텐츠를 생성한다.
+        Content content = contentRepository.findById(contentUpdateRequest.getContentId()).get();
+
+        //컨텐츠의 필요 속성을 저장한다.
+        content.setTitle(contentUpdateRequest.getTitle());
+        content.setText(contentUpdateRequest.getText());
+        content.setIsPrivate(contentUpdateRequest.getIsPrivate());
+        content.setHashtags(contentUpdateRequest.getHashtags());
+
+
+        //이미지를 저장한다.
+        AwsS3 awsS3 = awsS3Service.upload(multipartFile, "thumbnail");
+        content.setImage(awsS3.getPath());
+
+        contentRepository.save(content);
+        return content;
     }
 }
