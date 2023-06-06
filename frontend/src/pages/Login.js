@@ -14,10 +14,13 @@ import {
   nicknameState,
   profileImageState,
 } from "../states/loginState.js";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import Snackbar from "../components/Snackbar.js";
+import { themeState } from "../states/common.js";
 
 const Login = () => {
+  const theme = useRecoilValue(themeState);
+
   const navigate = useNavigate();
   const themes = useTheme();
   const [loginState, setLoginState] = useState({
@@ -70,9 +73,14 @@ const Login = () => {
 
   return (
     <Layout>
-      <Stack width="100%" flexDirection="row" bgcolor="black">
+      <Stack
+        width="100%"
+        flexDirection="row"
+        bgcolor="background.contractColor">
         {isNotSmall && (
           <Stack width="100%" paddingRight="200px">
+            <ImageDescription />
+            <ImageRightDescription />
             <ImageDescription />
             <ImageRightDescription />
           </Stack>
@@ -89,7 +97,7 @@ const Login = () => {
             top: 0,
           }}>
           <Stack width="80%" gap="30px" style={{ alignItems: "center" }}>
-            <Stack fontWeight="bold" fontSize="20px" color="#ECD8A4">
+            <Stack fontWeight="bold" fontSize="20px" color="primary.main">
               Login
             </Stack>
             <input
@@ -98,12 +106,15 @@ const Login = () => {
               name="email"
               value={email}
               style={{
-                color: "#ffffff",
+                color: "background.color",
                 width: "80%",
                 outline: "transparent",
                 backgroundColor: "transparent",
                 border: "transparent",
-                borderBottom: "1px solid #ffffff",
+                borderBottom:
+                  theme === "DARK"
+                    ? "1px solid #ffffff"
+                    : `1px solid ${themes.palette.primary.main}`,
               }}
             />
             <input
@@ -113,12 +124,15 @@ const Login = () => {
               name="password"
               value={password}
               style={{
-                color: "#ffffff",
+                color: "background.color",
                 outline: "transparent",
                 width: "80%",
                 backgroundColor: "transparent",
                 border: "transparent",
-                borderBottom: "1px solid #ffffff",
+                borderBottom:
+                  theme === "DARK"
+                    ? "1px solid #ffffff"
+                    : `1px solid ${themes.palette.primary.main}`,
               }}
             />
             <Button
@@ -127,10 +141,6 @@ const Login = () => {
               size="small"
               sx={{
                 width: "80%",
-                "&.MuiButton-root": {
-                  border: "1px solid #ECD8A4",
-                  color: "#ECD8A4",
-                },
               }}>
               Login
             </Button>

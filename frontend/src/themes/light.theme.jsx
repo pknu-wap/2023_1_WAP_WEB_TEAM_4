@@ -33,6 +33,11 @@ export const lightTheme = createTheme({
       lightHover: gray[100],
       lightActive: gray[200],
     },
+    white: {
+      light: "#ffffff",
+      main: "#ffffff",
+      dark: "#ffffff",
+    },
     background: {
       main: "#f5f5f5",
       color: "black",

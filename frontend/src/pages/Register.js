@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Stack, Button, useMediaQuery, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { PostRegisterApi, PostTestApi } from "../apis/api/common-api";
-import { useMutation, useQueryClient } from "react-query";
+import { PostRegisterApi } from "../apis/api/common-api";
+import { useMutation } from "react-query";
 import {
   ImageDescription,
   ImageRightDescription,
 } from "../components/ImageDescription";
 import Layout from "../components/Layout";
 import Snackbar from "../components/Snackbar";
+import { themeState } from "../states/common";
+import { useRecoilValue } from "recoil";
 
 const Register = () => {
   const themes = useTheme();
+  const theme = useRecoilValue(themeState);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
@@ -64,7 +66,10 @@ const Register = () => {
   const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   return (
     <Layout>
-      <Stack width="100%" flexDirection="row" bgcolor="black">
+      <Stack
+        width="100%"
+        flexDirection="row"
+        bgcolor="background.contractColor">
         {isNotSmall && (
           <Stack width="100%" paddingRight="200px">
             <ImageDescription />
@@ -94,7 +99,7 @@ const Register = () => {
             <Stack
               fontWeight="bold"
               fontSize="20px"
-              color="#ECD8A4"
+              color="primary.main"
               marginBottom="30px">
               Regsiter
             </Stack>
@@ -104,14 +109,16 @@ const Register = () => {
               name="email"
               value={email}
               style={{
-                color: "#ffffff",
+                color: "background.color",
                 width: "80%",
                 outline: "transparent",
                 backgroundColor: "transparent",
                 border: "transparent",
                 borderBottom:
                   registerState.email.length === 0 || isValidEmail
-                    ? "1px solid #ffffff"
+                    ? theme === "DARK"
+                      ? "1px solid #ffffff"
+                      : `1px solid ${themes.palette.primary.main}`
                     : "1px solid red",
                 marginBottom:
                   registerState.email.length === 0 || isValidEmail
@@ -135,7 +142,7 @@ const Register = () => {
               name="password"
               value={password}
               style={{
-                color: "#ffffff",
+                color: "background.color",
                 marginBottom: "25px",
                 outline: "transparent",
                 width: "80%",
@@ -143,7 +150,9 @@ const Register = () => {
                 border: "transparent",
                 borderBottom:
                   password === passwordCheck
-                    ? "1px solid #ffffff"
+                    ? theme === "DARK"
+                      ? "1px solid #ffffff"
+                      : `1px solid ${themes.palette.primary.main}`
                     : "1px solid red",
               }}
             />
@@ -154,7 +163,7 @@ const Register = () => {
               name="passwordCheck"
               value={passwordCheck}
               style={{
-                color: "#ffffff",
+                color: "background.color",
                 marginBottom: password === passwordCheck ? "25px" : "5px",
                 outline: "transparent",
                 width: "80%",
@@ -162,7 +171,9 @@ const Register = () => {
                 border: "transparent",
                 borderBottom:
                   password === passwordCheck
-                    ? "1px solid #ffffff"
+                    ? theme === "DARK"
+                      ? "1px solid #ffffff"
+                      : `1px solid ${themes.palette.primary.main}`
                     : "1px solid red",
               }}
             />
@@ -181,13 +192,16 @@ const Register = () => {
               name="nickName"
               value={nickName}
               style={{
-                color: "#ffffff",
+                color: "background.color",
                 marginBottom: "25px",
                 outline: "transparent",
                 width: "80%",
                 backgroundColor: "transparent",
                 border: "transparent",
-                borderBottom: "1px solid #ffffff",
+                borderBottom:
+                  theme === "DARK"
+                    ? "1px solid #ffffff"
+                    : `1px solid ${themes.palette.primary.main}`,
               }}
             />
             <Button
@@ -195,11 +209,6 @@ const Register = () => {
               variant="outlined"
               sx={{
                 width: "80%",
-
-                "&.MuiButton-root": {
-                  border: "1px solid #ECD8A4",
-                  color: "#ECD8A4",
-                },
               }}>
               Register
             </Button>
