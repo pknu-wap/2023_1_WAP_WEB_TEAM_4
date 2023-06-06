@@ -8,3 +8,7 @@ export const PostRegisterApi = async (body) => {
 export const PostLoginApi = async (body) => {
   return await defaultInstance.post("/member/login", body);
 };
+
+export const GetLogoutApi = async (body) => {
+  return await defaultInstance.get("/member/logout", body);
+};

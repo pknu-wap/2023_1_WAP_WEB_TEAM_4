@@ -16,7 +16,6 @@ import {
   ImageDescription,
   ImageRightDescription,
 } from "../components/ImageDescription";
-import { useSnackBar } from "../hooks/useSnackBar";
 import Layout from "../components/Layout";
 
 const Register = () => {

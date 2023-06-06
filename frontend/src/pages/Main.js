@@ -20,6 +20,7 @@ import {
   useGetHomeQuery,
 } from "../apis/api/content-api";
 import Layout from "../components/Layout";
+import { useNavigate } from "react-router-dom";
 
 const Main = () => {
   const theme = useTheme();
@@ -34,6 +35,12 @@ const Main = () => {
   const [title] = useRecoilState(titleState);
 
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   console.log(sessionStorage.getItem("memberId"));
+  //   !sessionStorage.getItem("memberId") && navigate("/login");
+  // }, []);
 
   useEffect(() => {
     isNavigateOpen ? setNavigateWidth(180) : setNavigateWidth(0);
@@ -66,12 +73,6 @@ const Main = () => {
         color="white">
         {title && (
           <Stack>
-            <Button
-              onClick={() => {
-                postCategoryCreate.mutate("asdfff");
-              }}>
-              카테고리 추가
-            </Button>
             <Stack direction="row" justifyContent="space-between">
               <Stack
                 color="background.color"

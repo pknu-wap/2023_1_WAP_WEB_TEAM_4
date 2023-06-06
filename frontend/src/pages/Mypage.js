@@ -25,6 +25,7 @@ const Mypage = () => {
 
   const { data } = useGetMypageQuery();
 
+  console.log(sessionStorage.getItem("memberId"));
   console.log(data);
   const fileInput = useRef(null);
 

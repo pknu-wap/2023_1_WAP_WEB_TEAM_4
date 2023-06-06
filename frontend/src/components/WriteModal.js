@@ -22,6 +22,8 @@ import {
   PostCategoryCreateApi,
   useGetCategoryQuery,
 } from "../apis/api/category-api";
+import { memberIdState } from "../states/loginState";
+import { useRecoilState } from "recoil";
 
 const WriteModal = ({
   title,
@@ -33,6 +35,7 @@ const WriteModal = ({
   data,
 }) => {
   const theme = useTheme();
+  const [memberId, setMemberId] = useRecoilState(memberIdState);
   const queryClient = useQueryClient();
   const [privateMode, setPrivateMode] = useState(true);
   const [selectValue, setSelectValue] = useState(0);
@@ -75,6 +78,11 @@ const WriteModal = ({
   const postCategoryCreateQuery = useMutation(PostCategoryCreateApi, {
     onSuccess: () => queryClient.invalidateQueries("CategoryRead"),
   });
+
+  const { data: categoryData } = useGetCategoryQuery();
+  console.log(categoryData);
+  console.log(sessionStorage.getItem("memberId"));
+  console.log(memberId);
 
   const writeButtonClick = async () => {
     const formData = new FormData();

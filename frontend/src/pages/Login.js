@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Stack, Button, useMediaQuery, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Header from "../components/Header.js";
 import { useMutation } from "react-query";
 import { PostLoginApi } from "../apis/api/common-api.js";
 import {
@@ -9,7 +8,6 @@ import {
   ImageRightDescription,
 } from "../components/ImageDescription.js";
 import Layout from "../components/Layout.js";
-import axios from "axios";
 import {
   blogUrlState,
   memberIdState,
@@ -36,11 +34,12 @@ const Login = () => {
 
   const postRegister = useMutation(PostLoginApi, {
     onSuccess: (data) => {
-      setMemberId(data.data.memberId);
-      setBlogUrl(data.data.blogUrl);
-      setNickname(data.data.nickname);
-      setProfileImage(data.data.profileImage);
+      // setMemberId(data.data.memberId);
+      // setBlogUrl(data.data.blogUrl);
+      // setNickname(data.data.nickname);
+      // setProfileImage(data.data.profileImage);
 
+      // sessionStorage.setItem("memberId", data.data.memberId);
       navigate("/");
     },
     onError: (error) => {

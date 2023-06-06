@@ -8,11 +8,14 @@ import { searchOpenState, selectValueState } from "../states/homeState";
 import MenuIcon from "@mui/icons-material/Menu";
 import { isNavigateOpenState } from "../states/mainState";
 import { useTheme } from "@mui/material/styles";
+import { GetLogoutApi } from "../apis/api/common-api";
+import { memberIdState } from "../states/loginState";
 
 const Header = ({ isHome, isMain }) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+  const [memberId, setMemberId] = useRecoilState(memberIdState);
   const [isSearchOpen, setIsSearchOpen] = useRecoilState(searchOpenState);
   const setSelectValue = useSetRecoilState(selectValueState);
   const [isNavigateOpen, setIsNavigateOpen] =
@@ -69,6 +72,17 @@ const Header = ({ isHome, isMain }) => {
             )}
           </IconButton>
         )}
+        <Button
+          onClick={() => {
+            setMemberId(0);
+            GetLogoutApi()
+              .then((res) => {
+                navigate("/login");
+              })
+              .catch((e) => console.log(e));
+          }}>
+          로그아웃
+        </Button>
         <Button onClick={() => navigate("/mypage")}>마이페이지</Button>
         <Button onClick={() => navigate("/login")}>로그인</Button>
         <Button onClick={() => navigate("/register")}>회원가입</Button>

@@ -66,9 +66,8 @@ const SideNavigation = ({ clickId, setClickId }) => {
               {contentData
                 ? contentData?.sidebar?.map((category, i) => {
                     return (
-                      <>
+                      <div key={i}>
                         <Stack
-                          key={i}
                           fontSize="18px"
                           color="sideNavigation.pointColorTitle"
                           height="30px"
@@ -108,14 +107,13 @@ const SideNavigation = ({ clickId, setClickId }) => {
                             );
                           })}
                         </Stack>
-                      </>
+                      </div>
                     );
                   })
                 : homeData?.map((category, i) => {
                     return (
-                      <>
+                      <div key={i}>
                         <Stack
-                          key={i}
                           fontSize="18px"
                           color="sideNavigation.pointColorTitle"
                           height="30px"
@@ -155,7 +153,7 @@ const SideNavigation = ({ clickId, setClickId }) => {
                             );
                           })}
                         </Stack>
-                      </>
+                      </div>
                     );
                   })}
             </Stack>
