@@ -29,10 +29,8 @@ public class CategoryController {
 
     @PostMapping("/category/create")
     @ResponseBody
-    public ResponseEntity<String> save(HttpSession session, @RequestBody String name){
-        //세션을 확인한다.
-        Long uid = (Long) session.getAttribute("memberId");
-        if(uid==null){
+    public ResponseEntity<String> save(@RequestParam("loginedMemberId") Long uid, @RequestParam("name") String name){
+        if(uid==0){
             System.out.println("not Logined");
             return null;
         }
@@ -44,14 +42,7 @@ public class CategoryController {
 
     @PostMapping("/category/delete")
     @ResponseBody
-    public ResponseEntity<String> create(HttpSession session, @RequestParam("categoryId") Long categoryId){
-        //세션을 확인한다.
-        Long uid = (Long) session.getAttribute("memberId");
-        if(uid==null){
-            System.out.println("not Logined");
-            return null;
-        }
-
+    public ResponseEntity<String> create(@RequestParam("loginedMemberId") Long uid, @RequestParam("categoryId") Long categoryId){
         try{
             categoryService.delete(uid, categoryId);
         }
@@ -63,10 +54,8 @@ public class CategoryController {
 
     @GetMapping ("/category/get")
     @ResponseBody
-    public ResponseEntity<List<CategoryDTO>> getCategoriesByBlog(HttpSession session){
-        //세션을 확인한다.
-        Long uid = (Long) session.getAttribute("memberId");
-        if(uid==null){
+    public ResponseEntity<List<CategoryDTO>> getCategoriesByBlog(@RequestParam("loginedMemberId") Long uid){
+        if(uid==0){
             System.out.println("Not Logined");
             return null;
         }

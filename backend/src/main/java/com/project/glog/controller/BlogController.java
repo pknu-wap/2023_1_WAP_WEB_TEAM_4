@@ -25,9 +25,8 @@ public class BlogController {
     }
 
     @GetMapping("/mypage")
-    public ResponseEntity<BlogDTO> goToMypage(HttpSession session){
-        Long uid = (Long) session.getAttribute("memberId");
-        if(uid==null){
+    public ResponseEntity<BlogDTO> goToMypage(@RequestParam("loginedMemberId") Long uid){
+        if(uid==0){
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
 
@@ -35,10 +34,10 @@ public class BlogController {
         return new ResponseEntity<>(blog, HttpStatus.OK);
     }
     @PostMapping("/mypage/change/account")
-    public ResponseEntity<BlogDTO> changeNickname(HttpSession session, @RequestBody ChangeAccountRequest changeAccountRequest) {
-        Long uid = (Long) session.getAttribute("memberId");
-        if (uid == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    public ResponseEntity<BlogDTO> changeNickname(@RequestBody ChangeAccountRequest changeAccountRequest) {
+        Long uid = changeAccountRequest.getLoginedMemberId();
+        if (uid == 0) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
 
         BlogDTO blog = blogService.changeAccount(uid, changeAccountRequest);
@@ -49,10 +48,10 @@ public class BlogController {
     }
 
     @PostMapping("/mypage/change/blog/setting")
-    public ResponseEntity<BlogDTO> changeBlogSetting(HttpSession session, @RequestBody ChangeBlogSettingRequest changeBlogSettingRequest) {
-        Long uid = (Long) session.getAttribute("memberId");
-        if (uid == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    public ResponseEntity<BlogDTO> changeBlogSetting(@RequestBody ChangeBlogSettingRequest changeBlogSettingRequest) {
+        Long uid = changeBlogSettingRequest.getLoginedMemberId();
+        if (uid == 0) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
 
         BlogDTO blog = blogService.changeBlogSetting(uid, changeBlogSettingRequest);
@@ -60,10 +59,9 @@ public class BlogController {
     }
 
     @PostMapping("/mypage/change/blog/skin")
-    public ResponseEntity<BlogDTO> changeBlogSkin(HttpSession session, @RequestBody Integer blogSkin) {
-        Long uid = (Long) session.getAttribute("memberId");
-        if (uid == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    public ResponseEntity<BlogDTO> changeBlogSkin(@RequestParam("loginedMemberId") Long uid, @RequestParam("skin") Integer blogSkin) {
+        if (uid == 0) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
 
         BlogDTO blog = blogService.changeBlogSkin(uid, blogSkin);
@@ -71,9 +69,8 @@ public class BlogController {
     }
 
     @PostMapping("/mypage/change/profile")
-    public ResponseEntity<BlogDTO> changeBlogSkin(HttpSession session, @RequestPart("image") MultipartFile multipartFile) throws IOException {
-        Long uid = (Long) session.getAttribute("memberId");
-        if (uid == null) {
+    public ResponseEntity<BlogDTO> changeBlogSkin(@RequestPart("loginedMemberId") Long uid, @RequestPart("image") MultipartFile multipartFile) throws IOException {
+        if (uid == 0) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
 

@@ -43,10 +43,10 @@ public class ContentController {
 
     @PostMapping("/content/create")
     @ResponseBody
-    public ResponseEntity<Long> create(HttpSession session, @RequestPart MultipartFile multipartFile, @RequestPart ContentCreateRequest contentCreateRequest) throws IOException {
+    public ResponseEntity<Long> create(@RequestPart MultipartFile multipartFile, @RequestPart ContentCreateRequest contentCreateRequest) throws IOException {
         //1. 세션을 확인한다.
-        Long uid = (Long) session.getAttribute("memberId");
-        if(uid==null){
+        Long uid = contentCreateRequest.getLoginedMemberId();
+        if(uid==0){
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
 
@@ -56,10 +56,10 @@ public class ContentController {
 
     @PostMapping("/content/update")
     @ResponseBody
-    public ResponseEntity<Long> update(HttpSession session, @RequestPart MultipartFile multipartFile, @RequestPart ContentUpdateRequest contentUpdateRequest) throws IOException {
+    public ResponseEntity<Long> update(@RequestPart MultipartFile multipartFile, @RequestPart ContentUpdateRequest contentUpdateRequest) throws IOException {
         //1. 세션을 확인한다.
-        Long uid = (Long) session.getAttribute("memberId");
-        if(uid==null){
+        Long uid = contentUpdateRequest.getLoginedMemberId();
+        if(uid==0){
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
 
@@ -69,12 +69,10 @@ public class ContentController {
 
     @PostMapping("/content/delete")
     @ResponseBody
-    public ResponseEntity<String> delete(HttpSession session, @RequestBody Long cid){
-        //1. 세션을 확인한다.
-        Long uid = (Long) session.getAttribute("memberId");
+    public ResponseEntity<String> delete(@RequestParam("loginedMemberId") Long uid, @RequestParam("contentId") Long cid){
 
         Content content = contentService.findById(cid);
-        if(uid==null){
+        if(uid==0){
             return new ResponseEntity<>("not logined",HttpStatus.UNAUTHORIZED);
         }
         else if(uid!= content.getMember().getId()){
@@ -89,38 +87,17 @@ public class ContentController {
 
     @GetMapping("/content/read")
     @ResponseBody
-    public ResponseEntity<ContentReadResponse> readContent(HttpSession session, @RequestParam("cid") Long cid){
-        //세션을 확인한다.
-        Long uid = (Long) session.getAttribute("memberId");
-        if(uid==null){
-            System.out.println("Not Logined");
-        }
-
-        ContentReadResponse contentReadResponse = contentService.readContent(uid, cid);
+    public ResponseEntity<ContentReadResponse> readContent(@RequestParam("cid") Long cid){
+        ContentReadResponse contentReadResponse = contentService.readContent(cid);
 
         return new ResponseEntity<>(contentReadResponse, HttpStatus.OK);
     }
 
     @GetMapping("/main")
     @ResponseBody
-    public ResponseEntity<Object> main(HttpSession session, Long index){
-        //응답 데이터
-        Map<String, Object> response = new HashMap<>();
-
-        //세션을 확인한다.
-        Long uid = (Long) session.getAttribute("memberId");
-        if(uid==null){
-            System.out.println("Not Logined");
-            response.put("member", null);
-        }
-        else{
-            MemberDTO memberDTO = new MemberDTO(memberService.searchMemberById(uid));
-            response.put("member", memberDTO);
-        }
-
+    public ResponseEntity<ContentPreviewsResponse> main(Long index){
         ContentPreviewsResponse contentsPreviews = contentService.getPreviews(index);
-        response.put("contents", contentsPreviews);
-        return new ResponseEntity<>(response,HttpStatus.OK);
+        return new ResponseEntity<>(contentsPreviews,HttpStatus.OK);
     }
 
     /*
@@ -157,11 +134,10 @@ public class ContentController {
 
     @PostMapping("/content/pluslikes")
     @ResponseBody
-    public ResponseEntity<String> plusLikes(HttpSession session, @RequestParam Long cid){
+    public ResponseEntity<String> plusLikes(@RequestParam("loginedMemberId") Long uid, @RequestParam("contentId") Long cid){
         //1. 세션을 확인한다.
-        Long uid = (Long) session.getAttribute("memberId");
-        if(uid==null){
-            return new ResponseEntity<>("not logined", HttpStatus.OK);
+        if(uid==0){
+            return new ResponseEntity<>("not logined", HttpStatus.UNAUTHORIZED);
         }
 
         //2. 해당 글의 좋아요를 1 증가 시킨다.
@@ -172,8 +148,8 @@ public class ContentController {
 
     @GetMapping("/home")
     @ResponseBody
-    public ResponseEntity<List<CategorySidebar>> goToMypage(HttpSession session, Long memberId){
-        Long uid = (Long) session.getAttribute("memberId");
+    public ResponseEntity<List<CategorySidebar>> goToHome(@RequestParam Long memberId){
+        Long uid = memberId;
 
         List<CategorySidebar> categorySidebars = contentService.getCategorySidebars(blogService.findByMemberId(memberId).getId());
         return new ResponseEntity<>(categorySidebars, HttpStatus.OK);

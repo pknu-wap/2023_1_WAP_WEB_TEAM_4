@@ -1,3 +1,4 @@
+
 package com.project.glog.controller;
 import com.project.glog.dto.AwsS3;
 import com.project.glog.service.AwsS3Service;
@@ -9,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+/*
 @RestController
 @RequestMapping("/s3")
 public class AwsS3Controller {
@@ -31,3 +33,4 @@ public class AwsS3Controller {
     }
 
 }
+*/

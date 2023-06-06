@@ -85,7 +85,7 @@ public class ContentService {
         return new ContentDTOS(contents);
     }
 
-    public ContentReadResponse readContent(Long uid, Long cid){
+    public ContentReadResponse readContent(Long cid){
         //ContentDTO
         Content content = contentRepository.findById(cid).get();
         content.setViews(content.getViews()+1);
@@ -94,17 +94,7 @@ public class ContentService {
 
         List<CategorySidebar> categorySidebars = getCategorySidebars(content.getBlog().getId());
 
-        //MemberDTO
-        MemberDTO memberDTO;
-        if(uid==null){
-            memberDTO= null;
-        }
-        else{
-            Member member = memberService.searchMemberById(uid);
-            memberDTO = new MemberDTO(member);
-        }
-
-        return new ContentReadResponse(contentDTO, categorySidebars, memberDTO);
+        return new ContentReadResponse(contentDTO, categorySidebars);
     }
 
     public List<CategorySidebar> getCategorySidebars(Long bid){

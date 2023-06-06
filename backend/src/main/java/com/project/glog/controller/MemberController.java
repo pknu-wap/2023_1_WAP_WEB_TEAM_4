@@ -67,6 +67,7 @@ public class MemberController {
         return new ResponseEntity<>(members,HttpStatus.OK);
     }
 
+    /*
     @GetMapping("/member/logout")
     @ResponseBody
     public ResponseEntity<String> logout(HttpSession session) {
@@ -78,5 +79,6 @@ public class MemberController {
         }
         return new ResponseEntity<>("not logined", HttpStatus.UNAUTHORIZED);
     }
+    */
 
 }

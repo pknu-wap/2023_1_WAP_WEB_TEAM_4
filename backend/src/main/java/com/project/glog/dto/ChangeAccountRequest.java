@@ -3,13 +3,13 @@ package com.project.glog.dto;
 import com.project.glog.domain.Member;
 
 public class ChangeAccountRequest {
+
+    private Long loginedMemberId;
     private String pw;
     private String nickname;
 
-    public ChangeAccountRequest(){}
-    public ChangeAccountRequest(Member member) {
-        this.pw = member.getLoginpw();
-        this.nickname = member.getNickname();
+    public Long getLoginedMemberId() {
+        return loginedMemberId;
     }
 
     public String getPw() {
