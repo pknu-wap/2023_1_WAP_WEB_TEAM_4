@@ -74,41 +74,43 @@ const Header = ({ isHome, isMain }) => {
             )}
           </IconButton>
         )}
-        <Button
-          color={theme === "DARK" ? "primary" : "white"}
-          onClick={() => {
-            setMemberId(0);
-            GetLogoutApi()
-              .then((res) => {
-                navigate("/login");
-              })
-              .catch((e) => console.log(e));
-          }}>
-          로그아웃
-        </Button>
-        <Button
-          color={theme === "DARK" ? "primary" : "white"}
-          onClick={() => navigate("/mypage")}>
-          마이페이지
-        </Button>
-        <Button
-          color={theme === "DARK" ? "primary" : "white"}
-          onClick={() => navigate("/login")}>
-          로그인
-        </Button>
-        <Button
-          color={theme === "DARK" ? "primary" : "white"}
-          onClick={() => navigate("/register")}>
-          회원가입
-        </Button>
+        {memberId ? (
+          <Button
+            color={theme === "DARK" ? "primary" : "white"}
+            onClick={() => {
+              setMemberId(0);
+              navigate("/login");
+            }}>
+            로그아웃
+          </Button>
+        ) : null}
+        {memberId ? (
+          <Button
+            color={theme === "DARK" ? "primary" : "white"}
+            onClick={() => navigate("/mypage")}>
+            마이페이지
+          </Button>
+        ) : null}
+        {!memberId && (
+          <Button
+            color={theme === "DARK" ? "primary" : "white"}
+            onClick={() => navigate("/login")}>
+            로그인
+          </Button>
+        )}
+        {!memberId && (
+          <Button
+            color={theme === "DARK" ? "primary" : "white"}
+            onClick={() => navigate("/register")}>
+            회원가입
+          </Button>
+        )}
         <Stack
           onClick={() => navigate("/")}
           width="40px"
           height="40px"
           borderRadius="20px"
-          bgcolor="white"
-          sx={{ cursor: "pointer" }}
-          backgroundColor={"white"}
+          sx={{ cursor: "pointer", backgroundColor: "#ffffff" }}
         />
       </Stack>
     </Stack>
