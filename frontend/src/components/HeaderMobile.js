@@ -9,7 +9,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { isNavigateOpenState } from "../states/mainState";
 import { useTheme } from "@mui/material/styles";
 
-const Header = ({ isHome }) => {
+const HeaderMobile = ({ isHome, isMain }) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
@@ -26,8 +26,8 @@ const Header = ({ isHome }) => {
       top={0}
       height="80px"
       bgcolor="header.background"
-      zIndex={100}>
-      {!isNavigateOpen && (
+      zIndex={200}>
+      {isMain && !isNavigateOpen && (
         <IconButton
           sx={{ color: "header.logo" }}
           onClick={() => setIsNavigateOpen(true)}>
@@ -69,4 +69,4 @@ const Header = ({ isHome }) => {
   );
 };
 
-export default Header;
+export default HeaderMobile;

@@ -1,21 +1,29 @@
 import {
   Button,
   Chip,
+  Dialog,
   IconButton,
   MenuItem,
   Modal,
   Select,
   Stack,
+  theme,
   TextField,
+  useMediaQuery,
 } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AddIcon from "@mui/icons-material/Add";
 import { useTheme } from "@mui/material/styles";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { PostCreateApi } from "../apis/api/content-api";
-import { useGetCategoryQuery } from "../apis/api/category-api";
+import {
+  PostCategoryCreateApi,
+  useGetCategoryQuery,
+} from "../apis/api/category-api";
+import { memberIdState } from "../states/loginState";
+import { useRecoilState } from "recoil";
 
 const WriteModal = ({
   title,
@@ -24,12 +32,15 @@ const WriteModal = ({
   tagArray,
   text,
   setText,
+  data,
 }) => {
   const theme = useTheme();
+  const [memberId, setMemberId] = useRecoilState(memberIdState);
+  const queryClient = useQueryClient();
   const [privateMode, setPrivateMode] = useState(true);
   const [selectValue, setSelectValue] = useState(0);
   const [textFieldValue, setTextFieldValue] = useState("");
-
+  const isPhone = useMediaQuery(theme.breakpoints.down("sm"));
   const [categoryArray, setCategoryArray] = useState([
     "데이터분석",
     "프론트엔드",
@@ -63,21 +74,38 @@ const WriteModal = ({
   const postCreateQuery = useMutation(PostCreateApi, {
     onSuccess: () => navigate("/"),
   });
-  const { data } = useGetCategoryQuery();
+
+  const postCategoryCreateQuery = useMutation(PostCategoryCreateApi, {
+    onSuccess: () => queryClient.invalidateQueries("CategoryRead"),
+  });
+
+  const { data: categoryData } = useGetCategoryQuery();
+  console.log(categoryData);
+  console.log(sessionStorage.getItem("memberId"));
+  console.log(memberId);
 
   const writeButtonClick = async () => {
+    const formData = new FormData();
+
     const body = {
       title: title,
       text: text,
-      image: "",
-      ispPrivate: privateMode ? 0 : 1,
+      isPrivate: privateMode ? 0 : 1,
       categoryId: 6,
-      hashtag: "tagArray",
+      hashtags: tagArray.join(" "),
     };
-    postCreateQuery.mutate(body);
+    formData.append("multipartFile", imageSrc);
+
+    const blob = new Blob([JSON.stringify(body)], {
+      type: "application/json",
+    });
+    formData.append("contentCreateRequest", blob);
+
+    postCreateQuery.mutate(formData);
   };
+
   return (
-    <Modal
+    <Dialog
       open={dialogOpen}
       onClose={() => setDialogOpen(false)}
       sx={{
@@ -236,136 +264,212 @@ const WriteModal = ({
                 />
               ))}
             </Stack>
+            {isPhone && (
+              <>
+                <Stack
+                  color="black"
+                  fontSize="20px"
+                  fontWeight="bold"
+                  marginBottom="12px">
+                  카테고리
+                </Stack>
+                <Stack oveflow="scroll">
+                  <Stack gap="12px" direction="row" flexWrap="wrap">
+                    <Stack width="100%" direction="row" marginBottom="8px">
+                      <TextField
+                        variant="standard"
+                        value={textFieldValue}
+                        onChange={(e) => {
+                          setTextFieldValue(e.target.value);
+                        }}
+                      />
+                      <MenuItem
+                        onClick={() => {
+                          setCategoryArray([...categoryArray, textFieldValue]);
+                          setTextFieldValue("");
+                          postCategoryCreateQuery.mutate(textFieldValue);
+                        }}
+                        sx={{ color: "primary.500", padding: "2px 16px" }}>
+                        카테고리 추가
+                      </MenuItem>
+                    </Stack>
+                    <Select
+                      size="size"
+                      value={selectValue}
+                      onChange={(event) => setSelectValue(event.target.value)}
+                      sx={{
+                        width: "300px",
+                        color: selectValue === 0 ? "gray" : "background.color",
+                        "&.MuiOutlinedInput-root": {
+                          "&.Mui-focused": {
+                            "& .MuiOutlinedInput-notchedOutline": {
+                              border: `1px solid ${theme.palette.primary[200]}`,
+                            },
+                          },
+                          ":hover": {
+                            "&.MuiOutlinedInput-root": {
+                              "& .MuiOutlinedInput-notchedOutline": {
+                                border: `1px solid ${theme.palette.primary[200]}`,
+                              },
+                            },
+                          },
+                        },
+                      }}>
+                      <MenuItem value={0} sx={{ display: "none" }}>
+                        선택
+                      </MenuItem>
+                      {data?.map((category, index) => (
+                        <MenuItem value={category?.categoryId} key={index}>
+                          {category?.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </Stack>
+                </Stack>
+                <Button
+                  onClick={writeButtonClick}
+                  sx={{ margin: "24px 0px" }}
+                  variant="contained">
+                  발행
+                </Button>
+              </>
+            )}
           </Stack>
         </Stack>
         <Stack width="1px" height="600px" bgcolor="primary.100"></Stack>
-        <Stack
-          width="300px"
-          alignItems="center"
-          justifyContent="space-between"
-          p="24px 36px 0px 60px">
-          <Stack height="300px">
-            <Stack
-              color="background.color"
-              fontSize="20px"
-              marginBottom="12px"
-              fontWeight="bold">
-              미리보기
-            </Stack>
-            <Stack width="300px">
-              {!imageSrc ? (
-                <Stack
-                  backgroundColor="primary.200"
-                  width="300px"
-                  height="180px"
-                  marginBottom="8px"
-                />
-              ) : (
-                <img
-                  src={imageSrc}
-                  alt=""
-                  style={{ width: "300px", height: "180px" }}
-                />
-              )}
-              <Stack color="background.color" fontSize="16px" fontWeight="bold">
-                {title}
+        {!isPhone && (
+          <Stack
+            width="300px"
+            alignItems="center"
+            justifyContent="space-between"
+            p="24px 36px 0px 60px">
+            <Stack height="300px">
+              <Stack
+                color="background.color"
+                fontSize="20px"
+                marginBottom="12px"
+                fontWeight="bold">
+                미리보기
               </Stack>
-              <textarea
-                type="text"
-                placeholder="내용을 입력해주세요."
-                value={text.substr(0, 100)}
-                onChange={(event) => {
-                  setText(event.target.value);
-                }}
-                style={{
-                  color: theme.palette.background.color,
-                  fontSize: "12px",
-                  resize: "none",
-                  height: "100px",
-                  backgroundColor: "inherit",
-                  wordBreak: "keep-all",
-                  outline: "none",
-                  border: "0px solid transparent",
-                }}
-              />
-            </Stack>
-            <Stack
-              color="black"
-              fontSize="20px"
-              fontWeight="bold"
-              marginBottom="12px">
-              카테고리
-            </Stack>
-            <Stack oveflow="scroll">
-              <Stack gap="12px" direction="row" flexWrap="wrap">
-                <Stack width="100%" direction="row" marginBottom="8px">
-                  <TextField
-                    variant="standard"
-                    value={textFieldValue}
-                    onChange={(e) => {
-                      setTextFieldValue(e.target.value);
-                    }}
+              <Stack width="300px">
+                {!imageSrc ? (
+                  <Stack
+                    backgroundColor="primary.200"
+                    width="300px"
+                    height="180px"
+                    marginBottom="8px"
                   />
-                  <MenuItem
-                    onClick={() => {
-                      setCategoryArray([...categoryArray, textFieldValue]);
-                      setTextFieldValue("");
-                    }}
-                    sx={{ color: "primary.500", padding: "2px 16px" }}>
-                    카테고리 추가
-                  </MenuItem>
+                ) : (
+                  <img
+                    src={imageSrc}
+                    alt=""
+                    style={{ width: "300px", height: "180px" }}
+                  />
+                )}
+                <Stack
+                  color="background.color"
+                  fontSize="16px"
+                  fontWeight="bold">
+                  {title}
                 </Stack>
-                <Select
-                  size="size"
-                  value={selectValue}
-                  onChange={(event) => setSelectValue(event.target.value)}
-                  sx={{
-                    width: "300px",
-                    color: selectValue === 0 ? "gray" : "background.color",
-                    "&.MuiOutlinedInput-root": {
-                      "&.Mui-focused": {
-                        "& .MuiOutlinedInput-notchedOutline": {
-                          border: `1px solid ${theme.palette.primary[200]}`,
-                        },
-                      },
-                      ":hover": {
-                        "&.MuiOutlinedInput-root": {
+                <textarea
+                  type="text"
+                  placeholder="내용을 입력해주세요."
+                  value={text.substr(0, 100)}
+                  onChange={(event) => {
+                    setText(event.target.value);
+                  }}
+                  style={{
+                    color: theme.palette.background.color,
+                    fontSize: "12px",
+                    resize: "none",
+                    height: "100px",
+                    backgroundColor: "inherit",
+                    wordBreak: "keep-all",
+                    outline: "none",
+                    border: "0px solid transparent",
+                  }}
+                />
+              </Stack>
+              <Stack
+                color="black"
+                fontSize="20px"
+                fontWeight="bold"
+                marginBottom="12px">
+                카테고리
+              </Stack>
+              <Stack oveflow="scroll">
+                <Stack gap="12px" direction="row" flexWrap="wrap">
+                  <Stack width="100%" direction="row" marginBottom="8px">
+                    <TextField
+                      variant="standard"
+                      value={textFieldValue}
+                      onChange={(e) => {
+                        setTextFieldValue(e.target.value);
+                      }}
+                    />
+                    <MenuItem
+                      onClick={() => {
+                        setCategoryArray([...categoryArray, textFieldValue]);
+                        setTextFieldValue("");
+                        postCategoryCreateQuery.mutate(textFieldValue);
+                      }}
+                      sx={{ color: "primary.500", padding: "2px 16px" }}>
+                      카테고리 추가
+                    </MenuItem>
+                  </Stack>
+                  <Select
+                    size="size"
+                    value={selectValue}
+                    onChange={(event) => setSelectValue(event.target.value)}
+                    sx={{
+                      width: "300px",
+                      color: selectValue === 0 ? "gray" : "background.color",
+                      "&.MuiOutlinedInput-root": {
+                        "&.Mui-focused": {
                           "& .MuiOutlinedInput-notchedOutline": {
                             border: `1px solid ${theme.palette.primary[200]}`,
                           },
                         },
+                        ":hover": {
+                          "&.MuiOutlinedInput-root": {
+                            "& .MuiOutlinedInput-notchedOutline": {
+                              border: `1px solid ${theme.palette.primary[200]}`,
+                            },
+                          },
+                        },
                       },
-                    },
-                  }}>
-                  <MenuItem value={0} sx={{ display: "none" }}>
-                    선택
-                  </MenuItem>
-                  {categoryArray.map((category, index) => (
-                    <MenuItem value={index + 1} key={index}>
-                      {category}
+                    }}>
+                    <MenuItem value={0} sx={{ display: "none" }}>
+                      선택
                     </MenuItem>
-                  ))}
-                </Select>
+                    {data?.map((category, index) => (
+                      <MenuItem value={category?.categoryId} key={index}>
+                        {category?.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </Stack>
               </Stack>
             </Stack>
+            <Stack alignItems="flex-end" width="100%">
+              <Button
+                variant="contained"
+                disableRipple
+                onClick={writeButtonClick}
+                sx={{
+                  color: "background.contractColor",
+                  backgroundColor: "primary.500",
+                  ":hover": { backgroundColor: "primary.600" },
+                  ":active": { backgroundColor: "primary.700" },
+                }}>
+                발행
+              </Button>
+            </Stack>
           </Stack>
-          <Stack alignItems="flex-end" width="100%">
-            <Button
-              variant="contained"
-              disableRipple
-              onClick={writeButtonClick}
-              sx={{
-                color: "background.contractColor",
-                backgroundColor: "primary.500",
-                ":hover": { backgroundColor: "primary.600" },
-                ":active": { backgroundColor: "primary.700" },
-              }}>
-              발행
-            </Button>
-          </Stack>
-        </Stack>
+        )}
       </Stack>
-    </Modal>
+    </Dialog>
   );
 };
 

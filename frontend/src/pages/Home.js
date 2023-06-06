@@ -10,6 +10,7 @@ import axios from "axios";
 import { gray } from "../themes/color";
 import { useTheme } from "@mui/material/styles";
 import { useGetMainMoreQuery, useGetMainQuery } from "../apis/api/content-api";
+import Layout from "../components/Layout";
 
 const Home = () => {
   const [selectValue, setSelectValue] = useRecoilState(selectValueState);
@@ -133,16 +134,12 @@ const Home = () => {
   // console.log(moreData);
 
   return (
-    <Stack>
-      <Header isHome={true}>Home</Header>
+    <Layout isHome>
       <Stack
+        marginTop="40px"
         bgcolor="background.main"
         spacing={10}
-        minHeight="100vh"
-        width="100%"
-        height="100%"
-        padding="180px 96px 40px 96px"
-      >
+        padding="0px 96px 40px 96px">
         {isSearchOpen && (
           <Stack direction="row" spacing={4} justifyContent="center">
             <Select
@@ -165,8 +162,7 @@ const Home = () => {
                     },
                   },
                 },
-              }}
-            >
+              }}>
               <MenuItem value={0} sx={{ display: "none" }}>
                 선택
               </MenuItem>
@@ -220,8 +216,7 @@ const Home = () => {
                         return updatedNumber;
                       })
                     }
-                    sx={{ borderRadius: "0px" }}
-                  >
+                    sx={{ borderRadius: "0px" }}>
                     <ChevronLeftIcon />
                   </IconButton>
                   {data?.contents[categoryName]?.contentDTOS
@@ -241,8 +236,7 @@ const Home = () => {
                           <Stack
                             color="background.color"
                             fontSize="16px"
-                            fontWeight="bold"
-                          >
+                            fontWeight="bold">
                             {content.title}
                           </Stack>
                           <Stack color="background.color" fontSize="12px">
@@ -266,8 +260,7 @@ const Home = () => {
                         return updatedNumber;
                       })
                     }
-                    sx={{ borderRadius: "0px" }}
-                  >
+                    sx={{ borderRadius: "0px" }}>
                     <ChevronRightIcon />
                   </IconButton>
                 </Stack>
@@ -281,8 +274,7 @@ const Home = () => {
                   width="fit-content"
                   paddingLeft="6.5%"
                   justifyContent="flex-start"
-                  flexWrap="wrap"
-                >
+                  flexWrap="wrap">
                   {card.random?.map((cardContent, i) => {
                     return (
                       <Stack key={i} marginLeft="32px" marginBottom="24px">
@@ -296,8 +288,7 @@ const Home = () => {
                         <Stack
                           color="background.color"
                           fontSize="16px"
-                          fontWeight="bold"
-                        >
+                          fontWeight="bold">
                           {cardContent.title}
                         </Stack>
                         <Stack color="background.color" fontSize="12px">
@@ -310,7 +301,7 @@ const Home = () => {
               );
             })}
       </Stack>
-    </Stack>
+    </Layout>
   );
 };
 
