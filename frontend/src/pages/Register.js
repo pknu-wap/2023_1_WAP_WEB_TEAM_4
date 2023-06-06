@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Stack,
-  Button,
-  Icon,
-  useMediaQuery,
-  useTheme,
-  Snackbar,
-  Alert,
-} from "@mui/material";
+import { Stack, Button, useMediaQuery, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { PostRegisterApi, PostTestApi } from "../apis/api/common-api";
@@ -17,14 +9,13 @@ import {
   ImageRightDescription,
 } from "../components/ImageDescription";
 import Layout from "../components/Layout";
+import Snackbar from "../components/Snackbar";
 
 const Register = () => {
   const themes = useTheme();
-
-  const [message, setMessage] = useState("");
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
-
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
   const [registerState, setRegisterState] = React.useState({
     email: "",
     password: "",
@@ -32,8 +23,7 @@ const Register = () => {
     nickName: "",
   });
   const { email, password, passwordCheck, nickName } = registerState;
-  const [, setData] = useState("");
-  const isNotSmall = useMediaQuery(themes.breakpoints.up("xs"));
+  const isNotSmall = useMediaQuery(themes.breakpoints.up("md"));
 
   const registerHandler = (event) => {
     const { name, value } = event.target;
@@ -44,8 +34,8 @@ const Register = () => {
   const postRegister = useMutation(PostRegisterApi, {
     onSuccess: () => navigate("/login"),
     onError: (error) => {
-      alert(error.response.data);
-      // openSnackBar({ message: error.response.data, type: "error" });
+      setMessage(error.response.data);
+      setOpen(true);
     },
   });
 
@@ -56,9 +46,22 @@ const Register = () => {
       nickname: nickName,
     };
 
-    postRegister.mutate(body);
+    if (
+      email.length !== 0 &&
+      isValidEmail &&
+      password.length !== 0 &&
+      passwordCheck.length !== 0 &&
+      nickName.length !== 0 &&
+      passwordCheck === password
+    ) {
+      postRegister.mutate(body);
+    } else {
+      setMessage("유효하지 않은 값이 존재합니다.");
+      setOpen(true);
+    }
   };
 
+  const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   return (
     <Layout>
       <Stack width="100%" flexDirection="row" bgcolor="black">
@@ -106,10 +109,25 @@ const Register = () => {
                 outline: "transparent",
                 backgroundColor: "transparent",
                 border: "transparent",
-                borderBottom: "1px solid #ffffff",
-                marginBottom: "25px",
+                borderBottom:
+                  registerState.email.length === 0 || isValidEmail
+                    ? "1px solid #ffffff"
+                    : "1px solid red",
+                marginBottom:
+                  registerState.email.length === 0 || isValidEmail
+                    ? "25px"
+                    : "5px",
               }}
             />
+            {!(registerState.email.length === 0 || isValidEmail) && (
+              <Stack
+                fontWeight="bold"
+                marginBottom="25px"
+                fontSize="6px"
+                color="red">
+                이메일 형식에 맞지 않습니다.
+              </Stack>
+            )}
             <input
               placeholder="Password"
               type="password"
@@ -186,6 +204,12 @@ const Register = () => {
               Register
             </Button>
           </Stack>
+          <Snackbar
+            open={open}
+            setOpen={setOpen}
+            title={message}
+            color="error"
+          />
         </Stack>
       </Stack>
     </Layout>

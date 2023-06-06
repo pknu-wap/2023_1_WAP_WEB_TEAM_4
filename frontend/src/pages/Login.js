@@ -14,7 +14,8 @@ import {
   nicknameState,
   profileImageState,
 } from "../states/loginState.js";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
+import Snackbar from "../components/Snackbar.js";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -23,27 +24,28 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const isNotSmall = useMediaQuery(themes.breakpoints.up("xs"));
-
-  const [memberId, setMemberId] = useRecoilState(memberIdState);
-  const [nickname, setNickname] = useRecoilState(nicknameState);
-  const [profileImage, setProfileImage] = useRecoilState(profileImageState);
-  const [blogUrl, setBlogUrl] = useRecoilState(blogUrlState);
+  const isNotSmall = useMediaQuery(themes.breakpoints.up("md"));
+  const [open, setOpen] = useState(false);
+  const setMemberId = useSetRecoilState(memberIdState);
+  const setNickname = useSetRecoilState(nicknameState);
+  const setProfileImage = useSetRecoilState(profileImageState);
+  const setBlogUrl = useSetRecoilState(blogUrlState);
+  const [message, setMessage] = useState("");
 
   const { email, password } = loginState;
 
   const postRegister = useMutation(PostLoginApi, {
     onSuccess: (data) => {
-      // setMemberId(data.data.memberId);
-      // setBlogUrl(data.data.blogUrl);
-      // setNickname(data.data.nickname);
-      // setProfileImage(data.data.profileImage);
+      setMemberId(data.data.memberId);
+      setBlogUrl(data.data.blogUrl);
+      setNickname(data.data.nickname);
+      setProfileImage(data.data.profileImage);
 
-      // sessionStorage.setItem("memberId", data.data.memberId);
       navigate("/");
     },
     onError: (error) => {
-      alert(error.response.data);
+      setMessage(error.response.data);
+      setOpen(true);
     },
   });
 
@@ -58,7 +60,12 @@ const Login = () => {
       loginPw: password,
     };
 
-    postRegister.mutate(body);
+    if (email.length !== 0 && password !== 0) {
+      postRegister.mutate(body);
+    } else {
+      setMessage("이메일과 비밀번호는 필수 값입니다.");
+      setOpen(true);
+    }
   };
 
   return (
@@ -138,16 +145,12 @@ const Login = () => {
               Sign Up
             </Button>
           </Stack>
-
-          {/* <Stack
-            onClick={() => navigate("/register")}
-            color="#ECD8A4"
-            fontSize="11px"
-            marginTop="10px"
-            marginLeft="8%"
-            sx={{ ":hover": { color: "#FFC222" }, cursor: "pointer" }}>
-            Register
-          </Stack> */}
+          <Snackbar
+            open={open}
+            setOpen={setOpen}
+            title={message}
+            color="error"
+          />
         </Stack>
       </Stack>
     </Layout>
