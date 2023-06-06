@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Stack, Button, useMediaQuery, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
@@ -14,7 +14,7 @@ import {
   nicknameState,
   profileImageState,
 } from "../states/loginState.js";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Snackbar from "../components/Snackbar.js";
 import { themeState } from "../states/common.js";
 
@@ -29,13 +29,17 @@ const Login = () => {
   });
   const isNotSmall = useMediaQuery(themes.breakpoints.up("md"));
   const [open, setOpen] = useState(false);
-  const setMemberId = useSetRecoilState(memberIdState);
+  const [memberId, setMemberId] = useRecoilState(memberIdState);
   const setNickname = useSetRecoilState(nicknameState);
   const setProfileImage = useSetRecoilState(profileImageState);
   const setBlogUrl = useSetRecoilState(blogUrlState);
   const [message, setMessage] = useState("");
 
   const { email, password } = loginState;
+
+  useEffect(() => {
+    memberId && navigate("/");
+  }, []);
 
   const postRegister = useMutation(PostLoginApi, {
     onSuccess: (data) => {
@@ -73,96 +77,98 @@ const Login = () => {
 
   return (
     <Layout>
-      <Stack
-        width="100%"
-        flexDirection="row"
-        bgcolor="background.contractColor">
-        {isNotSmall && (
-          <Stack width="100%" paddingRight="200px">
-            <ImageDescription />
-            <ImageRightDescription />
-            <ImageDescription />
-            <ImageRightDescription />
-          </Stack>
-        )}
+      {!memberId && (
         <Stack
-          style={{
-            width: isNotSmall ? "20%" : "100%",
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            position: "fixed",
-            right: 0,
-            top: 0,
-          }}>
-          <Stack width="80%" gap="30px" style={{ alignItems: "center" }}>
-            <Stack fontWeight="bold" fontSize="20px" color="primary.main">
-              Login
+          width="100%"
+          flexDirection="row"
+          bgcolor="background.contractColor">
+          {isNotSmall && (
+            <Stack width="100%" paddingRight="200px">
+              <ImageDescription />
+              <ImageRightDescription />
+              <ImageDescription />
+              <ImageRightDescription />
             </Stack>
-            <input
-              placeholder="Email"
-              onChange={loginHandler}
-              name="email"
-              value={email}
-              style={{
-                color: "background.color",
-                width: "80%",
-                outline: "transparent",
-                backgroundColor: "transparent",
-                border: "transparent",
-                borderBottom:
-                  theme === "DARK"
-                    ? "1px solid #ffffff"
-                    : `1px solid ${themes.palette.primary.main}`,
-              }}
+          )}
+          <Stack
+            style={{
+              width: isNotSmall ? "20%" : "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              position: "fixed",
+              right: 0,
+              top: 0,
+            }}>
+            <Stack width="80%" gap="30px" style={{ alignItems: "center" }}>
+              <Stack fontWeight="bold" fontSize="20px" color="primary.main">
+                Login
+              </Stack>
+              <input
+                placeholder="Email"
+                onChange={loginHandler}
+                name="email"
+                value={email}
+                style={{
+                  color: themes.palette.background.color,
+                  width: "80%",
+                  outline: "transparent",
+                  backgroundColor: "transparent",
+                  border: "transparent",
+                  borderBottom:
+                    theme === "DARK"
+                      ? "1px solid #ffffff"
+                      : `1px solid ${themes.palette.primary.main}`,
+                }}
+              />
+              <input
+                placeholder="Password"
+                onChange={loginHandler}
+                type="password"
+                name="password"
+                value={password}
+                style={{
+                  color: themes.palette.background.color,
+                  outline: "transparent",
+                  width: "80%",
+                  backgroundColor: "transparent",
+                  border: "transparent",
+                  borderBottom:
+                    theme === "DARK"
+                      ? "1px solid #ffffff"
+                      : `1px solid ${themes.palette.primary.main}`,
+                }}
+              />
+              <Button
+                onClick={loginButtonClick}
+                variant="outlined"
+                size="small"
+                sx={{
+                  width: "80%",
+                }}>
+                Login
+              </Button>
+              <Button
+                onClick={() => navigate("/register")}
+                variant="contained"
+                size="small"
+                sx={{
+                  width: "80%",
+                  marginTop: "-20px",
+                }}>
+                Sign Up
+              </Button>
+            </Stack>
+            <Snackbar
+              open={open}
+              setOpen={setOpen}
+              title={message}
+              color="error"
             />
-            <input
-              placeholder="Password"
-              onChange={loginHandler}
-              type="password"
-              name="password"
-              value={password}
-              style={{
-                color: "background.color",
-                outline: "transparent",
-                width: "80%",
-                backgroundColor: "transparent",
-                border: "transparent",
-                borderBottom:
-                  theme === "DARK"
-                    ? "1px solid #ffffff"
-                    : `1px solid ${themes.palette.primary.main}`,
-              }}
-            />
-            <Button
-              onClick={loginButtonClick}
-              variant="outlined"
-              size="small"
-              sx={{
-                width: "80%",
-              }}>
-              Login
-            </Button>
-            <Button
-              onClick={() => navigate("/register")}
-              variant="contained"
-              size="small"
-              sx={{
-                width: "80%",
-                marginTop: "-20px",
-              }}>
-              Sign Up
-            </Button>
           </Stack>
-          <Snackbar
-            open={open}
-            setOpen={setOpen}
-            title={message}
-            color="error"
-          />
         </Stack>
-      </Stack>
+      )}
     </Layout>
   );
 };

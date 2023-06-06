@@ -21,9 +21,12 @@ import {
 } from "../apis/api/content-api";
 import Layout from "../components/Layout";
 import { useNavigate } from "react-router-dom";
+import { memberIdState } from "../states/loginState";
+import { visitIdState } from "../states/common";
 
 const Main = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const isPhone = useMediaQuery(theme.breakpoints.down("xs"));
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const isDeskop = useMediaQuery(theme.breakpoints.up("lg"));
@@ -31,21 +34,19 @@ const Main = () => {
     useRecoilState(isNavigateOpenState);
   const [navigateWidth, setNavigateWidth] = useState(0);
   const [anchorWidth, setAnchoreWidth] = useState(0);
-
-  const [title] = useRecoilState(titleState);
+  const [memberId, setMemberId] = useRecoilState(memberIdState);
+  const [visitId, setVisitId] = useRecoilState(visitIdState);
 
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   console.log(sessionStorage.getItem("memberId"));
-  //   !sessionStorage.getItem("memberId") && navigate("/login");
-  // }, []);
 
   useEffect(() => {
     isNavigateOpen ? setNavigateWidth(180) : setNavigateWidth(0);
     isDeskop ? setAnchoreWidth(300) : setAnchoreWidth(0);
   }, [isNavigateOpen, isDeskop]);
+
+  useEffect(() => {
+    !visitId && !memberId && navigate("/login");
+  }, []);
 
   const [clickId, setClickId] = useState(undefined);
 
@@ -62,16 +63,16 @@ const Main = () => {
 
   return (
     <Layout isMain={true}>
-      {isNavigateOpen && (
+      {(visitId || memberId) && isNavigateOpen && (
         <SideNavigation clickId={clickId} setClickId={setClickId} />
       )}
-      <Stack
-        margin={`0px ${40 + anchorWidth}px 84px ${40 + navigateWidth}px`}
-        width="100%"
-        height="100%"
-        p={isTablet ? "36px 0px" : "36px 160px"}
-        color="white">
-        {title && (
+      {visitId || memberId ? (
+        <Stack
+          margin={`0px ${40 + anchorWidth}px 84px ${40 + navigateWidth}px`}
+          width="100%"
+          height="100%"
+          p={isTablet ? "36px 0px" : "36px 160px"}
+          color="white">
           <Stack>
             <Stack direction="row" justifyContent="space-between">
               <Stack
@@ -118,23 +119,8 @@ const Main = () => {
               </Stack>
             </Stack>
           </Stack>
-        )}
-      </Stack>
-      {isDeskop && (
-        <Stack
-          marginTop="14%"
-          justifyContent="center"
-          overflow="scroll"
-          style={{
-            maxHeight: "400px",
-            height: "100%",
-            maxWidth: "200px",
-            width: "100%",
-            position: "fixed",
-            top: 0,
-            right: 100,
-          }}></Stack>
-      )}
+        </Stack>
+      ) : null}
     </Layout>
   );
 };
