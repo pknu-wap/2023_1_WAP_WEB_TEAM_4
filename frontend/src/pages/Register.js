@@ -52,19 +52,10 @@ const Register = () => {
 
   const handleSubmit = async () => {
     const body = {
-      blog: {
-        blog_name: "chaeyeon",
-        introduction: "chaeyeon",
-        blog_url: "/chaeyeon",
-      },
       loginid: email,
       loginpw: password,
       nickname: nickName,
-      url: "/chaeyeon",
-      profile_image: "asd",
     };
-
-    console.log(body);
 
     postRegister.mutate(body);
   };

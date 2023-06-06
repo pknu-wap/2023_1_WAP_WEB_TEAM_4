@@ -1,5 +1,5 @@
 import { Button, IconButton, Stack, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import ChangePassword from "../components/mypage/ChangePassword";
 import Post from "../components/mypage/Post";
@@ -9,9 +9,12 @@ import Pororo from "../static/pic/Pororo.jpg";
 import Layout from "../components/Layout";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import { useGetMypageQuery } from "../apis/api/mypage-api";
+import AddIcon from "@mui/icons-material/Add";
+
 const Mypage = () => {
   const theme = useTheme();
   const [option, setOption] = useState(0);
+  const [imageSrc, setImageSrc] = useState(null);
   const [description, setDescription] = useState(false);
   const optionArray = {
     0: <ChangePassword />,
@@ -23,6 +26,24 @@ const Mypage = () => {
   const { data } = useGetMypageQuery();
 
   console.log(data);
+  const fileInput = useRef(null);
+
+  const handleButtonClick = (event) => {
+    fileInput.current?.click();
+  };
+
+  const onUpload = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    return new Promise((resolve) => {
+      reader.onload = () => {
+        setImageSrc(reader.result || null);
+        resolve();
+      };
+    });
+  };
 
   return (
     <Layout>
@@ -50,12 +71,28 @@ const Mypage = () => {
             bgcolor="background.contractColor"
             direction="row"
             marginBottom="32px">
-            <img
-              style={{ width: "20%", height: "70%", borderRadius: "50%" }}
-              src={Pororo}
-              alt="User_Picture"
-            />
-
+            <Stack width="20%" gap="12px">
+              {!imageSrc ? (
+                <Stack bgcolor="primary.200" width="100%" height="70%">
+                  <IconButton onClick={handleButtonClick}>
+                    <AddIcon />
+                    <input
+                      style={{ display: "none" }}
+                      type="file"
+                      ref={fileInput}
+                      onChange={onUpload}
+                    />
+                  </IconButton>
+                </Stack>
+              ) : (
+                <img
+                  style={{ height: "70%", borderRadius: "50%" }}
+                  src={Pororo}
+                  alt="User_Picture"
+                />
+              )}
+              <Button variant="outlined">삭제</Button>
+            </Stack>
             <Stack gap="28px">
               <Stack
                 color={theme.palette.background.color}

@@ -10,22 +10,39 @@ import {
 } from "../components/ImageDescription.js";
 import Layout from "../components/Layout.js";
 import axios from "axios";
-// import { Cookies } from "react-cookie";
+import {
+  blogUrlState,
+  memberIdState,
+  nicknameState,
+  profileImageState,
+} from "../states/loginState.js";
+import { useRecoilState } from "recoil";
 
 const Login = () => {
   const navigate = useNavigate();
   const themes = useTheme();
-  const [cookie, setCookie] = useState();
-  const [loginState, setLoginState] = React.useState({
+  const [loginState, setLoginState] = useState({
     email: "",
     password: "",
   });
   const isNotSmall = useMediaQuery(themes.breakpoints.up("xs"));
 
+  const [memberId, setMemberId] = useRecoilState(memberIdState);
+  const [nickname, setNickname] = useRecoilState(nicknameState);
+  const [profileImage, setProfileImage] = useRecoilState(profileImageState);
+  const [blogUrl, setBlogUrl] = useRecoilState(blogUrlState);
+
   const { email, password } = loginState;
 
   const postRegister = useMutation(PostLoginApi, {
-    onSuccess: () => navigate("/"),
+    onSuccess: (data) => {
+      setMemberId(data.data.memberId);
+      setBlogUrl(data.data.blogUrl);
+      setNickname(data.data.nickname);
+      setProfileImage(data.data.profileImage);
+
+      navigate("/");
+    },
     onError: (error) => {
       alert(error.response.data);
     },
@@ -43,44 +60,7 @@ const Login = () => {
     };
 
     postRegister.mutate(body);
-    // axios
-    //   .post("/member/login", body)
-    //   .then((response) => {
-    //     const cookies = response.headers["set-cookie"];
-
-    //     const newCookie = cookies.join(";");
-
-    //     setCookie(newCookie);
-    //   })
-    //   .catch((error) => {
-    //     alert(error);
-    //   });
   };
-
-  // const login = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const res = await noAuthClient({
-  //       method: "post",
-  //       url: `${process.env.REACT_APP_LOCAL}/auth`,
-  //       data: {
-  //         id: id,
-  //         pw: password,
-  //       },
-  //     });
-  //     const cookie = new Cookies();
-  //     cookie.set("accessToken", res.data.accessToken);
-  //     cookie.set("refreshToken", res.data.refreshToken);
-  //     const decode = jwt_decode(res.data.accessToken);
-  //     // redux에 nickname 저장
-  //     dispatch(GET_NAME(decode.nickname));
-  //     navigate("/");
-  //   } catch (error) {
-  //     const err = error.response.data;
-  //     console.log(err);
-  //     alert("아이디, 비밀번호가 일치하지 않습니다.");
-  //   }
-  // };
 
   return (
     <Layout>

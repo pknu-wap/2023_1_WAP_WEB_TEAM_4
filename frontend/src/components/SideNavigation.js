@@ -10,17 +10,19 @@ import {
   useGetContentReadQuery,
   useGetHomeQuery,
 } from "../apis/api/content-api";
+import { memberIdState } from "../states/loginState";
 
 const SideNavigation = ({ clickId, setClickId }) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const [isNavigateOpen, setIsNavigateOpen] =
     useRecoilState(isNavigateOpenState);
+  const [memberId, setMemberId] = useRecoilState(memberIdState);
 
   const isPhone = useMediaQuery(theme.breakpoints.down("xs"));
 
   const { data: contentData } = useGetContentReadQuery({ cid: clickId });
-  const { data: homeData } = useGetHomeQuery({ memberId: 1 });
+  const { data: homeData } = useGetHomeQuery({ memberId: memberId });
 
   return (
     <Stack
