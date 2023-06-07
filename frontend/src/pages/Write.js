@@ -14,7 +14,6 @@ import WriteModal from "../components/WriteModal";
 import Header from "../components/Header";
 import { nord } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { useTheme } from "@mui/material/styles";
-import { postState, titleState } from "../states/writeState";
 import { useRecoilState } from "recoil";
 import "./write.css";
 import ReactMarkdown from "react-markdown";
@@ -28,13 +27,15 @@ import { PostCreateApi } from "../apis/api/content-api";
 import { useNavigate } from "react-router-dom";
 import { useGetCategoryQuery } from "../apis/api/category-api";
 import Layout from "../components/Layout";
+import { memberIdState } from "../states/loginState";
 
 const Write = () => {
   const queryClient = useQueryClient();
+  const [memberId, setMemberId] = useRecoilState(memberIdState);
   const editorRef = useRef();
   const navigate = useNavigate();
-  const [title, setTitle] = useRecoilState(titleState);
-  const [post, setPost] = useRecoilState(postState);
+  const [title, setTitle] = useState("");
+  const [post, setPost] = useState("");
   const [tagArray, setTagArray] = useState([]);
   const [tag, setTag] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -52,28 +53,9 @@ const Write = () => {
     setDialogOpen(true);
   };
 
-  // const { data } = useGetCategoryQuery();
-
-  // console.log(data);
-
-  const data = [
-    {
-      categoryId: 1,
-      name: '"Test"',
-    },
-    {
-      categoryId: 2,
-      name: '"Test2"',
-    },
-    {
-      categoryId: 3,
-      name: '{"name":"Test3"}',
-    },
-    {
-      categoryId: 4,
-      name: "Test4",
-    },
-  ];
+  const { data } = useGetCategoryQuery({
+    loginedMemberId: memberId,
+  });
 
   return (
     <Layout>
@@ -257,12 +239,6 @@ const Write = () => {
                   textareaRef.current.focus();
                 }}>
                 <CodeIcon />
-              </Button>
-              <Button
-                onClick={() => {
-                  textareaRef.current.focus();
-                }}>
-                <ImageIcon />
               </Button>
               <Button
                 onClick={() => {

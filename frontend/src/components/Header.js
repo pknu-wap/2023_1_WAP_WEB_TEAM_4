@@ -10,7 +10,8 @@ import { isNavigateOpenState } from "../states/mainState";
 import { useTheme } from "@mui/material/styles";
 import { GetLogoutApi } from "../apis/api/common-api";
 import { memberIdState } from "../states/loginState";
-import { themeState } from "../states/common";
+import { themeState, visitIdState } from "../states/common";
+import Jump from "react-reveal/Jump";
 
 const Header = ({ isHome, isMain }) => {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ const Header = ({ isHome, isMain }) => {
   const setSelectValue = useSetRecoilState(selectValueState);
   const [isNavigateOpen, setIsNavigateOpen] =
     useRecoilState(isNavigateOpenState);
+  const [visitId, setVisitId] = useRecoilState(visitIdState);
   return (
     <Stack
       position="fixed"
@@ -42,22 +44,24 @@ const Header = ({ isHome, isMain }) => {
           </IconButton>
         )}
         <Stack alignItems="flex-start" marginLeft="12px">
-          <Stack
-            sx={{
-              cursor: "pointer",
-              ":hover": {
-                color: "header.logoHover",
-              },
-              ":active": {
-                color: "header.logoActive",
-              },
-            }}
-            onClick={() => navigate("/home")}
-            fontWeight="bold"
-            color="header.logo"
-            fontSize="32px">
-            GLOG
-          </Stack>
+          <Jump>
+            <Stack
+              sx={{
+                cursor: "pointer",
+                ":hover": {
+                  color: "header.logoHover",
+                },
+                ":active": {
+                  color: "header.logoActive",
+                },
+              }}
+              onClick={() => navigate("/home")}
+              fontWeight="bold"
+              color="header.logo"
+              fontSize="32px">
+              GLOG
+            </Stack>
+          </Jump>
         </Stack>
       </Stack>
       <Stack marginRight="28px" direction="row" spacing={4} alignItems="center">
@@ -105,13 +109,18 @@ const Header = ({ isHome, isMain }) => {
             회원가입
           </Button>
         )}
-        <Stack
-          onClick={() => navigate("/")}
-          width="40px"
-          height="40px"
-          borderRadius="20px"
-          sx={{ cursor: "pointer", backgroundColor: "#ffffff" }}
-        />
+        {memberId ? (
+          <Stack
+            onClick={() => {
+              navigate("/");
+              setVisitId(0);
+            }}
+            width="40px"
+            height="40px"
+            borderRadius="20px"
+            sx={{ cursor: "pointer", backgroundColor: "#ffffff" }}
+          />
+        ) : null}
       </Stack>
     </Stack>
   );

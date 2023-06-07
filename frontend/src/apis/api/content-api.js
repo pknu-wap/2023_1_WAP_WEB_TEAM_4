@@ -46,15 +46,50 @@ export const useGetMainQuery = (params) => {
   return { data, isLoading, error, status };
 };
 
-export const GetMainMoreApi = async (params) => {
-  const { data } = await defaultInstance.get("/main/more", { params });
+export const GetFindStringApi = async (params) => {
+  const { data } = await defaultInstance.get("/content/find/string", {
+    params,
+  });
   return data;
 };
 
-export const useGetMainMoreQuery = (params) => {
+export const useGetFindStringQuery = (params) => {
   const { isLoading, error, data, status } = useQuery(
-    [`MainMore`, params],
-    () => GetMainMoreApi(params)
+    [`FindString`, params],
+    () => GetFindStringApi(params),
+    {
+      enabled: params.string.length > 0,
+    }
+  );
+  return { data, isLoading, error, status };
+};
+
+export const GetFindHashtagApi = async (params) => {
+  const { data } = await defaultInstance.get("/content/find/hashtag", {
+    params,
+  });
+  return data;
+};
+
+export const useGetFindHashtagQuery = (params) => {
+  const { isLoading, error, data, status } = useQuery(
+    [`FindHashtag`, params],
+    () => GetFindHashtagApi(params)
+  );
+  return { data, isLoading, error, status };
+};
+
+export const GetFindMemberApi = async (params) => {
+  const { data } = await defaultInstance.get("/content/find/hashtag", {
+    params,
+  });
+  return data;
+};
+
+export const useGetFindMemberQuery = (params) => {
+  const { isLoading, error, data, status } = useQuery(
+    [`FindMember`, params],
+    () => GetFindMemberApi(params)
   );
   return { data, isLoading, error, status };
 };
@@ -75,28 +110,18 @@ export const useGetContentReadQuery = (params) => {
   return { data, isLoading, error, status };
 };
 
-// const { data: rowsData } = useGetSafetyPlanQuery({id: "asdf"});
-export const GetContentFindApi = async (params) => {
-  const { data } = await defaultInstance.get("/main/more", { params });
-  return data;
-};
-
-export const useGetContentFindQuery = (params) => {
-  const { isLoading, error, data, status } = useQuery(
-    [`ContentFind`, params],
-    () => GetContentFindApi(params)
-  );
-  return { data, isLoading, error, status };
-};
-
 export const GetHomeApi = async (params) => {
   const { data } = await defaultInstance.get("/home", { params });
   return data;
 };
 
 export const useGetHomeQuery = (params) => {
-  const { isLoading, error, data, status } = useQuery([`Home`, params], () =>
-    GetHomeApi(params)
+  const { isLoading, error, data, status } = useQuery(
+    [`Home`, params],
+    () => GetHomeApi(params),
+    {
+      enabled: !!params.memberId,
+    }
   );
   return { data, isLoading, error, status };
 };

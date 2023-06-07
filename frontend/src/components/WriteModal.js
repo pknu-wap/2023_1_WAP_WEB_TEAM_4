@@ -18,10 +18,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useTheme } from "@mui/material/styles";
 import { useMutation, useQueryClient } from "react-query";
 import { PostCreateApi } from "../apis/api/content-api";
-import {
-  PostCategoryCreateApi,
-  useGetCategoryQuery,
-} from "../apis/api/category-api";
+import { PostCategoryCreateApi } from "../apis/api/category-api";
 import { memberIdState } from "../states/loginState";
 import { useRecoilState } from "recoil";
 
@@ -41,12 +38,6 @@ const WriteModal = ({
   const [selectValue, setSelectValue] = useState(0);
   const [textFieldValue, setTextFieldValue] = useState("");
   const isPhone = useMediaQuery(theme.breakpoints.down("sm"));
-  const [categoryArray, setCategoryArray] = useState([
-    "데이터분석",
-    "프론트엔드",
-    "머신러닝",
-    "알고리즘",
-  ]);
 
   const navigate = useNavigate();
 
@@ -79,27 +70,20 @@ const WriteModal = ({
     onSuccess: () => queryClient.invalidateQueries("CategoryRead"),
   });
 
-  const { data: categoryData } = useGetCategoryQuery();
-  console.log(categoryData);
-  console.log(sessionStorage.getItem("memberId"));
-  console.log(memberId);
-
   const writeButtonClick = async () => {
     const formData = new FormData();
 
     const body = {
+      loginedMemberId: memberId,
       title: title,
       text: text,
       isPrivate: privateMode ? 0 : 1,
-      categoryId: 6,
-      hashtags: tagArray.join(" "),
+      categoryId: 12,
+      hashtags: tagArray.join(""),
     };
     formData.append("multipartFile", imageSrc);
 
-    const blob = new Blob([JSON.stringify(body)], {
-      type: "application/json",
-    });
-    formData.append("contentCreateRequest", blob);
+    formData.append("contentCreateRequest", JSON.stringify(body));
 
     postCreateQuery.mutate(formData);
   };
@@ -107,6 +91,7 @@ const WriteModal = ({
   return (
     <Dialog
       open={dialogOpen}
+      maxWidth="lg"
       onClose={() => setDialogOpen(false)}
       sx={{
         overflow: "scroll",
@@ -191,9 +176,7 @@ const WriteModal = ({
                   backgroundColor: privateMode ? "primary.500" : "white",
                   width: privateMode ? "90px" : "fit-content",
                   height: privateMode ? "60px" : "40px",
-                  color: privateMode
-                    ? "background.contractColor"
-                    : "primary.buttonColor",
+                  color: "background.contractColor",
                   ":hover": {
                     backgroundColor: "primary.600",
                     width: "90px",
@@ -215,9 +198,7 @@ const WriteModal = ({
                   backgroundColor: !privateMode ? "primary.500" : "white",
                   width: !privateMode ? "90px" : "fit-content",
                   height: !privateMode ? "60px" : "40px",
-                  color: !privateMode
-                    ? "background.contractColor"
-                    : "primary.buttonColor",
+                  color: "background.contractColor",
                   ":hover": {
                     backgroundColor: "primary.600",
                     width: "90px",
@@ -285,9 +266,12 @@ const WriteModal = ({
                       />
                       <MenuItem
                         onClick={() => {
-                          setCategoryArray([...categoryArray, textFieldValue]);
+                          const body = {
+                            loginedMemberId: memberId,
+                            name: textFieldValue,
+                          };
+                          postCategoryCreateQuery.mutate(body);
                           setTextFieldValue("");
-                          postCategoryCreateQuery.mutate(textFieldValue);
                         }}
                         sx={{ color: "primary.500", padding: "2px 16px" }}>
                         카테고리 추가
@@ -410,9 +394,12 @@ const WriteModal = ({
                     />
                     <MenuItem
                       onClick={() => {
-                        setCategoryArray([...categoryArray, textFieldValue]);
+                        const body = {
+                          loginedMemberId: memberId,
+                          name: textFieldValue,
+                        };
+                        postCategoryCreateQuery.mutate(body);
                         setTextFieldValue("");
-                        postCategoryCreateQuery.mutate(textFieldValue);
                       }}
                       sx={{ color: "primary.500", padding: "2px 16px" }}>
                       카테고리 추가

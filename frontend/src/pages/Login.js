@@ -16,10 +16,11 @@ import {
 } from "../states/loginState.js";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Snackbar from "../components/Snackbar.js";
-import { themeState } from "../states/common.js";
+import { themeState, visitIdState } from "../states/common.js";
 
 const Login = () => {
   const theme = useRecoilValue(themeState);
+  const [visitId, setVisitId] = useRecoilState(visitIdState);
 
   const navigate = useNavigate();
   const themes = useTheme();
@@ -68,10 +69,12 @@ const Login = () => {
     };
 
     if (email.length !== 0 && password !== 0) {
+      setVisitId(0);
       postRegister.mutate(body);
     } else {
       setMessage("이메일과 비밀번호는 필수 값입니다.");
       setOpen(true);
+      setVisitId(0);
     }
   };
 

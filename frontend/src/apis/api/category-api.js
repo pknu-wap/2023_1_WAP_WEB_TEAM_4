@@ -9,17 +9,15 @@ export const PostCategoryDeleteApi = async (body) => {
   return await defaultInstance.post("/category/delete", body);
 };
 
-export const GetCategoryApi = async () => {
-  const { data } = await defaultInstance.get("/category/get");
-
-  console.log(data);
+export const GetCategoryApi = async (params) => {
+  const { data } = await defaultInstance.get("/category/get", { params });
   return data;
 };
 
-export const useGetCategoryQuery = () => {
+export const useGetCategoryQuery = (params) => {
   const { isLoading, error, data, status } = useQuery(
-    [`CategoryRead`],
-    () => GetCategoryApi(),
+    [`CategoryRead`, params],
+    () => GetCategoryApi(params),
     {
       refetchOnMount: "always",
     }

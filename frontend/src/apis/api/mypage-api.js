@@ -24,7 +24,11 @@ import { defaultInstance } from "..";
 // };
 
 export const PostChangeProfileApi = async (body) => {
-  return await defaultInstance.post("/mypage/change/profile", body);
+  return await defaultInstance.post("/mypage/change/profile", body, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 };
 
 export const PostChangeBlogSkinApi = async (body) => {

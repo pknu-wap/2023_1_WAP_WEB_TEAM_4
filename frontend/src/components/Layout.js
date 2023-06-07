@@ -6,7 +6,6 @@ import { isNavigateOpenState } from "../states/mainState";
 import SideNavigation from "./SideNavigation";
 import Header from "./Header";
 import HeaderMobile from "./HeaderMobile";
-
 const Layout = ({ children, isMain, isHome }) => {
   const theme = useTheme();
   const isPhone = useMediaQuery(theme.breakpoints.down("xs"));

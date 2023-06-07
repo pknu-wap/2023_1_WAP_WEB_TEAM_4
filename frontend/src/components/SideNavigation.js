@@ -11,10 +11,12 @@ import {
   useGetHomeQuery,
 } from "../apis/api/content-api";
 import { memberIdState } from "../states/loginState";
+import { visitIdState } from "../states/common";
 
 const SideNavigation = ({ clickId, setClickId }) => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const [visitId, setVisitId] = useRecoilState(visitIdState);
   const [isNavigateOpen, setIsNavigateOpen] =
     useRecoilState(isNavigateOpenState);
   const [memberId, setMemberId] = useRecoilState(memberIdState);
@@ -36,34 +38,36 @@ const SideNavigation = ({ clickId, setClickId }) => {
       zIndex={100}
       position="fixed">
       <Stack p="0px 20px 20px 20px">
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center">
-          <Stack direction="row" alignItems="center" marginBottom="5px">
-            <IconButton
-              width="16px"
-              height="16px"
-              onClick={() => navigate("/write")}>
-              <AddIcon />
-            </IconButton>
-            <Stack
-              sx={{
-                color: "background.color",
-                fontSize: "16px",
-                fontWeight: "bold",
-              }}>
-              글쓰기
+        {memberId > 0 && (
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center">
+            <Stack direction="row" alignItems="center" marginBottom="5px">
+              <IconButton
+                width="16px"
+                height="16px"
+                onClick={() => navigate("/write")}>
+                <AddIcon />
+              </IconButton>
+              <Stack
+                sx={{
+                  color: "background.color",
+                  fontSize: "16px",
+                  fontWeight: "bold",
+                }}>
+                글쓰기
+              </Stack>
             </Stack>
+            <IconButton onClick={() => setIsNavigateOpen(false)}>
+              <KeyboardDoubleArrowLeftIcon />
+            </IconButton>
           </Stack>
-          <IconButton onClick={() => setIsNavigateOpen(false)}>
-            <KeyboardDoubleArrowLeftIcon />
-          </IconButton>
-        </Stack>
+        )}
         <Stack gap="16px">
           <Stack gap="10px">
             <Stack>
-              {contentData
+              {contentData && visitId > 0
                 ? contentData?.sidebar?.map((category, i) => {
                     return (
                       <div key={i}>
