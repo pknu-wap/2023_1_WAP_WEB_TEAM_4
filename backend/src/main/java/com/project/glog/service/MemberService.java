@@ -76,15 +76,19 @@ MemberService {
 
     private void validateDuplicateMember(Member member) {
 
-        memberRepository.findByNickname(member.getNickname())
-                .ifPresent(m -> {
-                    throw new IllegalStateException("이미 존재하는 회원입니다.");
-                });
+        Optional<Member> validateNickname = memberRepository.findByNickname(member.getNickname());
+        if(validateNickname.isPresent()){
+            if(member.getId()==null || member.getId()!=validateNickname.get().getId()){
+                throw new IllegalStateException("이미 존재하는 회원입니다.");
+            }
+        }
 
-        memberRepository.findByLoginid(member.getLoginid())
-                .ifPresent(m -> {
-                    throw new IllegalStateException("이미 존재하는 아이디 입니다.");
-                });
+        Optional<Member> validateLoginId = memberRepository.findByLoginid(member.getLoginid());
+        if(validateLoginId.isPresent()){
+            if(member.getId()==null || member.getId()!=validateLoginId.get().getId()){
+                throw new IllegalStateException("이미 존재하는 아이디입니다.");
+            }
+        }
     }
 
     public Long login(LoginRequest loginRequest){
