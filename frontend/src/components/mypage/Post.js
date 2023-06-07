@@ -6,7 +6,6 @@ function Post() {
   const theme = useTheme();
   return (
     <Stack
-      // border={`1px solid ${theme.palette.primary.main}`}
       justifyContent="center"
       width="100%"
       maxWidth="400px"
@@ -16,17 +15,14 @@ function Post() {
       borderRadius="0px 10px 10px 0px"
       borderLeft="0px solid black"
       gap="24px"
-      //   marginLeft="-10px"
-      p="8%"
-    >
+      p="8%">
       <Stack
         width="300px"
         alignItems="center"
         p="4%"
         color="primary.main"
         borderRadius="10px"
-        border={`1px solid ${theme.palette.primary.main}`}
-      >
+        border={`1px solid ${theme.palette.primary.main}`}>
         방명록
       </Stack>
       <TextField size="small">비밀번호 확인</TextField>

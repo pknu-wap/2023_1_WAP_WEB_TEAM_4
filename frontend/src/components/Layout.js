@@ -6,7 +6,6 @@ import { isNavigateOpenState } from "../states/mainState";
 import SideNavigation from "./SideNavigation";
 import Header from "./Header";
 import HeaderMobile from "./HeaderMobile";
-
 const Layout = ({ children, isMain, isHome }) => {
   const theme = useTheme();
   const isPhone = useMediaQuery(theme.breakpoints.down("xs"));
@@ -26,7 +25,7 @@ const Layout = ({ children, isMain, isHome }) => {
       ) : (
         <Header isMain={isMain} isHome={isHome} />
       )}
-      <Stack direction="row" width="100%" height="100%" padding="80px 0px">
+      <Stack direction="row" width="100%" height="100%" paddingTop="80px">
         {children}
       </Stack>
     </Stack>

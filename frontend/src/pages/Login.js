@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Stack, Button, useMediaQuery, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
@@ -14,36 +14,46 @@ import {
   nicknameState,
   profileImageState,
 } from "../states/loginState.js";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import Snackbar from "../components/Snackbar.js";
+import { themeState, visitIdState } from "../states/common.js";
 
 const Login = () => {
+  const theme = useRecoilValue(themeState);
+  const [visitId, setVisitId] = useRecoilState(visitIdState);
+
   const navigate = useNavigate();
   const themes = useTheme();
   const [loginState, setLoginState] = useState({
     email: "",
     password: "",
   });
-  const isNotSmall = useMediaQuery(themes.breakpoints.up("xs"));
-
+  const isNotSmall = useMediaQuery(themes.breakpoints.up("md"));
+  const [open, setOpen] = useState(false);
   const [memberId, setMemberId] = useRecoilState(memberIdState);
-  const [nickname, setNickname] = useRecoilState(nicknameState);
-  const [profileImage, setProfileImage] = useRecoilState(profileImageState);
-  const [blogUrl, setBlogUrl] = useRecoilState(blogUrlState);
+  const setNickname = useSetRecoilState(nicknameState);
+  const setProfileImage = useSetRecoilState(profileImageState);
+  const setBlogUrl = useSetRecoilState(blogUrlState);
+  const [message, setMessage] = useState("");
 
   const { email, password } = loginState;
 
+  useEffect(() => {
+    memberId && navigate("/");
+  }, []);
+
   const postRegister = useMutation(PostLoginApi, {
     onSuccess: (data) => {
-      // setMemberId(data.data.memberId);
-      // setBlogUrl(data.data.blogUrl);
-      // setNickname(data.data.nickname);
-      // setProfileImage(data.data.profileImage);
+      setMemberId(data.data.memberId);
+      setBlogUrl(data.data.blogUrl);
+      setNickname(data.data.nickname);
+      setProfileImage(data.data.profileImage);
 
-      // sessionStorage.setItem("memberId", data.data.memberId);
       navigate("/");
     },
     onError: (error) => {
-      alert(error.response.data);
+      setMessage(error.response.data);
+      setOpen(true);
     },
   });
 
@@ -58,98 +68,110 @@ const Login = () => {
       loginPw: password,
     };
 
-    postRegister.mutate(body);
+    if (email.length !== 0 && password !== 0) {
+      setVisitId(0);
+      postRegister.mutate(body);
+    } else {
+      setMessage("이메일과 비밀번호는 필수 값입니다.");
+      setOpen(true);
+      setVisitId(0);
+    }
   };
 
   return (
     <Layout>
-      <Stack width="100%" flexDirection="row" bgcolor="black">
-        {isNotSmall && (
-          <Stack width="100%" paddingRight="200px">
-            <ImageDescription />
-            <ImageRightDescription />
-          </Stack>
-        )}
+      {!memberId && (
         <Stack
-          style={{
-            width: isNotSmall ? "20%" : "100%",
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            position: "fixed",
-            right: 0,
-            top: 0,
-          }}>
-          <Stack width="80%" gap="30px" style={{ alignItems: "center" }}>
-            <Stack fontWeight="bold" fontSize="20px" color="#ECD8A4">
-              Login
+          width="100%"
+          flexDirection="row"
+          bgcolor="background.contractColor">
+          {isNotSmall && (
+            <Stack width="100%" paddingRight="200px">
+              <ImageDescription />
+              <ImageRightDescription />
+              <ImageDescription />
+              <ImageRightDescription />
             </Stack>
-            <input
-              placeholder="Email"
-              onChange={loginHandler}
-              name="email"
-              value={email}
-              style={{
-                color: "#ffffff",
-                width: "80%",
-                outline: "transparent",
-                backgroundColor: "transparent",
-                border: "transparent",
-                borderBottom: "1px solid #ffffff",
-              }}
+          )}
+          <Stack
+            style={{
+              width: isNotSmall ? "20%" : "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              position: "fixed",
+              right: 0,
+              top: 0,
+            }}>
+            <Stack width="80%" gap="30px" style={{ alignItems: "center" }}>
+              <Stack fontWeight="bold" fontSize="20px" color="primary.main">
+                Login
+              </Stack>
+              <input
+                placeholder="Email"
+                onChange={loginHandler}
+                name="email"
+                value={email}
+                style={{
+                  color: themes.palette.background.color,
+                  width: "80%",
+                  outline: "transparent",
+                  backgroundColor: "transparent",
+                  border: "transparent",
+                  borderBottom:
+                    theme === "DARK"
+                      ? "1px solid #ffffff"
+                      : `1px solid ${themes.palette.primary.main}`,
+                }}
+              />
+              <input
+                placeholder="Password"
+                onChange={loginHandler}
+                type="password"
+                name="password"
+                value={password}
+                style={{
+                  color: themes.palette.background.color,
+                  outline: "transparent",
+                  width: "80%",
+                  backgroundColor: "transparent",
+                  border: "transparent",
+                  borderBottom:
+                    theme === "DARK"
+                      ? "1px solid #ffffff"
+                      : `1px solid ${themes.palette.primary.main}`,
+                }}
+              />
+              <Button
+                onClick={loginButtonClick}
+                variant="outlined"
+                size="small"
+                sx={{
+                  width: "80%",
+                }}>
+                Login
+              </Button>
+              <Button
+                onClick={() => navigate("/register")}
+                variant="contained"
+                size="small"
+                sx={{
+                  width: "80%",
+                  marginTop: "-20px",
+                }}>
+                Sign Up
+              </Button>
+            </Stack>
+            <Snackbar
+              open={open}
+              setOpen={setOpen}
+              title={message}
+              color="error"
             />
-            <input
-              placeholder="Password"
-              onChange={loginHandler}
-              type="password"
-              name="password"
-              value={password}
-              style={{
-                color: "#ffffff",
-                outline: "transparent",
-                width: "80%",
-                backgroundColor: "transparent",
-                border: "transparent",
-                borderBottom: "1px solid #ffffff",
-              }}
-            />
-            <Button
-              onClick={loginButtonClick}
-              variant="outlined"
-              size="small"
-              sx={{
-                width: "80%",
-                "&.MuiButton-root": {
-                  border: "1px solid #ECD8A4",
-                  color: "#ECD8A4",
-                },
-              }}>
-              Login
-            </Button>
-            <Button
-              onClick={() => navigate("/register")}
-              variant="contained"
-              size="small"
-              sx={{
-                width: "80%",
-                marginTop: "-20px",
-              }}>
-              Sign Up
-            </Button>
           </Stack>
-
-          {/* <Stack
-            onClick={() => navigate("/register")}
-            color="#ECD8A4"
-            fontSize="11px"
-            marginTop="10px"
-            marginLeft="8%"
-            sx={{ ":hover": { color: "#FFC222" }, cursor: "pointer" }}>
-            Register
-          </Stack> */}
         </Stack>
-      </Stack>
+      )}
     </Layout>
   );
 };

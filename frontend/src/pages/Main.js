@@ -3,12 +3,11 @@ import Header from "../components/Header";
 import HeaderMobile from "../components/HeaderMobile";
 import SideNavigation from "../components/SideNavigation";
 import Post from "../components/Post";
-import { Button, Stack, useMediaQuery } from "@mui/material";
+import { Button, IconButton, Stack, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useRecoilState } from "recoil";
 import ReactMarkdown from "react-markdown";
 import { isNavigateOpenState } from "../states/mainState";
-import { postState, titleState } from "../states/writeState";
 import { useMutation, useQueryClient } from "react-query";
 import {
   PostCategoryCreateApi,
@@ -16,14 +15,18 @@ import {
 } from "../apis/api/category-api";
 import {
   PostDeleteApi,
+  PostPlusLikesApi,
   useGetContentReadQuery,
   useGetHomeQuery,
 } from "../apis/api/content-api";
 import Layout from "../components/Layout";
 import { useNavigate } from "react-router-dom";
-
+import { memberIdState } from "../states/loginState";
+import { visitIdState } from "../states/common";
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 const Main = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const isPhone = useMediaQuery(theme.breakpoints.down("xs"));
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const isDeskop = useMediaQuery(theme.breakpoints.up("lg"));
@@ -31,23 +34,19 @@ const Main = () => {
     useRecoilState(isNavigateOpenState);
   const [navigateWidth, setNavigateWidth] = useState(0);
   const [anchorWidth, setAnchoreWidth] = useState(0);
-
-  const [title] = useRecoilState(titleState);
+  const [memberId, setMemberId] = useRecoilState(memberIdState);
+  const [visitId, setVisitId] = useRecoilState(visitIdState);
 
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   console.log(sessionStorage.getItem("memberId"));
-  //   !sessionStorage.getItem("memberId") && navigate("/login");
-  // }, []);
 
   useEffect(() => {
     isNavigateOpen ? setNavigateWidth(180) : setNavigateWidth(0);
     isDeskop ? setAnchoreWidth(300) : setAnchoreWidth(0);
   }, [isNavigateOpen, isDeskop]);
 
-  const [clickId, setClickId] = useState(undefined);
+  useEffect(() => {
+    !visitId && !memberId && navigate("/login");
+  }, []);
 
   const postCategoryCreate = useMutation(PostCategoryCreateApi, {
     onSuccess: () => queryClient.invalidateQueries("CategoryRead"),
@@ -57,84 +56,96 @@ const Main = () => {
     onSuccess: () => queryClient.invalidateQueries("ContentRead"),
   });
 
+  const postContentLikeQuery = useMutation(PostPlusLikesApi, {
+    onSuccess: () => queryClient.invalidateQueries("ContentRead"),
+  });
+
   // 컨텐츠 클릭하면 그거 값 읽어옴
-  const { data: contentData } = useGetContentReadQuery({ cid: clickId });
+  const { data: contentData } = useGetContentReadQuery({ cid: visitId });
 
   return (
     <Layout isMain={true}>
-      {isNavigateOpen && (
-        <SideNavigation clickId={clickId} setClickId={setClickId} />
+      {(visitId || memberId) && isNavigateOpen && (
+        <SideNavigation clickId={visitId} setClickId={setVisitId} />
       )}
-      <Stack
-        margin={`0px ${40 + anchorWidth}px 84px ${40 + navigateWidth}px`}
-        width="100%"
-        height="100%"
-        p={isTablet ? "36px 0px" : "36px 160px"}
-        color="white">
-        {title && (
-          <Stack>
-            <Stack direction="row" justifyContent="space-between">
-              <Stack
-                color="background.color"
-                fontSize="32px"
-                height="45px"
-                fontWeight="bold">
-                {contentData?.contentDTO?.title}
-              </Stack>
-              <Stack direction="row" gap={isPhone ? "0px" : "12px"}>
-                {!isPhone && (
-                  <Stack
-                    color="background.color"
-                    fontSize="12px"
-                    justifyContent="center">
-                    조회수 {contentData?.contentDTO?.views}
-                  </Stack>
-                )}
-                {!isPhone && (
-                  <Stack
-                    fontSize="12px"
-                    color="background.color"
-                    justifyContent="center">
-                    추천수 {contentData?.contentDTO?.likes}
-                  </Stack>
-                )}
-                <Button>수정</Button>
-                <Button
-                  color="error"
-                  onClick={() => postContentDeleteQuery.mutate(clickId)}>
-                  삭제
-                </Button>
-              </Stack>
+      {(visitId || memberId) && contentData ? (
+        <Stack
+          margin={`0px ${40 + anchorWidth}px 84px ${40 + navigateWidth}px`}
+          width="100%"
+          height="100%"
+          p={isTablet ? "36px 0px" : "36px 160px"}
+          color="white">
+          <Stack direction="row" justifyContent="space-between">
+            <Stack
+              color="background.color"
+              fontSize="32px"
+              height="45px"
+              fontWeight="bold">
+              {contentData?.contentDTO?.title}
             </Stack>
+            <Stack direction="row" gap={isPhone ? "0px" : "12px"}>
+              {!isPhone && (
+                <Stack
+                  color="background.color"
+                  fontSize="12px"
+                  justifyContent="center">
+                  조회수 {contentData?.contentDTO?.views}
+                </Stack>
+              )}
+              {!isPhone && (
+                <Stack
+                  fontSize="12px"
+                  color="background.color"
+                  justifyContent="center">
+                  추천수 {contentData?.contentDTO?.likes}
+                </Stack>
+              )}
+              {!isPhone && memberId ? (
+                <IconButton
+                  onClick={() => {
+                    const body = {
+                      loginedMemberId: memberId,
+                      contentId: visitId > 0 ? visitId : memberId,
+                    };
+                    postContentLikeQuery.mutate(body);
+                  }}
+                  fontSize="12px"
+                  color="background.color"
+                  justifyContent="center">
+                  <ThumbUpAltIcon />
+                </IconButton>
+              ) : null}
 
-            <Stack height="2px" bgcolor="primary.500" marginBottom="24px" />
-            <Stack>
-              <Stack
-                sx={{
-                  color: "background.color",
-                }}
-                gap="5px">
-                {contentData?.contentDTO?.text}
-              </Stack>
+              {visitId === 0 && (
+                <>
+                  <Button>수정</Button>
+                  <Button
+                    color="error"
+                    onClick={() =>
+                      postContentDeleteQuery.mutate({
+                        loginedMemberId: memberId,
+                        contentId: visitId,
+                      })
+                    }>
+                    삭제
+                  </Button>
+                </>
+              )}
             </Stack>
           </Stack>
-        )}
-      </Stack>
-      {isDeskop && (
-        <Stack
-          marginTop="14%"
-          justifyContent="center"
-          overflow="scroll"
-          style={{
-            maxHeight: "400px",
-            height: "100%",
-            maxWidth: "200px",
-            width: "100%",
-            position: "fixed",
-            top: 0,
-            right: 100,
-          }}></Stack>
-      )}
+
+          <Stack height="2px" bgcolor="primary.500" marginBottom="24px" />
+          <Stack>
+            <Stack
+              sx={{
+                color: "background.color",
+              }}
+              gap="5px">
+              {contentData?.contentDTO?.text}
+            </Stack>
+          </Stack>
+        </Stack>
+      ) : null}
     </Layout>
   );
 };

@@ -14,7 +14,6 @@ import WriteModal from "../components/WriteModal";
 import Header from "../components/Header";
 import { nord } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { useTheme } from "@mui/material/styles";
-import { postState, titleState } from "../states/writeState";
 import { useRecoilState } from "recoil";
 import "./write.css";
 import ReactMarkdown from "react-markdown";
@@ -28,13 +27,15 @@ import { PostCreateApi } from "../apis/api/content-api";
 import { useNavigate } from "react-router-dom";
 import { useGetCategoryQuery } from "../apis/api/category-api";
 import Layout from "../components/Layout";
+import { memberIdState } from "../states/loginState";
 
 const Write = () => {
   const queryClient = useQueryClient();
+  const [memberId, setMemberId] = useRecoilState(memberIdState);
   const editorRef = useRef();
   const navigate = useNavigate();
-  const [title, setTitle] = useRecoilState(titleState);
-  const [post, setPost] = useRecoilState(postState);
+  const [title, setTitle] = useState("");
+  const [post, setPost] = useState("");
   const [tagArray, setTagArray] = useState([]);
   const [tag, setTag] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -47,33 +48,12 @@ const Write = () => {
   // 등록 버튼 핸들러
   const handleRegisterButton = () => {
     // 입력창에 입력한 내용을 HTML 태그 형태로 취득
-    console.log(editorRef.current?.getInstance().getHTML());
-
     setDialogOpen(true);
   };
 
-  // const { data } = useGetCategoryQuery();
-
-  // console.log(data);
-
-  const data = [
-    {
-      categoryId: 1,
-      name: '"Test"',
-    },
-    {
-      categoryId: 2,
-      name: '"Test2"',
-    },
-    {
-      categoryId: 3,
-      name: '{"name":"Test3"}',
-    },
-    {
-      categoryId: 4,
-      name: "Test4",
-    },
-  ];
+  const { data } = useGetCategoryQuery({
+    loginedMemberId: memberId,
+  });
 
   return (
     <Layout>
@@ -227,10 +207,6 @@ const Write = () => {
               <Button
                 onClick={() => {
                   const position = textareaRef.current.value.length + 3;
-                  console.log(position);
-                  console.log(
-                    textareaRef.current.setSelectionRange(position, position)
-                  );
                   setPost(post + "\n**");
                   // textareaRef.current.focus();
                   // textareaRef.current.setSelectionRange(position, position);
@@ -257,12 +233,6 @@ const Write = () => {
                   textareaRef.current.focus();
                 }}>
                 <CodeIcon />
-              </Button>
-              <Button
-                onClick={() => {
-                  textareaRef.current.focus();
-                }}>
-                <ImageIcon />
               </Button>
               <Button
                 onClick={() => {
@@ -329,7 +299,6 @@ const Write = () => {
                   ),
                   code({ node, inline, className, children, ...props }) {
                     const match = /language-(\w+)/.exec(className || "");
-                    console.log(match);
                     return inline ? (
                       // 강조 (``)
                       <code

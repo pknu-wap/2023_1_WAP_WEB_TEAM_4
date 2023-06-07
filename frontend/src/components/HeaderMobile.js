@@ -8,6 +8,7 @@ import { searchOpenState, selectValueState } from "../states/homeState";
 import MenuIcon from "@mui/icons-material/Menu";
 import { isNavigateOpenState } from "../states/mainState";
 import { useTheme } from "@mui/material/styles";
+import Jump from "react-reveal/Jump";
 
 const HeaderMobile = ({ isHome, isMain }) => {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ const HeaderMobile = ({ isHome, isMain }) => {
       top={0}
       height="80px"
       bgcolor="header.background"
+      justifyContent="space-between"
       zIndex={200}>
       {isMain && !isNavigateOpen && (
         <IconButton
@@ -35,22 +37,24 @@ const HeaderMobile = ({ isHome, isMain }) => {
         </IconButton>
       )}
       <Stack alignItems="flex-start" marginLeft="28px">
-        <Stack
-          sx={{
-            cursor: "pointer",
-            ":hover": {
-              color: "header.logoHover",
-            },
-            ":active": {
-              color: "header.logoActive",
-            },
-          }}
-          onClick={() => navigate("/home")}
-          fontWeight="bold"
-          color="header.logo"
-          fontSize="28px">
-          GLOG
-        </Stack>
+        <Jump>
+          <Stack
+            sx={{
+              cursor: "pointer",
+              ":hover": {
+                color: "header.logoHover",
+              },
+              ":active": {
+                color: "header.logoActive",
+              },
+            }}
+            onClick={() => navigate("/home")}
+            fontWeight="bold"
+            color="header.logo"
+            fontSize="28px">
+            GLOG
+          </Stack>
+        </Jump>
       </Stack>
       {isHome && (
         <IconButton

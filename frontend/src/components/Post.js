@@ -29,32 +29,32 @@
 //   //   isDeskop ? setAnchoreWidth(300) : setAnchoreWidth(0);
 //   // }, [isNavigateOpen, isDeskop]);
 
-  // useEffect(() => {
-  //   const regex = /^#+\s*(.*?)$/gm;
-  //   const matches = [...post.matchAll(regex)];
-  //   const newSections = matches.map((match, index) => ({
-  //     id: `section-${index + 1}`,
-  //     html: match[0] || "",
-  //     content: match[4] || match[3] || match[2] || match[1] || "",
-  //     isActive: false,
-  //     ref: React.createRef(),
-  //   }));
-  //   setSections(newSections);
-  // }, []);
+// useEffect(() => {
+//   const regex = /^#+\s*(.*?)$/gm;
+//   const matches = [...post.matchAll(regex)];
+//   const newSections = matches.map((match, index) => ({
+//     id: `section-${index + 1}`,
+//     html: match[0] || "",
+//     content: match[4] || match[3] || match[2] || match[1] || "",
+//     isActive: false,
+//     ref: React.createRef(),
+//   }));
+//   setSections(newSections);
+// }, []);
 
-  // const handleClick = (sectionId) => {
-  //   setSections(
-  //     sections.map((section) =>
-  //       section.id === sectionId
-  //         ? { ...section, isActive: true }
-  //         : { ...section, isActive: false }
-  //     )
-  //   );
-  //   const selectedSection = sections.find(
-  //     (section) => section.id === sectionId
-  //   );
-  //   selectedSection?.ref?.current?.scrollIntoView({ behavior: "smooth" });
-  // };
+// const handleClick = (sectionId) => {
+//   setSections(
+//     sections.map((section) =>
+//       section.id === sectionId
+//         ? { ...section, isActive: true }
+//         : { ...section, isActive: false }
+//     )
+//   );
+//   const selectedSection = sections.find(
+//     (section) => section.id === sectionId
+//   );
+//   selectedSection?.ref?.current?.scrollIntoView({ behavior: "smooth" });
+// };
 
 //   console.log(anchorWidth);
 //   console.log(post);

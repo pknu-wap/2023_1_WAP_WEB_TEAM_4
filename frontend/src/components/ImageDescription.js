@@ -15,14 +15,14 @@ export const ImageDescription = () => {
           height="330px"
           marginTop="80px"
           marginLeft="100px"
-          backgroundColor="white"
+          backgroundColor="background.color"
         />
         <Stack
           width="50%"
           height="60px"
           paddingTop="10em"
           paddingLeft="5em"
-          color="white">
+          color="background.color">
           저희 The glog는 폴더별로 나눠서 파일을 관리할 수 있습니다
         </Stack>
       </Stack>
@@ -43,7 +43,7 @@ export const ImageRightDescription = () => {
           height="60px"
           paddingTop="10em"
           paddingLeft="5em"
-          color="white">
+          color="background.color">
           가
         </Stack>
         <Stack
@@ -51,7 +51,7 @@ export const ImageRightDescription = () => {
           height="330px"
           marginTop="170px"
           marginLeft="100px"
-          backgroundColor="white"
+          backgroundColor="background.color"
         />
       </Stack>
     </Fade>

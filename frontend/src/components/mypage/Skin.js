@@ -1,30 +1,19 @@
-import { Button, Stack, TextField, useMediaQuery } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import React, { useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import React from "react";
+import { useRecoilState } from "recoil";
 import { themeState } from "../../states/common";
-import { useMutation, useQueryClient } from "react-query";
-import { PostChangeBlogSkinApi } from "../../apis/api/mypage-api";
 
 function Skin() {
   const theme = useTheme();
   const [userTheme, setUserTheme] = useRecoilState(themeState);
-  const isPhone = useMediaQuery(theme.breakpoints.down("xs"));
-  const queryClient = useQueryClient();
-
-  const postChangeBlogSkinQuery = useMutation(PostChangeBlogSkinApi, {
-    onSuccess: () => queryClient.invalidateQueries("mypage"),
-    onError: (error) => {
-      alert(error.response.data);
-    },
-  });
 
   return (
-    <Stack width="100%" gap="36px">
+    <Stack width="100%" gap="36px" p="24px">
       <Stack
         bgcolor="background.contractColor"
         borderRadius="0px 10px 10px 0px"
-        justifyContent="space-around"
+        justifyContent="flex-start"
         direction="row">
         <Stack direction="row">
           <Stack
@@ -48,25 +37,7 @@ function Skin() {
             </Button>
           </Stack>
         </Stack>
-        {!isPhone && (
-          <Button
-            variant="contained"
-            sx={{
-              color: theme.palette.background.contractColor,
-            }}>
-            저장
-          </Button>
-        )}
       </Stack>
-      {isPhone && (
-        <Button
-          variant="contained"
-          onClick={() =>
-            postChangeBlogSkinQuery.mutate(userTheme === "LIGHT" ? 0 : 1)
-          }>
-          저장
-        </Button>
-      )}
     </Stack>
   );
 }

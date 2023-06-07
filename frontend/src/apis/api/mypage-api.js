@@ -24,7 +24,11 @@ import { defaultInstance } from "..";
 // };
 
 export const PostChangeProfileApi = async (body) => {
-  return await defaultInstance.post("/mypage/change/profile", body);
+  return await defaultInstance.post("/mypage/change/profile", body, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 };
 
 export const PostChangeBlogSkinApi = async (body) => {
@@ -43,14 +47,18 @@ export const PostChangeAccountApi = async (body) => {
   return await defaultInstance.post("/mypage/change/account", body);
 };
 
-export const GetMypageApi = async () => {
-  const { data } = await defaultInstance.get("/mypage");
+export const GetMypageApi = async (params) => {
+  const { data } = await defaultInstance.get("/mypage", { params });
   return data;
 };
 
-export const useGetMypageQuery = () => {
-  const { isLoading, error, data, status } = useQuery([`mypage`], () =>
-    GetMypageApi()
+export const useGetMypageQuery = (params) => {
+  const { isLoading, error, data, status } = useQuery(
+    [`mypage`, params],
+    () => GetMypageApi(params),
+    {
+      enabled: !!params.loginedMemberId,
+    }
   );
   return { data, isLoading, error, status };
 };

@@ -4,17 +4,16 @@ import React, { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { PostChangeBlogSettingApi } from "../../apis/api/mypage-api";
 
-const Blog = () => {
+const Blog = ({
+  introduction,
+  setIntroduction,
+  blogName,
+  setBlogName,
+  memberId,
+}) => {
   const theme = useTheme();
   const isPhone = useMediaQuery(theme.breakpoints.down("xs"));
   const [edit, setEdit] = useState(false);
-  const [blogName, setBlogName] = useState("");
-  const [description, setDescription] = useState("");
-
-  useEffect(() => {
-    setBlogName("Chaeyeon's blog");
-    setDescription("채연입니다.");
-  }, []);
 
   const queryClient = useQueryClient();
 
@@ -24,6 +23,20 @@ const Blog = () => {
       alert(error.response.data);
     },
   });
+
+  const blogSave = () => {
+    if (edit) {
+      postChangeBlogSettingQuery.mutate({
+        loginedMemberId: memberId,
+        blogName,
+        introduction,
+      });
+
+      setEdit(!edit);
+    } else {
+      setEdit(!edit);
+    }
+  };
 
   return (
     <Stack width="100%" paddingBottom="24px" gap="36px">
@@ -44,7 +57,11 @@ const Blog = () => {
             블로그 이름
           </Stack>
           {edit ? (
-            <TextField size="small" />
+            <TextField
+              size="small"
+              value={blogName}
+              onChange={(event) => setBlogName(event.target.value)}
+            />
           ) : (
             <Stack
               color={theme.palette.background.color}
@@ -58,7 +75,7 @@ const Blog = () => {
         {!isPhone && (
           <Button
             variant="contained"
-            onClick={() => setEdit(!edit)}
+            onClick={blogSave}
             sx={{
               color: theme.palette.background.contractColor,
               marginRight: "32px",
@@ -81,27 +98,23 @@ const Blog = () => {
           한 줄 소개
         </Stack>
         {edit ? (
-          <TextField size="small" />
+          <TextField
+            size="small"
+            value={introduction}
+            onChange={(event) => setIntroduction(event.target.value)}
+          />
         ) : (
           <Stack
             color={theme.palette.background.color}
             fontWeight="bold"
             justifyContent="center"
             alignItems="flex-start">
-            {description}
+            {introduction}
           </Stack>
         )}
       </Stack>
       {isPhone && (
-        <Button
-          variant="contained"
-          onClick={() => {
-            setEdit(!edit);
-            postChangeBlogSettingQuery.mutate({
-              blogName,
-              introduction: description,
-            });
-          }}>
+        <Button variant="contained" onClick={blogSave}>
           {edit ? "저장" : "편집"}
         </Button>
       )}
