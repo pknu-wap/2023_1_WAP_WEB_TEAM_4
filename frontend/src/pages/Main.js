@@ -100,11 +100,9 @@ const Main = () => {
                   추천수 {contentData?.contentDTO?.likes}
                 </Stack>
               )}
-              {!isPhone && memberId && (
+              {!isPhone && memberId ? (
                 <IconButton
                   onClick={() => {
-                    console.log(visitId);
-                    console.log(memberId);
                     const body = {
                       loginedMemberId: memberId,
                       contentId: visitId > 0 ? visitId : memberId,
@@ -116,7 +114,7 @@ const Main = () => {
                   justifyContent="center">
                   <ThumbUpAltIcon />
                 </IconButton>
-              )}
+              ) : null}
 
               {visitId === 0 && (
                 <>

@@ -48,8 +48,6 @@ const Write = () => {
   // 등록 버튼 핸들러
   const handleRegisterButton = () => {
     // 입력창에 입력한 내용을 HTML 태그 형태로 취득
-    console.log(editorRef.current?.getInstance().getHTML());
-
     setDialogOpen(true);
   };
 
@@ -209,10 +207,6 @@ const Write = () => {
               <Button
                 onClick={() => {
                   const position = textareaRef.current.value.length + 3;
-                  console.log(position);
-                  console.log(
-                    textareaRef.current.setSelectionRange(position, position)
-                  );
                   setPost(post + "\n**");
                   // textareaRef.current.focus();
                   // textareaRef.current.setSelectionRange(position, position);
@@ -305,7 +299,6 @@ const Write = () => {
                   ),
                   code({ node, inline, className, children, ...props }) {
                     const match = /language-(\w+)/.exec(className || "");
-                    console.log(match);
                     return inline ? (
                       // 강조 (``)
                       <code

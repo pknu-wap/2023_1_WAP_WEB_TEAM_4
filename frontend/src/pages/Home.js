@@ -118,7 +118,7 @@ const Home = () => {
         {!isSearchOpen ? (
           category?.map((categoryName, i) => {
             return (
-              <Fade>
+              <Fade key={i}>
                 <RubberBand spy={startNumber}>
                   {isMobile ? (
                     <Stack key={i} spacing={4}>
@@ -282,11 +282,8 @@ const Home = () => {
           <Stack direction="row" width="100%" paddingLeft="2%" flexWrap="wrap">
             {stringData?.contentDTOS?.map((card, index) => {
               return (
-                <Fade>
-                  <Stack
-                    key={index}
-                    direction="row"
-                    justifyContent="flex-start">
+                <Fade key={index}>
+                  <Stack direction="row" justifyContent="flex-start">
                     <Stack marginLeft="32px" marginBottom="24px">
                       <Stack
                         minWidth="300px"

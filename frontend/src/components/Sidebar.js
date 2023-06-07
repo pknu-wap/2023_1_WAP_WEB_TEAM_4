@@ -31,7 +31,6 @@ function App() {
     const selectedSection = sections.find(
       (section) => section.id === sectionId
     );
-    console.log(selectedSection);
     selectedSection?.ref?.current?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -42,8 +41,7 @@ function App() {
           <div>
             <div
               style={{ backgroundColor: "red" }}
-              onClick={() => handleClick(section.id)}
-            >
+              onClick={() => handleClick(section.id)}>
               {section.content}
             </div>
           </div>
@@ -54,8 +52,7 @@ function App() {
               <h1
                 style={{ color: section.isActive ? "red" : "black" }}
                 ref={section.ref}
-                id={section.id}
-              >
+                id={section.id}>
                 {section.content}
               </h1>
             );
@@ -64,8 +61,7 @@ function App() {
               <h2
                 style={{ color: section.isActive ? "red" : "black" }}
                 ref={section.ref}
-                id={section.id}
-              >
+                id={section.id}>
                 {section.content}
               </h2>
             );
@@ -74,8 +70,7 @@ function App() {
               <h3
                 style={{ color: section.isActive ? "red" : "black" }}
                 ref={section.ref}
-                id={section.id}
-              >
+                id={section.id}>
                 {section.content}
               </h3>
             );
@@ -84,8 +79,7 @@ function App() {
               <p
                 style={{ color: section.isActive ? "red" : "black" }}
                 ref={section.ref}
-                id={section.id}
-              >
+                id={section.id}>
                 {section.content}
               </p>
             );

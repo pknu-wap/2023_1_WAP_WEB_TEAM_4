@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const axiosApi = (url, data) => {
-  console.log("보내기");
   const instance = axios.create({
     baseURL: url,
     withCredentials: true,
