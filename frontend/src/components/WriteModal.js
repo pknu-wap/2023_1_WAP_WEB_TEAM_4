@@ -75,7 +75,6 @@ const WriteModal = ({
 
   const writeButtonClick = async () => {
     const formData = new FormData();
-    // console.log(imageSrc)
 
     const body = {
       loginedMemberId: memberId,
@@ -87,12 +86,15 @@ const WriteModal = ({
     };
 
     formData.append("thumbnail", imageSrc);
-    formData.append(
-      "content",
-      new Blob([JSON.stringify(body)], { type: "application/json" })
-    );
 
-    postCreateQuery.mutate({ formData });
+    const json = JSON.stringify(body);
+
+    const blob = new Blob([json], {
+      type: "application/json",
+    });
+    formData.append("content", blob);
+
+    postCreateQuery.mutate(formData);
   };
 
   return (

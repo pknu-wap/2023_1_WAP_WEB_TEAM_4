@@ -95,7 +95,6 @@ const Mypage = () => {
     });
     const formData = new FormData();
     formData.append("loginedMemberId", memberId);
-    console.log(file);
     formData.append("profile", file);
     // formData.append("loginedMemberId", memberId);
 

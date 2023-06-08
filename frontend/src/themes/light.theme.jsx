@@ -60,7 +60,7 @@ export const lightTheme = createTheme({
       hover: "#C6E3CC",
       active: "#B5DBBC",
       pointColorTitle: mint[700],
-      pointColorContent: mint[600],
+      pointColorContent: mint[900],
     },
     text: {
       subColor: "#ffffff",

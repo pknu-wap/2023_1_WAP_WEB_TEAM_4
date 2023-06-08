@@ -12,6 +12,7 @@ import {
 } from "../apis/api/content-api";
 import { memberIdState } from "../states/loginState";
 import { visitIdState } from "../states/common";
+import Fade from "react-reveal/Fade";
 
 const SideNavigation = ({ clickId, setClickId }) => {
   const theme = useTheme();
@@ -23,7 +24,9 @@ const SideNavigation = ({ clickId, setClickId }) => {
 
   const isPhone = useMediaQuery(theme.breakpoints.down("xs"));
 
-  const { data: contentData } = useGetContentReadQuery({ cid: clickId });
+  const { data: contentData, isLoading } = useGetContentReadQuery({
+    cid: clickId,
+  });
   const { data: homeData } = useGetHomeQuery({ memberId: memberId });
 
   return (
@@ -37,38 +40,39 @@ const SideNavigation = ({ clickId, setClickId }) => {
       left={0}
       zIndex={100}
       position="fixed">
-      <Stack p="0px 20px 20px 20px">
-        {memberId > 0 && (
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center">
-            <Stack direction="row" alignItems="center" marginBottom="5px">
-              <IconButton
-                width="16px"
-                height="16px"
-                onClick={() => navigate("/write")}>
-                <AddIcon />
-              </IconButton>
-              <Stack
-                sx={{
-                  color: "background.color",
-                  fontSize: "16px",
-                  fontWeight: "bold",
-                }}>
-                글쓰기
+      <Fade spy={contentData}>
+        <Stack p="0px 20px 20px 20px">
+          {memberId > 0 && (
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center">
+              <Stack direction="row" alignItems="center" marginBottom="5px">
+                <IconButton
+                  width="16px"
+                  height="16px"
+                  onClick={() => navigate("/write")}>
+                  <AddIcon />
+                </IconButton>
+                <Stack
+                  sx={{
+                    color: "background.color",
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                  }}>
+                  글쓰기
+                </Stack>
               </Stack>
+              <IconButton onClick={() => setIsNavigateOpen(false)}>
+                <KeyboardDoubleArrowLeftIcon />
+              </IconButton>
             </Stack>
-            <IconButton onClick={() => setIsNavigateOpen(false)}>
-              <KeyboardDoubleArrowLeftIcon />
-            </IconButton>
-          </Stack>
-        )}
-        <Stack gap="16px">
-          <Stack gap="10px">
-            <Stack>
-              {contentData && visitId > 0
-                ? contentData?.sidebar?.map((category, i) => {
+          )}
+          <Stack gap="16px">
+            <Stack gap="10px">
+              <Stack>
+                {contentData && visitId > 0 ? (
+                  contentData?.sidebar?.map((category, i) => {
                     return (
                       <div key={i}>
                         <Stack
@@ -114,7 +118,10 @@ const SideNavigation = ({ clickId, setClickId }) => {
                       </div>
                     );
                   })
-                : homeData?.map((category, i) => {
+                ) : isLoading ? (
+                  <Stack />
+                ) : (
+                  homeData?.map((category, i) => {
                     return (
                       <div key={i}>
                         <Stack
@@ -159,11 +166,13 @@ const SideNavigation = ({ clickId, setClickId }) => {
                         </Stack>
                       </div>
                     );
-                  })}
+                  })
+                )}
+              </Stack>
             </Stack>
           </Stack>
         </Stack>
-      </Stack>
+      </Fade>
     </Stack>
   );
 };

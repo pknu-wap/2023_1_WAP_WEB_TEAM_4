@@ -1,48 +1,3 @@
-// import { Stack } from "@mui/material";
-// import React, { useEffect } from "react";
-// import { postState, sectionsState } from "../states/writeState";
-// import { useRecoilState } from "recoil";
-
-// const Anchor = () => {
-//   const [sections, setSections] = useRecoilState(sectionsState);
-//   const [post] = useRecoilState(postState);
-
-//   useEffect(() => {
-//     const regex =
-//       /<h1.*?>(.*?)<\/h1>|<h2.*?>(.*?)<\/h2>|<h3.*?>(.*?)<\/h3>|<h4.*?>(.*?)<\/h4>/gs;
-//     const matches = [...post.matchAll(regex)];
-//     const newSections = matches.map((match, index) => ({
-//       id: `section-${index + 1}`,
-//       html: match[0] || "",
-//       content: match[4] || match[3] || match[2] || match[1] || "",
-//       isActive: false,
-//       ref: React.createRef(),
-//     }));
-//     setSections(newSections);
-//   }, []);
-
-//   const handleClick = (sectionId) => {
-//     setSections(
-//       sections.map((section) =>
-//         section.id === sectionId
-//           ? { ...section, isActive: true }
-//           : { ...section, isActive: false }
-//       )
-//     );
-//     const selectedSection = sections.find(
-//       (section) => section.id === sectionId
-//     );
-//     console.log(selectedSection);
-//     selectedSection?.ref?.current?.scrollIntoView({ behavior: "smooth" });
-//   };
-
-//   return (
-
-//   );
-// };
-
-// export default Anchor;
-
 import { Stack } from "@mui/material";
 import React, { useEffect } from "react";
 import { postState, sectionsState } from "../states/writeState";
@@ -92,8 +47,7 @@ const Anchor = () => {
         position: "fixed",
         top: 0,
         right: 100,
-      }}
-    >
+      }}>
       {sections.map((section, i) => {
         if (section?.html.startsWith("<h1")) {
           return (
@@ -107,8 +61,7 @@ const Anchor = () => {
               onClick={() => {
                 handleClick(section.id);
                 console.log("클릭");
-              }}
-            >
+              }}>
               {section.content}
             </Stack>
           );
@@ -121,8 +74,7 @@ const Anchor = () => {
               paddingLeft="10px"
               height="30px"
               onClick={() => handleClick(section.id)}
-              sx={{ cursor: "pointer" }}
-            >
+              sx={{ cursor: "pointer" }}>
               {section.content}
             </Stack>
           );
@@ -134,8 +86,7 @@ const Anchor = () => {
               paddingLeft="10px"
               height="30px"
               onClick={() => handleClick(section.id)}
-              sx={{ cursor: "pointer" }}
-            >
+              sx={{ cursor: "pointer" }}>
               {section.content}
             </Stack>
           );
