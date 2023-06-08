@@ -103,11 +103,11 @@ const Main = () => {
               {!isPhone && memberId ? (
                 <IconButton
                   onClick={() => {
-                    const body = {
-                      loginedMemberId: memberId,
-                      contentId: visitId > 0 ? visitId : memberId,
-                    };
-                    postContentLikeQuery.mutate(body);
+                    const formData = new FormData();
+                    formData.append("loginedMemberId", memberId);
+                    formData.append("contentId", visitId);
+
+                    postContentLikeQuery.mutate(formData);
                   }}
                   fontSize="12px"
                   color="background.color"

@@ -37,7 +37,6 @@ const Mypage = () => {
   const [introduction, setIntroduction] = useState("");
   const [nickname, setNickname] = useState("");
   const [skin, setSkin] = useState(0);
-  const [description, setDescription] = useState(false);
   const optionArray = {
     0: (
       <ChangePassword
@@ -71,7 +70,7 @@ const Mypage = () => {
   }, [data]);
 
   const postChangeProfileQuery = useMutation(PostChangeProfileApi, {
-    onSuccess: () => queryClient.invalidateQueries("mypage"),
+    onSuccess: () => queryClient.invalidateQueries("Mypage"),
     onError: (error) => {
       alert(error.response.data);
     },
@@ -83,23 +82,24 @@ const Mypage = () => {
     fileInput.current?.click();
   };
 
-  const onUpload = (e) => {
+  const onUpload = async (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
-    return new Promise((resolve) => {
+    await new Promise((resolve) => {
       reader.onload = () => {
         setProfileImage(reader.result || null);
-
-        const formData = new FormData();
-        formData.append("image", profileImage);
-        formData.append("loginedMemberId", memberId);
-
-        postChangeProfileQuery.mutate(formData);
         resolve();
       };
     });
+    const formData = new FormData();
+    formData.append("loginedMemberId", memberId);
+    console.log(file);
+    formData.append("profile", file);
+    // formData.append("loginedMemberId", memberId);
+
+    postChangeProfileQuery.mutate(formData);
   };
 
   return (
@@ -162,7 +162,7 @@ const Mypage = () => {
                     삭제
                   </Button>
                 </Stack>
-                <Stack gap="28px">
+                <Stack gap="28px" width="300px">
                   <Stack
                     color={theme.palette.background.color}
                     width="fit-content"
@@ -171,7 +171,7 @@ const Mypage = () => {
                   </Stack>
                   <Stack direction="row" alignItems="center">
                     <Stack
-                      width="100px"
+                      width={!isPhone ? "500px" : "100px"}
                       height="100px"
                       sx={{ overflow: "scroll" }}
                       color={theme.palette.background.color}>

@@ -15,6 +15,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import jwt_decode from "jwt-decode";
 import { useEffect } from "react";
 import { themeState } from "./states/common";
+import "./App.css";
 
 const App = () => {
   const queryClient = new QueryClient({

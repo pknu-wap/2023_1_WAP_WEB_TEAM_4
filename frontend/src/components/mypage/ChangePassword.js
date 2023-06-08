@@ -29,7 +29,7 @@ const ChangePassword = ({ id, nickname, setNickname, memberId }) => {
   const queryClient = useQueryClient();
 
   const postChangeAccountQuery = useMutation(PostChangeAccountApi, {
-    onSuccess: () => queryClient.invalidateQueries("mypage"),
+    onSuccess: () => queryClient.invalidateQueries("Mypage"),
     onError: (error) => {
       alert(error.response.data);
     },

@@ -72,7 +72,7 @@ const SideNavigation = ({ clickId, setClickId }) => {
                     return (
                       <div key={i}>
                         <Stack
-                          fontSize="18px"
+                          fontSize="15px"
                           color="sideNavigation.pointColorTitle"
                           height="30px"
                           paddingLeft="10px"
@@ -97,8 +97,8 @@ const SideNavigation = ({ clickId, setClickId }) => {
                                   },
                                   cursor: "pointer",
                                 }}
-                                fontSize="16px"
-                                padding="0px 0px 5px 20px"
+                                fontSize="14px"
+                                padding="0px 0px 5px 12px"
                                 color={
                                   clickId === title.contentId
                                     ? "sideNavigation.pointColorContent"

@@ -12,6 +12,7 @@ import { GetLogoutApi } from "../apis/api/common-api";
 import { memberIdState } from "../states/loginState";
 import { themeState, visitIdState } from "../states/common";
 import Jump from "react-reveal/Jump";
+import { useGetMypageQuery } from "../apis/api/mypage-api";
 
 const Header = ({ isHome, isMain }) => {
   const navigate = useNavigate();
@@ -24,6 +25,8 @@ const Header = ({ isHome, isMain }) => {
   const [isNavigateOpen, setIsNavigateOpen] =
     useRecoilState(isNavigateOpenState);
   const [visitId, setVisitId] = useRecoilState(visitIdState);
+  const { data } = useGetMypageQuery({ loginedMemberId: memberId });
+
   return (
     <Stack
       position="fixed"
@@ -59,7 +62,8 @@ const Header = ({ isHome, isMain }) => {
               fontWeight="bold"
               color="header.logo"
               fontSize="32px">
-              GLOG
+              {/* GLOG */}
+              <Stack fontFamily="Glog">GLOG</Stack>
             </Stack>
           </Jump>
         </Stack>
@@ -109,18 +113,34 @@ const Header = ({ isHome, isMain }) => {
             회원가입
           </Button>
         )}
-        {memberId ? (
-          <Stack
-            onClick={() => {
-              navigate("/");
-              setVisitId(0);
-            }}
-            width="40px"
-            height="40px"
-            borderRadius="20px"
-            sx={{ cursor: "pointer", backgroundColor: "#ffffff" }}
-          />
-        ) : null}
+        {memberId &&
+          (data?.profileImage ? (
+            <img
+              src={data?.profileImage}
+              onClick={() => {
+                navigate("/");
+                setVisitId(0);
+              }}
+              alt="User_Picture"
+              style={{
+                height: "40px",
+                width: "40px",
+                borderRadius: "20px",
+                cursor: "pointer",
+              }}
+            />
+          ) : (
+            <Stack
+              onClick={() => {
+                navigate("/");
+                setVisitId(0);
+              }}
+              width="40px"
+              height="40px"
+              borderRadius="20px"
+              sx={{ cursor: "pointer", backgroundColor: "#ffffff" }}
+            />
+          ))}
       </Stack>
     </Stack>
   );

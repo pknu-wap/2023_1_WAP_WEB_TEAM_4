@@ -23,11 +23,7 @@ export const PostDeleteApi = async (body) => {
 };
 
 export const PostCreateApi = async (body) => {
-  return await defaultInstance.post("/content/create", body, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  return await defaultInstance.post("/content/create", body);
 };
 
 export const GetMainApi = async (params) => {

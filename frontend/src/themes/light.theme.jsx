@@ -2,6 +2,9 @@ import { createTheme } from "@mui/material";
 import { gray, mint } from "./color";
 
 export const lightTheme = createTheme({
+  typography: {
+    fontFamily: "Glog",
+  },
   breakpoints: {
     values: {
       xl: 1920,
