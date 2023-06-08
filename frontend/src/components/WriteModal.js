@@ -83,7 +83,14 @@ const WriteModal = ({
     };
     formData.append("multipartFile", imageSrc);
 
-    formData.append("contentCreateRequest", JSON.stringify(body));
+    // formData.append("contentCreateRequest", JSON.stringify(body));
+
+    const contentJSON = JSON.stringify(body);
+
+    formData.append(
+      "contentCreateRequest",
+      new Blob([contentJSON], { type: "application/json" })
+    );
 
     postCreateQuery.mutate(formData);
   };
@@ -266,11 +273,11 @@ const WriteModal = ({
                       />
                       <MenuItem
                         onClick={() => {
-                          const body = {
-                            loginedMemberId: memberId,
-                            name: textFieldValue,
-                          };
-                          postCategoryCreateQuery.mutate(body);
+                          const formData = new FormData();
+                          formData.append("loginedMemberId", memberId);
+                          formData.append("name", textFieldValue);
+
+                          postCategoryCreateQuery.mutate(formData);
                           setTextFieldValue("");
                         }}
                         sx={{ color: "primary.500", padding: "2px 16px" }}>
@@ -394,11 +401,11 @@ const WriteModal = ({
                     />
                     <MenuItem
                       onClick={() => {
-                        const body = {
-                          loginedMemberId: memberId,
-                          name: textFieldValue,
-                        };
-                        postCategoryCreateQuery.mutate(body);
+                        const formData = new FormData();
+                        formData.append("loginedMemberId", memberId);
+                        formData.append("name", textFieldValue);
+
+                        postCategoryCreateQuery.mutate(formData);
                         setTextFieldValue("");
                       }}
                       sx={{ color: "primary.500", padding: "2px 16px" }}>

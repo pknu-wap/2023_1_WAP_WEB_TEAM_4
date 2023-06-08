@@ -171,7 +171,9 @@ const Mypage = () => {
                   </Stack>
                   <Stack direction="row" alignItems="center">
                     <Stack
-                      width="fit-content"
+                      width="100px"
+                      height="100px"
+                      sx={{ overflow: "scroll" }}
                       color={theme.palette.background.color}>
                       {data?.introduction}
                     </Stack>

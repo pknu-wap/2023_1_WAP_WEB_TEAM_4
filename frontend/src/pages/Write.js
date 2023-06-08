@@ -198,7 +198,7 @@ const Write = () => {
             <ButtonGroup sx={{ marginBottom: "8px" }}>
               <Button
                 onClick={() => {
-                  setPost(post + "\n** **");
+                  setPost(post + "\n* *");
                   textareaRef.current.focus();
                 }}
                 sx={{ fontWeight: "bold" }}>
