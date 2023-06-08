@@ -57,10 +57,10 @@ export const lightTheme = createTheme({
     },
     sideNavigation: {
       background: "#e5e5e5",
-      hover: "#C6E3CC",
+      hover: mint[500],
       active: "#B5DBBC",
       pointColorTitle: mint[700],
-      pointColorContent: mint[900],
+      pointColorContent: mint[400],
     },
     text: {
       subColor: "#ffffff",

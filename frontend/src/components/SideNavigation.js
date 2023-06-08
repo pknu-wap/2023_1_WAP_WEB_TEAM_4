@@ -94,21 +94,24 @@ const SideNavigation = ({ clickId, setClickId }) => {
                                 borderRadius="4px"
                                 sx={{
                                   ":hover": {
-                                    backgroundColor: "sideNavigation.hover",
+                                    color: "sideNavigation.hover",
                                   },
                                   ":active": {
-                                    backgroundColor: "sideNavigation.active",
+                                    color: "sideNavigation.hover",
                                   },
                                   cursor: "pointer",
+                                  color:
+                                    clickId === title.contentId
+                                      ? theme.palette.sideNavigation
+                                          .pointColorContent
+                                      : theme.palette.background.color,
                                 }}
                                 fontSize="14px"
                                 padding="0px 0px 5px 12px"
-                                color={
-                                  clickId === title.contentId
-                                    ? "sideNavigation.pointColorContent"
-                                    : "white"
-                                }
-                                onClick={() => setClickId(title?.contentId)}
+                                onClick={() => {
+                                  setClickId(title?.contentId);
+                                  isPhone && setIsNavigateOpen(false);
+                                }}
                                 height="25px">
                                 - {title.title}
                               </Stack>
@@ -143,21 +146,24 @@ const SideNavigation = ({ clickId, setClickId }) => {
                                 borderRadius="4px"
                                 sx={{
                                   ":hover": {
-                                    backgroundColor: "sideNavigation.hover",
+                                    color: "sideNavigation.hover",
                                   },
                                   ":active": {
-                                    backgroundColor: "sideNavigation.active",
+                                    color: "sideNavigation.hover",
                                   },
                                   cursor: "pointer",
+                                  color:
+                                    clickId === title.contentId
+                                      ? theme.palette.sideNavigation
+                                          .pointColorContent
+                                      : theme.palette.background.color,
                                 }}
-                                fontSize="16px"
-                                padding="0px 0px 5px 20px"
-                                color={
-                                  clickId === title.contentId
-                                    ? "sideNavigation.pointColorContent"
-                                    : "white"
-                                }
-                                onClick={() => setClickId(title?.contentId)}
+                                fontSize="14px"
+                                padding="0px 0px 5px 12px"
+                                onClick={() => {
+                                  setClickId(title?.contentId);
+                                  isPhone && setIsNavigateOpen(false);
+                                }}
                                 height="25px">
                                 - {title.title}
                               </Stack>
