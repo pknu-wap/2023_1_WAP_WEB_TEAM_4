@@ -2,6 +2,9 @@ import { createTheme } from "@mui/material";
 import { gray, mint } from "./color";
 
 export const lightTheme = createTheme({
+  typography: {
+    fontFamily: "Glog",
+  },
   breakpoints: {
     values: {
       xl: 1920,
@@ -57,7 +60,7 @@ export const lightTheme = createTheme({
       hover: "#C6E3CC",
       active: "#B5DBBC",
       pointColorTitle: mint[700],
-      pointColorContent: mint[600],
+      pointColorContent: mint[900],
     },
     text: {
       subColor: "#ffffff",

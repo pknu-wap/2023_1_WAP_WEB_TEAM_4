@@ -24,6 +24,7 @@ import { useNavigate } from "react-router-dom";
 import { memberIdState } from "../states/loginState";
 import { visitIdState } from "../states/common";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import Fade from "react-reveal/Fade";
 const Main = () => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -70,80 +71,84 @@ const Main = () => {
       )}
       {(visitId || memberId) && contentData ? (
         <Stack
-          margin={`0px ${40 + anchorWidth}px 84px ${40 + navigateWidth}px`}
+          margin={`0px 0px 84px ${40 + navigateWidth}px`}
           width="100%"
           height="100%"
           p={isTablet ? "36px 0px" : "36px 160px"}
           color="white">
-          <Stack direction="row" justifyContent="space-between">
-            <Stack
-              color="background.color"
-              fontSize="32px"
-              height="45px"
-              fontWeight="bold">
-              {contentData?.contentDTO?.title}
-            </Stack>
-            <Stack direction="row" gap={isPhone ? "0px" : "12px"}>
-              {!isPhone && (
-                <Stack
-                  color="background.color"
-                  fontSize="12px"
-                  justifyContent="center">
-                  조회수 {contentData?.contentDTO?.views}
-                </Stack>
-              )}
-              {!isPhone && (
-                <Stack
-                  fontSize="12px"
-                  color="background.color"
-                  justifyContent="center">
-                  추천수 {contentData?.contentDTO?.likes}
-                </Stack>
-              )}
-              {!isPhone && memberId ? (
-                <IconButton
-                  onClick={() => {
-                    const body = {
-                      loginedMemberId: memberId,
-                      contentId: visitId > 0 ? visitId : memberId,
-                    };
-                    postContentLikeQuery.mutate(body);
-                  }}
-                  fontSize="12px"
-                  color="background.color"
-                  justifyContent="center">
-                  <ThumbUpAltIcon />
-                </IconButton>
-              ) : null}
+          <Fade spy={contentData}>
+            <Stack direction="row" justifyContent="space-between">
+              <Stack
+                color="background.color"
+                fontSize="32px"
+                height="45px"
+                fontWeight="bold">
+                {contentData?.contentDTO?.title}
+              </Stack>
+              <Stack direction="row" gap={isPhone ? "0px" : "12px"}>
+                {!isPhone && (
+                  <Stack
+                    color="background.color"
+                    fontSize="12px"
+                    justifyContent="center">
+                    조회수 {contentData?.contentDTO?.views}
+                  </Stack>
+                )}
+                {!isPhone && (
+                  <Stack
+                    fontSize="12px"
+                    color="background.color"
+                    justifyContent="center">
+                    추천수 {contentData?.contentDTO?.likes}
+                  </Stack>
+                )}
+                {!isPhone && memberId ? (
+                  <IconButton
+                    onClick={() => {
+                      const formData = new FormData();
+                      formData.append("loginedMemberId", memberId);
+                      formData.append("contentId", visitId);
 
-              {visitId === 0 && (
-                <>
-                  <Button>수정</Button>
-                  <Button
-                    color="error"
-                    onClick={() =>
-                      postContentDeleteQuery.mutate({
-                        loginedMemberId: memberId,
-                        contentId: visitId,
-                      })
-                    }>
-                    삭제
-                  </Button>
-                </>
-              )}
+                      postContentLikeQuery.mutate(formData);
+                    }}
+                    fontSize="12px"
+                    color="background.color"
+                    justifyContent="center">
+                    <ThumbUpAltIcon />
+                  </IconButton>
+                ) : null}
+
+                {visitId === 0 && (
+                  <>
+                    <Button>수정</Button>
+                    <Button
+                      color="error"
+                      onClick={() =>
+                        postContentDeleteQuery.mutate({
+                          loginedMemberId: memberId,
+                          contentId: visitId,
+                        })
+                      }>
+                      삭제
+                    </Button>
+                  </>
+                )}
+              </Stack>
             </Stack>
-          </Stack>
+          </Fade>
 
           <Stack height="2px" bgcolor="primary.500" marginBottom="24px" />
-          <Stack>
-            <Stack
-              sx={{
-                color: "background.color",
-              }}
-              gap="5px">
-              {contentData?.contentDTO?.text}
+          <Fade spy={contentData}>
+            <Stack>
+              <Stack
+                sx={{
+                  color: "background.color",
+                }}
+                gap="5px">
+                {contentData?.contentDTO?.text}
+              </Stack>
             </Stack>
-          </Stack>
+          </Fade>
         </Stack>
       ) : null}
     </Layout>

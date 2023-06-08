@@ -23,7 +23,7 @@ export const ImageDescription = () => {
           paddingTop="10em"
           paddingLeft="5em"
           color="background.color">
-          저희 The glog는 폴더별로 나눠서 파일을 관리할 수 있습니다
+          나만의 블로그를 만들어보세요!
         </Stack>
       </Stack>
     </Fade>
@@ -43,9 +43,7 @@ export const ImageRightDescription = () => {
           height="60px"
           paddingTop="10em"
           paddingLeft="5em"
-          color="background.color">
-          가
-        </Stack>
+          color="background.color"></Stack>
         <Stack
           width="50%"
           height="330px"

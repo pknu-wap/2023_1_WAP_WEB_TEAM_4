@@ -21,6 +21,7 @@ import { PostCreateApi } from "../apis/api/content-api";
 import { PostCategoryCreateApi } from "../apis/api/category-api";
 import { memberIdState } from "../states/loginState";
 import { useRecoilState } from "recoil";
+import Snackbar from "./Snackbar";
 
 const WriteModal = ({
   title,
@@ -33,6 +34,8 @@ const WriteModal = ({
 }) => {
   const theme = useTheme();
   const [memberId, setMemberId] = useRecoilState(memberIdState);
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
   const queryClient = useQueryClient();
   const [privateMode, setPrivateMode] = useState(true);
   const [selectValue, setSelectValue] = useState(0);
@@ -75,15 +78,21 @@ const WriteModal = ({
 
     const body = {
       loginedMemberId: memberId,
-      title: title,
-      text: text,
+      title,
+      text,
       isPrivate: privateMode ? 0 : 1,
-      categoryId: 12,
+      categoryId: selectValue,
       hashtags: tagArray.join(""),
     };
-    formData.append("multipartFile", imageSrc);
 
-    formData.append("contentCreateRequest", JSON.stringify(body));
+    formData.append("thumbnail", imageSrc);
+
+    const json = JSON.stringify(body);
+
+    const blob = new Blob([json], {
+      type: "application/json",
+    });
+    formData.append("content", blob);
 
     postCreateQuery.mutate(formData);
   };
@@ -266,12 +275,17 @@ const WriteModal = ({
                       />
                       <MenuItem
                         onClick={() => {
-                          const body = {
-                            loginedMemberId: memberId,
-                            name: textFieldValue,
-                          };
-                          postCategoryCreateQuery.mutate(body);
-                          setTextFieldValue("");
+                          if (textFieldValue) {
+                            const formData = new FormData();
+                            formData.append("loginedMemberId", memberId);
+                            formData.append("name", textFieldValue);
+
+                            postCategoryCreateQuery.mutate(formData);
+                            setTextFieldValue("");
+                          } else {
+                            setMessage("빈 값은 추가할 수 없습니다.");
+                            setOpen(true);
+                          }
                         }}
                         sx={{ color: "primary.500", padding: "2px 16px" }}>
                         카테고리 추가
@@ -394,12 +408,17 @@ const WriteModal = ({
                     />
                     <MenuItem
                       onClick={() => {
-                        const body = {
-                          loginedMemberId: memberId,
-                          name: textFieldValue,
-                        };
-                        postCategoryCreateQuery.mutate(body);
-                        setTextFieldValue("");
+                        if (textFieldValue) {
+                          const formData = new FormData();
+                          formData.append("loginedMemberId", memberId);
+                          formData.append("name", textFieldValue);
+
+                          postCategoryCreateQuery.mutate(formData);
+                          setTextFieldValue("");
+                        } else {
+                          setMessage("빈 값은 추가할 수 없습니다.");
+                          setOpen(true);
+                        }
                       }}
                       sx={{ color: "primary.500", padding: "2px 16px" }}>
                       카테고리 추가
@@ -455,6 +474,7 @@ const WriteModal = ({
             </Stack>
           </Stack>
         )}
+        <Snackbar open={open} setOpen={setOpen} title={message} color="error" />
       </Stack>
     </Dialog>
   );

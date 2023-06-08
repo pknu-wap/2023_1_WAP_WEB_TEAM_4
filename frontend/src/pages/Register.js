@@ -109,7 +109,7 @@ const Register = () => {
               name="email"
               value={email}
               style={{
-                color: "background.color",
+                color: themes.palette.background.color,
                 width: "80%",
                 outline: "transparent",
                 backgroundColor: "transparent",
@@ -142,7 +142,7 @@ const Register = () => {
               name="password"
               value={password}
               style={{
-                color: "background.color",
+                color: themes.palette.background.color,
                 marginBottom: "25px",
                 outline: "transparent",
                 width: "80%",
@@ -163,7 +163,7 @@ const Register = () => {
               name="passwordCheck"
               value={passwordCheck}
               style={{
-                color: "background.color",
+                color: themes.palette.background.color,
                 marginBottom: password === passwordCheck ? "25px" : "5px",
                 outline: "transparent",
                 width: "80%",
@@ -192,7 +192,7 @@ const Register = () => {
               name="nickName"
               value={nickName}
               style={{
-                color: "background.color",
+                color: themes.palette.background.color,
                 marginBottom: "25px",
                 outline: "transparent",
                 width: "80%",

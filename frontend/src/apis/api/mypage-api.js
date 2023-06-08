@@ -24,11 +24,7 @@ import { defaultInstance } from "..";
 // };
 
 export const PostChangeProfileApi = async (body) => {
-  return await defaultInstance.post("/mypage/change/profile", body, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  return await defaultInstance.post("/mypage/change/profile", body);
 };
 
 export const PostChangeBlogSkinApi = async (body) => {
@@ -54,7 +50,7 @@ export const GetMypageApi = async (params) => {
 
 export const useGetMypageQuery = (params) => {
   const { isLoading, error, data, status } = useQuery(
-    [`mypage`, params],
+    [`Mypage`, params],
     () => GetMypageApi(params),
     {
       enabled: !!params.loginedMemberId,

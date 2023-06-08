@@ -18,7 +18,7 @@ const Blog = ({
   const queryClient = useQueryClient();
 
   const postChangeBlogSettingQuery = useMutation(PostChangeBlogSettingApi, {
-    onSuccess: () => queryClient.invalidateQueries("mypage"),
+    onSuccess: () => queryClient.invalidateQueries("Mypage"),
     onError: (error) => {
       alert(error.response.data);
     },
