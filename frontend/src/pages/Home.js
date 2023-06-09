@@ -83,7 +83,8 @@ const Home = () => {
         width="100%"
         bgcolor="background.main"
         spacing={25}
-        padding="5% 96px 40px 96px">
+        padding="5% 96px 40px 96px"
+      >
         {isSearchOpen && (
           <Slide top>
             <Stack direction="row" spacing={4} justifyContent="center">
@@ -125,7 +126,8 @@ const Home = () => {
                       <Stack
                         color="background.color"
                         fontSize="20px"
-                        width="65px">
+                        width="65px"
+                      >
                         {categoryName === "craeted" ? "created" : categoryName}
                       </Stack>
                       <Stack direction="row">
@@ -143,7 +145,8 @@ const Home = () => {
                               return updatedNumber;
                             })
                           }
-                          sx={{ borderRadius: "0px" }}>
+                          sx={{ borderRadius: "0px" }}
+                        >
                           <ChevronLeftIcon />
                         </IconButton>
                         {searchArray?.[categoryName]
@@ -154,21 +157,38 @@ const Home = () => {
                           .map((content, index) => {
                             return (
                               <Stack key={index} flex={1}>
-                                <Stack
-                                  width="200px"
-                                  height="200px"
-                                  bgcolor={gray[300]}
-                                  marginBottom="8px"
-                                  style={{ cursor: "pointer" }}
-                                  onClick={() => {
-                                    setVisitId(content.contentId);
-                                    navigate("/");
-                                  }}
-                                />
+                                {content.image.slice(0, 4) === "http" ? (
+                                  <img
+                                    style={{
+                                      height: "200px",
+                                      width: "100%",
+                                      cursor: "pointer",
+                                    }}
+                                    alt=""
+                                    src={content.image}
+                                    onClick={() => {
+                                      setVisitId(content.contentId);
+                                      navigate("/");
+                                    }}
+                                  />
+                                ) : (
+                                  <Stack
+                                    height="200px"
+                                    bgcolor={gray[300]}
+                                    marginBottom="8px"
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => {
+                                      setVisitId(content.contentId);
+                                      navigate("/");
+                                    }}
+                                  />
+                                )}
+
                                 <Stack
                                   color="background.color"
                                   fontSize="16px"
-                                  fontWeight="bold">
+                                  fontWeight="bold"
+                                >
                                   {content?.title}
                                 </Stack>
                                 <Stack color="background.color" fontSize="12px">
@@ -193,7 +213,8 @@ const Home = () => {
                               return updatedNumber;
                             });
                           }}
-                          sx={{ borderRadius: "0px" }}>
+                          sx={{ borderRadius: "0px" }}
+                        >
                           <ChevronRightIcon />
                         </IconButton>
                       </Stack>
@@ -203,7 +224,8 @@ const Home = () => {
                       <Stack
                         color="background.color"
                         fontSize="20px"
-                        width="65px">
+                        width="65px"
+                      >
                         {categoryName === "craeted" ? "created" : categoryName}
                       </Stack>
                       <IconButton
@@ -220,7 +242,8 @@ const Home = () => {
                             return updatedNumber;
                           })
                         }
-                        sx={{ borderRadius: "0px" }}>
+                        sx={{ borderRadius: "0px" }}
+                      >
                         <ChevronLeftIcon />
                       </IconButton>
                       {searchArray?.[categoryName]
@@ -231,20 +254,37 @@ const Home = () => {
                         .map((content, index) => {
                           return (
                             <Stack key={index} flex={1}>
-                              <Stack
-                                height="200px"
-                                bgcolor={gray[300]}
-                                marginBottom="8px"
-                                style={{ cursor: "pointer" }}
-                                onClick={() => {
-                                  setVisitId(content.contentId);
-                                  navigate("/");
-                                }}
-                              />
+                              {content.image.slice(0, 4) === "http" ? (
+                                <img
+                                  style={{
+                                    height: "200px",
+                                    width: "100%",
+                                    cursor: "pointer",
+                                  }}
+                                  alt=""
+                                  src={content.image}
+                                  onClick={() => {
+                                    setVisitId(content.contentId);
+                                    navigate("/");
+                                  }}
+                                />
+                              ) : (
+                                <Stack
+                                  height="200px"
+                                  bgcolor={gray[300]}
+                                  marginBottom="8px"
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() => {
+                                    setVisitId(content.contentId);
+                                    navigate("/");
+                                  }}
+                                />
+                              )}
                               <Stack
                                 color="background.color"
                                 fontSize="16px"
-                                fontWeight="bold">
+                                fontWeight="bold"
+                              >
                                 {content?.title}
                               </Stack>
                               <Stack color="background.color" fontSize="12px">
@@ -269,7 +309,8 @@ const Home = () => {
                             return updatedNumber;
                           });
                         }}
-                        sx={{ borderRadius: "0px" }}>
+                        sx={{ borderRadius: "0px" }}
+                      >
                         <ChevronRightIcon />
                       </IconButton>
                     </Stack>
@@ -295,7 +336,8 @@ const Home = () => {
                       <Stack
                         color="background.color"
                         fontSize="16px"
-                        fontWeight="bold">
+                        fontWeight="bold"
+                      >
                         {card?.title}
                       </Stack>
                       <Stack color="background.color" fontSize="12px">

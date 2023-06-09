@@ -9,7 +9,8 @@ export const ImageDescription = () => {
         direction="row"
         justifyContent="center"
         alignItems="center"
-        style={{ width: "80%" }}>
+        style={{ width: "80%" }}
+      >
         <Stack
           width="50%"
           height="330px"
@@ -22,7 +23,8 @@ export const ImageDescription = () => {
           height="60px"
           paddingTop="10em"
           paddingLeft="5em"
-          color="background.color">
+          color="background.color"
+        >
           나만의 블로그를 만들어보세요!
         </Stack>
       </Stack>
@@ -37,13 +39,17 @@ export const ImageRightDescription = () => {
         direction="row"
         justifyContent="center"
         alignItems="center"
-        style={{ width: "80%" }}>
+        style={{ width: "80%" }}
+      >
         <Stack
           width="50%"
           height="60px"
           paddingTop="10em"
           paddingLeft="5em"
-          color="background.color"></Stack>
+          color="background.color"
+        >
+          다른 사용자의 게시글도 확인해보아요!
+        </Stack>
         <Stack
           width="50%"
           height="330px"
