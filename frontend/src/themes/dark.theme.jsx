@@ -26,6 +26,11 @@ export const darkTheme = createTheme({
       200: darkYellow[200],
       100: darkYellow[100],
     },
+    white: {
+      light: "#ffffff",
+      main: "#ffffff",
+      dark: "#ffffff",
+    },
     gray: {
       light: gray[50],
       main: gray[500],
@@ -37,7 +42,7 @@ export const darkTheme = createTheme({
     },
     background: {
       main: "black",
-      color: "white",
+      color: "#ffffff",
       contractColor: "#000000",
     },
     header: {
