@@ -102,7 +102,7 @@ const Main = () => {
           </Stack>
         ) : (
           <Stack
-            margin={`0px 0px 84px ${40 + navigateWidth}px`}
+            margin={`0px 40px 84px ${40 + navigateWidth}px`}
             width="100%"
             height="100%"
             p={isTablet ? "36px 0px" : "36px 160px"}

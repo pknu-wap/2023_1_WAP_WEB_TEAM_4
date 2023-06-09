@@ -89,6 +89,7 @@ const Login = () => {
         <Stack
           width="100%"
           flexDirection="row"
+          paddingBottom="80px"
           bgcolor="background.contractColor">
           {isNotSmall && (
             <Stack width="100%" paddingRight="200px">
