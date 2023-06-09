@@ -97,8 +97,7 @@ const Main = () => {
             alignItems="center"
             width="100%"
             height="100%"
-            sx={{ color: theme.palette.background.color }}
-          >
+            sx={{ color: theme.palette.background.color }}>
             비공개인 게시글입니다.
           </Stack>
         ) : (
@@ -107,8 +106,7 @@ const Main = () => {
             width="100%"
             height="100%"
             p={isTablet ? "36px 0px" : "36px 160px"}
-            color="white"
-          >
+            color="white">
             <Fade spy={contentData}>
               <Stack>
                 <Stack direction="row" justifyContent="space-between">
@@ -116,8 +114,7 @@ const Main = () => {
                     color="background.color"
                     fontSize="32px"
                     height="45px"
-                    fontWeight="bold"
-                  >
+                    fontWeight="bold">
                     {contentData?.contentDTO?.title}
                   </Stack>
                   <Stack direction="row" gap={isPhone ? "0px" : "12px"}>
@@ -125,8 +122,7 @@ const Main = () => {
                       <Stack
                         color="background.color"
                         fontSize="12px"
-                        justifyContent="center"
-                      >
+                        justifyContent="center">
                         작성자 : {contentData?.memberDTO?.nickname}
                       </Stack>
                     )}
@@ -134,8 +130,7 @@ const Main = () => {
                       <Stack
                         color="background.color"
                         fontSize="12px"
-                        justifyContent="center"
-                      >
+                        justifyContent="center">
                         조회수 {contentData?.contentDTO?.views}
                       </Stack>
                     )}
@@ -143,8 +138,7 @@ const Main = () => {
                       <Stack
                         fontSize="12px"
                         color="background.color"
-                        justifyContent="center"
-                      >
+                        justifyContent="center">
                         추천수 {contentData?.contentDTO?.likes}
                       </Stack>
                     )}
@@ -159,8 +153,7 @@ const Main = () => {
                         }}
                         fontSize="12px"
                         color="background.color"
-                        justifyContent="center"
-                      >
+                        justifyContent="center">
                         <ThumbUpAltIcon />
                       </IconButton>
                     ) : null}
@@ -171,8 +164,7 @@ const Main = () => {
                           onClick={() => {
                             navigate("/write");
                             setModify(true);
-                          }}
-                        >
+                          }}>
                           수정
                         </Button>
                         <Button
@@ -186,8 +178,7 @@ const Main = () => {
                             postContentDeleteQuery.mutate(formData);
 
                             setVisitId(0);
-                          }}
-                        >
+                          }}>
                           삭제
                         </Button>
                       </>
@@ -204,8 +195,7 @@ const Main = () => {
                   sx={{
                     color: "background.color",
                   }}
-                  gap="5px"
-                >
+                  gap="5px">
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
                     components={{
@@ -242,8 +232,7 @@ const Main = () => {
                               padding: "2px",
                               borderRadius: "3px",
                             }}
-                            {...props}
-                          >
+                            {...props}>
                             {children}
                           </code>
                         ) : match ? (
@@ -252,8 +241,7 @@ const Main = () => {
                             style={nord}
                             language={match[1]}
                             PreTag="div"
-                            {...props}
-                          >
+                            {...props}>
                             {String(children)
                               .replace(/\n$/, "")
                               .replace(/\n&nbsp;\n/g, "")
@@ -264,8 +252,7 @@ const Main = () => {
                             style={nord}
                             language="textile"
                             PreTag="div"
-                            {...props}
-                          >
+                            {...props}>
                             {String(children).replace(/\n$/, "")}
                           </SyntaxHighlighter>
                         );
@@ -279,8 +266,7 @@ const Main = () => {
                               padding: "1px 15px",
                               borderRadius: "10px",
                             }}
-                            {...props}
-                          >
+                            {...props}>
                             {children}
                           </div>
                         );
@@ -301,8 +287,7 @@ const Main = () => {
                           </span>
                         );
                       },
-                    }}
-                  >
+                    }}>
                     {contentData?.contentDTO?.text}
                   </ReactMarkdown>
                 </Stack>

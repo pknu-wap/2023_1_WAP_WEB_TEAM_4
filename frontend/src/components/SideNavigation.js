@@ -70,7 +70,9 @@ const SideNavigation = ({ clickId, setClickId, contentData, isLoading }) => {
                   글쓰기
                 </Stack>
               </Stack>
-              <IconButton onClick={() => setIsNavigateOpen(false)}>
+              <IconButton
+                color={theme.palette.background.color}
+                onClick={() => setIsNavigateOpen(false)}>
                 <KeyboardDoubleArrowLeftIcon />
               </IconButton>
             </Stack>
