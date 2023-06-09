@@ -43,20 +43,19 @@ public class ContentController {
 
     @PostMapping("/content/create")
     @ResponseBody
-    public ResponseEntity<Long> create(@RequestPart MultipartFile multipartFile, @RequestPart ContentCreateRequest contentCreateRequest) throws IOException {
+    public ResponseEntity<Long> create(@RequestPart("thumbnail") MultipartFile multipartFile, @RequestPart("content") ContentCreateRequest contentCreateRequest) throws IOException {
         //1. 세션을 확인한다.
         Long uid = contentCreateRequest.getLoginedMemberId();
         if(uid==0){
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
-
         Content content = contentService.create(multipartFile, contentCreateRequest, uid);
         return new ResponseEntity<>(content.getId(), HttpStatus.OK);
     }
 
     @PostMapping("/content/update")
     @ResponseBody
-    public ResponseEntity<Long> update(@RequestPart MultipartFile multipartFile, @RequestPart ContentUpdateRequest contentUpdateRequest) throws IOException {
+    public ResponseEntity<Long> update(@RequestPart("thumbnail") MultipartFile multipartFile, @RequestPart("content") ContentUpdateRequest contentUpdateRequest) throws IOException {
         //1. 세션을 확인한다.
         Long uid = contentUpdateRequest.getLoginedMemberId();
         if(uid==0){

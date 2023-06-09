@@ -94,7 +94,8 @@ public class ContentService {
 
         List<CategorySidebar> categorySidebars = getCategorySidebars(content.getBlog().getId());
 
-        return new ContentReadResponse(contentDTO, categorySidebars);
+        MemberDTO memberDTO = new MemberDTO(content.getMember());
+        return new ContentReadResponse(contentDTO, categorySidebars,memberDTO);
     }
 
     public List<CategorySidebar> getCategorySidebars(Long bid){

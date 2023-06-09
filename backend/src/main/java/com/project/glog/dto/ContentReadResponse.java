@@ -9,11 +9,13 @@ public class ContentReadResponse {
 
     //사이드바
     List<CategorySidebar> sidebar;
+    MemberDTO memberDTO;
 
 
-    public ContentReadResponse(ContentDTO contentDTO, List<CategorySidebar> sidebar) {
+    public ContentReadResponse(ContentDTO contentDTO, List<CategorySidebar> sidebar, MemberDTO memberDTO) {
         this.contentDTO = contentDTO;
         this.sidebar = sidebar;
+        this.memberDTO=memberDTO;
     }
 
     public ContentDTO getContentDTO() {

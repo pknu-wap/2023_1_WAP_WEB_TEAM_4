@@ -8,10 +8,12 @@ import com.project.glog.service.BlogService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.print.attribute.standard.Media;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -68,8 +70,8 @@ public class BlogController {
         return new ResponseEntity<>(blog, HttpStatus.OK);
     }
 
-    @PostMapping("/mypage/change/profile")
-    public ResponseEntity<BlogDTO> changeBlogSkin(@RequestPart("loginedMemberId") Long uid, @RequestPart("image") MultipartFile multipartFile) throws IOException {
+    @PostMapping(value = "/mypage/change/profile")
+    public ResponseEntity<BlogDTO> changeProfile(@RequestParam("loginedMemberId") Long uid, @RequestPart("profile") MultipartFile multipartFile) throws IOException {
         if (uid == 0) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
