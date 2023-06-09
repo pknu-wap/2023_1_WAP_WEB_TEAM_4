@@ -87,8 +87,8 @@ const WriteModal = ({
       hashtags: tagArray.join(""),
     };
 
-    formData.append("thumbnail", imageSrc);
-    // formData.append("thumbnail", image);
+    // formData.append("thumbnail", imageSrc);
+    formData.append("thumbnail", image);
 
     const json = JSON.stringify(body);
 
