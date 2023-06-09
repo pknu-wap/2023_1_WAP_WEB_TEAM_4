@@ -8,6 +8,10 @@ import {
   ImageRightDescription,
 } from "../components/ImageDescription.js";
 import Layout from "../components/Layout.js";
+import A from "../static/pic/A.png";
+import B from "../static/pic/B.png";
+import C from "../static/pic/C.png";
+import D from "../static/pic/D.png";
 import {
   blogUrlState,
   memberIdState,
@@ -85,8 +89,7 @@ const Login = () => {
         <Stack
           width="100%"
           flexDirection="row"
-          bgcolor="background.contractColor"
-        >
+          bgcolor="background.contractColor">
           {isNotSmall && (
             <Stack width="100%" paddingRight="200px">
               <Fade top>
@@ -94,22 +97,26 @@ const Login = () => {
                   direction="row"
                   justifyContent="center"
                   alignItems="center"
-                  style={{ width: "80%" }}
-                >
-                  <Stack
-                    width="50%"
-                    height="330px"
-                    marginTop="80px"
-                    marginLeft="100px"
-                    backgroundColor="background.color"
+                  style={{ width: "80%" }}>
+                  <img
+                    src={A}
+                    alt="j"
+                    style={{
+                      width: "50%",
+                      height: "330px",
+                      marginTop: "80px",
+                      marginLeft: "100px",
+                    }}
+                    backgroundColor={themes.palette.background.color}
                   />
                   <Stack
-                    width="50%"
-                    height="60px"
-                    paddingTop="10em"
-                    paddingLeft="5em"
-                    color="background.color"
-                  >
+                    style={{
+                      width: "50%",
+                      height: "60px",
+                      paddingTop: "10em",
+                      paddingLeft: "5em",
+                      color: themes.palette.background.color,
+                    }}>
                     나만의 블로그를 만들어보세요!
                   </Stack>
                 </Stack>
@@ -119,23 +126,27 @@ const Login = () => {
                   direction="row"
                   justifyContent="center"
                   alignItems="center"
-                  style={{ width: "80%" }}
-                >
+                  style={{ width: "80%" }}>
                   <Stack
-                    width="50%"
-                    height="60px"
-                    paddingTop="10em"
-                    paddingLeft="5em"
-                    color="background.color"
-                  >
-                    다른 사용자의 게시글도 확인해보아요!
+                    style={{
+                      width: "50%",
+                      height: "60px",
+                      paddingTop: "10em",
+                      paddingLeft: "5em",
+                      color: themes.palette.background.color,
+                    }}>
+                    나만의 블로그를 만들어보세요!
                   </Stack>
-                  <Stack
-                    width="50%"
-                    height="330px"
-                    marginTop="170px"
-                    marginLeft="100px"
-                    backgroundColor="background.color"
+                  <img
+                    src={B}
+                    alt="j"
+                    style={{
+                      width: "50%",
+                      height: "330px",
+                      marginTop: "80px",
+                      marginLeft: "100px",
+                    }}
+                    backgroundColor={themes.palette.background.color}
                   />
                 </Stack>
               </Fade>
@@ -144,22 +155,26 @@ const Login = () => {
                   direction="row"
                   justifyContent="center"
                   alignItems="center"
-                  style={{ width: "80%" }}
-                >
-                  <Stack
-                    width="50%"
-                    height="330px"
-                    marginTop="80px"
-                    marginLeft="100px"
-                    backgroundColor="background.color"
+                  style={{ width: "80%" }}>
+                  <img
+                    src={C}
+                    alt="j"
+                    style={{
+                      width: "50%",
+                      height: "330px",
+                      marginTop: "80px",
+                      marginLeft: "100px",
+                    }}
+                    backgroundColor={themes.palette.background.color}
                   />
                   <Stack
-                    width="50%"
-                    height="60px"
-                    paddingTop="10em"
-                    paddingLeft="5em"
-                    color="background.color"
-                  >
+                    style={{
+                      width: "50%",
+                      height: "60px",
+                      paddingTop: "10em",
+                      paddingLeft: "5em",
+                      color: themes.palette.background.color,
+                    }}>
                     나만의 블로그를 만들어보세요!
                   </Stack>
                 </Stack>
@@ -169,23 +184,27 @@ const Login = () => {
                   direction="row"
                   justifyContent="center"
                   alignItems="center"
-                  style={{ width: "80%" }}
-                >
+                  style={{ width: "80%" }}>
                   <Stack
-                    width="50%"
-                    height="60px"
-                    paddingTop="10em"
-                    paddingLeft="5em"
-                    color="background.color"
-                  >
-                    다른 사용자의 게시글도 확인해보아요!
+                    style={{
+                      width: "50%",
+                      height: "60px",
+                      paddingTop: "10em",
+                      paddingLeft: "5em",
+                      color: themes.palette.background.color,
+                    }}>
+                    나만의 블로그를 만들어보세요!
                   </Stack>
-                  <Stack
-                    width="50%"
-                    height="330px"
-                    marginTop="170px"
-                    marginLeft="100px"
-                    backgroundColor="background.color"
+                  <img
+                    src={D}
+                    alt="j"
+                    style={{
+                      width: "50%",
+                      height: "330px",
+                      marginTop: "80px",
+                      marginLeft: "100px",
+                    }}
+                    backgroundColor={themes.palette.background.color}
                   />
                 </Stack>
               </Fade>
@@ -201,8 +220,7 @@ const Login = () => {
               position: "fixed",
               right: 0,
               top: 0,
-            }}
-          >
+            }}>
             <Stack width="80%" gap="30px" style={{ alignItems: "center" }}>
               <Stack fontWeight="bold" fontSize="20px" color="primary.main">
                 Login
@@ -248,8 +266,7 @@ const Login = () => {
                 size="small"
                 sx={{
                   width: "80%",
-                }}
-              >
+                }}>
                 Login
               </Button>
               <Button
@@ -259,8 +276,7 @@ const Login = () => {
                 sx={{
                   width: "80%",
                   marginTop: "-20px",
-                }}
-              >
+                }}>
                 Sign Up
               </Button>
             </Stack>

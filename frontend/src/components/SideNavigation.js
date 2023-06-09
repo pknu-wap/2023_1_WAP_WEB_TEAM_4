@@ -43,15 +43,14 @@ const SideNavigation = ({ clickId, setClickId, contentData, isLoading }) => {
       left={0}
       zIndex={100}
       position="fixed"
-    >
+      overflow="scroll">
       <Fade spy={contentData}>
         <Stack p="0px 20px 20px 20px">
           {memberId > 0 && (
             <Stack
               direction="row"
               justifyContent="space-between"
-              alignItems="center"
-            >
+              alignItems="center">
               <Stack direction="row" alignItems="center" marginBottom="5px">
                 <IconButton
                   width="16px"
@@ -59,8 +58,7 @@ const SideNavigation = ({ clickId, setClickId, contentData, isLoading }) => {
                   onClick={() => {
                     navigate("/write");
                     setModify(false);
-                  }}
-                >
+                  }}>
                   <AddIcon />
                 </IconButton>
                 <Stack
@@ -68,8 +66,7 @@ const SideNavigation = ({ clickId, setClickId, contentData, isLoading }) => {
                     color: "background.color",
                     fontSize: "16px",
                     fontWeight: "bold",
-                  }}
-                >
+                  }}>
                   글쓰기
                 </Stack>
               </Stack>
@@ -92,8 +89,7 @@ const SideNavigation = ({ clickId, setClickId, contentData, isLoading }) => {
                           paddingLeft="10px"
                           marginBottom="5px"
                           justifyContent="center"
-                          fontWeight="bold"
-                        >
+                          fontWeight="bold">
                           {category?.category_name}
                         </Stack>
                         <Stack marginBottom="10px">
@@ -123,8 +119,7 @@ const SideNavigation = ({ clickId, setClickId, contentData, isLoading }) => {
                                   setClickId(title?.contentId);
                                   isPhone && setIsNavigateOpen(false);
                                 }}
-                                height="25px"
-                              >
+                                height="25px">
                                 - {title.title}
                               </Stack>
                             );
@@ -146,8 +141,7 @@ const SideNavigation = ({ clickId, setClickId, contentData, isLoading }) => {
                           paddingLeft="10px"
                           marginBottom="5px"
                           justifyContent="center"
-                          fontWeight="bold"
-                        >
+                          fontWeight="bold">
                           {category?.category_name}
                         </Stack>
                         <Stack marginBottom="10px">
@@ -177,8 +171,7 @@ const SideNavigation = ({ clickId, setClickId, contentData, isLoading }) => {
                                   setClickId(title?.contentId);
                                   isPhone && setIsNavigateOpen(false);
                                 }}
-                                height="25px"
-                              >
+                                height="25px">
                                 - {title.title}
                               </Stack>
                             );

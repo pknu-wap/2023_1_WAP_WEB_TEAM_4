@@ -22,7 +22,7 @@ import { PostCategoryCreateApi } from "../apis/api/category-api";
 import { memberIdState } from "../states/loginState";
 import { useRecoilState } from "recoil";
 import Snackbar from "./Snackbar";
-import { modifyState } from "../states/common";
+import { modifyState, visitIdState } from "../states/common";
 
 const WriteModal = ({
   title,
@@ -44,6 +44,7 @@ const WriteModal = ({
   const isPhone = useMediaQuery(theme.breakpoints.down("sm"));
   const [image, setImage] = useState("");
   const [modify, setModify] = useRecoilState(modifyState);
+  const [visitId, setVisitId] = useRecoilState(visitIdState);
 
   const navigate = useNavigate();
 
@@ -92,11 +93,20 @@ const WriteModal = ({
       categoryId: selectValue,
       hashtags: tagArray.join(""),
     };
+    const bodyUpdate = {
+      loginedMemberId: memberId,
+      title,
+      text,
+      isPrivate: privateMode ? 0 : 1,
+      categoryId: selectValue,
+      hashtags: tagArray.join(""),
+      contentId: visitId,
+    };
 
     // formData.append("thumbnail", imageSrc);
     formData.append("thumbnail", image ? image : null);
 
-    const json = JSON.stringify(body);
+    const json = JSON.stringify(modify ? bodyUpdate : body);
 
     const blob = new Blob([json], {
       type: "application/json",
@@ -124,8 +134,7 @@ const WriteModal = ({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-      }}
-    >
+      }}>
       <Stack
         direction="row"
         borderRadius="4px"
@@ -133,14 +142,12 @@ const WriteModal = ({
         bgcolor="background.main"
         border={`1px solid ${theme.palette.primary[100]}`}
         height="600px"
-        p="24px 16px"
-      >
+        p="24px 16px">
         <Stack
           gap="20px"
           width="300px"
           alignItems="center"
-          p="24px 60px 36px 36px"
-        >
+          p="24px 60px 36px 36px">
           <Stack width="100%">
             <Stack direction="row">
               <Stack
@@ -148,15 +155,13 @@ const WriteModal = ({
                 fontSize="20px"
                 marginBottom="12px"
                 marginRight="4px"
-                fontWeight="bold"
-              >
+                fontWeight="bold">
                 썸네일
               </Stack>
               <Button
                 onClick={() => setImageSrc(null)}
                 sx={{ height: "23px" }}
-                color="error"
-              >
+                color="error">
                 삭제
               </Button>
             </Stack>
@@ -166,12 +171,10 @@ const WriteModal = ({
                 width="300px"
                 height="180px"
                 justifyContent="center"
-                alignItems="center"
-              >
+                alignItems="center">
                 <IconButton
                   onClick={handleButtonClick}
-                  sx={{ width: "50px", height: "50px" }}
-                >
+                  sx={{ width: "50px", height: "50px" }}>
                   <AddIcon sx={{ width: "50px", height: "50px" }} />
                   <input
                     style={{ display: "none" }}
@@ -198,8 +201,7 @@ const WriteModal = ({
               gap="12px"
               direction="row"
               alignItems="center"
-              width="fit-content"
-            >
+              width="fit-content">
               <Button
                 variant="contained"
                 disableRipple
@@ -218,8 +220,7 @@ const WriteModal = ({
                     color: "background.contractColor",
                   },
                   ":active": { backgroundColor: "primary.700" },
-                }}
-              >
+                }}>
                 비공개
               </Button>
               <Button
@@ -241,8 +242,7 @@ const WriteModal = ({
                     color: "background.contractColor",
                   },
                   ":active": { backgroundColor: "primary.700" },
-                }}
-              >
+                }}>
                 공개
               </Button>
             </Stack>
@@ -257,8 +257,7 @@ const WriteModal = ({
               gap="12px"
               maxHeight="170px"
               overflow="scroll"
-              flexWrap="wrap"
-            >
+              flexWrap="wrap">
               {tagArray.map((tag, i) => (
                 <Chip
                   sx={{
@@ -288,8 +287,7 @@ const WriteModal = ({
                   color="black"
                   fontSize="20px"
                   fontWeight="bold"
-                  marginBottom="12px"
-                >
+                  marginBottom="12px">
                   카테고리
                 </Stack>
                 <Stack oveflow="scroll">
@@ -316,8 +314,7 @@ const WriteModal = ({
                             setOpen(true);
                           }
                         }}
-                        sx={{ color: "primary.500", padding: "2px 16px" }}
-                      >
+                        sx={{ color: "primary.500", padding: "2px 16px" }}>
                         카테고리 추가
                       </MenuItem>
                     </Stack>
@@ -342,8 +339,7 @@ const WriteModal = ({
                             },
                           },
                         },
-                      }}
-                    >
+                      }}>
                       <MenuItem value={0} sx={{ display: "none" }}>
                         선택
                       </MenuItem>
@@ -358,8 +354,7 @@ const WriteModal = ({
                 <Button
                   onClick={writeButtonClick}
                   sx={{ margin: "24px 0px" }}
-                  variant="contained"
-                >
+                  variant="contained">
                   발행
                 </Button>
               </>
@@ -372,15 +367,13 @@ const WriteModal = ({
             width="300px"
             alignItems="center"
             justifyContent="space-between"
-            p="24px 36px 0px 60px"
-          >
+            p="24px 36px 0px 60px">
             <Stack height="300px">
               <Stack
                 color="background.color"
                 fontSize="20px"
                 marginBottom="12px"
-                fontWeight="bold"
-              >
+                fontWeight="bold">
                 미리보기
               </Stack>
               <Stack width="300px">
@@ -401,8 +394,7 @@ const WriteModal = ({
                 <Stack
                   color="background.color"
                   fontSize="16px"
-                  fontWeight="bold"
-                >
+                  fontWeight="bold">
                   {title}
                 </Stack>
                 <textarea
@@ -428,8 +420,7 @@ const WriteModal = ({
                 color="black"
                 fontSize="20px"
                 fontWeight="bold"
-                marginBottom="12px"
-              >
+                marginBottom="12px">
                 카테고리
               </Stack>
               <Stack oveflow="scroll">
@@ -456,8 +447,7 @@ const WriteModal = ({
                           setOpen(true);
                         }
                       }}
-                      sx={{ color: "primary.500", padding: "2px 16px" }}
-                    >
+                      sx={{ color: "primary.500", padding: "2px 16px" }}>
                       카테고리 추가
                     </MenuItem>
                   </Stack>
@@ -482,8 +472,7 @@ const WriteModal = ({
                           },
                         },
                       },
-                    }}
-                  >
+                    }}>
                     <MenuItem value={0} sx={{ display: "none" }}>
                       선택
                     </MenuItem>
@@ -506,8 +495,7 @@ const WriteModal = ({
                   backgroundColor: "primary.500",
                   ":hover": { backgroundColor: "primary.600" },
                   ":active": { backgroundColor: "primary.700" },
-                }}
-              >
+                }}>
                 발행
               </Button>
             </Stack>
