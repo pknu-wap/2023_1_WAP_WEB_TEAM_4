@@ -6,15 +6,15 @@ export const PostPlusLikesApi = async (body) => {
 };
 
 export const PostDeleteApi = async (body) => {
-  return await defaultInstance.post("/content/delete", body, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  return await defaultInstance.post("/content/delete", body);
 };
 
 export const PostCreateApi = async (body) => {
   return await defaultInstance.post("/content/create", body);
+};
+
+export const PostUpdateApi = async (body) => {
+  return await defaultInstance.post("/content/update", body);
 };
 
 export const GetMainApi = async (params) => {

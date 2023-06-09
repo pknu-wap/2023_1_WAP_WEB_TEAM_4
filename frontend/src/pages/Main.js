@@ -22,9 +22,13 @@ import {
 import Layout from "../components/Layout";
 import { useNavigate } from "react-router-dom";
 import { memberIdState } from "../states/loginState";
-import { visitIdState } from "../states/common";
+import { loadingState, modifyState, visitIdState } from "../states/common";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { nord } from "react-syntax-highlighter/dist/esm/styles/prism";
+import remarkGfm from "remark-gfm";
 import Fade from "react-reveal/Fade";
+
 const Main = () => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -37,6 +41,8 @@ const Main = () => {
   const [anchorWidth, setAnchoreWidth] = useState(0);
   const [memberId, setMemberId] = useRecoilState(memberIdState);
   const [visitId, setVisitId] = useRecoilState(visitIdState);
+  const [modify, setModify] = useRecoilState(modifyState);
+  const [loading, setLoading] = useRecoilState(loadingState);
 
   const queryClient = useQueryClient();
 
@@ -62,94 +68,248 @@ const Main = () => {
   });
 
   // 컨텐츠 클릭하면 그거 값 읽어옴
-  const { data: contentData } = useGetContentReadQuery({ cid: visitId });
+  const { data: contentData, isLoading } = useGetContentReadQuery({
+    cid: visitId,
+  });
+
+  if (isLoading) {
+    setLoading(true);
+  } else {
+    setLoading(false);
+  }
 
   return (
     <Layout isMain={true}>
       {(visitId || memberId) && isNavigateOpen && (
-        <SideNavigation clickId={visitId} setClickId={setVisitId} />
+        <SideNavigation
+          clickId={visitId}
+          setClickId={setVisitId}
+          contentData={contentData}
+          isLoading={isLoading}
+        />
       )}
       {(visitId || memberId) && contentData ? (
-        <Stack
-          margin={`0px 0px 84px ${40 + navigateWidth}px`}
-          width="100%"
-          height="100%"
-          p={isTablet ? "36px 0px" : "36px 160px"}
-          color="white">
-          <Fade spy={contentData}>
-            <Stack direction="row" justifyContent="space-between">
-              <Stack
-                color="background.color"
-                fontSize="32px"
-                height="45px"
-                fontWeight="bold">
-                {contentData?.contentDTO?.title}
-              </Stack>
-              <Stack direction="row" gap={isPhone ? "0px" : "12px"}>
-                {!isPhone && (
+        contentData?.memberDTO?.memberId !== memberId &&
+        contentData.contentDTO.isPrivate === 0 ? (
+          <Stack
+            margin={`0px 0px 84px ${40 + navigateWidth}px`}
+            justifyContent="center"
+            alignItems="center"
+            width="100%"
+            height="100%"
+            sx={{ color: theme.palette.background.color }}
+          >
+            비공개인 게시글입니다.
+          </Stack>
+        ) : (
+          <Stack
+            margin={`0px 0px 84px ${40 + navigateWidth}px`}
+            width="100%"
+            height="100%"
+            p={isTablet ? "36px 0px" : "36px 160px"}
+            color="white"
+          >
+            <Fade spy={contentData}>
+              <Stack>
+                <Stack direction="row" justifyContent="space-between">
                   <Stack
                     color="background.color"
-                    fontSize="12px"
-                    justifyContent="center">
-                    조회수 {contentData?.contentDTO?.views}
+                    fontSize="32px"
+                    height="45px"
+                    fontWeight="bold"
+                  >
+                    {contentData?.contentDTO?.title}
                   </Stack>
-                )}
-                {!isPhone && (
-                  <Stack
-                    fontSize="12px"
-                    color="background.color"
-                    justifyContent="center">
-                    추천수 {contentData?.contentDTO?.likes}
-                  </Stack>
-                )}
-                {!isPhone && memberId ? (
-                  <IconButton
-                    onClick={() => {
-                      const formData = new FormData();
-                      formData.append("loginedMemberId", memberId);
-                      formData.append("contentId", visitId);
+                  <Stack direction="row" gap={isPhone ? "0px" : "12px"}>
+                    {!isPhone && (
+                      <Stack
+                        color="background.color"
+                        fontSize="12px"
+                        justifyContent="center"
+                      >
+                        작성자 : {contentData?.memberDTO?.nickname}
+                      </Stack>
+                    )}
+                    {!isPhone && (
+                      <Stack
+                        color="background.color"
+                        fontSize="12px"
+                        justifyContent="center"
+                      >
+                        조회수 {contentData?.contentDTO?.views}
+                      </Stack>
+                    )}
+                    {!isPhone && (
+                      <Stack
+                        fontSize="12px"
+                        color="background.color"
+                        justifyContent="center"
+                      >
+                        추천수 {contentData?.contentDTO?.likes}
+                      </Stack>
+                    )}
+                    {!isPhone && memberId ? (
+                      <IconButton
+                        onClick={() => {
+                          const formData = new FormData();
+                          formData.append("loginedMemberId", memberId);
+                          formData.append("contentId", visitId);
 
-                      postContentLikeQuery.mutate(formData);
+                          postContentLikeQuery.mutate(formData);
+                        }}
+                        fontSize="12px"
+                        color="background.color"
+                        justifyContent="center"
+                      >
+                        <ThumbUpAltIcon />
+                      </IconButton>
+                    ) : null}
+
+                    {contentData?.memberDTO?.memberId === memberId && (
+                      <>
+                        <Button
+                          onClick={() => {
+                            navigate("/write");
+                            setModify(true);
+                          }}
+                        >
+                          수정
+                        </Button>
+                        <Button
+                          color="error"
+                          onClick={() => {
+                            const formData = new FormData();
+
+                            formData.append("loginedMemberId", memberId);
+                            formData.append("contentId", visitId);
+
+                            postContentDeleteQuery.mutate(formData);
+
+                            setVisitId(0);
+                          }}
+                        >
+                          삭제
+                        </Button>
+                      </>
+                    )}
+                  </Stack>
+                </Stack>
+              </Stack>
+            </Fade>
+
+            <Stack height="2px" bgcolor="primary.500" marginBottom="24px" />
+            <Fade spy={contentData}>
+              <Stack>
+                <Stack
+                  sx={{
+                    color: "background.color",
+                  }}
+                  gap="5px"
+                >
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      br: ({ node, ...props }) => <br />,
+                      h1: ({ node, children, ...props }) => (
+                        <h1 style={{ margin: 0 }} {...props}>
+                          {children}
+                        </h1>
+                      ),
+                      h2: ({ node, children, ...props }) => (
+                        <h2 style={{ margin: 0 }} {...props}>
+                          {children}
+                        </h2>
+                      ),
+                      h3: ({ node, children, ...props }) => (
+                        <h3 style={{ margin: 0 }} {...props}>
+                          {children}
+                        </h3>
+                      ),
+                      h4: ({ node, children, ...props }) => (
+                        <h4 style={{ margin: 0 }} {...props}>
+                          {children}
+                        </h4>
+                      ),
+                      code({ node, inline, className, children, ...props }) {
+                        const match = /language-(\w+)/.exec(className || "");
+                        return inline ? (
+                          // 강조 (``)
+                          <code
+                            style={{
+                              fontWeight: "bold",
+                              background:
+                                "linear-gradient( to right, var(--sub-highlight-color) 15%, var(--highlight-color) 85%, var(--sub-highlight-color) )",
+                              padding: "2px",
+                              borderRadius: "3px",
+                            }}
+                            {...props}
+                          >
+                            {children}
+                          </code>
+                        ) : match ? (
+                          // 코드 (```)
+                          <SyntaxHighlighter
+                            style={nord}
+                            language={match[1]}
+                            PreTag="div"
+                            {...props}
+                          >
+                            {String(children)
+                              .replace(/\n$/, "")
+                              .replace(/\n&nbsp;\n/g, "")
+                              .replace(/\n&nbsp\n/g, "")}
+                          </SyntaxHighlighter>
+                        ) : (
+                          <SyntaxHighlighter
+                            style={nord}
+                            language="textile"
+                            PreTag="div"
+                            {...props}
+                          >
+                            {String(children).replace(/\n$/, "")}
+                          </SyntaxHighlighter>
+                        );
+                      },
+                      // 인용문 (>)
+                      blockquote({ node, children, ...props }) {
+                        return (
+                          <div
+                            style={{
+                              background: "#f0f0f0",
+                              padding: "1px 15px",
+                              borderRadius: "10px",
+                            }}
+                            {...props}
+                          >
+                            {children}
+                          </div>
+                        );
+                      },
+                      img({ node, ...props }) {
+                        return (
+                          <img
+                            style={{ maxWidth: "400px", maxHeight: "300px" }}
+                            src={props.src.replace("../../../../public/", "/")}
+                            alt="MarkdownRenderer__Image"
+                          />
+                        );
+                      },
+                      em({ node, children, ...props }) {
+                        return (
+                          <span style={{ fontStyle: "italic" }} {...props}>
+                            {children}
+                          </span>
+                        );
+                      },
                     }}
-                    fontSize="12px"
-                    color="background.color"
-                    justifyContent="center">
-                    <ThumbUpAltIcon />
-                  </IconButton>
-                ) : null}
-
-                {visitId === 0 && (
-                  <>
-                    <Button>수정</Button>
-                    <Button
-                      color="error"
-                      onClick={() =>
-                        postContentDeleteQuery.mutate({
-                          loginedMemberId: memberId,
-                          contentId: visitId,
-                        })
-                      }>
-                      삭제
-                    </Button>
-                  </>
-                )}
+                  >
+                    {contentData?.contentDTO?.text}
+                  </ReactMarkdown>
+                </Stack>
               </Stack>
-            </Stack>
-          </Fade>
-
-          <Stack height="2px" bgcolor="primary.500" marginBottom="24px" />
-          <Fade spy={contentData}>
-            <Stack>
-              <Stack
-                sx={{
-                  color: "background.color",
-                }}
-                gap="5px">
-                {contentData?.contentDTO?.text}
-              </Stack>
-            </Stack>
-          </Fade>
-        </Stack>
+            </Fade>
+          </Stack>
+        )
       ) : null}
     </Layout>
   );

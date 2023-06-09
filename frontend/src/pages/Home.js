@@ -162,9 +162,14 @@ const Home = () => {
                                     style={{
                                       height: "200px",
                                       width: "100%",
+                                      cursor: "pointer",
                                     }}
                                     alt=""
                                     src={content.image}
+                                    onClick={() => {
+                                      setVisitId(content.contentId);
+                                      navigate("/");
+                                    }}
                                   />
                                 ) : (
                                   <Stack
@@ -247,7 +252,6 @@ const Home = () => {
                           startNumber[categoryName] + 4
                         )
                         .map((content, index) => {
-                          console.log(content.image);
                           return (
                             <Stack key={index} flex={1}>
                               {content.image.slice(0, 4) === "http" ? (
@@ -255,9 +259,14 @@ const Home = () => {
                                   style={{
                                     height: "200px",
                                     width: "100%",
+                                    cursor: "pointer",
                                   }}
                                   alt=""
                                   src={content.image}
+                                  onClick={() => {
+                                    setVisitId(content.contentId);
+                                    navigate("/");
+                                  }}
                                 />
                               ) : (
                                 <Stack

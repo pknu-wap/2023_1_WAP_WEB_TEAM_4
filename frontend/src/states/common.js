@@ -16,3 +16,13 @@ export const visitIdState = atom({
   default: 0,
   effects_UNSTABLE: [persistAtom],
 });
+
+export const modifyState = atom({
+  key: "modify",
+  default: false,
+});
+
+export const loadingState = atom({
+  key: "loading",
+  default: false,
+});

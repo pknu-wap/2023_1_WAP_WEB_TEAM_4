@@ -1,4 +1,10 @@
-import { Stack, Button, IconButton, useMediaQuery } from "@mui/material";
+import {
+  Stack,
+  Button,
+  IconButton,
+  useMediaQuery,
+  CircularProgress,
+} from "@mui/material";
 import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +16,7 @@ import { isNavigateOpenState } from "../states/mainState";
 import { useTheme } from "@mui/material/styles";
 import { GetLogoutApi } from "../apis/api/common-api";
 import { memberIdState } from "../states/loginState";
-import { themeState, visitIdState } from "../states/common";
+import { loadingState, themeState, visitIdState } from "../states/common";
 import Jump from "react-reveal/Jump";
 import { useGetMypageQuery } from "../apis/api/mypage-api";
 
@@ -26,6 +32,7 @@ const Header = ({ isHome, isMain }) => {
     useRecoilState(isNavigateOpenState);
   const [visitId, setVisitId] = useRecoilState(visitIdState);
   const { data } = useGetMypageQuery({ loginedMemberId: memberId });
+  const [loading, setLoading] = useRecoilState(loadingState);
 
   return (
     <Stack
@@ -37,12 +44,14 @@ const Header = ({ isHome, isMain }) => {
       height="80px"
       justifyContent="space-between"
       bgcolor="header.background"
-      zIndex={200}>
+      zIndex={200}
+    >
       <Stack direction="row" alignItems="center">
         {isMain && !isNavigateOpen && (
           <IconButton
             sx={{ color: "header.logo" }}
-            onClick={() => setIsNavigateOpen(true)}>
+            onClick={() => setIsNavigateOpen(true)}
+          >
             <MenuIcon />
           </IconButton>
         )}
@@ -61,7 +70,8 @@ const Header = ({ isHome, isMain }) => {
               onClick={() => navigate("/home")}
               fontWeight="bold"
               color="header.logo"
-              fontSize="32px">
+              fontSize="32px"
+            >
               {/* GLOG */}
               <Stack fontFamily="Glog">GLOG</Stack>
             </Stack>
@@ -69,12 +79,14 @@ const Header = ({ isHome, isMain }) => {
         </Stack>
       </Stack>
       <Stack marginRight="28px" direction="row" spacing={4} alignItems="center">
+        {loading && <CircularProgress color="white" />}
         {isHome && (
           <IconButton
             onClick={() => {
               setIsSearchOpen(!isSearchOpen);
               setSelectValue(0);
-            }}>
+            }}
+          >
             {isSearchOpen ? (
               <HomeIcon sx={{ color: "white" }} />
             ) : (
@@ -88,28 +100,32 @@ const Header = ({ isHome, isMain }) => {
             onClick={() => {
               setMemberId(0);
               navigate("/login");
-            }}>
+            }}
+          >
             로그아웃
           </Button>
         ) : null}
         {memberId ? (
           <Button
             color={theme === "DARK" ? "primary" : "white"}
-            onClick={() => navigate("/mypage")}>
+            onClick={() => navigate("/mypage")}
+          >
             마이페이지
           </Button>
         ) : null}
         {!memberId && (
           <Button
             color={theme === "DARK" ? "primary" : "white"}
-            onClick={() => navigate("/login")}>
+            onClick={() => navigate("/login")}
+          >
             로그인
           </Button>
         )}
         {!memberId && (
           <Button
             color={theme === "DARK" ? "primary" : "white"}
-            onClick={() => navigate("/register")}>
+            onClick={() => navigate("/register")}
+          >
             회원가입
           </Button>
         )}

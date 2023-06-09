@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Stack,
   Chip,
@@ -23,11 +23,12 @@ import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { useMutation, useQueryClient } from "react-query";
-import { PostCreateApi } from "../apis/api/content-api";
+import { PostCreateApi, useGetContentReadQuery } from "../apis/api/content-api";
 import { useNavigate } from "react-router-dom";
 import { useGetCategoryQuery } from "../apis/api/category-api";
 import Layout from "../components/Layout";
 import { memberIdState } from "../states/loginState";
+import { modifyState, visitIdState } from "../states/common";
 
 const Write = () => {
   const queryClient = useQueryClient();
@@ -43,6 +44,8 @@ const Write = () => {
   const [toastMessage, setToastMessage] = useState("");
   const [isHover, setIsHover] = useState(false);
   const textareaRef = useRef(null);
+  const [modify, setModify] = useRecoilState(modifyState);
+  const [visitId, setVisitId] = useRecoilState(visitIdState);
 
   const theme = useTheme();
   // 등록 버튼 핸들러
@@ -55,6 +58,24 @@ const Write = () => {
     loginedMemberId: memberId,
   });
 
+  const { data: contentData } = useGetContentReadQuery({ cid: visitId });
+
+  useEffect(() => {
+    if (modify) {
+      if (memberId !== contentData.memberDTO.memberId) {
+        navigate("/");
+      } else {
+        setTitle(contentData?.contentDTO?.title);
+        setPost(contentData?.contentDTO?.text);
+
+        setTagArray(contentData?.contentDTO?.hashtags?.split("  "));
+      }
+    } else {
+      setTitle("");
+      setPost("");
+    }
+  }, [modify]);
+
   return (
     <Layout>
       <Stack
@@ -62,7 +83,8 @@ const Write = () => {
         bgcolor="background.main"
         padding="48px 96px 40px 96px"
         direction="column"
-        width="100%">
+        width="100%"
+      >
         <input
           placeholder="제목을 입력해주세요"
           value={title}
@@ -83,14 +105,16 @@ const Write = () => {
           alignItems="center"
           height="fit-content"
           justifyContent="space-between"
-          direction="row">
+          direction="row"
+        >
           <Stack
             spacing={1}
             width="100%"
             flexWrap="wrap"
             gap="4px"
             color="white"
-            direction="row">
+            direction="row"
+          >
             {tagArray.map((tag, i) => (
               <Chip
                 sx={{
@@ -159,7 +183,8 @@ const Write = () => {
               ":active": { backgroundColor: "primary.700" },
             }}
             onClick={handleRegisterButton}
-            width="fit-content">
+            width="fit-content"
+          >
             저장
           </Button>
         </Stack>
@@ -170,28 +195,32 @@ const Write = () => {
                 onClick={() => {
                   setPost(post + "\n# ");
                   textareaRef.current.focus();
-                }}>
+                }}
+              >
                 H1
               </Button>
               <Button
                 onClick={() => {
                   setPost(post + "\n## ");
                   textareaRef.current.focus();
-                }}>
+                }}
+              >
                 H2
               </Button>
               <Button
                 onClick={() => {
                   setPost(post + "\n### ");
                   textareaRef.current.focus();
-                }}>
+                }}
+              >
                 H3
               </Button>
               <Button
                 onClick={() => {
                   setPost(post + "\n#### ");
                   textareaRef.current.focus();
-                }}>
+                }}
+              >
                 H4
               </Button>
             </ButtonGroup>
@@ -201,7 +230,8 @@ const Write = () => {
                   setPost(post + "\n* *");
                   textareaRef.current.focus();
                 }}
-                sx={{ fontWeight: "bold" }}>
+                sx={{ fontWeight: "bold" }}
+              >
                 B
               </Button>
               <Button
@@ -215,14 +245,16 @@ const Write = () => {
                     textareaRef.current.setSelectionRange(position, position);
                   }, 0);
                 }}
-                sx={{ fontStyle: "italic" }}>
+                sx={{ fontStyle: "italic" }}
+              >
                 I
               </Button>
               <Button
                 onClick={() => {
                   setPost(post + "\n> ");
                   textareaRef.current.focus();
-                }}>
+                }}
+              >
                 &gt;
               </Button>
             </ButtonGroup>
@@ -231,14 +263,16 @@ const Write = () => {
                 onClick={() => {
                   setPost(post + "\n```\n\n```");
                   textareaRef.current.focus();
-                }}>
+                }}
+              >
                 <CodeIcon />
               </Button>
               <Button
                 onClick={() => {
                   setPost(post + "\\\n");
                   textareaRef.current.focus();
-                }}>
+                }}
+              >
                 <KeyboardReturnIcon />
               </Button>
             </ButtonGroup>
@@ -248,7 +282,8 @@ const Write = () => {
               sx={{
                 minHeight: "500px",
                 width: "50%",
-              }}>
+              }}
+            >
               <TextareaAutosize
                 ref={textareaRef}
                 value={post}
@@ -272,7 +307,8 @@ const Write = () => {
               bgcolor="background.main"
               color="background.color"
               paddingLeft="10%"
-              alignItems="left">
+              alignItems="left"
+            >
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
@@ -309,7 +345,8 @@ const Write = () => {
                           padding: "2px",
                           borderRadius: "3px",
                         }}
-                        {...props}>
+                        {...props}
+                      >
                         {children}
                       </code>
                     ) : match ? (
@@ -318,7 +355,8 @@ const Write = () => {
                         style={nord}
                         language={match[1]}
                         PreTag="div"
-                        {...props}>
+                        {...props}
+                      >
                         {String(children)
                           .replace(/\n$/, "")
                           .replace(/\n&nbsp;\n/g, "")
@@ -329,7 +367,8 @@ const Write = () => {
                         style={nord}
                         language="textile"
                         PreTag="div"
-                        {...props}>
+                        {...props}
+                      >
                         {String(children).replace(/\n$/, "")}
                       </SyntaxHighlighter>
                     );
@@ -343,7 +382,8 @@ const Write = () => {
                           padding: "1px 15px",
                           borderRadius: "10px",
                         }}
-                        {...props}>
+                        {...props}
+                      >
                         {children}
                       </div>
                     );
@@ -364,7 +404,8 @@ const Write = () => {
                       </span>
                     );
                   },
-                }}>
+                }}
+              >
                 {post}
               </ReactMarkdown>
             </Stack>
@@ -383,12 +424,14 @@ const Write = () => {
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={3000}
-        onClose={() => setSnackbarOpen(false)}>
+        onClose={() => setSnackbarOpen(false)}
+      >
         <Alert
           onClose={() => setSnackbarOpen(false)}
           severity="error"
           variant=""
-          sx={{ color: "white", width: "100%", backgroundColor: "red" }}>
+          sx={{ color: "white", width: "100%", backgroundColor: "red" }}
+        >
           {toastMessage}
         </Alert>
       </Snackbar>

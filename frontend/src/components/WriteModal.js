@@ -17,11 +17,12 @@ import axios from "axios";
 import AddIcon from "@mui/icons-material/Add";
 import { useTheme } from "@mui/material/styles";
 import { useMutation, useQueryClient } from "react-query";
-import { PostCreateApi } from "../apis/api/content-api";
+import { PostCreateApi, PostUpdateApi } from "../apis/api/content-api";
 import { PostCategoryCreateApi } from "../apis/api/category-api";
 import { memberIdState } from "../states/loginState";
 import { useRecoilState } from "recoil";
 import Snackbar from "./Snackbar";
+import { modifyState } from "../states/common";
 
 const WriteModal = ({
   title,
@@ -42,6 +43,7 @@ const WriteModal = ({
   const [textFieldValue, setTextFieldValue] = useState("");
   const isPhone = useMediaQuery(theme.breakpoints.down("sm"));
   const [image, setImage] = useState("");
+  const [modify, setModify] = useRecoilState(modifyState);
 
   const navigate = useNavigate();
 
@@ -71,6 +73,10 @@ const WriteModal = ({
     onSuccess: () => navigate("/"),
   });
 
+  const postUpdateQuery = useMutation(PostUpdateApi, {
+    onSuccess: () => navigate("/"),
+  });
+
   const postCategoryCreateQuery = useMutation(PostCategoryCreateApi, {
     onSuccess: () => queryClient.invalidateQueries("CategoryRead"),
   });
@@ -88,7 +94,7 @@ const WriteModal = ({
     };
 
     // formData.append("thumbnail", imageSrc);
-    formData.append("thumbnail", image);
+    formData.append("thumbnail", image ? image : null);
 
     const json = JSON.stringify(body);
 
@@ -98,7 +104,14 @@ const WriteModal = ({
 
     formData.append("content", blob);
 
-    postCreateQuery.mutate(formData);
+    if (selectValue === 0) {
+      setMessage("카테고리를 선택해주세요");
+      setOpen(true);
+    } else {
+      modify
+        ? postUpdateQuery.mutate(formData)
+        : postCreateQuery.mutate(formData);
+    }
   };
 
   return (
@@ -395,7 +408,7 @@ const WriteModal = ({
                 <textarea
                   type="text"
                   placeholder="내용을 입력해주세요."
-                  value={text.substr(0, 100)}
+                  value={text?.substr(0, 100)}
                   onChange={(event) => {
                     setText(event.target.value);
                   }}
