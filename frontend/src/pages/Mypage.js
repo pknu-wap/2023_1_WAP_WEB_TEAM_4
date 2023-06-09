@@ -96,7 +96,6 @@ const Mypage = () => {
     const formData = new FormData();
     formData.append("loginedMemberId", memberId);
     formData.append("profile", file);
-    // formData.append("loginedMemberId", memberId);
 
     postChangeProfileQuery.mutate(formData);
   };
@@ -109,7 +108,8 @@ const Mypage = () => {
           marginTop="40px"
           justifyContent="center"
           alignItems="center"
-          backgroundColor="background.main">
+          backgroundColor="background.main"
+        >
           <Flip left>
             <Stack
               width="fit-content"
@@ -118,7 +118,8 @@ const Mypage = () => {
               alignItems="flex-start"
               justifyContent="center"
               borderRadius="12px"
-              p="20px 40px">
+              p="20px 40px"
+            >
               <Stack
                 borderRadius="10px"
                 gap="24px"
@@ -126,7 +127,8 @@ const Mypage = () => {
                 alignItems="center"
                 bgcolor="background.contractColor"
                 direction="row"
-                marginBottom="32px">
+                marginBottom="32px"
+              >
                 <Stack width="100px" gap="12px">
                   {!profileImage ? (
                     <IconButton
@@ -135,7 +137,8 @@ const Mypage = () => {
                         height: "100px",
                         width: "100px",
                         borderRadius: "50%",
-                      }}>
+                      }}
+                    >
                       <AddIcon />
                       <input
                         style={{ display: "none" }}
@@ -157,7 +160,8 @@ const Mypage = () => {
                   )}
                   <Button
                     variant="outlined"
-                    onClick={() => setProfileImage(null)}>
+                    onClick={() => setProfileImage(null)}
+                  >
                     삭제
                   </Button>
                 </Stack>
@@ -165,7 +169,8 @@ const Mypage = () => {
                   <Stack
                     color={theme.palette.background.color}
                     width="fit-content"
-                    fontSize="24px">
+                    fontSize="24px"
+                  >
                     {data?.nickname}
                   </Stack>
                   <Stack direction="row" alignItems="center">
@@ -173,7 +178,8 @@ const Mypage = () => {
                       width={!isPhone ? "500px" : "100px"}
                       height="100px"
                       sx={{ overflow: "scroll" }}
-                      color={theme.palette.background.color}>
+                      color={theme.palette.background.color}
+                    >
                       {data?.introduction}
                     </Stack>
                   </Stack>
@@ -182,7 +188,8 @@ const Mypage = () => {
               <Stack
                 direction="row"
                 width={!isPhone ? "500px" : "300px"}
-                marginBottom="32px">
+                marginBottom="32px"
+              >
                 <Stack
                   minWidth="fit-content"
                   width="25%"
@@ -199,7 +206,8 @@ const Mypage = () => {
                     option === 0 ? theme.palette.primary[400] : undefined
                   }
                   sx={{ cursor: "pointer" }}
-                  onClick={() => setOption(0)}>
+                  onClick={() => setOption(0)}
+                >
                   계정 설정
                 </Stack>
                 <Stack
@@ -218,7 +226,8 @@ const Mypage = () => {
                   }
                   bgcolor={
                     option === 3 ? theme.palette.primary[400] : undefined
-                  }>
+                  }
+                >
                   블로그 설정
                 </Stack>
 
@@ -238,7 +247,8 @@ const Mypage = () => {
                   }
                   bgcolor={
                     option === 2 ? theme.palette.primary[400] : undefined
-                  }>
+                  }
+                >
                   스킨
                 </Stack>
               </Stack>
