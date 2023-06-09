@@ -44,14 +44,12 @@ const Header = ({ isHome, isMain }) => {
       height="80px"
       justifyContent="space-between"
       bgcolor="header.background"
-      zIndex={200}
-    >
+      zIndex={200}>
       <Stack direction="row" alignItems="center">
         {isMain && !isNavigateOpen && (
           <IconButton
             sx={{ color: "header.logo" }}
-            onClick={() => setIsNavigateOpen(true)}
-          >
+            onClick={() => setIsNavigateOpen(true)}>
             <MenuIcon />
           </IconButton>
         )}
@@ -70,8 +68,7 @@ const Header = ({ isHome, isMain }) => {
               onClick={() => navigate("/home")}
               fontWeight="bold"
               color="header.logo"
-              fontSize="32px"
-            >
+              fontSize="32px">
               {/* GLOG */}
               <Stack fontFamily="Glog">GLOG</Stack>
             </Stack>
@@ -85,8 +82,7 @@ const Header = ({ isHome, isMain }) => {
             onClick={() => {
               setIsSearchOpen(!isSearchOpen);
               setSelectValue(0);
-            }}
-          >
+            }}>
             {isSearchOpen ? (
               <HomeIcon sx={{ color: "white" }} />
             ) : (
@@ -100,37 +96,33 @@ const Header = ({ isHome, isMain }) => {
             onClick={() => {
               setMemberId(0);
               navigate("/login");
-            }}
-          >
+            }}>
             로그아웃
           </Button>
         ) : null}
         {memberId ? (
           <Button
             color={theme === "DARK" ? "primary" : "white"}
-            onClick={() => navigate("/mypage")}
-          >
+            onClick={() => navigate("/mypage")}>
             마이페이지
           </Button>
         ) : null}
         {!memberId && (
           <Button
             color={theme === "DARK" ? "primary" : "white"}
-            onClick={() => navigate("/login")}
-          >
+            onClick={() => navigate("/login")}>
             로그인
           </Button>
         )}
         {!memberId && (
           <Button
             color={theme === "DARK" ? "primary" : "white"}
-            onClick={() => navigate("/register")}
-          >
+            onClick={() => navigate("/register")}>
             회원가입
           </Button>
         )}
-        {memberId &&
-          (data?.profileImage ? (
+        {memberId ? (
+          data?.profileImage ? (
             <img
               src={data?.profileImage}
               onClick={() => {
@@ -156,7 +148,10 @@ const Header = ({ isHome, isMain }) => {
               borderRadius="20px"
               sx={{ cursor: "pointer", backgroundColor: "#ffffff" }}
             />
-          ))}
+          )
+        ) : (
+          <></>
+        )}
       </Stack>
     </Stack>
   );

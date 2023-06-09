@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Stack, Button, useMediaQuery, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { PostRegisterApi } from "../apis/api/common-api";
@@ -15,7 +15,8 @@ import Layout from "../components/Layout";
 import Snackbar from "../components/Snackbar";
 import { themeState } from "../states/common";
 import Fade from "react-reveal/Fade";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { memberIdState } from "../states/loginState";
 
 const Register = () => {
   const themes = useTheme();
@@ -31,6 +32,7 @@ const Register = () => {
   });
   const { email, password, passwordCheck, nickName } = registerState;
   const isNotSmall = useMediaQuery(themes.breakpoints.up("md"));
+  const [memberId, setMemberId] = useRecoilState(memberIdState);
 
   const registerHandler = (event) => {
     const { name, value } = event.target;
@@ -45,6 +47,10 @@ const Register = () => {
       setOpen(true);
     },
   });
+
+  useEffect(() => {
+    memberId && navigate("/");
+  }, []);
 
   const handleSubmit = async () => {
     const body = {
