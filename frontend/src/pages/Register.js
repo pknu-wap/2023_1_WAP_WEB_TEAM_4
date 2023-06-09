@@ -10,6 +10,7 @@ import {
 import Layout from "../components/Layout";
 import Snackbar from "../components/Snackbar";
 import { themeState } from "../states/common";
+import Fade from "react-reveal/Fade";
 import { useRecoilValue } from "recoil";
 
 const Register = () => {
@@ -69,19 +70,112 @@ const Register = () => {
       <Stack
         width="100%"
         flexDirection="row"
-        bgcolor="background.contractColor">
+        bgcolor="background.contractColor"
+      >
         {isNotSmall && (
           <Stack width="100%" paddingRight="200px">
-            <ImageDescription />
-            <ImageRightDescription />
-            <ImageDescription />
-            <ImageRightDescription />
-            <ImageDescription />
-            <ImageRightDescription />
-            <ImageDescription />
-            <ImageRightDescription />
-            <ImageDescription />
-            <ImageRightDescription />
+            <Stack width="100%" paddingRight="200px">
+              <Fade top>
+                <Stack
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                  style={{ width: "80%" }}
+                >
+                  <Stack
+                    width="50%"
+                    height="330px"
+                    marginTop="80px"
+                    marginLeft="100px"
+                    backgroundColor="background.color"
+                  />
+                  <Stack
+                    width="50%"
+                    height="60px"
+                    paddingTop="10em"
+                    paddingLeft="5em"
+                    color="background.color"
+                  >
+                    나만의 블로그를 만들어보세요!
+                  </Stack>
+                </Stack>
+              </Fade>
+              <Fade top>
+                <Stack
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                  style={{ width: "80%" }}
+                >
+                  <Stack
+                    width="50%"
+                    height="60px"
+                    paddingTop="10em"
+                    paddingLeft="5em"
+                    color="background.color"
+                  >
+                    다른 사용자의 게시글도 확인해보아요!
+                  </Stack>
+                  <Stack
+                    width="50%"
+                    height="330px"
+                    marginTop="170px"
+                    marginLeft="100px"
+                    backgroundColor="background.color"
+                  />
+                </Stack>
+              </Fade>
+              <Fade top>
+                <Stack
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                  style={{ width: "80%" }}
+                >
+                  <Stack
+                    width="50%"
+                    height="330px"
+                    marginTop="80px"
+                    marginLeft="100px"
+                    backgroundColor="background.color"
+                  />
+                  <Stack
+                    width="50%"
+                    height="60px"
+                    paddingTop="10em"
+                    paddingLeft="5em"
+                    color="background.color"
+                  >
+                    나만의 블로그를 만들어보세요!
+                  </Stack>
+                </Stack>
+              </Fade>
+              <Fade top>
+                <Stack
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                  style={{ width: "80%" }}
+                >
+                  <Stack
+                    width="50%"
+                    height="60px"
+                    paddingTop="10em"
+                    paddingLeft="5em"
+                    color="background.color"
+                  >
+                    다른 사용자의 게시글도 확인해보아요!
+                  </Stack>
+                  <Stack
+                    width="50%"
+                    height="330px"
+                    marginTop="170px"
+                    marginLeft="100px"
+                    backgroundColor="background.color"
+                  />
+                </Stack>
+              </Fade>
+            </Stack>
           </Stack>
         )}
         <Stack
@@ -94,13 +188,15 @@ const Register = () => {
             position: "fixed",
             right: 0,
             top: 0,
-          }}>
+          }}
+        >
           <Stack width="80%" style={{ alignItems: "center" }}>
             <Stack
               fontWeight="bold"
               fontSize="20px"
               color="primary.main"
-              marginBottom="30px">
+              marginBottom="30px"
+            >
               Regsiter
             </Stack>
             <input
@@ -131,7 +227,8 @@ const Register = () => {
                 fontWeight="bold"
                 marginBottom="25px"
                 fontSize="6px"
-                color="red">
+                color="red"
+              >
                 이메일 형식에 맞지 않습니다.
               </Stack>
             )}
@@ -182,7 +279,8 @@ const Register = () => {
                 fontWeight="bold"
                 marginBottom="25px"
                 fontSize="6px"
-                color="red">
+                color="red"
+              >
                 비밀번호와 비밀번호 확인이 일치하지 않습니다.
               </Stack>
             )}
@@ -209,7 +307,8 @@ const Register = () => {
               variant="outlined"
               sx={{
                 width: "80%",
-              }}>
+              }}
+            >
               Register
             </Button>
           </Stack>

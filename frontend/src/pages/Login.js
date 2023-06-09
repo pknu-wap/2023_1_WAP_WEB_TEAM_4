@@ -17,6 +17,7 @@ import {
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Snackbar from "../components/Snackbar.js";
 import { themeState, visitIdState } from "../states/common.js";
+import Fade from "react-reveal/Fade";
 
 const Login = () => {
   const theme = useRecoilValue(themeState);
@@ -84,13 +85,110 @@ const Login = () => {
         <Stack
           width="100%"
           flexDirection="row"
-          bgcolor="background.contractColor">
+          bgcolor="background.contractColor"
+        >
           {isNotSmall && (
             <Stack width="100%" paddingRight="200px">
-              <ImageDescription />
-              <ImageRightDescription />
-              <ImageDescription />
-              <ImageRightDescription />
+              <Fade top>
+                <Stack
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                  style={{ width: "80%" }}
+                >
+                  <Stack
+                    width="50%"
+                    height="330px"
+                    marginTop="80px"
+                    marginLeft="100px"
+                    backgroundColor="background.color"
+                  />
+                  <Stack
+                    width="50%"
+                    height="60px"
+                    paddingTop="10em"
+                    paddingLeft="5em"
+                    color="background.color"
+                  >
+                    나만의 블로그를 만들어보세요!
+                  </Stack>
+                </Stack>
+              </Fade>
+              <Fade top>
+                <Stack
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                  style={{ width: "80%" }}
+                >
+                  <Stack
+                    width="50%"
+                    height="60px"
+                    paddingTop="10em"
+                    paddingLeft="5em"
+                    color="background.color"
+                  >
+                    다른 사용자의 게시글도 확인해보아요!
+                  </Stack>
+                  <Stack
+                    width="50%"
+                    height="330px"
+                    marginTop="170px"
+                    marginLeft="100px"
+                    backgroundColor="background.color"
+                  />
+                </Stack>
+              </Fade>
+              <Fade top>
+                <Stack
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                  style={{ width: "80%" }}
+                >
+                  <Stack
+                    width="50%"
+                    height="330px"
+                    marginTop="80px"
+                    marginLeft="100px"
+                    backgroundColor="background.color"
+                  />
+                  <Stack
+                    width="50%"
+                    height="60px"
+                    paddingTop="10em"
+                    paddingLeft="5em"
+                    color="background.color"
+                  >
+                    나만의 블로그를 만들어보세요!
+                  </Stack>
+                </Stack>
+              </Fade>
+              <Fade top>
+                <Stack
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                  style={{ width: "80%" }}
+                >
+                  <Stack
+                    width="50%"
+                    height="60px"
+                    paddingTop="10em"
+                    paddingLeft="5em"
+                    color="background.color"
+                  >
+                    다른 사용자의 게시글도 확인해보아요!
+                  </Stack>
+                  <Stack
+                    width="50%"
+                    height="330px"
+                    marginTop="170px"
+                    marginLeft="100px"
+                    backgroundColor="background.color"
+                  />
+                </Stack>
+              </Fade>
             </Stack>
           )}
           <Stack
@@ -103,7 +201,8 @@ const Login = () => {
               position: "fixed",
               right: 0,
               top: 0,
-            }}>
+            }}
+          >
             <Stack width="80%" gap="30px" style={{ alignItems: "center" }}>
               <Stack fontWeight="bold" fontSize="20px" color="primary.main">
                 Login
@@ -149,7 +248,8 @@ const Login = () => {
                 size="small"
                 sx={{
                   width: "80%",
-                }}>
+                }}
+              >
                 Login
               </Button>
               <Button
@@ -159,7 +259,8 @@ const Login = () => {
                 sx={{
                   width: "80%",
                   marginTop: "-20px",
-                }}>
+                }}
+              >
                 Sign Up
               </Button>
             </Stack>
