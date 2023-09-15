@@ -1,24 +1,34 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { ACCESS_TOKEN } from "../../constants";
+import { Redirect, useLocation } from "react-router-dom";
 
-function Redirect() {
+const OAuth2RedirectHandler = () => {
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
 
-  console.log(queryParams);
+  const getUrlParameter = (name) => {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
 
-  // 쿼리 문자열에서 원하는 매개변수를 가져옵니다.
+    var results = regex.exec(location.search);
+    return results === null
+      ? ""
+      : decodeURIComponent(results[1].replace(/\+/g, " "));
+  };
 
-  const paramValue = queryParams.get("paramName");
+  const token = getUrlParameter("token");
+  const error = getUrlParameter("error");
 
-  // 이제 paramValue 변수에 쿼리 문자열에서 추출한 값이 들어 있습니다.
-  console.log(paramValue);
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem(ACCESS_TOKEN, token);
+    }
+  }, [token]);
 
-  return (
-    <div>
-      <p>쿼리 문자열에서 가져온 값: {paramValue}</p>
-    </div>
-  );
-}
+  if (token) {
+    return <div>성공 {token}</div>;
+  } else {
+    return <div>실패 {error}</div>;
+  }
+};
 
-export default Redirect;
+export default OAuth2RedirectHandler;
