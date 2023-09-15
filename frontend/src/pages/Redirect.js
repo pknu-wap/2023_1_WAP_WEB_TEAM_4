@@ -5,7 +5,10 @@ function Redirect() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
+  console.log(queryParams);
+
   // 쿼리 문자열에서 원하는 매개변수를 가져옵니다.
+
   const paramValue = queryParams.get("paramName");
 
   // 이제 paramValue 변수에 쿼리 문자열에서 추출한 값이 들어 있습니다.
