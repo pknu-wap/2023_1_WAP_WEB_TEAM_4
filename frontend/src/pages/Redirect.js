@@ -1,8 +1,13 @@
 import React, { useEffect } from "react";
-import { Redirect, useLocation } from "react-router-dom";
+import { Redirect, useLocation, useNavigate } from "react-router-dom";
 
 const OAuth2RedirectHandler = () => {
+  const navigate = useNavigate();
   // const location = useLocation();
+
+  useEffect(() => {
+    navigate("/login");
+  });
 
   // const getUrlParameter = (name) => {
   //   name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
