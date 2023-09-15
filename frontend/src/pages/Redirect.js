@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { ACCESS_TOKEN } from "../../constants";
 import { Redirect, useLocation } from "react-router-dom";
 
 const OAuth2RedirectHandler = () => {
@@ -18,11 +17,11 @@ const OAuth2RedirectHandler = () => {
   const token = getUrlParameter("token");
   const error = getUrlParameter("error");
 
-  useEffect(() => {
-    if (token) {
-      localStorage.setItem(ACCESS_TOKEN, token);
-    }
-  }, [token]);
+  // useEffect(() => {
+  //   if (token) {
+  //     localStorage.setItem(ACCESS_TOKEN, token);
+  //   }
+  // }, [token]);
 
   if (token) {
     return <div>성공 {token}</div>;
