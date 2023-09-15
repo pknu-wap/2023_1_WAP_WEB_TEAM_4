@@ -24,11 +24,12 @@ import { themeState, visitIdState } from "../states/common.js";
 import Fade from "react-reveal/Fade";
 import { defaultInstance } from "../apis/index.js";
 
-export const API_BASE_URL = defaultInstance;
+export const API_BASE_URL =
+  "http://test-env.eba-babq7paf.us-east-1.elasticbeanstalk.com";
 
 //서버에서 인증을 완료한 후에 프론트엔드로 돌아올 redirect uri (app.oauth2.authorized-redirect-uri와 일치해야 한다)
 export const OAUTH2_REDIRECT_URI =
-  "http://chaeyeonblog.s3-website-us-east-1.amazonaws.com/register";
+  "http://chaeyeonblog.s3-website-us-east-1.amazonaws.com/oauth2/redirect";
 
 export const GOOGLE_AUTH_URL =
   API_BASE_URL +
@@ -45,6 +46,10 @@ export const NAVER_AUTH_URL =
 export const KAKAO_AUTH_URL =
   API_BASE_URL +
   "/oauth2/authorization/kakao?redirect_uri=" +
+  OAUTH2_REDIRECT_URI;
+export const GITHUB_AUTH_URL =
+  API_BASE_URL +
+  "/oauth2/authorization/github?redirect_uri=" +
   OAUTH2_REDIRECT_URI;
 
 const Login = () => {
@@ -320,6 +325,7 @@ const Login = () => {
                 <a href={GOOGLE_AUTH_URL}>구글</a>
                 <a href={KAKAO_AUTH_URL}>카카오</a>
                 <a href={NAVER_AUTH_URL}>네이버</a>
+                <a href={GITHUB_AUTH_URL}>깃허브</a>
               </Stack>
             </Stack>
 

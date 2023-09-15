@@ -16,6 +16,7 @@ import jwt_decode from "jwt-decode";
 import { useEffect } from "react";
 import { themeState } from "./states/common";
 import "./App.css";
+import Redirect from "./pages/Redirect";
 
 const App = () => {
   const queryClient = new QueryClient({
@@ -50,6 +51,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/anchor" element={<Anchor />} />
             <Route path="/mypage" element={<Mypage />} />
+            <Route path="/oauth2/redirect" element={<Redirect />} />
           </Routes>
         </Router>
       </ThemeProvider>
