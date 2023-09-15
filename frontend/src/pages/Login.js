@@ -24,7 +24,7 @@ import { themeState, visitIdState } from "../states/common.js";
 import Fade from "react-reveal/Fade";
 import { defaultInstance } from "../apis/index.js";
 
-export const API_BASE_URL = "localhost:8080";
+export const API_BASE_URL = "http://localhost:8080";
 
 //서버에서 인증을 완료한 후에 프론트엔드로 돌아올 redirect uri (app.oauth2.authorized-redirect-uri와 일치해야 한다)
 export const OAUTH2_REDIRECT_URI =
