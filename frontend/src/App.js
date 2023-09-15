@@ -51,7 +51,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/anchor" element={<Anchor />} />
             <Route path="/mypage" element={<Mypage />} />
-            <Route path="/oauth2/redirect" element={<Redirect />} />
+            <Route path="/oauth2/redirect/" element={<Redirect />} />
           </Routes>
         </Router>
       </ThemeProvider>
